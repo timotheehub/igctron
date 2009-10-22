@@ -1,0 +1,3 @@
+PROJDIR="${HOME}/prog/cross/igctron"
+VSDIR="${PROJDIR}/cpp/IGC_Tron/IGC_Tron"
+ECDIR="${PROJDIR}/cpp/eclipse/igctron"
