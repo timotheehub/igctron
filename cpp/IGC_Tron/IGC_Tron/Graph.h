@@ -8,6 +8,7 @@
 #define __GRAPH_H__
 
 #include "GraphNode.h"
+#include "GraphIterator.h"
 
 template < class T >
 class Graph
@@ -41,15 +42,17 @@ public:
 		m_pRoot = pRoot;
 	}
 
+	friend class GraphIterator<T>;
+protected:
+	GraphNode<T>* m_pRoot;	
+
+private:
 	// Reset visited flag
 	void ResetVisitedFlag()
 	{
 		if( m_pRoot != NULL )
 			m_pRoot->ResetVisitedFlag();
 	}
-
-protected:
-	GraphNode<T>* m_pRoot;	
 };
 
 #endif // __GRAPH_H__
