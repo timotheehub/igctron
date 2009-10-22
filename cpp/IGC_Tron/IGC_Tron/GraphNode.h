@@ -40,6 +40,8 @@ public:
 				(*i) = NULL;
 			}
 		}
+
+		delete m_pData;
 	}
 
 	// Add a child to this node if it never had been added before
@@ -122,7 +124,6 @@ public:
 
 		visited = false;
 	}
-
 protected:	
 	// Parent node
 	GraphNode* m_pParent;	

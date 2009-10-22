@@ -21,6 +21,7 @@ public:
 	{
 	}
 	
+	// Determines if there is an other node to visit using DFS algorithm
 	bool HasNext()
 	{
 		if( m_pCurrent != m_pEnd )
