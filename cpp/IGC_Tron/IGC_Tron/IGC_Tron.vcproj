@@ -165,12 +165,28 @@
 				RelativePath=".\main.cpp"
 				>
 			</File>
+			<Filter
+				Name="Displayer"
+				>
+				<File
+					RelativePath=".\GraphNode.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Fichiers d&apos;en-tête"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<Filter
+				Name="Displayer"
+				>
+				<File
+					RelativePath=".\GraphNode.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Fichiers de ressources"
