@@ -168,8 +168,28 @@
 			<Filter
 				Name="Displayer"
 				>
+				<Filter
+					Name="Graph"
+					>
+					<File
+						RelativePath=".\Graph.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\GraphIterator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\GraphNode.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Utils"
+				>
 				<File
-					RelativePath=".\GraphNode.cpp"
+					RelativePath=".\MemoryManager.cpp"
 					>
 				</File>
 			</Filter>
@@ -182,8 +202,40 @@
 			<Filter
 				Name="Displayer"
 				>
+				<Filter
+					Name="Graph"
+					>
+					<File
+						RelativePath=".\Graph.h"
+						>
+					</File>
+					<File
+						RelativePath=".\GraphIterator.h"
+						>
+					</File>
+					<File
+						RelativePath=".\GraphNode.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Utils"
+				>
 				<File
-					RelativePath=".\GraphNode.h"
+					RelativePath=".\CriticalSection.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Globals.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Lock.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MemoryManager.h"
 					>
 				</File>
 			</Filter>
