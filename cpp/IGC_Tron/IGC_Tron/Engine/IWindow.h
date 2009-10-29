@@ -1,3 +1,21 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 #ifndef _WINDOW
 #define _WINDOW
@@ -72,7 +90,7 @@ namespace IGC
 
 		bool fullscreen;
 
-		string title;
+		char* title;
 
 /***********************************************************************************/
 /** METHODES PRIVEES                                                              **/
@@ -121,13 +139,11 @@ namespace IGC
 	public:
 
 		/*
-		IWindow( Engine* _engine )
 			Instancie la classe et initialise les ressources internes.
 		*/
 		IWindow( Engine* _engine );
 
 		/*
-		~IWindow()
 			Libère les ressources internes.
 		*/
 		virtual ~IWindow();
@@ -139,158 +155,132 @@ namespace IGC
 	public:
 
 		/*
-		getEngine()
 			Renvoie un pointeur vers le moteur associé à cette fenêtre.
 		*/
 		Engine* getEngine();
 
 		/*
-		setTitle( const string& _title )
 			Spécifie le titre de la fenêtre.
 		*/
-		void setTitle( const string& _title );
+		void setTitle( char* _title );
 
 		/*
-		setLeft( int _value = 120 )
 			Spécifie la position horizontale (en pixels) de la fenêtre à l'écran.
 		*/
 		void setLeft( int _value = 120 );
 
 		/*
-		setLeft( int _value = 80 )
 			Spécifie la position verticale (en pixels) de la fenêtre à l'écran.
 		*/
 		void setTop( int _value = 80 );
 
 		/*
-		getLeft()
 			Renvoie la position horizontale (en pixels) de la fenêtre à l'écran.
 		*/
 		int getLeft();
 
 		/*
-		getTop()
 			Renvoie la position verticale (en pixels) de la fenêtre à l'écran.
 		*/
 		int getTop();
 
 		/*
-		setWidth( int _value = 800 )
 			Spécifie la taille horizontale (en pixels) de la fenêtre.
 		*/
 		void setWidth( int _value = 800 );
 
 		/*
-		setHeight( int _value = 600 )
 			Spécifie la taille verticale (en pixels) de la fenêtre.
 		*/
 		void setHeight( int _value = 600 );
 
 		/*
-		getWidth()
 			Renvoie la taille horizontale (en pixels) de la fenêtre.
 		*/
 		int getWidth();
 
 		/*
-		getHeight()
 			Renvoie la taille verticale (en pixels) de la fenêtre.
 		*/
 		int getHeight();
 
 		/*
-		getWidth()
 			Renvoie la taille horizontale (en pixels) du cadre interne de la fenêtre.
 		*/
 		int getInnerWidth();
 
 		/*
-		getHeight()
 			Renvoie la taille verticale (en pixels) du cadre interne de la fenêtre.
 		*/
 		int getInnerHeight();
 
 		/*
-		isVisible()
 			Renvoie true si la fenêtre est visible.
 		*/
 		bool isVisible();
 
 		/*
-		isActive()
-			Renvoie true si la fenêtre est active (elle ne l'est plus dès lors que
-			l'utilisateur clique sur la croix en haut à droite).
+			Renvoie true si la fenêtre est active (elle ne l'est plus dès lors que l'utilisateur
+			clique sur la croix en haut à droite).
 		*/
 		bool isActive();
 
 		/*
-		registerCloseCallback ( LPCLOSECALLBACK _callback )
 			Ajoute une callback devant être appelée lorsque la fenêtre est fermée.
 		*/
 		void registerCloseCallback ( LPCLOSECALLBACK _callback );
 
 		/*
-		unregisterCloseCallback ( LPCLOSECALLBACK _callback )
 			Supprime une callback devant être appelée lorsque la fenêtre est fermée.
 		*/
 		void unregisterCloseCallback ( LPCLOSECALLBACK _callback );
 
 		/*
-		registerKeyUpCallback ( LPKEYUPCALLBACK _callback )
 			Ajoute une callback devant être appelée lorsqu'une touche du clavier est relachée.
 		*/
 		void registerKeyUpCallback ( LPKEYUPCALLBACK _callback );
 
 		/*
-		unregisterKeyUpCallback ( LPKEYUPCALLBACK _callback )
 			Supprime une callback devant être appelée lorsqu'une touche du clavier est relachée.
 		*/
 		void unregisterKeyUpCallback ( LPKEYUPCALLBACK _callback );
 
 		/*
-		registerKeyDownCallback ( LPKEYDOWNCALLBACK _callback )
 			Ajoute une callback devant être appelée lorsqu'une touche du clavier est enfoncée.
 		*/
 		void registerKeyDownCallback ( LPKEYDOWNCALLBACK _callback );
 
 		/*
-		unregisterKeyDownCallback ( LPKEYDOWNCALLBACK _callback )
 			Supprime une callback devant être appelée lorsqu'une touche du clavier est enfoncée.
 		*/
 		void unregisterKeyDownCallback ( LPKEYDOWNCALLBACK _callback );
 
 		/*
-		registerMouseMoveCallback ( LPMOUSEMOVECALLBACK _callback )
 			Ajoute une callback devant être appelée lorsque la souris est en mouvement.
 		*/
 		void registerMouseMoveCallback ( LPMOUSEMOVECALLBACK _callback );
 
 		/*
-		unregisterMouseMoveCallback ( LPMOUSEMOVECALLBACK _callback )
 			Supprime une callback devant être appelée lorsque la souris est en mouvement.
 		*/
 		void unregisterMouseMoveCallback ( LPMOUSEMOVECALLBACK _callback );
 
 		/*
-		registerMouseUpCallback ( LPMOUSEUPCALLBACK _callback )
 			Ajoute une callback devant être appelée lorsqu'un bouton de la souris est relaché.
 		*/
 		void registerMouseUpCallback ( LPMOUSEUPCALLBACK _callback );
 
 		/*
-		unregisterMouseUpCallback ( LPMOUSEUPCALLBACK _callback )
 			Supprime une callback devant être appelée lorsqu'un bouton de la souris est relaché.
 		*/
 		void unregisterMouseUpCallback ( LPMOUSEUPCALLBACK _callback );
 
 		/*
-		registerMouseDownCallback ( LPMOUSEDOWNCALLBACK _callback )
 			Ajoute une callback devant être appelée lorsqu'un bouton de la souris est enfoncé.
 		*/
 		void registerMouseDownCallback ( LPMOUSEDOWNCALLBACK _callback );
 
 		/*
-		unregisterMouseDownCallback ( LPMOUSEDOWNCALLBACK _callback )
 			Supprime une callback devant être appelée lorsqu'un bouton de la souris est enfoncé.
 		*/
 		void unregisterMouseDownCallback ( LPMOUSEDOWNCALLBACK _callback );
@@ -302,13 +292,11 @@ namespace IGC
 	public:
 
 		/*
-		show()
 			Crée la fenêtre si nécessaire puis l'affiche.
 		*/
 		virtual void show() = 0;
 
 		/*
-		hide()
 			Cache la fenêtre.
 		*/
 		virtual void hide() = 0;

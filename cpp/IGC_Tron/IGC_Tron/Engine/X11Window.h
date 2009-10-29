@@ -1,3 +1,21 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 // TODO : appeler les callbacks stockées dans closeCallbacks, keyUpCallbacks, ...
 
@@ -49,7 +67,7 @@ namespace IGC
 /** METHODES PRIVEES                                                              **/
 /***********************************************************************************/
 
-	protected:
+	private:
 
 		virtual void create( bool fullscreen = false );
 		virtual void destroy();
@@ -61,13 +79,11 @@ namespace IGC
 	public:
 
 		/*
-		X11Window( Engine* _engine )
 			Instancie la classe et initialise les ressources internes.
 		*/
 		X11Window( Engine* _engine );
 
 		/*
-		~X11Window()
 			Libère les ressources internes.
 		*/
 		virtual ~X11Window();
@@ -79,19 +95,16 @@ namespace IGC
 	public:
 
 		/*
-		getDisplay()
 			Renvoie un pointeur vers la structure Display associée à cette fenêtre.
 		*/
 		Display* getDisplay() { return dpy; }
 
 		/*
-		getWindow()
 			Renvoie un pointeur vers la structure IWindow associée à cette fenêtre.
 		*/
 		IWindow getWindow() { return win; }
 
 		/*
-		getVisualInfo()
 			Renvoie un pointeur vers la structure XVisualInfo associée à cette fenêtre.
 		*/
 		XVisualInfo* getVisualInfo() { return vi; }
@@ -103,25 +116,21 @@ namespace IGC
 	public:
 
 		/*
-		show()
 			Crée la fenêtre si nécessaire puis l'affiche.
 		*/
 		virtual void show();
 
 		/*
-		hide()
 			Cache la fenêtre.
 		*/
 		virtual void hide();
 
 		/*
-		updateGeometry()
 			Met à jour les dimensions de la fenêtre.
 		*/
 		void updateGeometry();
 		
 		/*
-		swapBuffers()
 			Copie le back buffer dans le frame buffer.
 		*/
 		void swapBuffers();

@@ -1,3 +1,21 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 #ifndef _BOUNDINGBOX
 #define _BOUNDINGBOX
@@ -27,7 +45,6 @@ namespace IGC
 /***********************************************************************************/
 
 		/*
-		getArea()
 			Renvoie la surface (en u²) calculée pour cette boite englobante.
 		*/
 		inline float getArea() const
@@ -42,7 +59,6 @@ namespace IGC
 		}
 
 		/*
-		reset()
 			Réinitialise cette boite englobante comme "négative" (min > max).
 		*/
 		inline void reset()
@@ -52,9 +68,7 @@ namespace IGC
 		}
 	    
 		/*
-		reset( const float4& v )
-			Réinitialise cette boite englobante comme "ponctuelle" en fonction du
-			point passé en paramètre.
+			Réinitialise cette boite englobante comme "ponctuelle" en fonction du point passé en paramètre.
 		*/
 		inline void reset( const float3& v )
 		{
@@ -63,9 +77,7 @@ namespace IGC
 		}
 
 		/*
-		reset( const float3& _min, const float3& _max )
-			Réinitialise cette boite englobante à l'aide des points minimum et
-			maximum passés en paramètre.
+			Réinitialise cette boite englobante à l'aide des points minimum et maximum passés en paramètre.
 		*/
 		inline void reset( const float3& _min, const float3& _max )
 		{
@@ -74,7 +86,6 @@ namespace IGC
 		}
 
 		/*
-		merge( const aabox& b )
 			Met à jour cette boite en englobant celle passée en paramètre.
 		*/
 		inline void merge( const aabox& b )
@@ -84,7 +95,6 @@ namespace IGC
 		}
 
 		/*
-		merge( const float4& v )
 			Met à jour cette boite en englobant le point passé en paramètre.
 		*/
 		inline void merge( const float3& v )
@@ -94,9 +104,7 @@ namespace IGC
 		}
 
 		/*
-		merge( const float3& _min, const float3& _max )
-			Met à jour cette boite en englobant les points minimum et maximum
-			passés en paramètre.
+			Met à jour cette boite en englobant les points minimum et maximum passés en paramètre.
 		*/
 		inline void merge( const float3& _min, const float3& _max )
 		{
@@ -109,9 +117,7 @@ namespace IGC
 /***********************************************************************************/
 
 		/*
-		operator=( const aabox& b )
-			Copie dans cette boite englobante le contenu de celle située à droite
-			de l'opérateur =.
+			Copie dans cette boite englobante le contenu de celle située à droite de l'opérateur =.
 		*/
 		inline aabox& operator=( const aabox& b )
 		{

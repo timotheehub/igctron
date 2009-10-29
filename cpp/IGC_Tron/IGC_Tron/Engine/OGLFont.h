@@ -17,10 +17,8 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /**************************************************************************/
 
-#ifdef _WIN32
-
-#ifndef _D3DCAMERA
-#define _D3DCAMERA
+#ifndef _OGLFONT
+#define _OGLFONT
 
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
@@ -28,20 +26,15 @@
 
 #include "Common.h"
 
-#include <windows.h>
+#include "OGLRenderer.h"
 
-#include <d3dx9.h>
-#include <dxerr.h>
-
-#include "D3DRenderer.h"
-
-#include "ICamera.h"
+#include "IFont.h"
 
 /***********************************************************************************/
 
 namespace IGC
 {
-	class D3DCamera : public ICamera
+	class OGLFont : public IFont
 	{
 
 /***********************************************************************************/
@@ -50,7 +43,9 @@ namespace IGC
 
 	private:
 
-		D3DRenderer* renderer;
+		OGLRenderer* renderer;
+
+		GLuint glFontList;
 
 /***********************************************************************************/
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
@@ -59,9 +54,15 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et initialise les matrices de Direct3D.
+			Instancie la classe et alloue la mémoire pour les ressources OpenGL.
 		*/
-		D3DCamera( D3DRenderer* _renderer );
+		OGLFont( OGLRenderer* _renderer );
+
+
+		/*
+			Libère les ressources en mémoire vidéo.
+		*/
+		~OGLFont();
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
@@ -70,7 +71,12 @@ namespace IGC
 	public:
 
 		/*
-			Active cette caméra pour le prochain rendu.
+			Force la génération des ressources OpenGL pour cette police.
+		*/
+		virtual void update();
+
+		/*
+			Active cette police pour le prochain rendu.
 		*/
 		virtual void bind();
 
@@ -78,7 +84,5 @@ namespace IGC
 }
 
 /***********************************************************************************/
-
-#endif
 
 #endif

@@ -19,8 +19,8 @@
 
 #ifdef _WIN32
 
-#ifndef _D3DCAMERA
-#define _D3DCAMERA
+#ifndef _D3DFONT
+#define _D3DFONT
 
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
@@ -35,13 +35,13 @@
 
 #include "D3DRenderer.h"
 
-#include "ICamera.h"
+#include "IFont.h"
 
 /***********************************************************************************/
 
 namespace IGC
 {
-	class D3DCamera : public ICamera
+	class D3DFont : public IFont
 	{
 
 /***********************************************************************************/
@@ -52,6 +52,8 @@ namespace IGC
 
 		D3DRenderer* renderer;
 
+		LPD3DXFONT lpFont;
+
 /***********************************************************************************/
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
@@ -59,9 +61,14 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et initialise les matrices de Direct3D.
+			Instancie la classe et alloue la mémoire pour les ressources Direct3D.
 		*/
-		D3DCamera( D3DRenderer* _renderer );
+		D3DFont( D3DRenderer* _renderer );
+
+		/*
+			Libère les ressources en mémoire vidéo.
+		*/
+		~D3DFont();
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
@@ -70,7 +77,12 @@ namespace IGC
 	public:
 
 		/*
-			Active cette caméra pour le prochain rendu.
+			Force la génération des ressources Direct3D pour cette police.
+		*/
+		virtual void update();
+
+		/*
+			Active cette police pour le prochain rendu.
 		*/
 		virtual void bind();
 

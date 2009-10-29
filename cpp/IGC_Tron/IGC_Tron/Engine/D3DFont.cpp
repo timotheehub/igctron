@@ -19,66 +19,76 @@
 
 #ifdef _WIN32
 
-#ifndef _D3DCAMERA
-#define _D3DCAMERA
-
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 
-#include "Common.h"
+#include "Engine.h"
+#include "W32Window.h"
+#include "D3DFont.h"
 
-#include <windows.h>
+/***********************************************************************************/
+/** DEBUG                                                                         **/
+/***********************************************************************************/
 
-#include <d3dx9.h>
-#include <dxerr.h>
+#include "Debug.h"
 
-#include "D3DRenderer.h"
-
-#include "ICamera.h"
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
 
 /***********************************************************************************/
 
 namespace IGC
 {
-	class D3DCamera : public ICamera
-	{
-
-/***********************************************************************************/
-/** ATTRIBUTS                                                                     **/
-/***********************************************************************************/
-
-	private:
-
-		D3DRenderer* renderer;
 
 /***********************************************************************************/
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	public:
+	D3DFont::D3DFont( D3DRenderer* _renderer ) : IFont( _renderer )
+	{
+		renderer = _renderer;
+	}
 
-		/*
-			Instancie la classe et initialise les matrices de Direct3D.
-		*/
-		D3DCamera( D3DRenderer* _renderer );
+	D3DFont::~D3DFont()
+	{
+		if ( lpFont )
+			lpFont->Release();
+	}
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
 
-	public:
+	void D3DFont::update()
+	{
+		W32Window* window = (W32Window*)renderer->getEngine()->getWindow();
 
-		/*
-			Active cette caméra pour le prochain rendu.
-		*/
-		virtual void bind();
+		HWND hWnd = window->getHandle();
 
-	};
+		HDC hDC = CreateCompatibleDC( GetDC( hWnd ) );
+
+		SHORT fontSize = -MulDiv( size, GetDeviceCaps( hDC, LOGPIXELSY ), 72 );
+		SHORT fontWeight = bold ? FW_BOLD : FW_NORMAL;
+		BOOL fontItalic = italic ? TRUE : FALSE;
+
+		if( FAILED( D3DXCreateFont( renderer->getDevice(), fontSize, 0, fontWeight, 0, fontItalic,
+				DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name, &lpFont ) ) )
+			_assert( false, __FILE__, __LINE__, "D3DFont::update() : Unable to create Direct3D font." );
+
+		dirty = false;
+	}
+
+	void D3DFont::bind()
+	{
+		if ( dirty ) update();
+
+		renderer->setFont( lpFont );
+	}
+
 }
-
-/***********************************************************************************/
-
-#endif
 
 #endif

@@ -1,7 +1,27 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
+
+#include <typeinfo>
 
 #include "OGLRenderer.h"
 #include "X11Window.h"
@@ -53,6 +73,11 @@ namespace IGC
 /***********************************************************************************/
 /** ACCESSEURS                                                                    **/
 /***********************************************************************************/
+
+	void OGLRenderer::setFont( GLuint _glFontList )
+	{
+		glFontList = _glFontList;
+	}
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
@@ -127,29 +152,28 @@ namespace IGC
 		window->updateGeometry();
 #endif
 
-		int width = engine->getWindow()->getInnerWidth();
-		int height = engine->getWindow()->getInnerHeight();
+		width = engine->getWindow()->getInnerWidth();
+		height = engine->getWindow()->getInnerHeight();
 
-		glViewport( 0, 0, width, height );					// Reset The Current Viewport
+		glViewport( 0, 0, width, height );
 
-		glMatrixMode( GL_PROJECTION );						// Select The Projection Matrix
-		glLoadIdentity();									// Reset The Projection Matrix
+		glMatrixMode( GL_PROJECTION );
+		glLoadIdentity();
 
-		// Calculate The Aspect Ratio Of The IWindow
 		gluPerspective( 90.0f, 1.0f, 0.1f, 100.0f );
 
-		glMatrixMode( GL_MODELVIEW );							// Select The Modelview Matrix
-		glLoadIdentity();										// Reset The Modelview Matrix
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
 
 		glFlush();
 
 		glewInit();
 
-		glShadeModel( GL_SMOOTH );								// Enable Smooth Shading
-		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );					// Black Background
-		glClearDepth( 1.0f );									// Depth Buffer Setup
-		glDisable( GL_DEPTH_TEST );								// Enables Depth Testing
-		glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );	// Really Nice Perspective Calculations
+		glShadeModel( GL_SMOOTH );
+		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+		glClearDepth( 1.0f );
+		glDisable( GL_DEPTH_TEST );
+		glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );
 
 		glEnable( GL_TEXTURE_2D );
 		glGenTextures( 1, &glRenderTexture );
@@ -161,59 +185,13 @@ namespace IGC
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL );
 
 		glHostTextureData = malloc( width * height * sizeof(uint) );
-
-#ifdef _WIN32
-		HFONT font;							// Windows Font ID
-		HFONT oldfont;						// Used For Good House Keeping
-
-		glFontList = glGenLists( 96 );		// Storage For 96 Characters
-
-		font = CreateFont
-		(
-			-12,							// Height Of Font
-			0,								// Width Of Font
-			0,								// Angle Of Escapement
-			0,								// Orientation Angle
-			FW_BOLD,						// Font Weight
-			FALSE,							// Italic
-			FALSE,							// Underline
-			FALSE,							// Strikeout
-			DEFAULT_CHARSET,				// Character Set Identifier
-			OUT_DEFAULT_PRECIS,				// Output Precision
-			CLIP_DEFAULT_PRECIS,			// Clipping Precision
-			DEFAULT_QUALITY,				// Output Quality
-			FF_DONTCARE | DEFAULT_PITCH,	// Family And Pitch
-			"Arial"							// Font Name
-		);					
-
-		oldfont = (HFONT)SelectObject( hDC, font );		// Selects The Font We Want
-		wglUseFontBitmaps( hDC, 32, 96, glFontList );	// Builds 96 Characters Starting At Character 32
-		SelectObject( hDC, oldfont );					// Selects The Font We Want
-		DeleteObject( font );							// Delete The Font
-#else
-		glFontList = glGenLists(96);
-
-		/* load a font with a specific name in "Host Portable Character Encoding" */
-		XFontStruct* font = XLoadQueryFont( dpy, "-*-helvetica-bold-r-normal--24-*-*-*-p-*-iso8859-1" );
-
-		if ( font == NULL )
-		{
-			font = XLoadQueryFont( dpy, "fixed" );
-
-			_assert( font != NULL, __FILE__, __LINE__, "OGLRenderer::initialize() : Unable to load any font." );
-		}
-
-		glXUseXFont( font->fid, 32, 96, glFontList );
-
-		XFreeFont( dpy, font );
-#endif
 	}
 
 	void OGLRenderer::finalize()
 	{
-		glDeleteLists( glFontList, 96 );
-
 		glDeleteTextures( 1, &glRenderTexture );
+
+		free( glHostTextureData );
 
 #ifdef _WIN32
 		wglMakeCurrent( NULL, NULL );
@@ -243,7 +221,7 @@ namespace IGC
 
 	void OGLRenderer::update()
 	{
-		glMatrixMode( GL_PROJECTION );
+		/*glMatrixMode( GL_PROJECTION );
 		glLoadIdentity();
 
 		gluPerspective( 90.0f, 1.0f, 0.1f, 100.0f );
@@ -251,10 +229,7 @@ namespace IGC
 		glMatrixMode( GL_MODELVIEW );
 		glLoadIdentity();
 
-		int width = engine->getWindow()->getInnerWidth();
-		int height = engine->getWindow()->getInnerHeight();
-
-		/*glEnable( GL_TEXTURE_2D );
+		glEnable( GL_TEXTURE_2D );
 		glBindTexture( GL_TEXTURE_2D, glRenderTexture );
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, glHostTextureData );
 
@@ -274,29 +249,6 @@ namespace IGC
 		glBindTexture( GL_TEXTURE_2D, 0 );
  		glDisable( GL_TEXTURE_2D );*/
 
- 		glTranslatef( 0.0f, 0.0f, -1.0f );
-
-		GLfloat inv_width = 2.0f / (GLfloat)width;
-		GLfloat inv_height = 2.0f / (GLfloat)height;
-
-		GLfloat offset = 9.674f * inv_height;
-
-		for ( vector<Label>::iterator it = labels.begin() ; it != labels.end() ; ++it )
-		{
-			Label label = *it;
-
-			// Pulsing Colors Based On Text Position
-			glColor3f( label.r, label.g, label.b );
-
-			// Position The Text On The Screen
-			glRasterPos2f( inv_width * (GLfloat)label.x - 1.0f, 1.0f - offset - inv_height * (GLfloat)label.y );
-
-			glPushAttrib( GL_LIST_BIT );												// Pushes The Display List Bits
-			glListBase( glFontList - 32 );												// Sets The Base Character to 32
-			glCallLists( label.text.length(), GL_UNSIGNED_BYTE, label.text.c_str() );	// Draws The Display List Text
-			glPopAttrib();																// Pops The Display List Bits
-		}
-
 #ifdef _WIN32
 		SwapBuffers( hDC );
 #else
@@ -313,4 +265,32 @@ namespace IGC
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	}
 
+	void OGLRenderer::drawText( char* _text, int _x, int _y, float _r, float _g, float _b, float _a )
+	{
+		glMatrixMode( GL_PROJECTION );
+		glLoadIdentity();
+
+		gluPerspective( 90.0f, 1.0f, 0.1f, 100.0f );
+
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
+
+		glTranslatef( 0.0f, 0.0f, -1.0f );
+
+		GLfloat inv_width = 2.0f / (GLfloat)width;
+		GLfloat inv_height = 2.0f / (GLfloat)height;
+
+		GLfloat offset = 16.0f * inv_height;
+
+		// Pulsing Colors Based On Text Position
+		glColor4f( _r, _g, _b, _a );
+
+		// Position The Text On The Screen
+		glRasterPos2f( inv_width * (GLfloat)_x - 1.0f, 1.0f - offset - inv_height * (GLfloat)_y );
+
+		glPushAttrib( GL_LIST_BIT );
+		glListBase( glFontList - 32 );
+		glCallLists( strlen( _text ), GL_UNSIGNED_BYTE, _text );
+		glPopAttrib();
+	}
 }

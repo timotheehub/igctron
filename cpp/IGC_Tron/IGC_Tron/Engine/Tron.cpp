@@ -1,3 +1,21 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
@@ -12,10 +30,12 @@
 #include "D3DCamera.h"
 #include "D3DMesh.h"
 #include "D3DModel.h"
+#include "D3DFont.h"
 #include "OGLRenderer.h"
 #include "OGLCamera.h"
 #include "OGLMesh.h"
 #include "OGLModel.h"
+#include "OGLFont.h"
 
 #pragma warning (disable : 4996)
 
@@ -49,6 +69,7 @@ Window* window = NULL;
 Renderer* renderer = NULL;
 Camera* camera = NULL;
 Model* model = NULL;
+Font* font = NULL;
 
 bool running;
 
@@ -121,6 +142,9 @@ void mainLoop()
 {
 	double cycleTime = 0;
 
+	static char fpsBuffer[20];
+	static char avgBuffer[20];
+
 	running = true;
 
 	while( running )
@@ -130,6 +154,29 @@ void mainLoop()
 		camera->bind();
 
 		model->render();
+
+		{
+			font->bind();
+
+			int x = renderer->toPointX( 0.01f );
+			int y = renderer->toPointY( 0.01f );
+
+			renderer->drawText( "Tron", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+
+			if ( engine->getCurrentFramerate() > 40 )
+				renderer->drawText( fpsBuffer, x, y + 32, 0.0f, 1.0f, 0.0f, 1.0f );
+			else if ( engine->getCurrentFramerate() > 20 )
+				renderer->drawText( fpsBuffer, x, y + 32, 1.0f, 1.0f, 0.0f, 1.0f );
+			else
+				renderer->drawText( fpsBuffer, x, y + 32, 1.0f, 0.0f, 0.0f, 1.0f );
+
+			if ( engine->getAverageFramerate() > 60 )
+				renderer->drawText( avgBuffer, x, y + 48, 0.0f, 1.0f, 0.0f, 1.0f );
+			else if ( engine->getAverageFramerate() > 20 )
+				renderer->drawText( avgBuffer, x, y + 48, 1.0f, 1.0f, 0.0f, 1.0f );
+			else
+				renderer->drawText( avgBuffer, x, y + 48, 1.0f, 0.0f, 0.0f, 1.0f );
+		}
 
 		renderer->update();
 
@@ -149,33 +196,10 @@ void mainLoop()
 
 		if ( engine->getTime() > cycleTime )
 		{
-			static char fpsBuffer[12];
-			sprintf( fpsBuffer, "%.3f", engine->getCurrentFramerate() );
-
-			static char avgBuffer[12];
-			sprintf( avgBuffer, "%.3f", engine->getAverageFramerate() );
-
-			renderer->clearForeground();
-
-			renderer->insertLabel( string("Tron"), 4, 4 );
-
-			if ( engine->getCurrentFramerate() > 40 )
-				renderer->insertLabel( string("FPS : ") + string(fpsBuffer), 4, 32, 0.0f, 1.0f, 0.0f, 1.0f );
-			else if ( engine->getCurrentFramerate() > 20 )
-				renderer->insertLabel( string("FPS : ") + string(fpsBuffer), 4, 32, 1.0f, 1.0f, 0.0f, 1.0f );
-			else
-				renderer->insertLabel( string("FPS : ") + string(fpsBuffer), 4, 32, 1.0f, 0.0f, 0.0f, 1.0f );
-
-			if ( engine->getAverageFramerate() > 60 )
-				renderer->insertLabel( string("AVG : ") + string(avgBuffer), 4, 48, 0.0f, 1.0f, 0.0f, 1.0f );
-			else if ( engine->getAverageFramerate() > 20 )
-				renderer->insertLabel( string("AVG : ") + string(avgBuffer), 4, 48, 1.0f, 1.0f, 0.0f, 1.0f );
-			else
-				renderer->insertLabel( string("AVG : ") + string(avgBuffer), 4, 48, 1.0f, 0.0f, 0.0f, 1.0f );
+			sprintf( fpsBuffer, "FPS : %.3f", engine->getCurrentFramerate() );
+			sprintf( avgBuffer, "AVG : %.3f", engine->getAverageFramerate() );
 
 			cycleTime = engine->getTime() + 1.0;
-
-			debugPrint( "FPS : %.3f\n", engine->getCurrentFramerate() );
 		}
 	}
 }
@@ -228,6 +252,8 @@ void initRenderer()
 	renderer->disableVSync();
 	renderer->useHardware();
 
+	renderer->initialize();
+
 	camera = new Camera( renderer );
 
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
@@ -235,11 +261,21 @@ void initRenderer()
 	camera->lookAt( 0.0f, 0.0f, 0.0f );
 	camera->update();
 
-	renderer->initialize();
+	font = new Font( renderer );
+
+	font->setName( "Verdana" );
+	font->setSize( 12 );
+	font->setBold( true );
+	font->setItalic( false );
+	font->update();
 }
 
 void freeRenderer()
 {
+	delete font;
+
+	delete camera;
+
 	renderer->finalize();
 
 	delete renderer;
@@ -290,6 +326,8 @@ int main( int argc, char **argv )
 	freeWindow();
 
 	freeEngine();
+
+	debugMemoryLeaks();
 
 	return 0;
 }

@@ -1,9 +1,29 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 #ifdef _WIN32
 
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
+
+#include <typeinfo>
 
 #include "W32Window.h"
 #include "D3DRenderer.h"
@@ -48,6 +68,11 @@ namespace IGC
 		return lpD3DDevice;
 	}
 
+	void D3DRenderer::setFont( LPD3DXFONT _lpFont )
+	{
+		lpFont = _lpFont;
+	}
+
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
@@ -63,12 +88,15 @@ namespace IGC
 
 		W32Window* window = (W32Window*)engine->getWindow();
 
+		width = window->getInnerWidth();
+		height = window->getInnerHeight();
+
 		D3DPRESENT_PARAMETERS d3dpp = {0};
 		d3dpp.Windowed						= fullscreen ? false : true;
 		d3dpp.SwapEffect					= D3DSWAPEFFECT_COPY;
 		d3dpp.BackBufferFormat				= D3DFMT_X8R8G8B8;
-		d3dpp.BackBufferWidth				= window->getInnerWidth();
-		d3dpp.BackBufferHeight				= window->getInnerHeight();
+		d3dpp.BackBufferWidth				= width;
+		d3dpp.BackBufferHeight				= height;
 		d3dpp.BackBufferCount				= 1;
 		d3dpp.EnableAutoDepthStencil		= TRUE;
 		d3dpp.AutoDepthStencilFormat		= D3DFMT_D16;
@@ -168,18 +196,10 @@ namespace IGC
 			if( code )
 				code->Release(); 
 		}
-
-		if( FAILED( D3DXCreateFont( lpD3DDevice, 16, 0, FW_BOLD, 0, FALSE,
-						DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
-						DEFAULT_PITCH | FF_DONTCARE, "Arial", &lpFont ) ) )
-			_assert( false, __FILE__, __LINE__, "D3DRenderer::initialize() : Unable to create Direct3D font." );
 	}
 
 	void D3DRenderer::finalize()
 	{
-		if ( lpFont )
-			lpFont->Release();
-
 		if ( lpPixelShader )
 			lpPixelShader->Release();
 
@@ -236,20 +256,6 @@ namespace IGC
 
 		lpD3DDevice->EndScene();*/
 
-		lpD3DDevice->BeginScene();
-
-		for ( vector<Label>::iterator it = labels.begin() ; it != labels.end() ; ++it )
-		{
-			Label label = *it;
-
-			RECT rect = { label.x, label.y, 0, 0 };
-
-			lpFont->DrawText( NULL, label.text.c_str(), -1, &rect, DT_NOCLIP,
-								D3DXCOLOR( label.r, label.g, label.b, label.a ) );
-		}
-
-		lpD3DDevice->EndScene();
-
 		lpD3DDevice->Present( NULL, NULL, NULL, NULL );
 	}
 
@@ -259,6 +265,19 @@ namespace IGC
 			D3DCOLOR_XRGB( (int)(_r * 255.0f), (int)(_g * 255.0f), (int)(_b * 255.0f) ), _depth, 0 );
 	}
 
+	void D3DRenderer::drawText( char* _text, int _x, int _y, float _r, float _g, float _b, float _a )
+	{
+		_assert( lpFont != NULL, __FILE__, __LINE__,
+			"D3DRenderer::drawText() : Invalid font, NULL pointer." );
+
+		lpD3DDevice->BeginScene();
+
+		RECT rect = { _x, _y, 0, 0 };
+
+		lpFont->DrawText( NULL, _text, -1, &rect, DT_NOCLIP, D3DXCOLOR( _r, _g, _b, _a ) );
+
+		lpD3DDevice->EndScene();
+	}
 } 
 
 #endif

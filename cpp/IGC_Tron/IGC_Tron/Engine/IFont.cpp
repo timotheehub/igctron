@@ -17,68 +17,84 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /**************************************************************************/
 
-#ifdef _WIN32
-
-#ifndef _D3DCAMERA
-#define _D3DCAMERA
-
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 
-#include "Common.h"
+#include "IFont.h"
 
-#include <windows.h>
+/***********************************************************************************/
+/** DEBUG                                                                         **/
+/***********************************************************************************/
 
-#include <d3dx9.h>
-#include <dxerr.h>
+#include "Debug.h"
 
-#include "D3DRenderer.h"
-
-#include "ICamera.h"
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
 
 /***********************************************************************************/
 
 namespace IGC
 {
-	class D3DCamera : public ICamera
-	{
-
-/***********************************************************************************/
-/** ATTRIBUTS                                                                     **/
-/***********************************************************************************/
-
-	private:
-
-		D3DRenderer* renderer;
 
 /***********************************************************************************/
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	public:
+	IFont::IFont( IRenderer* _renderer )
+	{
+		renderer = _renderer;
 
-		/*
-			Instancie la classe et initialise les matrices de Direct3D.
-		*/
-		D3DCamera( D3DRenderer* _renderer );
+		name = (char*)malloc( 8 * sizeof(char) );
+		strcpy( name, "Verdana" ); name[7] = 0;
+
+		size = 12;
+
+		bold = false;
+		italic = false;
+
+		dirty = true;
+	}
+
+	IFont::~IFont()
+	{
+		if ( name ) free( name );
+	}
 
 /***********************************************************************************/
-/** METHODES PUBLIQUES                                                            **/
+/** ACCESSEURS                                                                    **/
 /***********************************************************************************/
 
-	public:
+	void IFont::setName( char* _name )
+	{
+		name = (char*)realloc( name, (strlen( _name ) + 1) * sizeof(char) );
+		strcpy( name, _name );
 
-		/*
-			Active cette caméra pour le prochain rendu.
-		*/
-		virtual void bind();
+		dirty = true;
+	}
 
-	};
+	void IFont::setSize( int _size )
+	{
+		size = _size;
+
+		dirty = true;
+	}
+
+	void IFont::setBold( bool _bold )
+	{
+		bold = _bold;
+
+		dirty = true;
+	}
+
+	void IFont::setItalic( bool _italic )
+	{
+		italic = _italic;
+
+		dirty = true;
+	}
+
 }
-
-/***********************************************************************************/
-
-#endif
-
-#endif

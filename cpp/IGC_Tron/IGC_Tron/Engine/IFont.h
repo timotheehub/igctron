@@ -17,41 +17,45 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /**************************************************************************/
 
-#ifdef _WIN32
-
-#ifndef _D3DCAMERA
-#define _D3DCAMERA
+#ifndef _FONT
+#define _FONT
 
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 
 #include "Common.h"
-
-#include <windows.h>
-
-#include <d3dx9.h>
-#include <dxerr.h>
-
-#include "D3DRenderer.h"
-
-#include "ICamera.h"
+#include "IRenderer.h"
 
 /***********************************************************************************/
 
 namespace IGC
 {
-	class D3DCamera : public ICamera
+
+/***********************************************************************************/
+
+	class IRenderer;
+
+	class IFont
 	{
 
 /***********************************************************************************/
 /** ATTRIBUTS                                                                     **/
 /***********************************************************************************/
 
-	private:
+	protected:
 
-		D3DRenderer* renderer;
+		IRenderer* renderer;
 
+		char* name;
+		
+		int size;
+
+		bool bold;
+		bool italic;
+
+		bool dirty;
+		
 /***********************************************************************************/
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
@@ -59,9 +63,60 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et initialise les matrices de Direct3D.
+			Instancie la classe en définissant une police "Verdana" de taille 12.
 		*/
-		D3DCamera( D3DRenderer* _renderer );
+		IFont( IRenderer* _renderer );
+
+		/*
+			Libère les ressources.
+		*/
+		~IFont();
+
+/***********************************************************************************/
+/** ACCESSEURS                                                                    **/
+/***********************************************************************************/
+
+	public:
+
+		/*
+			Spécifie le nom de la police à utiliser.
+		*/
+		void setName( char* _name );
+
+		/*
+			Renvoie le nom de la police utilisée.
+		*/
+		char* getName() { return name; };
+
+		/*
+			Spécifie la taille de la police.
+		*/
+		void setSize( int _size );
+
+		/*
+			Renvoie la taille de la police.
+		*/
+		int getSize() { return size; };
+
+		/*
+			Spécifie si la police est en gras ou non.
+		*/
+		void setBold( bool _bold );
+
+		/*
+			Renvoie true si la police est en gras.
+		*/
+		bool getBold() { return bold; };
+
+		/*
+			Spécifie si la police est en italique ou non.
+		*/
+		void setItalic( bool _italic );
+
+		/*
+			Renvoie true si la police est en italique.
+		*/
+		bool getItalic() { return italic; };
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
@@ -70,15 +125,18 @@ namespace IGC
 	public:
 
 		/*
-			Active cette caméra pour le prochain rendu.
+			Force la génération des ressources pour cette police.
 		*/
-		virtual void bind();
+		virtual void update() = 0;
+
+		/*
+			Active cette police pour le prochain rendu.
+		*/
+		virtual void bind() = 0;
 
 	};
 }
 
 /***********************************************************************************/
-
-#endif
 
 #endif

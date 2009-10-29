@@ -17,13 +17,13 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /**************************************************************************/
 
-#ifdef _WIN32
-
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 
-#include "D3DModel.h"
+#include "Engine.h"
+#include "W32Window.h"
+#include "OGLFont.h"
 
 /***********************************************************************************/
 /** DEBUG                                                                         **/
@@ -46,26 +46,74 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	D3DModel::D3DModel( D3DRenderer* _renderer ) : IModel( _renderer )
+	OGLFont::OGLFont( OGLRenderer* _renderer ) : IFont( _renderer )
 	{
 		renderer = _renderer;
+
+		glFontList = 0;
+	}
+
+	OGLFont::~OGLFont()
+	{
+		if ( glFontList != 0 )
+			glDeleteLists( glFontList, 96 );
 	}
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
 
-	void D3DModel::render()
+	void OGLFont::update()
+	{
+#ifdef _WIN32
+		W32Window* window = (W32Window*)renderer->getEngine()->getWindow();
+
+		HWND hWnd = window->getHandle();
+
+		HDC hDC = CreateCompatibleDC( GetDC( hWnd ) );
+
+		HFONT font;
+		HFONT oldfont;
+
+		glFontList = glGenLists( 96 );
+
+		SHORT fontSize = -MulDiv( size, GetDeviceCaps( hDC, LOGPIXELSY ), 72 );
+		SHORT fontWeight = bold ? FW_BOLD : FW_NORMAL;
+		BOOL fontItalic = italic ? TRUE : FALSE;
+
+		font = CreateFont( fontSize, 0, 0, 0, fontWeight, fontItalic, FALSE, FALSE, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE | DEFAULT_PITCH, name );					
+
+		oldfont = (HFONT)SelectObject( hDC, font );
+		wglUseFontBitmaps( hDC, 32, 96, glFontList );
+		SelectObject( hDC, oldfont );
+		DeleteObject( font );
+#else
+		glFontList = glGenLists(96);
+
+		/* TODO : Comment on spécifie la police qu'on veut sans passer par une chaine de caractères immonde ? */
+		XFontStruct* font = XLoadQueryFont( dpy, "-*-helvetica-bold-r-normal--24-*-*-*-p-*-iso8859-1" );
+
+		if ( font == NULL )
+		{
+			font = XLoadQueryFont( dpy, "fixed" );
+
+			_assert( font != NULL, __FILE__, __LINE__, "OGLRenderer::initialize() : Unable to load any font." );
+		}
+
+		glXUseXFont( font->fid, 32, 96, glFontList );
+
+		XFreeFont( dpy, font );
+#endif
+
+		dirty = false;
+	}
+
+	void OGLFont::bind()
 	{
 		if ( dirty ) update();
 
-		renderer->getDevice()->SetTransform( D3DTS_WORLD, (D3DMATRIX*)&matWorld );
-
-		if ( mesh != NULL ) mesh->render();
-
-		IModel::render();
+		renderer->setFont( glFontList );
 	}
 
 }
-
-#endif

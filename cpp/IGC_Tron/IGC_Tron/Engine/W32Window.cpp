@@ -1,3 +1,21 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 #ifdef _WIN32
 
@@ -118,7 +136,7 @@ namespace IGC
 			ShowCursor( TRUE );
 		}
 
-		hWnd = CreateWindowEx( dwExStyle, "igc", title.c_str(), dwStyle | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+		hWnd = CreateWindowEx( dwExStyle, "igc", title, dwStyle | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
 						left, top, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, wc.hInstance, NULL );
 
 		_assert( hWnd != NULL, __FILE__, __LINE__, "W32Window::create() : Unable to create render window." );

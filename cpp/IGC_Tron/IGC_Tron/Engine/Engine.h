@@ -1,3 +1,21 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 #ifndef _ENGINE
 #define _ENGINE
@@ -51,9 +69,7 @@ namespace IGC
 	public:
 
 		/*
-		Engine()
-			Instancie cette classe dont le but est de centraliser l'accès aux objets
-			communs au module RT.
+			Instancie cette classe dont le but est de centraliser l'accès aux objets communs du moteur.
 		*/
 		Engine();
 
@@ -61,43 +77,36 @@ namespace IGC
 /** ACCESSEURS                                                                    **/
 /***********************************************************************************/
 
+	public:
+
 		/*
-		getRenderer()
-			Renvoie le renderer associé à cette instance ou NULL si celui-ci n'a
-			pas encore été créé.
+			Renvoie le renderer associé à cette instance ou NULL si celui-ci n'a pas encore été créé.
 		*/
 		IRenderer* getRenderer();
 
 		/*
 		getWindow()
-			Renvoie la fenêtre associée à cette instance ou NULL si celle-ci n'a
-			pas encore été créée.
+			Renvoie la fenêtre associée à cette instance ou NULL si celle-ci n'a pas encore été créée.
 		*/
 		IWindow* getWindow();
 
 		/*
-		getTime()
 			Renvoie le nombre de secondes écoulé depuis le démarrage du système.
 		*/
 		double getTime();
 
 		/*
-		getDelta()
-			Renvoie le temps écoulé pour calculer et afficher la dernière
-			frame (en secondes)
+			Renvoie le temps écoulé pour calculer et afficher la dernière frame (en secondes)
 		*/
 		double getDelta();
 
 		/*
-		getCurrentFramerate()
 			Renvoie le nombre de frames affichées lors de la dernière seconde.
 		*/
 		double getCurrentFramerate();
 
 		/*
-		getAverageFramerate()
-			Renvoie le nombre moyen de frames affichées par seconde depuis
-			l'instanciation de cette classe.
+			Renvoie le nombre moyen de frames affichées par seconde depuis l'instanciation de cette classe.
 		*/
 		double getAverageFramerate();
 
@@ -105,10 +114,10 @@ namespace IGC
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
 
+	public:
+
 		/*
-		update()
-			Met à jour l'ensemble des variables temporelles. Doit être appelée une
-			fois par frame.
+			Met à jour l'ensemble des variables temporelles. Doit être appelée une fois par frame.
 		*/
 		void update();
 

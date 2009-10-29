@@ -1,3 +1,21 @@
+/**************************************************************************/
+/* This file is part of IGC Tron                                          */
+/* (c) IGC Software 2009 - 2010                                           */
+/* Author : Pierre-Yves GATOUILLAT                                        */
+/**************************************************************************/
+/* This program is free software: you can redistribute it and/or modify   */
+/* it under the terms of the GNU General Public License as published by   */
+/* the Free Software Foundation, either version 3 of the License, or      */
+/* (at your option) any later version.                                    */
+/*                                                                        */
+/* This program is distributed in the hope that it will be useful,        */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of         */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
+/* GNU General Public License for more details.                           */
+/*                                                                        */
+/* You should have received a copy of the GNU General Public License      */
+/* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/**************************************************************************/
 
 #ifndef _MESH
 #define _MESH
@@ -56,14 +74,12 @@ namespace IGC
 	public:
 
 		/*
-		IMesh( IRenderer* _renderer )
-			Instancie cette classe dont le but est de centraliser l'accès aux
-			ressources relatives à un maillage 3d en mémoire système.
+			Instancie cette classe dont le but est de centraliser l'accès aux ressources relatives
+			à un maillage 3d en mémoire système.
 		*/
 		IMesh( IRenderer* _renderer );
 
 		/*
-		~IMesh()
 			Libère la mémoire système réservée aux ressources de ce maillage 3d.
 		*/
 		~IMesh();
@@ -75,70 +91,59 @@ namespace IGC
 	public:
 
 		/*
-		setVertexCount( uint _count )
-			Spécifie le nombre de sommets pour ce maillage et alloue la mémoire
-			système nécessaire en fonction des propriétés hasXXXX.
+			Spécifie le nombre de sommets pour ce maillage et alloue la mémoire système nécessaire
+			en fonction des propriétés hasXXXX.
 		*/
 		void setVertexCount( uint _count );
 
 		/*
-		getVertexCount()
 			Renvoie le nombre de sommets de ce maillage.
 		*/
 		uint getVertexCount();
 
 		/*
-		setFaceCount( uint _count )
-			Spécifie le nombre de faces pour ce maillage et alloue la mémoire
-			système nécessaire.
+			Spécifie le nombre de faces pour ce maillage et alloue la mémoire système nécessaire.
 		*/
 		void setFaceCount( uint _count );
 
 		/*
-		getFaceCount()
 			Renvoie le nombre de faces de ce maillage.
 		*/
 		uint getFaceCount();
 
 		/*
-		getVertexPointer()
-			Renvoie un pointeur vers le premier élément du tableau de sommets ou
-			NULL si celui-ci n'a pas encore été créé.
+			Renvoie un pointeur vers le premier élément du tableau de sommets ou NULL si celui-ci
+			n'a pas encore été créé.
 		*/
 		float3* getVertexPointer();
 
 		/*
-		getNormalPointer()
-			Renvoie un pointeur vers le premier élément du tableau de normales ou
-			bien NULL si celui-ci n'a pas encore été créé.
+			Renvoie un pointeur vers le premier élément du tableau de normales ou bien NULL si
+			celui-ci n'a pas encore été créé.
 		*/
 		float3* getNormalPointer();
 
 		/*
-		getColorPointer()
-			Renvoie un pointeur vers le premier élément du tableau de couleurs ou
-			NULL si celui-ci n'a pas encore été créé.
+			Renvoie un pointeur vers le premier élément du tableau de couleurs ou NULL si celui-ci
+			n'a pas encore été créé.
 		*/
 		float4* getColorPointer();
 
 		/*
-		getTexcoordPointer()
-			Renvoie un pointeur vers le premier élément du tableau de coordonnées
-			de texture ou bien NULL si celui-ci n'a pas encore été créé.
+			Renvoie un pointeur vers le premier élément du tableau de coordonnées de texture ou bien
+			NULL si celui-ci n'a pas encore été créé.
 		*/
 		float2* getTexcoordPointer();
 
 		/*
-		getFacePointer()
-			Renvoie un pointeur vers le premier élément du tableau de faces ou
-			NULL si celui-ci n'a pas encore été créé.
+			Renvoie un pointeur vers le premier élément du tableau de faces ou NULL si celui-ci n'a
+			pas encore été créé.
 		*/
 		uint3* getFacePointer();
 
 		/*
-		setVertex( uint _id, float _x, float _y, float _z )
-			Définit le sommet { _x, _y, _z } ayant pour indice _id dans le tableau.
-			La boite englobante du maillage est mise à jour en conséquence.
+			Définit le sommet { _x, _y, _z } ayant pour indice _id dans le tableau. La boite englobante
+			du maillage est mise à jour en conséquence.
 		*/
 		void setVertex( uint _id, float _x, float _y, float _z )
 		{
@@ -146,9 +151,8 @@ namespace IGC
 		}
 
 		/*
-		setVertex( uint _id, float3 _xyz )
-			Définit le sommet { _xyz } ayant pour indice _id dans le tableau. La boite
-			englobante du maillage est mise à jour en conséquence.
+			Définit le sommet { _xyz } ayant pour indice _id dans le tableau. La boite englobante du
+			maillage est mise à jour en conséquence.
 		*/
 		void setVertex( uint _id, float3 _xyz )
 		{
@@ -156,9 +160,8 @@ namespace IGC
 		}
 
 		/*
-		setVertex( uint _id, const float* _xyz )
-			Définit le sommet { _xyz } ayant pour indice _id dans le tableau. La boite
-			englobante du maillage est mise à jour en conséquence.
+			Définit le sommet { _xyz } ayant pour indice _id dans le tableau. La boite englobante du
+			maillage est mise à jour en conséquence.
 		*/
 		void setVertex( uint _id, const float* _xyz )
 		{
@@ -168,7 +171,6 @@ namespace IGC
 		}
 
 		/*
-		getVertex( uint _id )
 			Renvoie le sommet ayant pour indice _id dans le tableau.
 		*/
 		float3 getVertex( uint _id )
@@ -177,9 +179,7 @@ namespace IGC
 		}
 
 		/*
-		setNormal( uint _id, float _l, float _m, float _n )
-			Définit la normale { _l, _m, _n } associée au sommet ayant pour indice _id
-			dans le tableau.
+			Définit la normale { _l, _m, _n } associée au sommet ayant pour indice _id dans le tableau.
 		*/
 		void setNormal( uint _id, float _l, float _m, float _n )
 		{
@@ -187,7 +187,6 @@ namespace IGC
 		}
 
 		/*
-		setNormal( uint _id, float3 _lmn )
 			Définit la normale { _lmn } ayant pour indice _id dans le tableau.
 		*/
 		void setNormal( uint _id, float3 _lmn )
@@ -196,7 +195,6 @@ namespace IGC
 		}
 
 		/*
-		setNormal( uint _id, const float* _lmn )
 			Définit la normale { _lmn } ayant pour indice _id dans le tableau.
 		*/
 		void setNormal( uint _id, const float* _lmn )
@@ -205,7 +203,6 @@ namespace IGC
 		}
 
 		/*
-		getNormal( uint _id )
 			Renvoie la normale ayant pour indice _id dans le tableau.
 		*/
 		float3 getNormal( uint _id )
@@ -214,9 +211,7 @@ namespace IGC
 		}
 
 		/*
-		setColor( uint _id, float _r, float _g, float _b, float _a )
-			Définit la couleur { _r, _g, _b, _a } associée au sommet ayant pour
-			indice _id dans le tableau.
+			Définit la couleur { _r, _g, _b, _a } associée au sommet ayant pour indice _id dans le tableau.
 		*/
 		void setColor( uint _id, float _r, float _g, float _b, float _a )
 		{
@@ -224,7 +219,6 @@ namespace IGC
 		}
 
 		/*
-		setColor( uint _id, float4 _rgba )
 			Définit la couleur { _rgba } ayant pour indice _id dans le tableau.
 		*/
 		void setColor( uint _id, float4 _rgba )
@@ -233,7 +227,6 @@ namespace IGC
 		}
 
 		/*
-		setColor( uint _id, const float* _rgba )
 			Définit la couleur { _rgba } ayant pour indice _id dans le tableau.
 		*/
 		void setColor( uint _id, const float* _rgba )
@@ -242,7 +235,6 @@ namespace IGC
 		}
 
 		/*
-		getColor( uint _id )
 			Renvoie la couleur ayant pour indice _id dans le tableau.
 		*/
 		float4 getColor( uint _id )
@@ -251,9 +243,8 @@ namespace IGC
 		}
 
 		/*
-		setTexcoord( uint _id, float _u, float _v )
-			Définit les coordonnées de texture { _u, _v } associée au sommet ayant
-			pour indice _id dans	le tableau.
+			Définit les coordonnées de texture { _u, _v } associée au sommet ayant pour indice _id dans
+			le tableau.
 		*/
 		void setTexcoord( uint _id, float _u, float _v )
 		{
@@ -261,9 +252,7 @@ namespace IGC
 		}
 
 		/*
-		setTexcoord( uint _id, float2 _uv )
-			Définit les coordonnées de texture { _uv } ayant pour indice _id
-			dans le tableau.
+			Définit les coordonnées de texture { _uv } ayant pour indice _id dans le tableau.
 		*/
 		void setTexcoord( uint _id, float2 _uv )
 		{
@@ -271,9 +260,7 @@ namespace IGC
 		}
 
 		/*
-		setTexcoord( uint _id, const float* _uv )
-			Définit les coordonnées de texture { _uv } ayant pour indice _id
-			dans le tableau.
+			Définit les coordonnées de texture { _uv } ayant pour indice _id dans le tableau.
 		*/
 		void setTexcoord( uint _id, const float* _uv )
 		{
@@ -281,7 +268,6 @@ namespace IGC
 		}
 
 		/*
-		getTexcoord( uint _id )
 			Renvoie les coordonnées de texture ayant pour indice _id dans le tableau.
 		*/
 		float2 getTexcoord( uint _id )
@@ -290,10 +276,8 @@ namespace IGC
 		}
 
 		/*
-		setFace( uint _id, uint _a, uint _b, uint _c )
-			Définit la face ayant pour indice _id dans le tableau. Les paramètres
-			_a, _b, et _c représentent les indices des tableaux de sommets, normales,
-			couleurs...
+			Définit la face ayant pour indice _id dans le tableau. Les paramètres _a, _b, et _c
+			représentent les indices des tableaux de sommets, normales, couleurs...
 		*/
 		void setFace( uint _id, uint _a, uint _b, uint _c )
 		{
@@ -301,7 +285,6 @@ namespace IGC
 		}
 
 		/*
-		getFace( uint _id )
 			Renvoie la face ayant pour indice _id dans le tableau.
 		*/
 		uint3 getFace( uint _id )
@@ -310,7 +293,6 @@ namespace IGC
 		}
 
 		/*
-		getHitbox()
 			Renvoie la boite englobante de ce maillage 3d.
 		*/
 		aabox getBoundingBox()
@@ -322,23 +304,21 @@ namespace IGC
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
 
+	public:
+
 		/*
-		createCube( float width = 10.0f, float height = 10.0f, float depth = 10.0f )
-			Construit un maillage de cube aligné sur les axes X, Y, Z du repère global
-			et dont la largeur, hauteur, et profondeur sont définies respectivement
-			par les paramètres width, height, et depth.
+			Construit un maillage de cube aligné sur les axes X, Y, Z du repère global et dont la largeur,
+			hauteur, et profondeur sont définies respectivement par les paramètres width, height, et depth.
 		*/
 		void createCube( float width = 10.0f, float height = 10.0f, float depth = 10.0f );
 
 		
 		/*
-		update()
 			Copie les données de ce maillage en mémoire vidéo selon l'API utilisée.
 		*/
 		virtual void update() = 0;
 
 		/*
-		render()
 			Affiche ce maillage à l'écran en fonction de la configuration de renderer spécifiée.
 		*/
 		virtual void render() = 0;
