@@ -44,9 +44,8 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	OGLMesh::OGLMesh( OGLRenderer* _renderer ) : IMesh( _renderer )
+	OGLMesh::OGLMesh( Engine* _engine ) : IMesh( _engine )
 	{
-		renderer = _renderer;
 	}
 
 	OGLMesh::~OGLMesh()

@@ -46,9 +46,12 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	D3DModel::D3DModel( D3DRenderer* _renderer ) : IModel( _renderer )
+	D3DModel::D3DModel( Engine* _engine ) : IModel( _engine )
 	{
-		renderer = _renderer;
+	}
+
+	D3DModel::~D3DModel()
+	{
 	}
 
 /***********************************************************************************/
@@ -59,7 +62,9 @@ namespace IGC
 	{
 		if ( dirty ) update();
 
-		renderer->getDevice()->SetTransform( D3DTS_WORLD, (D3DMATRIX*)&matWorld );
+		LPDIRECT3DDEVICE9 lpD3DDevice = ((D3DRenderer*)renderer)->getDevice();
+
+		lpD3DDevice->SetTransform( D3DTS_WORLD, (D3DMATRIX*)&matWorld );
 
 		if ( mesh != NULL ) mesh->render();
 

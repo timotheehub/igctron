@@ -44,9 +44,8 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	OGLModel::OGLModel( OGLRenderer* _renderer ) : IModel( _renderer )
+	OGLModel::OGLModel( Engine* _engine ) : IModel( _engine )
 	{
-		renderer = _renderer;
 	}
 
 /***********************************************************************************/

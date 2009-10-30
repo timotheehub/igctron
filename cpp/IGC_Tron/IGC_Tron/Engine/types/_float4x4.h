@@ -244,10 +244,10 @@ static inline float4x4 matrixIdentity()
 
 static inline void matrixTranslation( float4x4& r, const float x, const float y, const float z )
 {
-	r.r0 = make_float4( 1.0f, 0.0f, 0.0f,    x );
-	r.r1 = make_float4( 0.0f, 1.0f, 0.0f,    y );
-	r.r2 = make_float4( 0.0f, 0.0f, 1.0f,    z );
-	r.r3 = make_float4( 0.0f, 0.0f, 0.0f, 1.0f );
+	r.r0 = make_float4( 1.0f, 0.0f, 0.0f, 0.0f );
+	r.r1 = make_float4( 0.0f, 1.0f, 0.0f, 0.0f );
+	r.r2 = make_float4( 0.0f, 0.0f, 1.0f, 0.0f );
+	r.r3 = make_float4(    x,    y,    z, 1.0f );
 }
 
 static inline float4x4 matrixTranslation( const float x, const float y, const float z )
@@ -265,8 +265,8 @@ static inline void matrixRotationX( float4x4& r, const float angle )
 	float v = sinf( angle );
 
 	r.r0 = make_float4( 1.0f, 0.0f, 0.0f, 0.0f );
-	r.r1 = make_float4( 0.0f,    u,   -v, 0.0f );
-	r.r2 = make_float4( 0.0f,    v,    u, 0.0f );
+	r.r1 = make_float4( 0.0f,    u,    v, 0.0f );
+	r.r2 = make_float4( 0.0f,   -v,    u, 0.0f );
 	r.r3 = make_float4( 0.0f, 0.0f, 0.0f, 1.0f );
 }
 
@@ -284,9 +284,9 @@ static inline void matrixRotationY( float4x4& r, const float angle )
 	float u = cosf( angle );
 	float v = sinf( angle );
 
-	r.r0 = make_float4(    u, 0.0f,    v, 0.0f );
+	r.r0 = make_float4(    u, 0.0f,   -v, 0.0f );
 	r.r1 = make_float4( 0.0f, 1.0f, 0.0f, 0.0f );
-	r.r2 = make_float4(   -v, 0.0f,    u, 0.0f );
+	r.r2 = make_float4(    v, 0.0f,    u, 0.0f );
 	r.r3 = make_float4( 0.0f, 0.0f, 0.0f, 1.0f );
 }
 
@@ -304,8 +304,8 @@ static inline void matrixRotationZ( float4x4& r, const float angle )
 	float u = cosf( angle );
 	float v = sinf( angle );
 
-	r.r0 = make_float4(    u,   -v, 0.0f, 0.0f );
-	r.r1 = make_float4(    v,    u, 0.0f, 0.0f );
+	r.r0 = make_float4(    u,    v, 0.0f, 0.0f );
+	r.r1 = make_float4(   -v,    u, 0.0f, 0.0f );
 	r.r2 = make_float4( 0.0f, 0.0f, 1.0f, 0.0f );
 	r.r3 = make_float4( 0.0f, 0.0f, 0.0f, 1.0f );
 }
@@ -328,17 +328,17 @@ static inline void matrixRotationAxis( float4x4& r, const float3& axis, const fl
 	float3 n = normalize( axis );
 
 	r.r0.x = w * n.x * n.x + u;
-	r.r0.y = w * n.x * n.y - v * n.z;
-	r.r0.z = w * n.x * n.z + v * n.y;
+	r.r0.y = w * n.y * n.x + v * n.z;
+	r.r0.z = w * n.z * n.x - v * n.y;
 	r.r0.w = 0.0f;
 
-	r.r1.x = w * n.y * n.x + v * n.z;
+	r.r1.x = w * n.x * n.y - v * n.z;
 	r.r1.y = w * n.y * n.y + u;
-	r.r1.z = w * n.y * n.z - v * n.x;
+	r.r1.z = w * n.z * n.y + v * n.x;
 	r.r1.w = 0.0f;
 
-	r.r2.x = w * n.z * n.x - v * n.y;
-	r.r2.y = w * n.z * n.y + v * n.x;
+	r.r2.x = w * n.x * n.z + v * n.y;
+	r.r2.y = w * n.y * n.z - v * n.x;
 	r.r2.z = w * n.z * n.z + u;
 	r.r2.w = 0.0f;
 

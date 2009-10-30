@@ -65,6 +65,7 @@ const float MOUSE_SENSIVITY = 0.01f;
 const float MOVE_SPEED = 50.0f;
 
 Engine* engine = NULL;
+Factory* factory = NULL;
 Window* window = NULL;
 Renderer* renderer = NULL;
 Camera* camera = NULL;
@@ -237,16 +238,20 @@ void freeWindow()
 void initEngine()
 {
 	engine = new Engine();
+
+	factory = engine->getFactory();
 }
 
 void freeEngine()
 {
+	factory = NULL;
+
 	delete engine;
 }
 
 void initRenderer()
 {
-	renderer = new Renderer( engine );
+	renderer = factory->acquire( (Renderer*)NULL );
 
 	renderer->disableFullscreen();
 	renderer->disableVSync();
@@ -254,14 +259,14 @@ void initRenderer()
 
 	renderer->initialize();
 
-	camera = new Camera( renderer );
+	camera = factory->acquire( (Camera*)NULL );
 
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
-	camera->setCenter( -10.0f, 20.0f, 30.0f );
-	camera->lookAt( 0.0f, 0.0f, 0.0f );
+	camera->setCenter( 0.0f, 30.0f, 10.0f );
+	camera->lookAt( 0.0f, 0.0f, -50.0f );
 	camera->update();
 
-	font = new Font( renderer );
+	font = factory->acquire( (Font*)NULL );
 
 	font->setName( "Verdana" );
 	font->setSize( 12 );
@@ -272,35 +277,28 @@ void initRenderer()
 
 void freeRenderer()
 {
-	delete font;
+	factory->release( font );
 
-	delete camera;
+	factory->release( camera );
 
 	renderer->finalize();
 
-	delete renderer;
+	factory->release( renderer );
 }
 
 void loadScene()
 {
-	Mesh* mesh = new Mesh( renderer );
+	model = factory->acquire( (Model*)NULL );
 
-	mesh->createCube();
-	mesh->update();
-
-	model = new Model( renderer );
-	model->setMesh( mesh );
+	model->import( "ship.3ds" );
+	model->shrink( 8.0f, 8.0f, 8.0f );
+	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
+	model->move( 0.0f, 0.0f, -50.0f );
 }
 
 void unloadScene()
 {
-	Mesh* mesh = (Mesh*)model->getMesh();
-
-	if ( mesh )
-		delete mesh;
-
-	if ( model )
-		delete model;
+	factory->release( model );
 }
 
 /***********************************************************************************/

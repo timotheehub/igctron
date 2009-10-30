@@ -48,9 +48,9 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	D3DFont::D3DFont( D3DRenderer* _renderer ) : IFont( _renderer )
+	D3DFont::D3DFont( Engine* _engine ) : IFont( _engine )
 	{
-		renderer = _renderer;
+		lpFont = NULL;
 	}
 
 	D3DFont::~D3DFont()
@@ -75,8 +75,10 @@ namespace IGC
 		SHORT fontWeight = bold ? FW_BOLD : FW_NORMAL;
 		BOOL fontItalic = italic ? TRUE : FALSE;
 
-		if( FAILED( D3DXCreateFont( renderer->getDevice(), fontSize, 0, fontWeight, 0, fontItalic,
-				DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name, &lpFont ) ) )
+		LPDIRECT3DDEVICE9 lpD3DDevice = ((D3DRenderer*)renderer)->getDevice();
+
+		if( FAILED( D3DXCreateFont( lpD3DDevice, fontSize, 0, fontWeight, 0, fontItalic, DEFAULT_CHARSET,
+							OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name, &lpFont ) ) )
 			_assert( false, __FILE__, __LINE__, "D3DFont::update() : Unable to create Direct3D font." );
 
 		dirty = false;
@@ -86,7 +88,7 @@ namespace IGC
 	{
 		if ( dirty ) update();
 
-		renderer->setFont( lpFont );
+		((D3DRenderer*)renderer)->setFont( lpFont );
 	}
 
 }

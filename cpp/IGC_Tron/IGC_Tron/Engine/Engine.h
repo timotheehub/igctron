@@ -25,8 +25,11 @@
 /***********************************************************************************/
 
 #include "Common.h"
-#include "IRenderer.h"
-#include "IWindow.h"
+#include "Factory.h"
+#include "D3DRenderer.h"
+#include "OGLRenderer.h"
+#include "W32Window.h"
+#include "X11Window.h"
 
 /***********************************************************************************/
 
@@ -39,6 +42,8 @@ namespace IGC
 /** CLASSES AMIES                                                                 **/
 /***********************************************************************************/
 
+		friend class Factory;
+
 		friend class IRenderer;
 		friend class IWindow;
 
@@ -47,6 +52,8 @@ namespace IGC
 /***********************************************************************************/
 
 	private:
+
+		Factory* factory;
 
 		IRenderer* renderer;
 		IWindow* window;
@@ -73,6 +80,11 @@ namespace IGC
 		*/
 		Engine();
 
+		/*
+			Détruit la factory.
+		*/
+		~Engine();
+
 /***********************************************************************************/
 /** ACCESSEURS                                                                    **/
 /***********************************************************************************/
@@ -80,15 +92,20 @@ namespace IGC
 	public:
 
 		/*
+			Renvoie la factory associée à cette instance.
+		*/
+		Factory* getFactory();
+
+		/*
 			Renvoie le renderer associé à cette instance ou NULL si celui-ci n'a pas encore été créé.
 		*/
-		IRenderer* getRenderer();
+		Renderer* getRenderer();
 
 		/*
 		getWindow()
 			Renvoie la fenêtre associée à cette instance ou NULL si celle-ci n'a pas encore été créée.
 		*/
-		IWindow* getWindow();
+		Window* getWindow();
 
 		/*
 			Renvoie le nombre de secondes écoulé depuis le démarrage du système.

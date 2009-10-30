@@ -44,12 +44,14 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	IFont::IFont( IRenderer* _renderer )
+	IFont::IFont( Engine* _engine )
 	{
-		renderer = _renderer;
+		engine = _engine;
+
+		renderer = engine->getRenderer();
 
 		name = (char*)malloc( 8 * sizeof(char) );
-		strcpy( name, "Verdana" ); name[7] = 0;
+		strcpy( name, "Verdana" );
 
 		size = 12;
 
@@ -67,6 +69,16 @@ namespace IGC
 /***********************************************************************************/
 /** ACCESSEURS                                                                    **/
 /***********************************************************************************/
+
+	Engine* IFont::getEngine()
+	{
+		return engine;
+	}
+
+	IRenderer* IFont::getRenderer()
+	{
+		return renderer;
+	}
 
 	void IFont::setName( char* _name )
 	{

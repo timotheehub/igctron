@@ -26,6 +26,8 @@
 
 #include "IMesh.h"
 #include "Common.h"
+#include "Engine.h"
+#include "IRenderer.h"
 
 #include <vector>
 
@@ -35,8 +37,6 @@ using namespace std;
 
 namespace IGC
 {
-	class IRenderer;
-
 	class IModel
 	{
 
@@ -45,6 +45,8 @@ namespace IGC
 /***********************************************************************************/
 
 	protected:
+
+		Engine* engine;
 
 		IRenderer* renderer;
 
@@ -77,7 +79,7 @@ namespace IGC
 			orienté en direction de l'axe X positif, et de taille normale. Ce modèle est défini
 			isolé, sans parent ni enfant, et n'a pas de maillage associé.
 		*/
-		IModel( IRenderer* _renderer );
+		IModel( Engine* _engine );
 
 		/*
 			Détruit tous les enfants de ce modèle 3d.
@@ -91,6 +93,21 @@ namespace IGC
 	public:
 
 		/*
+			Renvoie un pointeur vers le moteur associé à cet objet.
+		*/
+		Engine* getEngine();
+
+		/*
+			Renvoie le renderer associé à ce modèle.
+		*/
+		IRenderer* getRenderer();
+
+		/*
+			Crée un nouveau maillage pour ce modèle 3d puis le renvoie.
+		*/
+		IMesh* newMesh();
+
+		/*
 			Renvoie le maillage associé à ce modèle 3d.
 		*/
 		IMesh* getMesh();
@@ -99,6 +116,11 @@ namespace IGC
 			Spécifie un maillage pour ce modèle 3d.
 		*/
 		void setMesh( IMesh* _mesh );
+
+		/*
+			Crée un nouveau fils pour ce modèle puis le renvoie.
+		*/
+		IModel* newChild();
 
 		/*
 			Ajoute un fils à ce modèle.
@@ -257,6 +279,11 @@ namespace IGC
 			Rend le maillage de ce modèle ainsi que ceux de tous ses fils.
 		*/
 		virtual void render();
+
+		/*
+			Charge un fichier au format 3D Studio (*.3ds).
+		*/
+		void import( char* _path );
 
 	};
 }

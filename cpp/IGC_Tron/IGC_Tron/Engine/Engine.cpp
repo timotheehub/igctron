@@ -53,6 +53,8 @@ namespace IGC
 
 	Engine::Engine()
 	{
+		factory = new Factory( this );
+
 		renderer = NULL;
 		window = NULL;
 
@@ -70,18 +72,28 @@ namespace IGC
 		averageFramerate = 0.0;
 	}
 
+	Engine::~Engine()
+	{
+		delete factory;
+	}
+
 /***********************************************************************************/
 /** ACCESSEURS                                                                    **/
 /***********************************************************************************/
 
-	IWindow* Engine::getWindow()
+	Factory* Engine::getFactory()
 	{
-		return window;
+		return factory;
 	}
 
-	IRenderer* Engine::getRenderer()
+	Window* Engine::getWindow()
 	{
-		return renderer;
+		return (Window*)window;
+	}
+
+	Renderer* Engine::getRenderer()
+	{
+		return (Renderer*)renderer;
 	}
 
 	double Engine::getTime()

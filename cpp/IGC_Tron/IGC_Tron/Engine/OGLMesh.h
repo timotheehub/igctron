@@ -43,8 +43,6 @@ namespace IGC
 
 	private:
 
-		OGLRenderer* renderer;
-
 /***********************************************************************************/
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
@@ -54,7 +52,7 @@ namespace IGC
 		/*
 			Instancie la classe et alloue la mémoire vidéo pour les buffers.
 		*/
-		OGLMesh( OGLRenderer* _renderer );
+		OGLMesh( Engine* _engine );
 
 		/*
 			Libère la mémoire vidéo réservée pour les buffers.

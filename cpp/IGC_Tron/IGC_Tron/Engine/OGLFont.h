@@ -43,8 +43,6 @@ namespace IGC
 
 	private:
 
-		OGLRenderer* renderer;
-
 		GLuint glFontList;
 
 /***********************************************************************************/
@@ -56,7 +54,7 @@ namespace IGC
 		/*
 			Instancie la classe et alloue la mémoire pour les ressources OpenGL.
 		*/
-		OGLFont( OGLRenderer* _renderer );
+		OGLFont( Engine* _engine );
 
 
 		/*

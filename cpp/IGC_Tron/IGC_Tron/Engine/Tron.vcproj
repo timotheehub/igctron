@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="directx\inc;opengl\inc"
+				AdditionalIncludeDirectories="directx\inc;opengl\inc;hashlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;D3D_DEBUG_INFO"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -211,6 +211,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Factory.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ICamera.cpp"
 				>
 			</File>
@@ -304,6 +308,10 @@
 			</File>
 			<File
 				RelativePath=".\Engine.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Factory.h"
 				>
 			</File>
 			<File

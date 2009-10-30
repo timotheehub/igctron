@@ -44,9 +44,11 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	ICamera::ICamera( IRenderer* _renderer )
+	ICamera::ICamera( Engine* _engine )
 	{
-		renderer = _renderer;
+		engine = _engine;
+
+		renderer = engine->getRenderer();
 
 		fov = PI * 0.5f;
 		ratio = 4.0f / 3.0f;
@@ -110,6 +112,16 @@ namespace IGC
 /***********************************************************************************/
 /** ACCESSEURS                                                                    **/
 /***********************************************************************************/
+
+	Engine* ICamera::getEngine()
+	{
+		return engine;
+	}
+
+	IRenderer* ICamera::getRenderer()
+	{
+		return renderer;
+	}
 
 	void ICamera::setCenter( float _x, float _y, float _z )
 	{

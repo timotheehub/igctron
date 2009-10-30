@@ -46,9 +46,8 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	D3DCamera::D3DCamera( D3DRenderer* _renderer ) : ICamera( _renderer )
+	D3DCamera::D3DCamera( Engine* _engine ) : ICamera( _engine )
 	{
-		renderer = _renderer;
 	}
 
 /***********************************************************************************/
@@ -59,8 +58,10 @@ namespace IGC
 	{
 		if ( dirty ) update();
 
-		renderer->getDevice()->SetTransform( D3DTS_VIEW, (D3DMATRIX*)&matView );
-		renderer->getDevice()->SetTransform( D3DTS_PROJECTION, (D3DMATRIX*)&matProj );
+		LPDIRECT3DDEVICE9 lpD3DDevice = ((D3DRenderer*)renderer)->getDevice();
+
+		lpD3DDevice->SetTransform( D3DTS_VIEW, (D3DMATRIX*)&matView );
+		lpD3DDevice->SetTransform( D3DTS_PROJECTION, (D3DMATRIX*)&matProj );
 	}
 
 }

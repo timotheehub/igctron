@@ -46,9 +46,8 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	D3DMesh::D3DMesh( D3DRenderer* _renderer ) : IMesh( _renderer )
+	D3DMesh::D3DMesh( Engine* _engine ) : IMesh( _engine )
 	{
-		renderer = _renderer;
 	}
 
 	D3DMesh::~D3DMesh()
@@ -73,6 +72,8 @@ namespace IGC
 
 	void D3DMesh::update()
 	{
+		LPDIRECT3DDEVICE9 lpD3DDevice = ((D3DRenderer*)renderer)->getDevice();
+
 		{
 			D3DVERTEXELEMENT9 declaration[5];
 			
@@ -102,6 +103,18 @@ namespace IGC
 				offset += sizeof(float3); k++;
 			}
 
+			if ( hasColors )
+			{
+				declaration[k].Stream = 0;
+				declaration[k].Offset = offset;
+				declaration[k].Type = D3DDECLTYPE_D3DCOLOR;
+				declaration[k].Method = D3DDECLMETHOD_DEFAULT;
+				declaration[k].Usage = D3DDECLUSAGE_COLOR;
+				declaration[k].UsageIndex = 0;
+
+				offset += sizeof(dword); k++;
+			}
+
 			if ( hasTexcoords )
 			{
 				declaration[k].Stream = 0;
@@ -114,18 +127,6 @@ namespace IGC
 				offset += sizeof(float2); k++;
 			}
 
-			if ( hasColors )
-			{
-				declaration[k].Stream = 0;
-				declaration[k].Offset = offset;
-				declaration[k].Type = D3DDECLTYPE_FLOAT4;
-				declaration[k].Method = D3DDECLMETHOD_DEFAULT;
-				declaration[k].Usage = D3DDECLUSAGE_COLOR;
-				declaration[k].UsageIndex = 0;
-
-				offset += sizeof(float4); k++;
-			}
-
 			{
 				declaration[k].Stream = 0xFF;
 				declaration[k].Offset = 0;
@@ -135,7 +136,7 @@ namespace IGC
 				declaration[k].UsageIndex = 0;
 			}
 
-			renderer->getDevice()->CreateVertexDeclaration( declaration, &lpVertexDeclaration );
+			lpD3DDevice->CreateVertexDeclaration( declaration, &lpVertexDeclaration );
 
 			D3DXFVFFromDeclarator( declaration, &dwFVF );
 		}
@@ -146,17 +147,42 @@ namespace IGC
 			LPBYTE data = 0;
 			UINT offset = 0;
 
-			renderer->getDevice()->CreateVertexBuffer( size, D3DUSAGE_WRITEONLY,
-				dwFVF, D3DPOOL_DEFAULT, &lpVertexBuffer, NULL );
+			lpD3DDevice->CreateVertexBuffer( size, D3DUSAGE_WRITEONLY, dwFVF,
+												D3DPOOL_DEFAULT, &lpVertexBuffer, NULL );
 
 			lpVertexBuffer->Lock( 0, size, (void**)&data, 0 );
 			
 			for ( uint k = 0 ; k < vertexCount ; k++ )
 			{
-				if ( hasVertices ) { CopyMemory( data+offset, (void*)&vertices[k], sizeof(float3) ); offset += sizeof(float3); }
-				if ( hasNormals ) { CopyMemory( data+offset, (void*)&normals[k], sizeof(float3) ); offset += sizeof(float3); }
-				if ( hasTexcoords ) { CopyMemory( data+offset, (void*)&texcoords[k], sizeof(float2) ); offset += sizeof(float2); }
-				if ( hasColors ) { CopyMemory( data+offset, (void*)&colors[k], sizeof(float4) ); offset += sizeof(float4); }
+				if ( hasVertices )
+				{
+					CopyMemory( data+offset, (void*)&vertices[k], sizeof(float3) );
+
+					offset += sizeof(float3);
+				}
+
+				if ( hasNormals )
+				{
+					CopyMemory( data+offset, (void*)&normals[k], sizeof(float3) );
+					
+					offset += sizeof(float3);
+				}
+
+				if ( hasColors )
+				{
+					dword color = (dword)( (((int)(colors[k].x * 255.0f)&0xff)<<24) | (((int)(colors[k].y * 255.0f)&0xff)<<16) | (((int)(colors[k].z * 255.0f)&0xff)<<8) | ((int)(colors[k].w * 255.0f)&0xff));
+
+					CopyMemory( data+offset, (void*)&color, sizeof(dword) );
+
+					offset += sizeof(dword);
+				}
+
+				if ( hasTexcoords )
+				{
+					CopyMemory( data+offset, (void*)&texcoords[k], sizeof(float2) );
+					
+					offset += sizeof(float2);
+				}
 			}
 
 			lpVertexBuffer->Unlock();
@@ -168,8 +194,8 @@ namespace IGC
 			LPBYTE data = 0;
 			UINT offset = 0;
 
-			renderer->getDevice()->CreateIndexBuffer( size, D3DUSAGE_WRITEONLY,
-				D3DFMT_INDEX32, D3DPOOL_DEFAULT, &lpIndexBuffer, NULL );
+			lpD3DDevice->CreateIndexBuffer( size, D3DUSAGE_WRITEONLY, D3DFMT_INDEX32,
+													D3DPOOL_DEFAULT, &lpIndexBuffer, NULL );
 
 			lpIndexBuffer->Lock( 0, size, (void**)&data, 0 );
 
@@ -186,18 +212,20 @@ namespace IGC
 
 	void D3DMesh::render()
 	{
-		renderer->getDevice()->BeginScene();
+		LPDIRECT3DDEVICE9 lpD3DDevice = ((D3DRenderer*)renderer)->getDevice();
+
+		lpD3DDevice->BeginScene();
 
 		UINT size = D3DXGetFVFVertexSize( dwFVF );
 
-		renderer->getDevice()->SetStreamSource( 0, lpVertexBuffer, 0, size );
-		renderer->getDevice()->SetIndices( lpIndexBuffer );
+		lpD3DDevice->SetStreamSource( 0, lpVertexBuffer, 0, size );
+		lpD3DDevice->SetIndices( lpIndexBuffer );
 
-		renderer->getDevice()->SetFVF( dwFVF );
+		lpD3DDevice->SetFVF( dwFVF );
 
-		renderer->getDevice()->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0, vertexCount, 0, faceCount );
+		lpD3DDevice->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, 0, vertexCount, 0, faceCount );
 
-		renderer->getDevice()->EndScene();
+		lpD3DDevice->EndScene();
 	}
 
 }

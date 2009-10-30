@@ -25,6 +25,7 @@
 /***********************************************************************************/
 
 #include "Common.h"
+#include "Engine.h"
 #include "IRenderer.h"
 
 /***********************************************************************************/
@@ -34,8 +35,6 @@ namespace IGC
 
 /***********************************************************************************/
 
-	class IRenderer;
-
 	class ICamera
 	{
 
@@ -44,6 +43,8 @@ namespace IGC
 /***********************************************************************************/
 
 	protected:
+
+		Engine* engine;
 
 		IRenderer* renderer;
 
@@ -85,13 +86,23 @@ namespace IGC
 			regardant en direction de l'axe Z positif. Cette caméra est initialisée pour un écran 4/3 et
 			dispose d'un champ de vision sur 90°.
 		*/
-		ICamera( IRenderer* _renderer );
+		ICamera( Engine* _engine );
 
 /***********************************************************************************/
 /** ACCESSEURS                                                                    **/
 /***********************************************************************************/
 
 	public:
+
+		/*
+			Renvoie un pointeur vers le moteur associé à cet objet.
+		*/
+		Engine* getEngine();
+
+		/*
+			Renvoie le renderer associé à ce modèle.
+		*/
+		IRenderer* getRenderer();
 
 		/*
 			Déplace cette caméra vers l'avant (défini par le vecteur direction) à une vitesse définie

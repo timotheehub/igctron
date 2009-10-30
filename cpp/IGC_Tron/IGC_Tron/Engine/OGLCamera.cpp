@@ -44,9 +44,8 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	OGLCamera::OGLCamera( OGLRenderer* _renderer ) : ICamera( _renderer )
+	OGLCamera::OGLCamera( Engine* _engine ) : ICamera( _engine )
 	{
-		renderer = _renderer;
 	}
 
 /***********************************************************************************/

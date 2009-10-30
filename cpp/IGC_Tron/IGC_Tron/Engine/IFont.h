@@ -25,6 +25,7 @@
 /***********************************************************************************/
 
 #include "Common.h"
+#include "Engine.h"
 #include "IRenderer.h"
 
 /***********************************************************************************/
@@ -34,8 +35,6 @@ namespace IGC
 
 /***********************************************************************************/
 
-	class IRenderer;
-
 	class IFont
 	{
 
@@ -44,6 +43,8 @@ namespace IGC
 /***********************************************************************************/
 
 	protected:
+
+		Engine* engine;
 
 		IRenderer* renderer;
 
@@ -65,7 +66,7 @@ namespace IGC
 		/*
 			Instancie la classe en définissant une police "Verdana" de taille 12.
 		*/
-		IFont( IRenderer* _renderer );
+		IFont( Engine* _engine );
 
 		/*
 			Libère les ressources.
@@ -77,6 +78,16 @@ namespace IGC
 /***********************************************************************************/
 
 	public:
+
+		/*
+			Renvoie un pointeur vers le moteur associé à cet objet.
+		*/
+		Engine* getEngine();
+
+		/*
+			Renvoie le renderer associé à ce modèle.
+		*/
+		IRenderer* getRenderer();
 
 		/*
 			Spécifie le nom de la police à utiliser.

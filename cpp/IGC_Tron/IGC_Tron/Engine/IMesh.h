@@ -26,6 +26,7 @@
 
 #include "Common.h"
 #include "BoundingBox.h"
+#include "Engine.h"
 #include "IRenderer.h"
 
 /***********************************************************************************/
@@ -34,8 +35,6 @@ namespace IGC
 {
 
 /***********************************************************************************/
-
-	class IRenderer;
 
 	class IMesh
 	{
@@ -52,6 +51,8 @@ namespace IGC
 		bool hasTexcoords;	// true s'il contient des coordonnées de texture
 
 	protected:
+
+		Engine* engine;
 
 		IRenderer* renderer;
 
@@ -77,7 +78,7 @@ namespace IGC
 			Instancie cette classe dont le but est de centraliser l'accès aux ressources relatives
 			à un maillage 3d en mémoire système.
 		*/
-		IMesh( IRenderer* _renderer );
+		IMesh( Engine* _engine );
 
 		/*
 			Libère la mémoire système réservée aux ressources de ce maillage 3d.
@@ -89,6 +90,16 @@ namespace IGC
 /***********************************************************************************/
 
 	public:
+
+		/*
+			Renvoie un pointeur vers le moteur associé à cet objet.
+		*/
+		Engine* getEngine();
+
+		/*
+			Renvoie le renderer associé à ce modèle.
+		*/
+		IRenderer* getRenderer();
 
 		/*
 			Spécifie le nombre de sommets pour ce maillage et alloue la mémoire système nécessaire

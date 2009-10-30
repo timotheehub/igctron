@@ -50,8 +50,6 @@ namespace IGC
 
 	private:
 
-		D3DRenderer* renderer;
-
 		DWORD dwFVF;
 
 		LPDIRECT3DVERTEXDECLARATION9 lpVertexDeclaration;
@@ -68,7 +66,7 @@ namespace IGC
 		/*
 			Instancie la classe et alloue la mémoire vidéo pour les buffers.
 		*/
-		D3DMesh( D3DRenderer* _renderer );
+		D3DMesh( Engine* _engine );
 
 		/*
 			Libère la mémoire vidéo réservée pour les buffers.

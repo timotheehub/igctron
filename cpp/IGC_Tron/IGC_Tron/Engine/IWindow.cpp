@@ -59,7 +59,7 @@ namespace IGC
 		visible = false;
 
 		title = (char*)malloc( 4 * sizeof(char) );
-		strcpy( title, "IGC" ); title[3] = 0;
+		strcpy( title, "IGC" );
 
 		keyboardContext = KC_NONE;
 		mouseContext = MC_NONE;

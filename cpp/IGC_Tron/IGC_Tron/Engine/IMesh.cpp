@@ -44,9 +44,11 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	IMesh::IMesh( IRenderer* _renderer )
+	IMesh::IMesh( Engine* _engine )
 	{
-		renderer = _renderer;
+		engine = _engine;
+
+		renderer = engine->getRenderer();
 
 		box.reset();
 
@@ -86,6 +88,16 @@ namespace IGC
 /***********************************************************************************/
 /** ACCESSEURS                                                                    **/
 /***********************************************************************************/
+
+	Engine* IMesh::getEngine()
+	{
+		return engine;
+	}
+
+	IRenderer* IMesh::getRenderer()
+	{
+		return renderer;
+	}
 
 	void IMesh::setVertexCount( uint _count )
 	{

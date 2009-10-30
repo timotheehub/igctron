@@ -50,8 +50,6 @@ namespace IGC
 
 	private:
 
-		D3DRenderer* renderer;
-
 		LPD3DXFONT lpFont;
 
 /***********************************************************************************/
@@ -63,7 +61,7 @@ namespace IGC
 		/*
 			Instancie la classe et alloue la mémoire pour les ressources Direct3D.
 		*/
-		D3DFont( D3DRenderer* _renderer );
+		D3DFont( Engine* _engine );
 
 		/*
 			Libère les ressources en mémoire vidéo.

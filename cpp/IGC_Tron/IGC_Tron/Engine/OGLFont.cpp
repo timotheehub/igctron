@@ -46,10 +46,8 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	OGLFont::OGLFont( OGLRenderer* _renderer ) : IFont( _renderer )
+	OGLFont::OGLFont( Engine* _engine ) : IFont( _engine )
 	{
-		renderer = _renderer;
-
 		glFontList = 0;
 	}
 
@@ -113,7 +111,7 @@ namespace IGC
 	{
 		if ( dirty ) update();
 
-		renderer->setFont( glFontList );
+		((OGLRenderer*)renderer)->setFont( glFontList );
 	}
 
 }
