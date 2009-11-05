@@ -2,22 +2,38 @@
 // Déclaration de la classe Displayer
 
 #include "Displayer.h"
-/*
-
+#include "main.h"
 
 /******************************************************************************
 *                   Chargement des ressources                                 *
-******************************************************************************
+******************************************************************************/
 // Charge les ressources
 void Displayer::LoadRessources ( )
 {
+}
+
+void Displayer::LoadScene()
+{
+	model = factory->acquire( (Model*)NULL );
+
+	model->import( "ship.3ds" );
+	model->shrink( 8.0f, 8.0f, 8.0f );
+	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
+	model->move( 0.0f, 0.0f, -50.0f );
+}
+
+void Displayer::UnloadScene()
+{
+	Displayer *aDisplayer = Displayer::GetInstance ( );
+
+	aDisplayer->factory->release( model );
 }
 
 
 
 /******************************************************************************
 *                   Initialisation pour l'écran                               *
-******************************************************************************
+******************************************************************************/
 // Initialise l'écran
 void Displayer::InitScreen ( )
 {
@@ -30,7 +46,6 @@ void Displayer::InitScreen ( )
 void Displayer::initEngine ( )
 {
 	engine = new Engine();
-
 	factory = engine->getFactory();	
 }
 
@@ -46,9 +61,6 @@ void Displayer::initWindow ( )
 	window->setTitle( "Tron" );
 
 	window->registerCloseCallback( onClose );
-	window->registerKeyDownCallback( onKeyDown );
-	window->registerKeyUpCallback( onKeyUp );
-	window->registerMouseMoveCallback( onMouseMove );
 
 	window->show();
 }
@@ -57,22 +69,18 @@ void Displayer::initWindow ( )
 void Displayer::initRenderer ( )
 {
 	renderer = factory->acquire( (Renderer*)NULL );
-
 	renderer->disableFullscreen();
 	renderer->disableVSync();
 	renderer->useHardware();
-
 	renderer->initialize();
 
 	camera = factory->acquire( (Camera*)NULL );
-
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
 	camera->setCenter( 0.0f, 30.0f, 10.0f );
 	camera->lookAt( 0.0f, 0.0f, -50.0f );
 	camera->update();
 
 	font = factory->acquire( (Font*)NULL );
-
 	font->setName( "Verdana" );
 	font->setSize( 12 );
 	font->setBold( true );
@@ -84,17 +92,62 @@ void Displayer::initRenderer ( )
 
 /******************************************************************************
 *              Met à jour la partie la partie graphique                       *
-******************************************************************************
+******************************************************************************/
 // Rafraîchit graphiquement
 void Displayer::UpdateGraphics ( )
 {
+	double cycleTime = 0;
+
+	static char fpsBuffer[20];
+	static char avgBuffer[20];
+
+	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
+
+	camera->bind();
+
+	model->render();
+
+	{
+		font->bind();
+
+		int x = renderer->toPointX( 0.01f );
+		int y = renderer->toPointY( 0.01f );
+
+		renderer->drawText( "tron", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+
+		if ( engine->getCurrentFramerate() > 40 )
+			renderer->drawText( fpsBuffer, x, y + 32, 0.0f, 1.0f, 0.0f, 1.0f );
+		else if ( engine->getCurrentFramerate() > 20 )
+			renderer->drawText( fpsBuffer, x, y + 32, 1.0f, 1.0f, 0.0f, 1.0f );
+		else
+			renderer->drawText( fpsBuffer, x, y + 32, 1.0f, 0.0f, 0.0f, 1.0f );
+
+		if ( engine->getAverageFramerate() > 60 )
+			renderer->drawText( avgBuffer, x, y + 48, 0.0f, 1.0f, 0.0f, 1.0f );
+		else if ( engine->getAverageFramerate() > 20 )
+			renderer->drawText( avgBuffer, x, y + 48, 1.0f, 1.0f, 0.0f, 1.0f );
+		else
+			renderer->drawText( avgBuffer, x, y + 48, 1.0f, 0.0f, 0.0f, 1.0f );
+	}
+
+	renderer->update();
+
+	engine->update();
+
+	if ( engine->getTime() > cycleTime )
+	{
+		sprintf( fpsBuffer, "fps : %.3f", engine->getCurrentFramerate() );
+		sprintf( avgBuffer, "avg : %.3f", engine->getAverageFramerate() );
+
+		cycleTime = engine->getTime() + 1.0;
+	}
 }
 
 
 
 /******************************************************************************
 *                        Libère la mémoire                                    *
-******************************************************************************
+******************************************************************************/
 // Libère la mémoire
 void Displayer::FreeMemory ( )
 {
@@ -107,11 +160,8 @@ void Displayer::FreeMemory ( )
 void Displayer::freeRenderer ( )
 {
 	factory->release( font );
-
 	factory->release( camera );
-
 	renderer->finalize();
-
 	factory->release( renderer );
 }
 	
@@ -119,11 +169,7 @@ void Displayer::freeRenderer ( )
 void Displayer::freeWindow ( )
 {
 	window->hide();
-
 	window->unregisterCloseCallback( onClose );
-	window->unregisterKeyDownCallback( onKeyDown );
-	window->unregisterKeyUpCallback( onKeyUp );
-	window->unregisterMouseMoveCallback( onMouseMove );
 
 	delete window;
 }
@@ -140,10 +186,10 @@ void Displayer::freeEngine ( )
 
 /******************************************************************************
 *                 Constructeurs et destructeurs                               *
-******************************************************************************
+******************************************************************************/
 // Constructeur
 Displayer::Displayer ( )
-: engine( 0 ), factory( 0 ), window( 0 ), camera( 0 ), model( 0 ), font( 0 )
+: engine( 0 ), factory( 0 ), window( 0 ), renderer( 0 ), camera( 0 ), model( 0 ), font( 0 )
 {
 }
 
@@ -151,4 +197,3 @@ Displayer::Displayer ( )
 Displayer::~Displayer ( )
 {
 }
-*/

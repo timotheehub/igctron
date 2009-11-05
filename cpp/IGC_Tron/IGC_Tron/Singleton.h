@@ -1,12 +1,15 @@
 // Singleton.h
 // Déclaration de la classe Singleton
 
+#ifndef __SINGLETON_H__
+#define __SINGLETON_H__
+
 template <typename T>
 class Singleton
 {
 public:
     // Renvoi l'instance du singleton
-	static T *getInstance ()
+	static T *GetInstance ()
 	{
 		if ( theSingleton == 0 )
 		{
@@ -21,7 +24,7 @@ public:
 		if ( theSingleton != 0 )
 		{
 			delete theSingleton;
-			theSingleton = NULL;
+			theSingleton = 0;
 		}
 	}
 
@@ -34,3 +37,9 @@ protected:
 private:
 	static T *theSingleton; // Instance unique statique
 };
+
+
+template <typename T>
+T *Singleton<T>::theSingleton = 0;
+
+#endif // __SINGLETON_H__
