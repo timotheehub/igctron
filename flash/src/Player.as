@@ -59,7 +59,10 @@
 		{
 			var newX : Number = x;
 			var newY : Number = y;
-			var x0, y0, x1, y1 : Number;
+			var x0 : Number;
+			var y0 : Number;
+			var x1 : Number;
+			var y1 : Number;
 			
 			if( direction == DIRECTION_LEFT )
 			{
