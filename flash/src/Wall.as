@@ -9,27 +9,25 @@
 	 */
 	public class Wall
 	{
-		private var WallArray:Array;
-		private var taille:int = 0;
+		private var WallArray:Array = new Array();
 		
 		public function Wall( MyPlayer : Player) 
 		{
 			MyPlayer.setWall(this);
 		}
 		
-		public function InsertSegment( x1 : Number, y1 : Number, x2 : Number, y2 : Number ) : void // format d'entrée ?
+		public function insertSegment( x1 : Number, y1 : Number, x2 : Number, y2 : Number ) : void // format d'entrée ?
 		{
 			var Seg:Segment = new Segment(x1, y1, x2, y2);
 			
-			WallArray[taille] = Seg;
-			taille++;
+			WallArray.push( Seg );
 		}
 		
-		public function CheckWallCollision ( x1 : Number, y1 : Number, x2 : Number, y2 : Number ) : Boolean
+		public function checkWallCollision ( x1 : Number, y1 : Number, x2 : Number, y2 : Number ) : Boolean
 		{
-			for (var i : int = 0; i <= taille; i++)
+			for (var i : int = 0; i < WallArray.length; i++)
 			{
-				if (WallArray[i].CheckSegmentCollision(x1, y1, x2, y2) == true)
+				if (WallArray[i].checkSegmentCollision(x1, y1, x2, y2) == true)
 				{
 					return true;
 				}
@@ -38,19 +36,19 @@
 			return false;
 		}
 		
-		public function GetSegmentCount() : int
+		public function getSegmentCount() : int
 		{
-			return taille;
+			return WallArray.length;
 		}
 		
-		public function GetSegment( position : int ) : Segment
+		public function getSegment( position : int ) : Segment
 		{
 			return WallArray[position];
 		}
 		
 		public function destroyWall() : void
 		{
-			for (var i  : int = 1; i <= taille; i++)
+			for (var i  : int = 1; i <= WallArray.length; i++)
 			{
 				WallArray[i - 1] = null;
 			}

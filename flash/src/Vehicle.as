@@ -12,24 +12,23 @@
 		
 		public function Vehicle () 
 		{
-			trace("Nouveau Vehicle cree = erreur");
 		}
 		
 		public function getSpeed() : Number
 		{
-			trace("Renvoi de speed");
+			//trace("Renvoi de speed");
 			return speed;
 		}
 		
 		public function getWidth() : Number
 		{
-			trace("Renvoi de width");
+			//trace("Renvoi de width");
 			return width;
 		}
 		
 		public function getHeight() : Number
 		{
-			trace("Renvoi de height");
+			//trace("Renvoi de height");
 			return height;
 		}
 	}

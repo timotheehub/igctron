@@ -10,7 +10,7 @@
     </source-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Documents and Settings\12\Bureau\IGCTron\flash\src\Player.as</path-element>
+    <path-element>C:\Documents and Settings\12\Bureau\IGCTron\flash\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>60</default-frame-rate>
