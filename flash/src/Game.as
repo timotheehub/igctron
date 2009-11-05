@@ -20,7 +20,7 @@
 			}
 		}
 		
-		public function getplayercount (void) : int
+		public function getplayercount () : int
 		{
 			return players.length;
 		}
@@ -41,7 +41,7 @@
 			/*create a new wall and tells the wall who is its player*/
 		}
 		
-		public function getwallcount (void) : int
+		public function getwallcount () : int
 		{
 			return walls.length;
 		}
