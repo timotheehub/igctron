@@ -32,6 +32,11 @@
 			
 			game = new Game();
 			
+			game.addPlayer( new Player( game, 300, 400, true, Player.DIRECTION_UP ) );
+			game.addPlayer( new Player( game, 400, 400, false, Player.DIRECTION_UP ) );
+			game.addPlayer( new Player( game, 500, 400, false, Player.DIRECTION_UP ) );
+			game.addPlayer( new Player( game, 600, 400, false, Player.DIRECTION_UP ) );
+			
 			stage.addEventListener( Event.ENTER_FRAME, loop );
 		}
 		
