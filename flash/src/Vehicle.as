@@ -10,7 +10,7 @@
 		protected var width:Number = 10;
 		protected var height:Number = 10;
 		
-		public function Vehicle() 
+		public function Vehicle () 
 		{
 			trace("Nouveau Vehicle cree = erreur");
 		}

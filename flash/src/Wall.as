@@ -9,7 +9,7 @@
 	 */
 	public class Wall
 	{
-		var WallArray:Array;
+		private var WallArray:Array;
 		private var taille:int = 0;
 		
 		public function Wall( MyPlayer : Player) 
@@ -17,7 +17,7 @@
 			MyPlayer.setWall(this);
 		}
 		
-		public function InsertSegment( x1, y1, x2, y2 : Number ) : void // format d'entrée ?
+		public function InsertSegment( x1 : Number, y1 : Number, x2 : Number, y2 : Number ) : void // format d'entrée ?
 		{
 			var Seg:Segment = new Segment(x1, y1, x2, y2);
 			
@@ -25,12 +25,11 @@
 			taille++;
 		}
 		
-		public function CheckWallCollision ( x1, y1, x2, y2 : Number ) : Boolean
+		public function CheckWallCollision ( x1 : Number, y1 : Number, x2 : Number, y2 : Number ) : Boolean
 		{
-			var i : int;
-			for (i = 0; i <= taille; i++)
+			for (var i : int = 0; i <= taille; i++)
 			{
-				if (CheckSegmentCollision(x1, y1, x2, y2) == true)
+				if (WallArray[i].CheckSegmentCollision(x1, y1, x2, y2) == true)
 				{
 					return true;
 				}
@@ -49,9 +48,9 @@
 			return WallArray[position];
 		}
 		
-		public function destroyWall()
+		public function destroyWall() : void
 		{
-			for ( i = 1; i <= taille; i++)
+			for (var i  : int = 1; i <= taille; i++)
 			{
 				WallArray[i - 1] = null;
 			}

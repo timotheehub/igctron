@@ -2,6 +2,7 @@
 {
 	import flash.display.Bitmap;
 	import flash.geom.Rectangle;
+	import flash.display.BitmapData;
 	/**
 	 * Moto ! On utilise une image en attendant le modele 3D
 	 * @author thibautp
@@ -18,7 +19,7 @@
 			speed = 1.0;
 			height = 15;
 			width = 15;
-			Main.stage.addChild(image);
+			/*Main.stage.addChild(image);*/
 		}
 		
 		/**
