@@ -64,12 +64,12 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe en définissant une police "Verdana" de taille 12.
+			Instancie la classe en dï¿½finissant une police "Verdana" de taille 12.
 		*/
 		IFont( Engine* _engine );
 
 		/*
-			Libère les ressources.
+			Libï¿½re les ressources.
 		*/
 		~IFont();
 
@@ -80,27 +80,27 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie un pointeur vers le moteur associé à cet objet.
+			Renvoie un pointeur vers le moteur associï¿½ ï¿½ cet objet.
 		*/
 		Engine* getEngine();
 
 		/*
-			Renvoie le renderer associé à ce modèle.
+			Renvoie le renderer associï¿½ ï¿½ ce modï¿½le.
 		*/
 		IRenderer* getRenderer();
 
 		/*
-			Spécifie le nom de la police à utiliser.
+			Spï¿½cifie le nom de la police ï¿½ utiliser.
 		*/
-		void setName( char* _name );
+		void setName( const char* _name );
 
 		/*
-			Renvoie le nom de la police utilisée.
+			Renvoie le nom de la police utilisï¿½e.
 		*/
 		char* getName() { return name; };
 
 		/*
-			Spécifie la taille de la police.
+			Spï¿½cifie la taille de la police.
 		*/
 		void setSize( int _size );
 
@@ -110,7 +110,7 @@ namespace IGC
 		int getSize() { return size; };
 
 		/*
-			Spécifie si la police est en gras ou non.
+			Spï¿½cifie si la police est en gras ou non.
 		*/
 		void setBold( bool _bold );
 
@@ -120,7 +120,7 @@ namespace IGC
 		bool getBold() { return bold; };
 
 		/*
-			Spécifie si la police est en italique ou non.
+			Spï¿½cifie si la police est en italique ou non.
 		*/
 		void setItalic( bool _italic );
 
@@ -136,7 +136,7 @@ namespace IGC
 	public:
 
 		/*
-			Force la génération des ressources pour cette police.
+			Force la gï¿½nï¿½ration des ressources pour cette police.
 		*/
 		virtual void update() = 0;
 

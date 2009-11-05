@@ -174,7 +174,7 @@ namespace IGC
 /** FONCTIONS                                                                     **/
 /***********************************************************************************/
 
-inline static void _assert( bool predicate, char* file, int line, const char* message )
+inline static void _assert( bool predicate, const char* file, int line, const char* message )
 {
 	if ( !predicate )
 	{

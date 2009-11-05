@@ -290,7 +290,7 @@ namespace IGC
 
 		if ( mesh3ds == NULL || mesh3ds->vertices == 0 ) return;
 
-		// décompte du nombre de matériaux
+		// dï¿½compte du nombre de matï¿½riaux
 		{
 			int materials[255];
 
@@ -314,27 +314,27 @@ namespace IGC
 
 			if ( count > 1 )
 			{
-				// TODO : scinder le modèle en plusieurs autres, un par matériau
+				// TODO : scinder le modï¿½le en plusieurs autres, un par matï¿½riau
 			}
 		}
 
-		// création du maillage pour ce modèle 3d
+		// crï¿½ation du maillage pour ce modï¿½le 3d
 
 		IMesh* mesh = model->newMesh();
 
-		// définition des propriétés du maillage
+		// dï¿½finition des propriï¿½tï¿½s du maillage
 
 		mesh->hasVertices = true;
 		mesh->hasNormals = (mesh3ds->faces != 0);
 		mesh->hasColors = true;
 		mesh->hasTexcoords = (mesh3ds->texcos != 0);
 
-		// allocation de la mémoire
+		// allocation de la mï¿½moire
 
 		mesh->setVertexCount( mesh3ds->nvertices );
 		mesh->setFaceCount( mesh3ds->nfaces );
 
-		// copie des données
+		// copie des donnï¿½es
 
 		{
 			float (*vertices3ds)[3] = mesh3ds->vertices;
@@ -377,7 +377,7 @@ namespace IGC
 			}
 		}
 
-		// synchro des données en mémoire vidéo
+		// synchro des donnï¿½es en mï¿½moire vidï¿½o
 
 		mesh->update();
 	}
@@ -397,7 +397,7 @@ namespace IGC
 		}
 	}
 
-	void IModel::import( char* _path )
+	void IModel::import( const char* _path )
 	{
 		Lib3dsFile* file;
 

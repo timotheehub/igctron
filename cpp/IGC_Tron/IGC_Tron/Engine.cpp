@@ -22,6 +22,7 @@
 /***********************************************************************************/
 
 #include "Engine.h"
+#include "Factory.h"
 
 #ifdef _WIN32
 	#include <windows.h>

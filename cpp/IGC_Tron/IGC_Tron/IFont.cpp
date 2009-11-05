@@ -80,7 +80,7 @@ namespace IGC
 		return renderer;
 	}
 
-	void IFont::setName( char* _name )
+	void IFont::setName( const char* _name )
 	{
 		name = (char*)realloc( name, (strlen( _name ) + 1) * sizeof(char) );
 		strcpy( name, _name );

@@ -156,7 +156,7 @@ namespace IGC
 			Affiche du texte � la position absolue sp�cifi�e avec la couleur sp�cifi�e en fonction de la police
 			qui aura pr�c�demment �t� d�finie.
 		*/
-		virtual void drawText( char* _text, int _x, int _y, float _r, float _g, float _b, float _a ) = 0;
+		virtual void drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a ) = 0;
 
 	};
 }

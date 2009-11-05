@@ -110,7 +110,7 @@ namespace IGC
 			Instancie cette classe dont le but est de centraliser la gestion des
 			ressources en m�moire.
 		*/
-		Factory( Engine* _engine );
+		Factory( Engine* const _engine );
 
 		/*
 			Lib�re les ressources encore allou�es en m�moire.

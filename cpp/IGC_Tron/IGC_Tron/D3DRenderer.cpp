@@ -265,7 +265,7 @@ namespace IGC
 			D3DCOLOR_XRGB( (int)(_r * 255.0f), (int)(_g * 255.0f), (int)(_b * 255.0f) ), _depth, 0 );
 	}
 
-	void D3DRenderer::drawText( char* _text, int _x, int _y, float _r, float _g, float _b, float _a )
+	void D3DRenderer::drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a )
 	{
 		_assert( lpFont != NULL, __FILE__, __LINE__,
 			"D3DRenderer::drawText() : Invalid font, NULL pointer." );
