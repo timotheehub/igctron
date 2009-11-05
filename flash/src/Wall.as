@@ -48,9 +48,9 @@
 			return WallArray[position];
 		}
 		
-		public function destroyWall();
+		public function destroyWall()
 		{
-			for ( i=; i<=taille; i++)
+			for ( i = 1; i <= taille; i++)
 			{
 				WallArray[i - 1] = null;
 			}
