@@ -41,7 +41,7 @@
 			vehicle = new Motorbike();			
 			
 			if( isHuman )
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+				game.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
 		
 		private function keyDown(e : KeyboardEvent) : void
@@ -86,10 +86,10 @@
 				y1 = y - vehicle.getHeight() / 2;
 			}
 			
-			if( game.check_collision(id, x0, y0, x1, y1) )
+			if( game.check_collision(x0, y0, x1, y1) )
 			{
 				// Mort
-				stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+				game.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 				isDead = true;
 				trace('le player ' + id + 'est mort');
 				wall.destroyWall();
