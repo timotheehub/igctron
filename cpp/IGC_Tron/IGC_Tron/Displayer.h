@@ -1,7 +1,26 @@
 // Displayer.h
 // Définition de la classe Displayer
-/*
-#include "singleton.h"
+
+#ifndef __DISPLAYER_H__
+#define __DISPLAYER_H__
+
+#include "Singleton.h"
+
+#include "Common.h"
+#include "Engine.h"
+#include "W32Window.h"
+#include "X11Window.h"
+#include "D3DRenderer.h"
+#include "D3DCamera.h"
+#include "D3DMesh.h"
+#include "D3DModel.h"
+#include "D3DFont.h"
+#include "OGLRenderer.h"
+#include "OGLCamera.h"
+#include "OGLMesh.h"
+#include "OGLModel.h"
+#include "OGLFont.h"
+
 using namespace IGC;
 
 class Displayer : public Singleton<Displayer>
@@ -22,8 +41,12 @@ public:
 	void FreeMemory ( );
 
 	// AddPlane, AddMoto
-	// DrawPlane, AddPlane
-	// Pour plus tard, mesh
+	// DrawPlane, DrawMoto
+	// Pour plus tard, AddMesh
+	void LoadScene ( );
+	void UnloadScene ( );
+	
+	bool running;
 
 private:
 	// Constructeur
@@ -47,8 +70,9 @@ private:
 	Factory* factory;
 	Window* window;
 	Renderer* renderer;
-	Camera* camera;    // Temporaire
-	Model* model;      // Temporaire
-	Font* font;        // Temporaire
+	Camera *camera;
+	Model* model;
+	Font* font;
 };
-*/
+
+#endif // __DISPLAYER_H__
