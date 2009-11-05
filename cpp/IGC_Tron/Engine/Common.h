@@ -20,17 +20,23 @@
 #ifndef _COMMON
 #define _COMMON
 
-#pragma warning (disable : 4251)
+#ifdef _WIN32
+	#pragma warning (disable : 4251)
+#endif
 
 /***********************************************************************************/
 /** DEFINITIONS                                                                   **/
 /***********************************************************************************/
 
-#define USE_WIN32
-// #define USE_X11
+#ifdef _WIN32
+	#define USE_WIN32
+	#define USE_DIRECT3D
+	//#define USE_OPENGL
+#else
+	#define USE_X11
+	#define USE_OPENGL
+#endif
 
-#define USE_DIRECT3D
-// #define USE_OPENGL
 
 #ifndef _WIN32_WINNT
 	#define _WIN32_WINNT 0x400
@@ -145,6 +151,7 @@ namespace IGC
 	#include <stdarg.h>
 	#include <stdio.h>
 	#include <string.h>
+	#include <stdlib.h>
 #endif
 
 /***********************************************************************************/
@@ -173,8 +180,12 @@ inline static void _assert( bool predicate, char* file, int line, char* message 
 	{
 		printf( "Error in %s, line %d : %s\n\n", file, line, message );
 
-		system( "pause" );
 
+#ifdef _WIN32
+		system( "pause" );
+#else
+		system( "read" ); // TODO : This is workaround.
+#endif
 		exit( -1 );
 	}
 }
