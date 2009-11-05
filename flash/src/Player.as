@@ -53,42 +53,57 @@
 			
 			direction = (direction < 0) ? 3 : direction;
 			direction = (direction > 3) ? 0 : direction;
+			
+			wall.insertSegment( x, y, x, y );
 		}
 		
 		public function update() : void
 		{
 			var newX : Number = x;
 			var newY : Number = y;
-			var x0 : Number;
-			var y0 : Number;
-			var x1 : Number;
-			var y1 : Number;
+			var x0 : Number = 0;
+			var y0 : Number = 0;
+			var x1 : Number = 0;
+			var y1 : Number = 0;
 			
 			if( direction == DIRECTION_LEFT )
 			{
 				newX += vehicle.getSpeed();
 				x0 = x - vehicle.getWidth() / 2;
 				x1 = newX + vehicle.getWidth() / 2;
+				y0 = y - vehicle.getHeight() / 2;
+				y1 = newY + vehicle.getHeight() / 2;
 			}
 			else if( direction == DIRECTION_RIGHT )
 			{
 				newX -= vehicle.getSpeed();
 				x0 = newX - vehicle.getWidth() / 2;
 				x1 = x + vehicle.getWidth() / 2;
+				y0 = newY + vehicle.getHeight() / 2;
+				y1 = y - vehicle.getHeight() / 2;
 			}
 			else if( direction == DIRECTION_DOWN )
 			{
 				newY += vehicle.getSpeed();
+				x0 = x - vehicle.getWidth() / 2;
+				x1 = newX + vehicle.getWidth() / 2;
 				y0 = y - vehicle.getHeight() / 2;
 				y1 = newY + vehicle.getHeight() / 2;
 			}
 			else if( direction == DIRECTION_UP )
 			{
 				newY -= vehicle.getSpeed();
+				x0 = newX - vehicle.getWidth() / 2;
+				x1 = x + vehicle.getWidth() / 2;
 				y0 = newY + vehicle.getHeight() / 2;
 				y1 = y - vehicle.getHeight() / 2;
 			}
 			
+			var lastSegment : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
+			
+			lastSegment.x1 = newX;
+			lastSegment.y1 = newY;
+			trace ( x0 + " ; " + y0 + " ; " + x1 + " ; " + y1);
 			if( game.check_collision(x0, y0, x1, y1) )
 			{
 				// Mort
@@ -108,6 +123,8 @@
 		public function setWall( _wall : Wall ) : void
 		{
 			wall = _wall;
+			
+			wall.insertSegment( x, y, x, y );
 		}
 	}
 

@@ -47,6 +47,7 @@
 			objects.graphics.clear();
 			
 			objects.graphics.beginFill( 0xFFFFFF, 1.0 );
+			objects.graphics.lineStyle( 1, 0xFFFFFF, 1 );
 			
 			for ( var k : int = 0 ; k < game.getPlayerCount() ; k++ )
 			{
