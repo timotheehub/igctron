@@ -30,7 +30,7 @@
 			
 			addChild( objects = new Shape() );
 			
-			game = new Game();
+			game = new Game( stage );
 			
 			game.addPlayer( new Player( game, 300, 400, true, Player.DIRECTION_UP ) );
 			game.addPlayer( new Player( game, 400, 400, false, Player.DIRECTION_UP ) );
