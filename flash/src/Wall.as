@@ -27,6 +27,7 @@
 		
 		public function CheckWallCollision ( x1, y1, x2, y2 : Number ) : Boolean
 		{
+			var i : int;
 			for (i = 0; i <= taille; i++)
 			{
 				if (CheckSegmentCollision(x1, y1, x2, y2) == true)

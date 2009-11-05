@@ -1,5 +1,6 @@
 ﻿package  
 {
+	import flash.display.Stage;
 	import flash.errors.IOError;
 	/**
 	 * ...
@@ -12,8 +13,12 @@
 		private var players : Array = new Array (0);
 		private var walls : Array = new Array (0);
 		
-		public function Game () 
+		public var stage : Stage;
+		
+		public function Game ( _stage : Stage ) 
 		{
+			stage = _stage;
+			
 			for (var i : int = 0; i < players.length; i++)
 			{
 				players [i].update ();
