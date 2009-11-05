@@ -6,8 +6,8 @@
 	 */
 	public class Vehicle
 	{
-		private x:int;
-		private y:int;
+		private x:Number;
+		private y:Number;
 		
 		
 		
