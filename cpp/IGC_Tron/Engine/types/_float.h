@@ -4,6 +4,7 @@
 
 #include <math.h>
 
+#ifdef _WIN32
 static inline float fminf( float a, float b )
 {
 	return a < b ? a : b;
@@ -13,6 +14,7 @@ static inline float fmaxf( float a, float b )
 {
 	return a > b ? a : b;
 }
+#endif
 
 static inline float rsqrtf( float x )
 {

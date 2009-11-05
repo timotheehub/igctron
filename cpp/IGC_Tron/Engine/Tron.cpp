@@ -37,7 +37,9 @@
 #include "OGLModel.h"
 #include "OGLFont.h"
 
-#pragma warning (disable : 4996)
+#ifdef _WIN32
+	#pragma warning (disable : 4996)
+#endif
 
 /***********************************************************************************/
 /** DEBUG                                                                         **/

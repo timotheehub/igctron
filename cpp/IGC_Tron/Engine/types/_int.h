@@ -3,6 +3,7 @@
 #define _INT
 
 #include <math.h>
+#include <stdlib.h>
 
 static inline int min( int a, int b )
 {

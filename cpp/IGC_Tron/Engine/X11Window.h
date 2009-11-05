@@ -17,7 +17,7 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /**************************************************************************/
 
-// TODO : appeler les callbacks stockées dans closeCallbacks, keyUpCallbacks, ...
+// TODO : appeler les callbacks stockï¿½es dans closeCallbacks, keyUpCallbacks, ...
 
 #ifndef _WIN32
 
@@ -53,7 +53,7 @@ namespace IGC
 
 		Display* dpy;
 
-		IWindow win;
+		Window win;
 
 		int screen;
 
@@ -84,7 +84,7 @@ namespace IGC
 		X11Window( Engine* _engine );
 
 		/*
-			Libère les ressources internes.
+			Libï¿½re les ressources internes.
 		*/
 		virtual ~X11Window();
 
@@ -95,17 +95,17 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie un pointeur vers la structure Display associée à cette fenêtre.
+			Renvoie un pointeur vers la structure Display associï¿½e ï¿½ cette fenï¿½tre.
 		*/
 		Display* getDisplay() { return dpy; }
 
 		/*
-			Renvoie un pointeur vers la structure IWindow associée à cette fenêtre.
+			Renvoie un pointeur vers la structure IWindow associï¿½e ï¿½ cette fenï¿½tre.
 		*/
-		IWindow getWindow() { return win; }
+		Window getWindow() { return win; }
 
 		/*
-			Renvoie un pointeur vers la structure XVisualInfo associée à cette fenêtre.
+			Renvoie un pointeur vers la structure XVisualInfo associï¿½e ï¿½ cette fenï¿½tre.
 		*/
 		XVisualInfo* getVisualInfo() { return vi; }
 
@@ -116,17 +116,17 @@ namespace IGC
 	public:
 
 		/*
-			Crée la fenêtre si nécessaire puis l'affiche.
+			Crï¿½e la fenï¿½tre si nï¿½cessaire puis l'affiche.
 		*/
 		virtual void show();
 
 		/*
-			Cache la fenêtre.
+			Cache la fenï¿½tre.
 		*/
 		virtual void hide();
 
 		/*
-			Met à jour les dimensions de la fenêtre.
+			Met ï¿½ jour les dimensions de la fenï¿½tre.
 		*/
 		void updateGeometry();
 		
