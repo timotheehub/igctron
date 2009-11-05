@@ -3,7 +3,7 @@
 	import flash.display.Bitmap;
 	import flash.geom.Rectangle;
 	/**
-	 * Moto !
+	 * Moto ! On utilise une image en attendant le modele 3D
 	 * @author thibautp
 	 */
 	public class Motorbike extends Vehicle
@@ -16,6 +16,8 @@
 			trace("Nouveau Motorbike cree");
 			image = new Bitmap(new BitmapData(15, 15, false, 0xFFFF00));
 			speed = 1.0;
+			height = 15;
+			width = 15;
 			Main.stage.addChild(image);
 		}
 		
@@ -23,8 +25,9 @@
 		 * Renvoie l'objet graphique representant la moto
 		 * @return Un Bitmap colore :)
 		 */
-		public function get image() : Bitmap
+		public function getImage() : Bitmap
 		{
+			trace("Renvoi de image");
 			return image;
 		}
 
