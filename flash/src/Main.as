@@ -46,11 +46,17 @@
 			
 			objects.graphics.clear();
 			
+			objects.graphics.beginFill( 0xFFFFFF, 1.0 );
+			
 			for ( var k : int = 0 ; k < game.getPlayerCount() ; k++ )
 			{
 				var player : Player = game.getPlayer(k);
 				
-				objects.graphics.drawCircle( player.x, player.y, 6 );
+				//objects.graphics.drawCircle( player.x, player.y, 6 );
+				objects.graphics.moveTo( player.x - 7, player.y - 7 );
+				objects.graphics.lineTo( player.x - 7, player.y + 7 );
+				objects.graphics.lineTo( player.x + 7, player.y + 7 );
+				objects.graphics.lineTo( player.x + 7, player.y - 7 );
 			}
 			
 			for ( var p : int = 0 ; p < game.getWallCount() ; p++ )
@@ -68,7 +74,7 @@
 				}
 			}
 			
-			
+			objects.graphics.endFill();
 		}
 		
 	}

@@ -7,16 +7,16 @@
 	import flash.events.KeyboardEvent;
 	public class Player
 	{
-		public const KEY_LEFT : uint = 37;
-		public const KEY_RIGHT : uint = 39;
+		public static const KEY_LEFT : uint = 37;
+		public static const KEY_RIGHT : uint = 39;
 		
-		public const DIRECTION_LEFT : int = 0;
-		public const DIRECTION_DOWN : int = 1;
-		public const DIRECTION_RIGHT : int = 2;
-		public const DIRECTION_UP : int = 3;
+		public static const DIRECTION_LEFT : int = 0;
+		public static const DIRECTION_DOWN : int = 1;
+		public static const DIRECTION_RIGHT : int = 2;
+		public static const DIRECTION_UP : int = 3;
 		
-		private var x : Number;
-		private var y : Number;
+		public var x : Number;
+		public var y : Number;
 		private var game : Game;
 		private var vehicle : Motorbike;
 		private var wall : Wall;

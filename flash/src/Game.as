@@ -18,45 +18,38 @@
 		public function Game ( _stage : Stage ) 
 		{
 			stage = _stage;
-			
-			for (var i : int = 0; i < players.length; i++)
-			{
-				players [i].update ();
-			}
 		}
 		
-		public function getplayercount () : int
+		public function getPlayerCount () : int
 		{
 			return players.length;
 		}
 		
-		public function getplayer (id : int) : Player
+		public function getPlayer (id : int) : Player
 		{
 			return players [id];
 		}
 		
-		public function addplayer (new_player : Player) : void
+		public function addPlayer (new_player : Player) : void
 		{
-			players.push ();
-			players [players.length - 1] = new_player;
+			players.push ( new_player );
 			/*create a new player*/
 			
-			walls.push ();
-			walls [walls.length - 1].Wall (new_player);
+			walls.push ( new Wall( new_player ) );
 			/*create a new wall and tells the wall who is its player*/
 		}
 		
-		public function getwallcount () : int
+		public function getWallCount () : int
 		{
 			return walls.length;
 		}
 		
-		public function getwall (id : int) : Wall
+		public function getWall (id : int) : Wall
 		{
 			return walls [id];
 		}
 		
-		public function addwall (new_wall : Wall) : void
+		public function addWall (new_wall : Wall) : void
 		{
 			walls.push (new_wall);
 		}
@@ -68,7 +61,7 @@
 			
 			for (var i : int = 0; i < walls.length; i++)
 			{
-				if ((collision = walls [i].CheckWallCollision (x0, y0, x1, y1)))
+				if ((collision = walls [i].checkWallCollision (x0, y0, x1, y1)))
 				{
 					break;
 				}
@@ -76,6 +69,14 @@
 			
 			return collision;
 					
+		}
+		
+		public function update() : void
+		{
+			for (var i : int = 0; i < players.length; i++)
+			{
+				players[i].update ();
+			}
 		}
 		
 	}
