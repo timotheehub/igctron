@@ -24,6 +24,7 @@
 #include "Common.h"
 
 #include "Engine.h"
+#include "Factory.h"
 #include "W32Window.h"
 #include "X11Window.h"
 #include "D3DRenderer.h"
@@ -68,11 +69,11 @@ const float MOVE_SPEED = 50.0f;
 
 Engine* engine = NULL;
 Factory* factory = NULL;
-Window* window = NULL;
+IGC::Window* window = NULL;
 Renderer* renderer = NULL;
 Camera* camera = NULL;
 Model* model = NULL;
-Font* font = NULL;
+IGC::Font* font = NULL;
 
 bool running;
 
@@ -209,7 +210,7 @@ void mainLoop()
 
 void initWindow()
 {
-	window = new Window( engine );
+	window = new IGC::Window( engine );
 
 	window->setLeft( 120 );
 	window->setTop( 80 );
@@ -268,7 +269,7 @@ void initRenderer()
 	camera->lookAt( 0.0f, 0.0f, -50.0f );
 	camera->update();
 
-	font = factory->acquire( (Font*)NULL );
+	font = factory->acquire( (IGC::Font*)NULL );
 
 	font->setName( "Verdana" );
 	font->setSize( 12 );

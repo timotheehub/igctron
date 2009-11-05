@@ -25,7 +25,6 @@
 /***********************************************************************************/
 
 #include "Common.h"
-#include "Factory.h"
 #include "D3DRenderer.h"
 #include "OGLRenderer.h"
 #include "W32Window.h"
@@ -35,6 +34,8 @@
 
 namespace IGC
 {
+	class Factory;
+
 	class Engine
 	{
 
@@ -76,12 +77,12 @@ namespace IGC
 	public:
 
 		/*
-			Instancie cette classe dont le but est de centraliser l'accès aux objets communs du moteur.
+			Instancie cette classe dont le but est de centraliser l'accï¿½s aux objets communs du moteur.
 		*/
 		Engine();
 
 		/*
-			Détruit la factory.
+			Dï¿½truit la factory.
 		*/
 		~Engine();
 
@@ -92,38 +93,38 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie la factory associée à cette instance.
+			Renvoie la factory associï¿½e ï¿½ cette instance.
 		*/
 		Factory* getFactory();
 
 		/*
-			Renvoie le renderer associé à cette instance ou NULL si celui-ci n'a pas encore été créé.
+			Renvoie le renderer associï¿½ ï¿½ cette instance ou NULL si celui-ci n'a pas encore ï¿½tï¿½ crï¿½ï¿½.
 		*/
 		Renderer* getRenderer();
 
 		/*
 		getWindow()
-			Renvoie la fenêtre associée à cette instance ou NULL si celle-ci n'a pas encore été créée.
+			Renvoie la fenï¿½tre associï¿½e ï¿½ cette instance ou NULL si celle-ci n'a pas encore ï¿½tï¿½ crï¿½ï¿½e.
 		*/
 		Window* getWindow();
 
 		/*
-			Renvoie le nombre de secondes écoulé depuis le démarrage du système.
+			Renvoie le nombre de secondes ï¿½coulï¿½ depuis le dï¿½marrage du systï¿½me.
 		*/
 		double getTime();
 
 		/*
-			Renvoie le temps écoulé pour calculer et afficher la dernière frame (en secondes)
+			Renvoie le temps ï¿½coulï¿½ pour calculer et afficher la derniï¿½re frame (en secondes)
 		*/
 		double getDelta();
 
 		/*
-			Renvoie le nombre de frames affichées lors de la dernière seconde.
+			Renvoie le nombre de frames affichï¿½es lors de la derniï¿½re seconde.
 		*/
 		double getCurrentFramerate();
 
 		/*
-			Renvoie le nombre moyen de frames affichées par seconde depuis l'instanciation de cette classe.
+			Renvoie le nombre moyen de frames affichï¿½es par seconde depuis l'instanciation de cette classe.
 		*/
 		double getAverageFramerate();
 
@@ -134,7 +135,7 @@ namespace IGC
 	public:
 
 		/*
-			Met à jour l'ensemble des variables temporelles. Doit être appelée une fois par frame.
+			Met ï¿½ jour l'ensemble des variables temporelles. Doit ï¿½tre appelï¿½e une fois par frame.
 		*/
 		void update();
 

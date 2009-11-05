@@ -64,16 +64,18 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	Factory::Factory( Engine* _engine )
+	Factory::Factory( Engine* const _engine )
 	{
 		engine = _engine;
 
 		srand( (uint)time( NULL ) );
 
+#ifdef _WIN32
 		tableByName.set_empty_key( "AAAAAAAAAAAA" );
 		tableByAddr.set_empty_key( (void*)0x00000000 );
 		tableByName.set_deleted_key( "ZZZZZZZZZZZZ" );
 		tableByAddr.set_deleted_key( (void*)0xFFFFFFFF );
+#endif
 	}
 
 	Factory::~Factory()
@@ -86,7 +88,7 @@ namespace IGC
 
 			free( o->name );
 
-			delete o->addr;
+			//delete o->addr;
 
 			delete o;
 

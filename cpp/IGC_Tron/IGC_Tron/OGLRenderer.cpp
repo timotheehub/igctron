@@ -143,7 +143,7 @@ namespace IGC
 
 		Display* dpy = window->getDisplay();
 		XVisualInfo* vi = window->getVisualInfo();
-		IWindow win = window->getWindow();
+		::Window win = window->getWindow();
 
 		ctx = glXCreateContext( dpy, vi, 0, GL_TRUE );
 
@@ -265,7 +265,7 @@ namespace IGC
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	}
 
-	void OGLRenderer::drawText( char* _text, int _x, int _y, float _r, float _g, float _b, float _a )
+	void OGLRenderer::drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a )
 	{
 		glMatrixMode( GL_PROJECTION );
 		glLoadIdentity();

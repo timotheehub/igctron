@@ -28,7 +28,11 @@
 
 #include "IRenderer.h"
 
-#include <glew.h>
+#ifdef _WIN32
+	#include <glew.h>
+#else
+	#include <GL/glew.h>
+#endif
 #include <GL/gl.h>			// Header File For The OpenGL32 Library
 #include <GL/glu.h>			// Header File For The GLu32 Library
 
@@ -133,7 +137,7 @@ namespace IGC
 			Affiche du texte � la position absolue sp�cifi�e avec la couleur sp�cifi�e en fonction de la police
 			qui aura pr�c�demment �t� d�finie.
 		*/
-		virtual void drawText( char* _text, int _x, int _y, float _r, float _g, float _b, float _a );
+		virtual void drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a );
 
 	};
 }

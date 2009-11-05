@@ -89,19 +89,21 @@ namespace IGC
 #else
 		glFontList = glGenLists(96);
 
-		/* TODO : Comment on spécifie la police qu'on veut sans passer par une chaine de caractères immonde ? */
-		XFontStruct* font = XLoadQueryFont( dpy, "-*-helvetica-bold-r-normal--24-*-*-*-p-*-iso8859-1" );
+		X11Window* window = (X11Window*)renderer->getEngine()->getWindow();
+
+		/* TODO : Comment on spï¿½cifie la police qu'on veut sans passer par une chaine de caractï¿½res immonde ? */
+		XFontStruct* font = XLoadQueryFont(window->getDisplay() , "-*-helvetica-bold-r-normal--24-*-*-*-p-*-iso8859-1" );
 
 		if ( font == NULL )
 		{
-			font = XLoadQueryFont( dpy, "fixed" );
+			font = XLoadQueryFont( window->getDisplay(), "fixed" );
 
 			_assert( font != NULL, __FILE__, __LINE__, "OGLRenderer::initialize() : Unable to load any font." );
 		}
 
 		glXUseXFont( font->fid, 32, 96, glFontList );
 
-		XFreeFont( dpy, font );
+		XFreeFont( window->getDisplay(), font );
 #endif
 
 		dirty = false;

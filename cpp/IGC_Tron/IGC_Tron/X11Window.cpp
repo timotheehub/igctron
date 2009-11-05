@@ -135,7 +135,7 @@ namespace IGC
 		if ( fullscreen )
 		{
 			XF86VidModeSwitchToMode( dpy, screen, modes[best_mode] );
-			XF86VidModeSetViewPoint( dpy, screen, 0, 0 );
+			XF86VidModeSetViewPort( dpy, screen, 0, 0 );
 
 			int dpyWidth = modes[best_mode]->hdisplay;
 			int dpyHeight = modes[best_mode]->vdisplay;
@@ -163,7 +163,7 @@ namespace IGC
 
 			Atom wmDelete = XInternAtom( dpy, "WM_DELETE_WINDOW", True );
 			XSetWMProtocols( dpy, win, &wmDelete, 1 );
-			XSetStandardPropeigcies( dpy, win, "igc", "igc", None, NULL, 0, NULL );
+			XSetStandardProperties( dpy, win, "igc", "igc", None, NULL, 0, NULL );
 			XMapRaised( dpy, win );
 		}
 
@@ -175,7 +175,7 @@ namespace IGC
 		if ( fullscreen )
 		{
 			XF86VidModeSwitchToMode( dpy,  screen, & desk_mode );
-			XF86VidModeSetViewPoint( dpy,  screen, 0, 0 );
+			XF86VidModeSetViewPort( dpy,  screen, 0, 0 );
 		}
 
 		XCloseDisplay( dpy );
@@ -201,7 +201,7 @@ namespace IGC
 
 	void X11Window::updateGeometry()
 	{
-		IWindow win_dummy;
+		::Window win_dummy;
 		uint border_dummy;
 
 		int x, y;

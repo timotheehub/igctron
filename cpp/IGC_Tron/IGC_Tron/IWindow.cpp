@@ -86,7 +86,7 @@ namespace IGC
 		return engine;
 	}
 
-	void IWindow::setTitle( char* _title )
+	void IWindow::setTitle( const char* _title )
 	{
 		title = (char*)realloc( title, (strlen( _title ) + 1) * sizeof(char) );
 		strcpy( title, _title );

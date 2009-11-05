@@ -81,13 +81,13 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et alloue la mémoire vidéo pour une surface de rendu dont la taille
-			correspond à celle de la fenêtre associée à _engine.
+			Instancie la classe et alloue la mï¿½moire vidï¿½o pour une surface de rendu dont la taille
+			correspond ï¿½ celle de la fenï¿½tre associï¿½e ï¿½ _engine.
 		*/
 		D3DRenderer( Engine* _engine );
 
 		/*
-			Libère la mémoire vidéo réservée pour une surface de rendu.
+			Libï¿½re la mï¿½moire vidï¿½o rï¿½servï¿½e pour une surface de rendu.
 		*/
 		virtual ~D3DRenderer();
 
@@ -98,14 +98,14 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie le device associé à cette instance ou NULL si celui-ci n'a pas encore été créé.
+			Renvoie le device associï¿½ ï¿½ cette instance ou NULL si celui-ci n'a pas encore ï¿½tï¿½ crï¿½ï¿½.
 		*/
 		LPDIRECT3DDEVICE9 getDevice();
 
 	private:
 
 		/*
-			Spécifie une police pour le prochain rendu de texte.
+			Spï¿½cifie une police pour le prochain rendu de texte.
 		*/
 		void setFont( LPD3DXFONT _lpFont );
 
@@ -121,25 +121,25 @@ namespace IGC
 		virtual void initialize();
 
 		/*
-			Libère toutes les ressources relatives à Direct3D.
+			Libï¿½re toutes les ressources relatives ï¿½ Direct3D.
 		*/
 		virtual void finalize();
 
 		/*
-			Met à jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
+			Met ï¿½ jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
 		*/
 		virtual void update();
 
 		/*
-			Remplit le back buffer de la couleur spécifiée et le depth buffer de la profondeur spécifiée.
+			Remplit le back buffer de la couleur spï¿½cifiï¿½e et le depth buffer de la profondeur spï¿½cifiï¿½e.
 		*/
 		virtual void clear( float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _depth = 1.0f );
 
 		/*
-			Affiche du texte à la position absolue spécifiée avec la couleur spécifiée en fonction de la police
-			qui aura précédemment été définie.
+			Affiche du texte ï¿½ la position absolue spï¿½cifiï¿½e avec la couleur spï¿½cifiï¿½e en fonction de la police
+			qui aura prï¿½cï¿½demment ï¿½tï¿½ dï¿½finie.
 		*/
-		virtual void drawText( char* _text, int _x, int _y, float _r, float _g, float _b, float _a );
+		virtual void drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a );
 
 	};
 }
