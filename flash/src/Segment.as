@@ -19,7 +19,7 @@
 			y1 = iy2;			
 		}
 				
-		public function checkSegmentCollision( _x1 : Number, _y1 : Number, _x2 : Number, _y2 : Number ) : Boolean
+		public function checkSegmentCollision( _x0 : Number, _y0 : Number, _x1 : Number, _y1 : Number ) : Boolean
 		{
 			var X : Number;
 			var x : Number;
@@ -27,15 +27,30 @@
 			var y : Number;
 			
 			if ( x0 <= x1 )
-			{ X = x1; x = x0 }
-			else {  x = x1; X = x0 }
+			{
+				X = x1;
+				x = x0;
+			}
+			else
+			{  
+				x = x1;
+				X = x0; 
+			}
 		
 			if ( y0 <= y1 )
-			{ Y = y1; y = y0 }
-			else {  y = y1; Y = y0 }
+			{ 
+				Y = y1; 
+				y = y0;
+			}
+			else 
+			{  
+				y = y1;
+				Y = y0;
+			}
 			
+			//trace ( "mur : " + x + " ; " + y + " ; " + X + " ; " + Y);
 			
-			if ((_x2 >= x && _x1 <= X) && (_y2 >= y && _y1 <= Y))
+			if ((_x1 > x && _x0 < X) && (_y1 > y && _y0 < Y))
 			{
 				return true;
 			}
