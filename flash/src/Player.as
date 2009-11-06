@@ -50,9 +50,9 @@
 			if ( ! isDead )
 			{
 				if( e.keyCode == KEY_LEFT )
-					direction--;
-				else if( e.keyCode == KEY_RIGHT )
 					direction++;
+				else if( e.keyCode == KEY_RIGHT )
+					direction--;
 				
 				direction = (direction < 0) ? 3 : direction;
 				direction = (direction > 3) ? 0 : direction;
