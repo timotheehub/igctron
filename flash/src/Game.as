@@ -8,7 +8,7 @@
 	 */
 	public class Game
 	{
-		public static var MAX_PLAYERS : int = 1;
+		public static var MAX_PLAYERS : int = 4;
 		
 		private var players : Array = new Array (0);
 		private var walls : Array = new Array (0);
@@ -61,7 +61,7 @@
 			
 			for (var i : int = 0; i < walls.length; i++)
 			{
-				if ((collision = walls [i].checkWallCollision (x0, y0, x1, y1, idPlayer, i)))
+				if ( (!players[idPlayer].isDead) && (collision = walls [i].checkWallCollision (x0, y0, x1, y1, idPlayer, i)))
 				{
 					break;
 				}
@@ -75,7 +75,10 @@
 		{
 			for (var i : int = 0; i < players.length; i++)
 			{
-				players[i].update ();
+				if (!players[i].isDead)
+				{
+					players[i].update ();
+				}
 			}
 		}
 		
