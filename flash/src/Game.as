@@ -54,14 +54,14 @@
 			walls.push (new_wall);
 		}
 		
-		public function check_collision (x0 : Number, y0 : Number, x1 : Number, y1 : Number) : Boolean
+		public function check_collision (x0 : Number, y0 : Number, x1 : Number, y1 : Number, idPlayer : Number) : Boolean
 		{ /* where (x0, y0) is the top left hand corner point and (x1, y1) the bottom right hand corner point */
 		
 			var collision : Boolean = false;
 			
 			for (var i : int = 0; i < walls.length; i++)
 			{
-				if ((collision = walls [i].checkWallCollision (x0, y0, x1, y1)))
+				if ((collision = walls [i].checkWallCollision (x0, y0, x1, y1, idPlayer, i)))
 				{
 					break;
 				}

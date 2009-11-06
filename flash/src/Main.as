@@ -34,7 +34,7 @@
 			
 			for ( var i : int = 0 ; i < Game.MAX_PLAYERS ; i++ )
 			{
-				game.addPlayer( new Player( game, i * 100 + 100, 100, true, Player.DIRECTION_UP ) );
+				game.addPlayer( new Player( game, i, i * 100 + 100, 100, true, Player.DIRECTION_UP ) );
 			}
 			stage.addEventListener( Event.ENTER_FRAME, loop );
 		}
@@ -66,7 +66,7 @@
 			{
 				var wall : Wall = game.getWall(p);
 				
-				objects.graphics.drawCircle( player.x, player.y, 6 );
+				//objects.graphics.drawCircle( player.x, player.y, 6 );
 				
 				for ( var q : int = 0 ; q < wall.getSegmentCount() ; q++ )
 				{

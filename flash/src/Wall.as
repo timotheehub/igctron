@@ -1,8 +1,6 @@
 ﻿package  
 {
 	
-	import Segment;
-	
 	/**
 	 * ...
 	 * @author ben
@@ -23,9 +21,16 @@
 			WallArray.push( Seg );
 		}
 		
-		public function checkWallCollision ( x1 : Number, y1 : Number, x2 : Number, y2 : Number ) : Boolean
+		public function checkWallCollision ( x1 : Number, y1 : Number, x2 : Number, y2 : Number, idPlayer : Number, idWall : Number ) : Boolean
 		{
-			for (var i : int = 0; i < WallArray.length; i++)
+			var lastSegment:int = WallArray.length;
+			
+			if ( idPlayer == idWall )
+			{
+				lastSegment -= 2; // no collision 
+			}
+			
+			for (var i : int = 0; i < lastSegment; i++)
 			{
 				if (WallArray[i].checkSegmentCollision(x1, y1, x2, y2) == true)
 				{

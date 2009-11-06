@@ -29,7 +29,7 @@
 		
 		private var bm : Bitmap;
 		
-		public function Player(_game:Game, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
+		public function Player(_game:Game, _id:Number, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
 		{
 			x = _x;
 			y = _y;
@@ -37,6 +37,7 @@
 			isHuman = _isHuman;
 			direction = _direction;
 			isDead = false;
+			id = _id;
 			
 			vehicle = new Motorbike();			
 			
@@ -109,7 +110,7 @@
 				lastSegment.y1 = newY;
 				
 				//trace ( "joueur : " + x0 + " ; " + y0 + " ; " + x1 + " ; " + y1);
-				if( game.check_collision(x0, y0, x1, y1) )
+				if( game.check_collision(x0, y0, x1, y1, id) )
 				{
 					// Mort
 					game.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
