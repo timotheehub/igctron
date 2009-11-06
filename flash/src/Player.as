@@ -24,7 +24,7 @@
 		private var id : int;
 		
 		private var isHuman : Boolean;
-		private var isDead : Boolean;
+		public var isDead : Boolean;
 		private var direction : int;
 		
 		private var bm : Bitmap;
@@ -45,85 +45,91 @@
 		}
 		
 		private function keyDown(e : KeyboardEvent) : void
-		{
-			if( e.keyCode == KEY_LEFT )
-				direction--;
-			else if( e.keyCode == KEY_RIGHT )
-				direction++;
-			
-			direction = (direction < 0) ? 3 : direction;
-			direction = (direction > 3) ? 0 : direction;
-			
-			wall.insertSegment( x, y, x, y );
+		{			
+			if ( ! isDead )
+			{
+				if( e.keyCode == KEY_LEFT )
+					direction--;
+				else if( e.keyCode == KEY_RIGHT )
+					direction++;
+				
+				direction = (direction < 0) ? 3 : direction;
+				direction = (direction > 3) ? 0 : direction;
+				
+				wall.insertSegment( x, y, x, y );
+			}
 		}
 		
 		public function update() : void
 		{
-			var newX : Number = x;
-			var newY : Number = y;
-			var x0 : Number = 0;
-			var y0 : Number = 0;
-			var x1 : Number = 0;
-			var y1 : Number = 0;
-			
-			if( direction == DIRECTION_LEFT )
+			if ( ! isDead )
 			{
-				newX += vehicle.getSpeed();
-				x0 = x - vehicle.getWidth() / 2;
-				x1 = newX + vehicle.getWidth() / 2;
-				y0 = y - vehicle.getHeight() / 2;
-				y1 = newY + vehicle.getHeight() / 2;
-			}
-			else if( direction == DIRECTION_RIGHT )
-			{
-				newX -= vehicle.getSpeed();
-				x0 = newX - vehicle.getWidth() / 2;
-				x1 = x + vehicle.getWidth() / 2;
-				y0 = newY + vehicle.getHeight() / 2;
-				y1 = y - vehicle.getHeight() / 2;
-			}
-			else if( direction == DIRECTION_DOWN )
-			{
-				newY += vehicle.getSpeed();
-				x0 = x - vehicle.getWidth() / 2;
-				x1 = newX + vehicle.getWidth() / 2;
-				y0 = y - vehicle.getHeight() / 2;
-				y1 = newY + vehicle.getHeight() / 2;
-			}
-			else if( direction == DIRECTION_UP )
-			{
-				newY -= vehicle.getSpeed();
-				x0 = newX - vehicle.getWidth() / 2;
-				x1 = x + vehicle.getWidth() / 2;
-				y0 = newY + vehicle.getHeight() / 2;
-				y1 = y - vehicle.getHeight() / 2;
-			}
-			
-			var lastSegment : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
-			
-			lastSegment.x1 = newX;
-			lastSegment.y1 = newY;
-			trace ( x0 + " ; " + y0 + " ; " + x1 + " ; " + y1);
-			if( game.check_collision(x0, y0, x1, y1) )
-			{
-				// Mort
-				game.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-				isDead = true;
-				trace('le player ' + id + 'est mort');
-				wall.destroyWall();
-			}
-			else
-			{
-				// Pas mort
-				x = newX;
-				y = newY;
+				var newX : Number = x;
+				var newY : Number = y;
+				var x0 : Number = 0;
+				var y0 : Number = 0;
+				var x1 : Number = 0;
+				var y1 : Number = 0;
+				
+				if( direction == DIRECTION_LEFT )
+				{
+					newX -= vehicle.getSpeed();
+					x0 = newX - vehicle.getWidth() / 2;
+					x1 = x + vehicle.getWidth() / 2;
+					y0 = y - vehicle.getHeight() / 2;
+					y1 = y + vehicle.getHeight() / 2;
+				}
+				else if( direction == DIRECTION_RIGHT )
+				{
+					newX += vehicle.getSpeed();
+					x0 = x - vehicle.getWidth() / 2;
+					x1 = newX + vehicle.getWidth() / 2;
+					y0 = y - vehicle.getHeight() / 2;
+					y1 = y + vehicle.getHeight() / 2;
+				}
+				else if( direction == DIRECTION_DOWN )
+				{
+					newY += vehicle.getSpeed();
+					x0 = x - vehicle.getHeight() / 2;
+					x1 = x + vehicle.getHeight() / 2;
+					y0 = y - vehicle.getWidth() / 2;
+					y1 = newY + vehicle.getWidth() / 2;
+				}
+				else if( direction == DIRECTION_UP )
+				{
+					newY -= vehicle.getSpeed();
+					x0 = x - vehicle.getHeight() / 2;
+					x1 = x + vehicle.getHeight() / 2;
+					y0 = newY - vehicle.getWidth() / 2;
+					y1 = y + vehicle.getWidth() / 2;
+				}	
+				
+				var lastSegment : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
+				lastSegment.x1 = newX;
+				lastSegment.y1 = newY;
+				
+				//trace ( "joueur : " + x0 + " ; " + y0 + " ; " + x1 + " ; " + y1);
+				if( game.check_collision(x0, y0, x1, y1) )
+				{
+					// Mort
+					game.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+					isDead = true;
+					trace('le player ' + id + ' est mort');
+					wall.destroyWall();
+				}
+				else
+				{
+					// Pas mort
+					x = newX;
+					y = newY;
+				}
 			}
 		}
 		
 		public function setWall( _wall : Wall ) : void
 		{
 			wall = _wall;
-			
+
 			wall.insertSegment( x, y, x, y );
 		}
 	}

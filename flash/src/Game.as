@@ -8,7 +8,7 @@
 	 */
 	public class Game
 	{
-		private var MAX_PLAYERS : int = 4;
+		public static var MAX_PLAYERS : int = 1;
 		
 		private var players : Array = new Array (0);
 		private var walls : Array = new Array (0);
@@ -46,7 +46,7 @@
 		
 		public function getWall (id : int) : Wall
 		{
-			return walls [id];
+			return walls[id];
 		}
 		
 		public function addWall (new_wall : Wall) : void

@@ -32,11 +32,10 @@
 			
 			game = new Game( stage );
 			
-			game.addPlayer( new Player( game, 300, 400, true, Player.DIRECTION_UP ) );
-			game.addPlayer( new Player( game, 400, 400, false, Player.DIRECTION_UP ) );
-			game.addPlayer( new Player( game, 500, 400, false, Player.DIRECTION_UP ) );
-			game.addPlayer( new Player( game, 600, 400, false, Player.DIRECTION_UP ) );
-			
+			for ( var i : int = 0 ; i < Game.MAX_PLAYERS ; i++ )
+			{
+				game.addPlayer( new Player( game, i * 100 + 100, 100, true, Player.DIRECTION_UP ) );
+			}
 			stage.addEventListener( Event.ENTER_FRAME, loop );
 		}
 		
@@ -53,11 +52,14 @@
 			{
 				var player : Player = game.getPlayer(k);
 				
-				//objects.graphics.drawCircle( player.x, player.y, 6 );
-				objects.graphics.moveTo( player.x - 7, player.y - 7 );
-				objects.graphics.lineTo( player.x - 7, player.y + 7 );
-				objects.graphics.lineTo( player.x + 7, player.y + 7 );
-				objects.graphics.lineTo( player.x + 7, player.y - 7 );
+				if( !player.isDead )
+				{
+					//objects.graphics.drawCircle( player.x, player.y, 6 );
+					objects.graphics.moveTo( player.x - 7, player.y - 7 );
+					objects.graphics.lineTo( player.x - 7, player.y + 7 );
+					objects.graphics.lineTo( player.x + 7, player.y + 7 );
+					objects.graphics.lineTo( player.x + 7, player.y - 7 );
+				}
 			}
 			
 			for ( var p : int = 0 ; p < game.getWallCount() ; p++ )

@@ -48,10 +48,7 @@
 		
 		public function destroyWall() : void
 		{
-			for (var i  : int = 1; i <= WallArray.length; i++)
-			{
-				WallArray[i - 1] = null;
-			}
+			WallArray = new Array();
 		}
 		
 	}
