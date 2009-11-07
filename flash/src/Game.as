@@ -75,10 +75,8 @@
 		{
 			for (var i : int = 0; i < players.length; i++)
 			{
-				if (!players[i].isDead)
-				{
-					players[i].update ();
-				}
+				players[i].update ();
+				
 			}
 		}
 		
