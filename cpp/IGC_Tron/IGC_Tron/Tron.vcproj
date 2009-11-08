@@ -119,7 +119,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\Microsoft DirectX SDK (March 2009)\Include&quot;;&quot;C:\Program Files\Microsoft DirectX SDK (August 2009)\Include&quot;"
+				AdditionalIncludeDirectories="directx\inc;opengl\inc;hashlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -141,7 +141,7 @@
 				AdditionalDependencies="dxerr.lib d3dxof.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib opengl32.lib glu32.lib glew32.lib"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Microsoft DirectX SDK (March 2009)\Lib\x86&quot;;&quot;C:\Program Files\Microsoft DirectX SDK (August 2009)\Lib\x86&quot;"
+				AdditionalLibraryDirectories="directx\lib;opengl\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\D3DTexture.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Debug.cpp"
 				>
 			</File>
@@ -235,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ITexture.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\IWindow.cpp"
 				>
 			</File>
@@ -256,6 +264,10 @@
 			</File>
 			<File
 				RelativePath=".\OGLRenderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OGLTexture.cpp"
 				>
 			</File>
 			<File
@@ -303,6 +315,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\D3DTexture.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Debug.h"
 				>
 			</File>
@@ -335,6 +351,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ITexture.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IWindow.h"
 				>
 			</File>
@@ -356,6 +376,10 @@
 			</File>
 			<File
 				RelativePath=".\OGLRenderer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OGLTexture.h"
 				>
 			</File>
 			<File

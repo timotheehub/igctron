@@ -290,7 +290,7 @@ namespace IGC
 
 		if ( mesh3ds == NULL || mesh3ds->vertices == 0 ) return;
 
-		// d�compte du nombre de mat�riaux
+		// d?compte du nombre de mat?riaux
 		{
 			int materials[255];
 
@@ -314,27 +314,27 @@ namespace IGC
 
 			if ( count > 1 )
 			{
-				// TODO : scinder le mod�le en plusieurs autres, un par mat�riau
+				// TODO : scinder le mod?le en plusieurs autres, un par mat?riau
 			}
 		}
 
-		// cr�ation du maillage pour ce mod�le 3d
+		// cr?ation du maillage pour ce mod?le 3d
 
 		IMesh* mesh = model->newMesh();
 
-		// d�finition des propri�t�s du maillage
+		// d?finition des propri?t?s du maillage
 
 		mesh->hasVertices = true;
 		mesh->hasNormals = (mesh3ds->faces != 0);
 		mesh->hasColors = true;
 		mesh->hasTexcoords = (mesh3ds->texcos != 0);
 
-		// allocation de la m�moire
+		// allocation de la m?moire
 
 		mesh->setVertexCount( mesh3ds->nvertices );
 		mesh->setFaceCount( mesh3ds->nfaces );
 
-		// copie des donn�es
+		// copie des donn?es
 
 		{
 			float (*vertices3ds)[3] = mesh3ds->vertices;
@@ -377,7 +377,7 @@ namespace IGC
 			}
 		}
 
-		// synchro des donn�es en m�moire vid�o
+		// synchro des donn?es en m?moire vid?o
 
 		mesh->update();
 	}

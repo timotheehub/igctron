@@ -17,62 +17,56 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /**************************************************************************/
 
-#ifdef _WIN32
-
-#ifndef _D3DRENDERER
-#define _D3DRENDERER
+#ifndef _TEXTURE
+#define _TEXTURE
 
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 
 #include "Common.h"
-
-#include <windows.h>
-
-#include <d3dx9.h>
-#include <dxerr.h>
-
+#include "Engine.h"
 #include "IRenderer.h"
 
 /***********************************************************************************/
 
 namespace IGC
 {
-	class Engine;
 
-	class D3DRenderer : public IRenderer
+/***********************************************************************************/
+
+	class ITexture
 	{
 
 /***********************************************************************************/
-/** CLASSES AMIES                                                                 **/
+/** CONSTANTES                                                                    **/
 /***********************************************************************************/
 
-		friend class D3DCamera;
-		friend class D3DFont;
-		friend class D3DMesh;
-		friend class D3DModel;
+	public:
+
+		static const int FORMAT_L8			= 0x01;
+		static const int FORMAT_L8A8		= 0x02;
+		static const int FORMAT_R8G8B8		= 0x03;
+		static const int FORMAT_R8G8B8A8	= 0x04;
 
 /***********************************************************************************/
 /** ATTRIBUTS                                                                     **/
 /***********************************************************************************/
 
-	private:
+	protected:
 
-		LPDIRECT3D9 lpD3D;
-		LPDIRECT3DDEVICE9 lpD3DDevice;
+		Engine* engine;
 
-		LPDIRECT3DTEXTURE9 lpRenderTexture;
+		IRenderer* renderer;
 
-		LPDIRECT3DPIXELSHADER9 lpPixelShader;
-		LPDIRECT3DVERTEXSHADER9 lpVertexShader;
+		byte* data;
 
-		LPDIRECT3DVERTEXDECLARATION9 lpVertexDeclaration;
+		int width;
+		int height;
 
-		LPDIRECT3DVERTEXBUFFER9 lpVertexBuffer;
-		LPDIRECT3DINDEXBUFFER9 lpIndexBuffer;
-
-		LPD3DXFONT lpFont;
+		int format;
+		
+		bool dirty;
 
 /***********************************************************************************/
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
@@ -81,15 +75,14 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et alloue la m?moire vid?o pour une surface de rendu dont la taille
-			correspond ? celle de la fen?tre associ?e ? _engine.
+			Instancie la classe sans allouer de mémoire pour la texture.
 		*/
-		D3DRenderer( Engine* _engine );
+		ITexture( Engine* _engine );
 
 		/*
-			Lib?re la m?moire vid?o r?serv?e pour une surface de rendu.
+			Libère les ressources.
 		*/
-		virtual ~D3DRenderer();
+		~ITexture();
 
 /***********************************************************************************/
 /** ACCESSEURS                                                                    **/
@@ -98,16 +91,37 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie le device associ? ? cette instance ou NULL si celui-ci n'a pas encore ?t? cr??.
+			Renvoie un pointeur vers le moteur associé à cet objet.
 		*/
-		LPDIRECT3DDEVICE9 getDevice();
-
-	private:
+		Engine* getEngine();
 
 		/*
-			Sp?cifie une police pour le prochain rendu de texte.
+			Renvoie le renderer associé à cette texture.
 		*/
-		void setFont( LPD3DXFONT _lpFont );
+		IRenderer* getRenderer();
+
+		/*
+			Renvoie la résolution horizontale de cette texture.
+		*/
+		int getWidth() { return width; };
+
+		/*
+			Renvoie la résolution verticale de cette texture.
+		*/
+		int getHeight() { return height; };
+
+		/*
+			Renvoie le format de cette texture.
+		*/
+		int getFormat() { return format; };
+
+/***********************************************************************************/
+/** METHODES PRIVEES                                                              **/
+/***********************************************************************************/
+
+	protected:
+
+		int getPixelSize();
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
@@ -116,36 +130,34 @@ namespace IGC
 	public:
 
 		/*
-			Initialise Direct3D et lui associe la surface de rendu.
+			Génère une nouvelle texture de la résolution spécifiée.
 		*/
-		virtual void initialize();
+		void create( int _width = 256, int _height = 256, int _format = FORMAT_R8G8B8A8 );
 
 		/*
-			Lib?re toutes les ressources relatives ? Direct3D.
+			Remplit cette texture d'une couleur unie définie par les paramètres.
 		*/
-		virtual void finalize();
+		virtual void fill( float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _a = 0.0f );
+		virtual void fill( float _l = 0.0f, float _a = 0.0f );
 
 		/*
-			Met ? jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
+			Charge un fichier au format Portable Network Graphics (*.png).
 		*/
-		virtual void update();
+		void import( const char* _path );
 
 		/*
-			Remplit le back buffer de la couleur sp?cifi?e et le depth buffer de la profondeur sp?cifi?e.
+			Force la mise à jour en mémoire vidéo.
 		*/
-		virtual void clear( float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _depth = 1.0f );
+		virtual void update() = 0;
 
 		/*
-			Affiche du texte ? la position absolue sp?cifi?e avec la couleur sp?cifi?e en fonction de la police
-			qui aura pr?c?demment ?t? d?finie.
+			Active cette texture pour le prochain rendu.
 		*/
-		virtual void drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a );
+		virtual void bind() = 0;
 
 	};
 }
 
 /***********************************************************************************/
-
-#endif
 
 #endif

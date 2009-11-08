@@ -86,13 +86,13 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et alloue la m�moire vid�o pour une surface de rendu dont la taille
-			correspond � celle de la fen�tre associ�e � _engine.
+			Instancie la classe et alloue la m?moire vid?o pour une surface de rendu dont la taille
+			correspond ? celle de la fen?tre associ?e ? _engine.
 		*/
 		OGLRenderer( Engine* _engine );
 
 		/*
-			Lib�re la m�moire vid�o r�serv�e pour une surface de rendu.
+			Lib?re la m?moire vid?o r?serv?e pour une surface de rendu.
 		*/
 		virtual ~OGLRenderer();
 
@@ -103,7 +103,7 @@ namespace IGC
 	private:
 
 		/*
-			Sp�cifie une police pour le prochain rendu de texte.
+			Sp?cifie une police pour le prochain rendu de texte.
 		*/
 		void setFont( GLuint _glFontList );
 
@@ -119,23 +119,23 @@ namespace IGC
 		virtual void initialize();
 
 		/*
-			Lib�re toutes les ressources relatives � OpenGL.
+			Lib?re toutes les ressources relatives ? OpenGL.
 		*/
 		virtual void finalize();
 
 		/*
-			Met � jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
+			Met ? jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
 		*/
 		virtual void update();
 
 		/*
-			Remplit le back buffer de la couleur sp�cifi�e et le depth buffer de la profondeur sp�cifi�e.
+			Remplit le back buffer de la couleur sp?cifi?e et le depth buffer de la profondeur sp?cifi?e.
 		*/
 		virtual void clear( float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _depth = 1.0f );
 
 		/*
-			Affiche du texte � la position absolue sp�cifi�e avec la couleur sp�cifi�e en fonction de la police
-			qui aura pr�c�demment �t� d�finie.
+			Affiche du texte ? la position absolue sp?cifi?e avec la couleur sp?cifi?e en fonction de la police
+			qui aura pr?c?demment ?t? d?finie.
 		*/
 		virtual void drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a );
 

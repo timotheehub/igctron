@@ -196,6 +196,14 @@ namespace IGC
 			if( code )
 				code->Release(); 
 		}
+
+		lpD3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_CW );
+		lpD3DDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
+		lpD3DDevice->SetRenderState( D3DRS_LIGHTING, FALSE );
+
+		lpD3DDevice->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR );
+		lpD3DDevice->SetSamplerState( 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
+		lpD3DDevice->SetSamplerState( 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
 	}
 
 	void D3DRenderer::finalize()
@@ -269,6 +277,8 @@ namespace IGC
 	{
 		_assert( lpFont != NULL, __FILE__, __LINE__,
 			"D3DRenderer::drawText() : Invalid font, NULL pointer." );
+
+		lpD3DDevice->SetTexture( 0, NULL );
 
 		lpD3DDevice->BeginScene();
 

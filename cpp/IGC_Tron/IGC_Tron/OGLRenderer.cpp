@@ -172,10 +172,10 @@ namespace IGC
 		glShadeModel( GL_SMOOTH );
 		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 		glClearDepth( 1.0f );
-		glDisable( GL_DEPTH_TEST );
+		glEnable( GL_DEPTH_TEST );
 		glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );
 
-		glEnable( GL_TEXTURE_2D );
+		/*glEnable( GL_TEXTURE_2D );
 		glGenTextures( 1, &glRenderTexture );
 		glBindTexture( GL_TEXTURE_2D, glRenderTexture );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
@@ -184,14 +184,17 @@ namespace IGC
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL );
 
-		glHostTextureData = malloc( width * height * sizeof(uint) );
+		glHostTextureData = malloc( width * height * sizeof(uint) );*/
+
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	}
 
 	void OGLRenderer::finalize()
 	{
-		glDeleteTextures( 1, &glRenderTexture );
+		//glDeleteTextures( 1, &glRenderTexture );
 
-		free( glHostTextureData );
+		//free( glHostTextureData );
 
 #ifdef _WIN32
 		wglMakeCurrent( NULL, NULL );
@@ -267,6 +270,8 @@ namespace IGC
 
 	void OGLRenderer::drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a )
 	{
+		glDisable( GL_TEXTURE_2D );
+
 		glMatrixMode( GL_PROJECTION );
 		glLoadIdentity();
 

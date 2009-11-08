@@ -108,12 +108,12 @@ namespace IGC
 
 		/*
 			Instancie cette classe dont le but est de centraliser la gestion des
-			ressources en mï¿½moire.
+			ressources en mémoire.
 		*/
 		Factory( Engine* const _engine );
 
 		/*
-			Libï¿½re les ressources encore allouï¿½es en mï¿½moire.
+			Libère les ressources encore allouées en mémoire.
 		*/
 		~Factory();
 
@@ -132,7 +132,7 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie un pointeur vers le moteur associï¿½ ï¿½ cette factory.
+			Renvoie un pointeur vers le moteur associé à cette factory.
 		*/
 		Engine* getEngine();
 
@@ -144,11 +144,11 @@ namespace IGC
 	public:
 
 		/*
-			Recherche un objet en fonction du nom passï¿½ en paramï¿½tre et renvoie son pointeur. Dans ce cas l'objet
-			en question est marquï¿½ comme ayant une rï¿½fï¿½rence supplï¿½mentaire.
-			Si le nom passï¿½ en paramï¿½tre n'est pas encore rï¿½pertoriï¿½ alors un nouvel objet est automatiquement
-			instanciï¿½ et associï¿½ ï¿½ ce nom. L'objet est alors marquï¿½ comme rï¿½fï¿½rencï¿½ une fois.
-			Si NULL est passï¿½ en paramï¿½tre alors un nom d'objet est automatiquement gï¿½nï¿½rï¿½.
+			Recherche un objet en fonction du nom passé en paramètre et renvoie son pointeur. Dans ce cas l'objet
+			en question est marqué comme ayant une référence supplémentaire.
+			Si le nom passé en paramètre n'est pas encore répertorié alors un nouvel objet est automatiquement
+			instancié et associé à ce nom. L'objet est alors marqué comme référencé une fois.
+			Si NULL est passé en paramètre alors un nom d'objet est automatiquement généré.
 		*/
 		Window* acquire( Window* addr, char* name );
 		Renderer* acquire( Renderer* addr, char* name );
@@ -156,11 +156,12 @@ namespace IGC
 		Font* acquire( Font* addr, char* name );
 		Mesh* acquire( Mesh* addr, char* name );
 		Model* acquire( Model* addr, char* name );
+		Texture* acquire( Texture* addr, char* name );
 
 		/*
-			Recherche un objet en fonction du pointeur passï¿½ en paramï¿½tre et renvoie ce mï¿½me pointeur. Dans ce
-			cas l'objet en question est marquï¿½ comme ayant une rï¿½fï¿½rence supplï¿½mentaire.
-			Si NULL est passï¿½ en paramï¿½tre alors un objet est automatiquement instanciï¿½ avec un nom alï¿½atoire.
+			Recherche un objet en fonction du pointeur passé en paramètre et renvoie ce même pointeur. Dans ce
+			cas l'objet en question est marqué comme ayant une référence supplémentaire.
+			Si NULL est passé en paramètre alors un objet est automatiquement instancié avec un nom aléatoire.
 		*/
 		Window* acquire( Window* addr );
 		Renderer* acquire( Renderer* addr );
@@ -168,10 +169,11 @@ namespace IGC
 		Font* acquire( Font* addr );
 		Mesh* acquire( Mesh* addr );
 		Model* acquire( Model* addr );
+		Texture* acquire( Texture* addr );
 
 		/*
-			Marque l'objet dont le nom est passï¿½ en paramï¿½tre comme ayant une rï¿½fï¿½rence en moins. Si l'objet en
-			question n'est plus marquï¿½ comme rï¿½fï¿½rencï¿½ alors il est automatiquement dï¿½truit.
+			Marque l'objet dont le nom est passé en paramètre comme ayant une référence en moins. Si l'objet en
+			question n'est plus marqué comme référencé alors il est automatiquement détruit.
 		*/
 		void release( Window* addr );
 		void release( Renderer* addr );
@@ -179,6 +181,7 @@ namespace IGC
 		void release( Font* addr );
 		void release( Mesh* addr );
 		void release( Model* addr );
+		void release( Texture* addr );
 
 	};
 }

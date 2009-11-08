@@ -21,7 +21,8 @@
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 
-#include "OGLMesh.h"
+#include "Engine.h"
+#include "OGLTexture.h"
 
 /***********************************************************************************/
 /** DEBUG                                                                         **/
@@ -44,70 +45,50 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	OGLMesh::OGLMesh( Engine* _engine ) : IMesh( _engine )
+	OGLTexture::OGLTexture( Engine* _engine ) : ITexture( _engine )
 	{
+		glTexID = 0;
 	}
 
-	OGLMesh::~OGLMesh()
+	OGLTexture::~OGLTexture()
 	{
+		if ( glTexID != 0 )
+			glDeleteTextures( 1, &glTexID );
 	}
-
-/***********************************************************************************/
-/** ACCESSEURS                                                                    **/
-/***********************************************************************************/
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
 
-	void OGLMesh::update()
+	void OGLTexture::update()
 	{
-		// TODO : créer le VBO
+		glEnable( GL_TEXTURE_2D );
+
+		glGenTextures( 1, &glTexID );
+		glBindTexture( GL_TEXTURE_2D, glTexID );
+
+		if ( format == FORMAT_L8 )
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_LUMINANCE8, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, data );
+		else if ( format == FORMAT_L8A8 )
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_LUMINANCE8_ALPHA8, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data );
+		else if ( format == FORMAT_R8G8B8 )
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data );
+		else if ( format == FORMAT_R8G8B8A8 )
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
+
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+
+		dirty = false;
 	}
 
-	void OGLMesh::render()
+	void OGLTexture::bind()
 	{
-		// TODO : rendre le VBO
+		if ( dirty ) update();
 
-		glBegin( GL_TRIANGLES );
+		glEnable( GL_TEXTURE_2D );
 
-		for ( uint k = 0 ; k < faceCount ; k++ )
-		{
-			uint3 face = faces[k];
-
-			float3 va = vertices[face.x];
-			float3 vb = vertices[face.y];
-			float3 vc = vertices[face.z];
-
-			float3 na = normals[face.x];
-			float3 nb = normals[face.y];
-			float3 nc = normals[face.z];
-
-			float4 ca = colors[face.x];
-			float4 cb = colors[face.y];
-			float4 cc = colors[face.z];
-
-			float2 ta = texcoords[face.x];
-			float2 tb = texcoords[face.y];
-			float2 tc = texcoords[face.z];
-
-			if ( hasColors ) glColor4f( ca.x, ca.y, ca.z, ca.w );
-			if ( hasTexcoords ) glTexCoord2f( ta.x, ta.y );
-			if ( hasNormals ) glNormal3f( na.x, na.y, na.z );
-			if ( hasVertices ) glVertex3f( va.x, va.y, va.z );
-
-			if ( hasColors ) glColor4f( cb.x, cb.y, cb.z, cb.w );
-			if ( hasTexcoords ) glTexCoord2f( tb.x, tb.y );
-			if ( hasNormals ) glNormal3f( nb.x, nb.y, nb.z );
-			if ( hasVertices ) glVertex3f( vb.x, vb.y, vb.z );
-
-			if ( hasColors ) glColor4f( cc.x, cc.y, cc.z, cc.w );
-			if ( hasTexcoords ) glTexCoord2f( tc.x, tc.y );
-			if ( hasNormals ) glNormal3f( nc.x, nc.y, nc.z );
-			if ( hasVertices ) glVertex3f( vc.x, vc.y, vc.z );
-		}
-
-		glEnd();
+		glBindTexture( GL_TEXTURE_2D, glTexID );
 	}
 
 }

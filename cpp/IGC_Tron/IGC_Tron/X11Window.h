@@ -17,7 +17,7 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /**************************************************************************/
 
-// TODO : appeler les callbacks stock�es dans closeCallbacks, keyUpCallbacks, ...
+// TODO : appeler les callbacks stock?es dans closeCallbacks, keyUpCallbacks, ...
 
 #ifndef _WIN32
 
@@ -90,7 +90,7 @@ namespace IGC
 		X11Window( Engine* _engine );
 
 		/*
-			Lib�re les ressources internes.
+			Lib?re les ressources internes.
 		*/
 		virtual ~X11Window();
 
@@ -101,17 +101,17 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie un pointeur vers la structure Display associ�e � cette fen�tre.
+			Renvoie un pointeur vers la structure Display associ?e ? cette fen?tre.
 		*/
 		Display* getDisplay() { return dpy; }
 
 		/*
-			Renvoie un pointeur vers la structure IWindow associ�e � cette fen�tre.
+			Renvoie un pointeur vers la structure IWindow associ?e ? cette fen?tre.
 		*/
 		::Window getWindow() { return win; }
 
 		/*
-			Renvoie un pointeur vers la structure XVisualInfo associ�e � cette fen�tre.
+			Renvoie un pointeur vers la structure XVisualInfo associ?e ? cette fen?tre.
 		*/
 		XVisualInfo* getVisualInfo() { return vi; }
 
@@ -122,17 +122,17 @@ namespace IGC
 	public:
 
 		/*
-			Cr�e la fen�tre si n�cessaire puis l'affiche.
+			Cr?e la fen?tre si n?cessaire puis l'affiche.
 		*/
 		virtual void show();
 
 		/*
-			Cache la fen�tre.
+			Cache la fen?tre.
 		*/
 		virtual void hide();
 
 		/*
-			Met � jour les dimensions de la fen�tre.
+			Met ? jour les dimensions de la fen?tre.
 		*/
 		void updateGeometry();
 		
