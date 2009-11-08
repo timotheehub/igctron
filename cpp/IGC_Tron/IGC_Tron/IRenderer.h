@@ -47,11 +47,11 @@ namespace IGC
 
 		Engine* engine;
 
-		bool fullscreen; // vrai pour le mode plein �cran, faux pour le mode fen�tre
+		bool fullscreen; // vrai pour le mode plein ?cran, faux pour le mode fen?tre
 
 		bool verticalSync; // vrai pour activer la synchronisation verticale
 
-		bool hardware; // vrai pour faire les rendus � l'aide de la carte graphique
+		bool hardware; // vrai pour faire les rendus ? l'aide de la carte graphique
 
 		int width;
 		int height;
@@ -63,13 +63,13 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et alloue la m�moire vid�o pour une surface de rendu dont la taille correspond �
-			celle de la fen�tre associ�e � _engine.
+			Instancie la classe et alloue la m?moire vid?o pour une surface de rendu dont la taille correspond ?
+			celle de la fen?tre associ?e ? _engine.
 		*/
 		IRenderer( Engine* _engine );
 
 		/*
-			Lib�re la m�moire vid�o r�serv�e pour une surface de rendu.
+			Lib?re la m?moire vid?o r?serv?e pour une surface de rendu.
 		*/
 		virtual ~IRenderer();
 
@@ -80,27 +80,27 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie un pointeur vers le moteur associ� � ce renderer.
+			Renvoie un pointeur vers le moteur associ? ? ce renderer.
 		*/
 		Engine* getEngine();
 
 		/*
-			Active le mode plein �cran et sp�cifie la r�solution � appliquer.
+			Active le mode plein ?cran et sp?cifie la r?solution ? appliquer.
 		*/
 		void enableFullscreen( int _width, int _height );
 
 		/*
-			D�sactive le mode plein �cran.
+			D?sactive le mode plein ?cran.
 		*/
 		void disableFullscreen();
 
 		/*
-			Active la synchronisation du framerate avec le taux de rafraichissement vertical de l'�cran.
+			Active la synchronisation du framerate avec le taux de rafraichissement vertical de l'?cran.
 		*/
 		void enableVSync();
 
 		/*
-			D�sactive la synchronisation verticale.
+			D?sactive la synchronisation verticale.
 		*/
 		void disableVSync();
 
@@ -110,7 +110,7 @@ namespace IGC
 		void useHardware();
 
 		/*
-			D�sactive l'utilisation de la carte graphique pour le rendu final.
+			D?sactive l'utilisation de la carte graphique pour le rendu final.
 		*/
 		void useSoftware();
 
@@ -121,14 +121,14 @@ namespace IGC
 	public:
 
 		/*
-			Convertit une coordonn�e de point relatif ({0,0} �tant le coin sup�rieur gauche
-			de l'�cran et {1,1} le coin inf�rieur droit) en coordonn�e absolue sur l'axe X.
+			Convertit une coordonn?e de point relatif ({0,0} ?tant le coin sup?rieur gauche
+			de l'?cran et {1,1} le coin inf?rieur droit) en coordonn?e absolue sur l'axe X.
 		*/
 		int toPointX( float _x );
 
 		/*
-			Convertit une coordonn�e de point relatif ({0,0} �tant le coin sup�rieur gauche
-			de l'�cran et {1,1} le coin inf�rieur droit) en coordonn�e absolue sur l'axe Y.
+			Convertit une coordonn?e de point relatif ({0,0} ?tant le coin sup?rieur gauche
+			de l'?cran et {1,1} le coin inf?rieur droit) en coordonn?e absolue sur l'axe Y.
 		*/
 		int toPointY( float _y );
 
@@ -138,23 +138,23 @@ namespace IGC
 		virtual void initialize() = 0;
 
 		/*
-			Lib�re toutes les ressources relatives � l'API.
+			Lib?re toutes les ressources relatives ? l'API.
 		*/
 		virtual void finalize() = 0;
 
 		/*
-			Met � jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
+			Met ? jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
 		*/
 		virtual void update() = 0;
 
 		/*
-			Remplit le back buffer de la couleur sp�cifi�e et le depth buffer de la profondeur sp�cifi�e.
+			Remplit le back buffer de la couleur sp?cifi?e et le depth buffer de la profondeur sp?cifi?e.
 		*/
 		virtual void clear( float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _depth = 1.0f ) = 0;
 
 		/*
-			Affiche du texte � la position absolue sp�cifi�e avec la couleur sp�cifi�e en fonction de la police
-			qui aura pr�c�demment �t� d�finie.
+			Affiche du texte ? la position absolue sp?cifi?e avec la couleur sp?cifi?e en fonction de la police
+			qui aura pr?c?demment ?t? d?finie.
 		*/
 		virtual void drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a ) = 0;
 

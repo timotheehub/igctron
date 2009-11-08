@@ -37,11 +37,13 @@
 #include "D3DMesh.h"
 #include "D3DModel.h"
 #include "D3DFont.h"
+#include "D3DTexture.h"
 #include "OGLRenderer.h"
 #include "OGLCamera.h"
 #include "OGLMesh.h"
 #include "OGLModel.h"
 #include "OGLFont.h"
+#include "OGLTexture.h"
 
 /***********************************************************************************/
 /** DEBUG                                                                         **/
@@ -86,11 +88,7 @@ namespace IGC
 		{
 			object* o = it->second;
 
-			free( o->name );
-
-			//delete o->addr;
-
-			delete o;
+			debugPrint( "[FACTORY] Detected memory leak @%x\n", o->addr );
 
 			it++;
 		}
@@ -245,5 +243,6 @@ DEFINE_FACTORY_FUNCTIONS( Camera );
 DEFINE_FACTORY_FUNCTIONS( Font );
 DEFINE_FACTORY_FUNCTIONS( Mesh );
 DEFINE_FACTORY_FUNCTIONS( Model );
+DEFINE_FACTORY_FUNCTIONS( Texture );
 
 }

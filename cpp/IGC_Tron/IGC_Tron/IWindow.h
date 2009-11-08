@@ -123,14 +123,14 @@ namespace IGC
 	public:
 
 		static const int KC_NONE = 0x0;
-		static const int KC_SHIFT = 0x1;	// bit � 1 si la touche shift du clavier est enfonc�e
-		static const int KC_CTRL = 0x2;		// bit � 1 si la touche ctrl du clavier est enfonc�e
-		static const int KC_ALT = 0x4;		// bit � 1 si la touche alt du clavier est enfonc�e
+		static const int KC_SHIFT = 0x1;	// bit ? 1 si la touche shift du clavier est enfonc?e
+		static const int KC_CTRL = 0x2;		// bit ? 1 si la touche ctrl du clavier est enfonc?e
+		static const int KC_ALT = 0x4;		// bit ? 1 si la touche alt du clavier est enfonc?e
 
 		static const int MC_NONE = 0x0;
-		static const int MC_LEFT = 0x1;		// bit � 1 si le bouton gauche de la souris est enfonc�
-		static const int MC_RIGHT = 0x2;	// bit � 1 si le bouton droit de la souris est enfonc�
-		static const int MC_MIDDLE = 0x4;	// bit � 1 si le bouton du milieu de la souris est enfonc�
+		static const int MC_LEFT = 0x1;		// bit ? 1 si le bouton gauche de la souris est enfonc?
+		static const int MC_RIGHT = 0x2;	// bit ? 1 si le bouton droit de la souris est enfonc?
+		static const int MC_MIDDLE = 0x4;	// bit ? 1 si le bouton du milieu de la souris est enfonc?
 
 /***********************************************************************************/
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
@@ -144,7 +144,7 @@ namespace IGC
 		IWindow( Engine* _engine );
 
 		/*
-			Lib�re les ressources internes.
+			Lib?re les ressources internes.
 		*/
 		virtual ~IWindow();
 
@@ -155,133 +155,133 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie un pointeur vers le moteur associ� � cette fen�tre.
+			Renvoie un pointeur vers le moteur associ? ? cette fen?tre.
 		*/
 		Engine* getEngine();
 
 		/*
-			Sp�cifie le titre de la fen�tre.
+			Sp?cifie le titre de la fen?tre.
 		*/
 		void setTitle( const char* _title );
 
 		/*
-			Sp�cifie la position horizontale (en pixels) de la fen�tre � l'�cran.
+			Sp?cifie la position horizontale (en pixels) de la fen?tre ? l'?cran.
 		*/
 		void setLeft( int _value = 120 );
 
 		/*
-			Sp�cifie la position verticale (en pixels) de la fen�tre � l'�cran.
+			Sp?cifie la position verticale (en pixels) de la fen?tre ? l'?cran.
 		*/
 		void setTop( int _value = 80 );
 
 		/*
-			Renvoie la position horizontale (en pixels) de la fen�tre � l'�cran.
+			Renvoie la position horizontale (en pixels) de la fen?tre ? l'?cran.
 		*/
 		int getLeft();
 
 		/*
-			Renvoie la position verticale (en pixels) de la fen�tre � l'�cran.
+			Renvoie la position verticale (en pixels) de la fen?tre ? l'?cran.
 		*/
 		int getTop();
 
 		/*
-			Sp�cifie la taille horizontale (en pixels) de la fen�tre.
+			Sp?cifie la taille horizontale (en pixels) de la fen?tre.
 		*/
 		void setWidth( int _value = 800 );
 
 		/*
-			Sp�cifie la taille verticale (en pixels) de la fen�tre.
+			Sp?cifie la taille verticale (en pixels) de la fen?tre.
 		*/
 		void setHeight( int _value = 600 );
 
 		/*
-			Renvoie la taille horizontale (en pixels) de la fen�tre.
+			Renvoie la taille horizontale (en pixels) de la fen?tre.
 		*/
 		int getWidth();
 
 		/*
-			Renvoie la taille verticale (en pixels) de la fen�tre.
+			Renvoie la taille verticale (en pixels) de la fen?tre.
 		*/
 		int getHeight();
 
 		/*
-			Renvoie la taille horizontale (en pixels) du cadre interne de la fen�tre.
+			Renvoie la taille horizontale (en pixels) du cadre interne de la fen?tre.
 		*/
 		int getInnerWidth();
 
 		/*
-			Renvoie la taille verticale (en pixels) du cadre interne de la fen�tre.
+			Renvoie la taille verticale (en pixels) du cadre interne de la fen?tre.
 		*/
 		int getInnerHeight();
 
 		/*
-			Renvoie true si la fen�tre est visible.
+			Renvoie true si la fen?tre est visible.
 		*/
 		bool isVisible();
 
 		/*
-			Renvoie true si la fen�tre est active (elle ne l'est plus d�s lors que l'utilisateur
-			clique sur la croix en haut � droite).
+			Renvoie true si la fen?tre est active (elle ne l'est plus d?s lors que l'utilisateur
+			clique sur la croix en haut ? droite).
 		*/
 		bool isActive();
 
 		/*
-			Ajoute une callback devant �tre appel�e lorsque la fen�tre est ferm�e.
+			Ajoute une callback devant ?tre appel?e lorsque la fen?tre est ferm?e.
 		*/
 		void registerCloseCallback ( LPCLOSECALLBACK _callback );
 
 		/*
-			Supprime une callback devant �tre appel�e lorsque la fen�tre est ferm�e.
+			Supprime une callback devant ?tre appel?e lorsque la fen?tre est ferm?e.
 		*/
 		void unregisterCloseCallback ( LPCLOSECALLBACK _callback );
 
 		/*
-			Ajoute une callback devant �tre appel�e lorsqu'une touche du clavier est relach�e.
+			Ajoute une callback devant ?tre appel?e lorsqu'une touche du clavier est relach?e.
 		*/
 		void registerKeyUpCallback ( LPKEYUPCALLBACK _callback );
 
 		/*
-			Supprime une callback devant �tre appel�e lorsqu'une touche du clavier est relach�e.
+			Supprime une callback devant ?tre appel?e lorsqu'une touche du clavier est relach?e.
 		*/
 		void unregisterKeyUpCallback ( LPKEYUPCALLBACK _callback );
 
 		/*
-			Ajoute une callback devant �tre appel�e lorsqu'une touche du clavier est enfonc�e.
+			Ajoute une callback devant ?tre appel?e lorsqu'une touche du clavier est enfonc?e.
 		*/
 		void registerKeyDownCallback ( LPKEYDOWNCALLBACK _callback );
 
 		/*
-			Supprime une callback devant �tre appel�e lorsqu'une touche du clavier est enfonc�e.
+			Supprime une callback devant ?tre appel?e lorsqu'une touche du clavier est enfonc?e.
 		*/
 		void unregisterKeyDownCallback ( LPKEYDOWNCALLBACK _callback );
 
 		/*
-			Ajoute une callback devant �tre appel�e lorsque la souris est en mouvement.
+			Ajoute une callback devant ?tre appel?e lorsque la souris est en mouvement.
 		*/
 		void registerMouseMoveCallback ( LPMOUSEMOVECALLBACK _callback );
 
 		/*
-			Supprime une callback devant �tre appel�e lorsque la souris est en mouvement.
+			Supprime une callback devant ?tre appel?e lorsque la souris est en mouvement.
 		*/
 		void unregisterMouseMoveCallback ( LPMOUSEMOVECALLBACK _callback );
 
 		/*
-			Ajoute une callback devant �tre appel�e lorsqu'un bouton de la souris est relach�.
+			Ajoute une callback devant ?tre appel?e lorsqu'un bouton de la souris est relach?.
 		*/
 		void registerMouseUpCallback ( LPMOUSEUPCALLBACK _callback );
 
 		/*
-			Supprime une callback devant �tre appel�e lorsqu'un bouton de la souris est relach�.
+			Supprime une callback devant ?tre appel?e lorsqu'un bouton de la souris est relach?.
 		*/
 		void unregisterMouseUpCallback ( LPMOUSEUPCALLBACK _callback );
 
 		/*
-			Ajoute une callback devant �tre appel�e lorsqu'un bouton de la souris est enfonc�.
+			Ajoute une callback devant ?tre appel?e lorsqu'un bouton de la souris est enfonc?.
 		*/
 		void registerMouseDownCallback ( LPMOUSEDOWNCALLBACK _callback );
 
 		/*
-			Supprime une callback devant �tre appel�e lorsqu'un bouton de la souris est enfonc�.
+			Supprime une callback devant ?tre appel?e lorsqu'un bouton de la souris est enfonc?.
 		*/
 		void unregisterMouseDownCallback ( LPMOUSEDOWNCALLBACK _callback );
 
@@ -292,12 +292,12 @@ namespace IGC
 	public:
 
 		/*
-			Cr�e la fen�tre si n�cessaire puis l'affiche.
+			Cr?e la fen?tre si n?cessaire puis l'affiche.
 		*/
 		virtual void show() = 0;
 
 		/*
-			Cache la fen�tre.
+			Cache la fen?tre.
 		*/
 		virtual void hide() = 0;
 

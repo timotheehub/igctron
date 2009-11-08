@@ -77,12 +77,12 @@ namespace IGC
 	public:
 
 		/*
-			Instancie cette classe dont le but est de centraliser l'acc�s aux objets communs du moteur.
+			Instancie cette classe dont le but est de centraliser l'acc?s aux objets communs du moteur.
 		*/
 		Engine();
 
 		/*
-			D�truit la factory.
+			D?truit la factory.
 		*/
 		~Engine();
 
@@ -93,38 +93,38 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie la factory associ�e � cette instance.
+			Renvoie la factory associ?e ? cette instance.
 		*/
 		Factory* getFactory();
 
 		/*
-			Renvoie le renderer associ� � cette instance ou NULL si celui-ci n'a pas encore �t� cr��.
+			Renvoie le renderer associ? ? cette instance ou NULL si celui-ci n'a pas encore ?t? cr??.
 		*/
 		Renderer* getRenderer();
 
 		/*
 		getWindow()
-			Renvoie la fen�tre associ�e � cette instance ou NULL si celle-ci n'a pas encore �t� cr��e.
+			Renvoie la fen?tre associ?e ? cette instance ou NULL si celle-ci n'a pas encore ?t? cr??e.
 		*/
 		Window* getWindow();
 
 		/*
-			Renvoie le nombre de secondes �coul� depuis le d�marrage du syst�me.
+			Renvoie le nombre de secondes ?coul? depuis le d?marrage du syst?me.
 		*/
 		double getTime();
 
 		/*
-			Renvoie le temps �coul� pour calculer et afficher la derni�re frame (en secondes)
+			Renvoie le temps ?coul? pour calculer et afficher la derni?re frame (en secondes)
 		*/
 		double getDelta();
 
 		/*
-			Renvoie le nombre de frames affich�es lors de la derni�re seconde.
+			Renvoie le nombre de frames affich?es lors de la derni?re seconde.
 		*/
 		double getCurrentFramerate();
 
 		/*
-			Renvoie le nombre moyen de frames affich�es par seconde depuis l'instanciation de cette classe.
+			Renvoie le nombre moyen de frames affich?es par seconde depuis l'instanciation de cette classe.
 		*/
 		double getAverageFramerate();
 
@@ -135,7 +135,7 @@ namespace IGC
 	public:
 
 		/*
-			Met � jour l'ensemble des variables temporelles. Doit �tre appel�e une fois par frame.
+			Met ? jour l'ensemble des variables temporelles. Doit ?tre appel?e une fois par frame.
 		*/
 		void update();
 

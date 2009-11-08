@@ -17,11 +17,15 @@
 /* along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /**************************************************************************/
 
+#ifdef _WIN32
+
 /***********************************************************************************/
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 
-#include "OGLMesh.h"
+#include "Engine.h"
+#include "W32Window.h"
+#include "D3DTexture.h"
 
 /***********************************************************************************/
 /** DEBUG                                                                         **/
@@ -44,70 +48,94 @@ namespace IGC
 /** CONSTRUCTEURS / DESTRUCTEUR                                                   **/
 /***********************************************************************************/
 
-	OGLMesh::OGLMesh( Engine* _engine ) : IMesh( _engine )
+	D3DTexture::D3DTexture( Engine* _engine ) : ITexture( _engine )
 	{
+		lpTexture = NULL;
 	}
 
-	OGLMesh::~OGLMesh()
+	D3DTexture::~D3DTexture()
 	{
+		if ( lpTexture )
+			lpTexture->Release();
 	}
-
-/***********************************************************************************/
-/** ACCESSEURS                                                                    **/
-/***********************************************************************************/
 
 /***********************************************************************************/
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
 
-	void OGLMesh::update()
+	void D3DTexture::update()
 	{
-		// TODO : créer le VBO
-	}
+		if ( lpTexture )
+			lpTexture->Release();
 
-	void OGLMesh::render()
-	{
-		// TODO : rendre le VBO
+		LPDIRECT3DDEVICE9 lpD3DDevice = ((D3DRenderer*)renderer)->getDevice();
 
-		glBegin( GL_TRIANGLES );
+		if ( format == FORMAT_L8 )
+			D3DXCreateTexture( lpD3DDevice, width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_L8, D3DPOOL_DEFAULT, (LPDIRECT3DTEXTURE9*)&lpTexture );
+		else if ( format == FORMAT_L8A8 )
+			D3DXCreateTexture( lpD3DDevice, width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8L8, D3DPOOL_DEFAULT, (LPDIRECT3DTEXTURE9*)&lpTexture );
+		else if ( format == FORMAT_R8G8B8 )
+			D3DXCreateTexture( lpD3DDevice, width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_R8G8B8, D3DPOOL_DEFAULT, (LPDIRECT3DTEXTURE9*)&lpTexture );
+		else if ( format == FORMAT_R8G8B8A8 )
+			D3DXCreateTexture( lpD3DDevice, width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, (LPDIRECT3DTEXTURE9*)&lpTexture );
 
-		for ( uint k = 0 ; k < faceCount ; k++ )
+		D3DLOCKED_RECT rect;
+		lpTexture->LockRect( 0, &rect, NULL, 0 );
+
+		byte* d3d_data = (byte*)rect.pBits;
+
+		int m = rect.Pitch / width;
+		int n = width * height * getPixelSize();
+
+		if ( format == FORMAT_L8 )
 		{
-			uint3 face = faces[k];
-
-			float3 va = vertices[face.x];
-			float3 vb = vertices[face.y];
-			float3 vc = vertices[face.z];
-
-			float3 na = normals[face.x];
-			float3 nb = normals[face.y];
-			float3 nc = normals[face.z];
-
-			float4 ca = colors[face.x];
-			float4 cb = colors[face.y];
-			float4 cc = colors[face.z];
-
-			float2 ta = texcoords[face.x];
-			float2 tb = texcoords[face.y];
-			float2 tc = texcoords[face.z];
-
-			if ( hasColors ) glColor4f( ca.x, ca.y, ca.z, ca.w );
-			if ( hasTexcoords ) glTexCoord2f( ta.x, ta.y );
-			if ( hasNormals ) glNormal3f( na.x, na.y, na.z );
-			if ( hasVertices ) glVertex3f( va.x, va.y, va.z );
-
-			if ( hasColors ) glColor4f( cb.x, cb.y, cb.z, cb.w );
-			if ( hasTexcoords ) glTexCoord2f( tb.x, tb.y );
-			if ( hasNormals ) glNormal3f( nb.x, nb.y, nb.z );
-			if ( hasVertices ) glVertex3f( vb.x, vb.y, vb.z );
-
-			if ( hasColors ) glColor4f( cc.x, cc.y, cc.z, cc.w );
-			if ( hasTexcoords ) glTexCoord2f( tc.x, tc.y );
-			if ( hasNormals ) glNormal3f( nc.x, nc.y, nc.z );
-			if ( hasVertices ) glVertex3f( vc.x, vc.y, vc.z );
+			for ( int p = 0, q = 0 ; p < n ; p += 1, q += m )
+			{
+				d3d_data[q+0] = data[p+0];
+			}
+		}
+		else if ( format == FORMAT_L8A8 )
+		{
+			for ( int p = 0, q = 0 ; p < n ; p += 2, q += m )
+			{
+				d3d_data[q+0] = data[p+1];
+				d3d_data[q+1] = data[p+0];
+			}
+		}
+		else if ( format == FORMAT_R8G8B8 )
+		{
+			for ( int p = 0, q = 0 ; p < n ; p += 3, q += m )
+			{
+				d3d_data[q+0] = data[p+2];
+				d3d_data[q+1] = data[p+1];
+				d3d_data[q+2] = data[p+0];
+			}
+		}
+		else if ( format == FORMAT_R8G8B8A8 )
+		{
+			for ( int p = 0, q = 0 ; p < n ; p += 4, q += m )
+			{
+				d3d_data[q+0] = data[p+2];
+				d3d_data[q+1] = data[p+1];
+				d3d_data[q+2] = data[p+0];
+				d3d_data[q+3] = data[p+3];
+			}
 		}
 
-		glEnd();
+		lpTexture->UnlockRect(0);
+
+		dirty = false;
+	}
+
+	void D3DTexture::bind()
+	{
+		if ( dirty ) update();
+
+		LPDIRECT3DDEVICE9 lpD3DDevice = ((D3DRenderer*)renderer)->getDevice();
+
+		lpD3DDevice->SetTexture( 0, lpTexture );
 	}
 
 }
+
+#endif

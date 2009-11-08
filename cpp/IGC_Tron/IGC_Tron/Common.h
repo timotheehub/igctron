@@ -30,8 +30,8 @@
 
 #ifdef _WIN32
 	#define USE_WIN32
-	#define USE_DIRECT3D
-	//#define USE_OPENGL
+	//#define USE_DIRECT3D
+	#define USE_OPENGL
 #else
 	#define USE_X11
 	#define USE_OPENGL
@@ -73,6 +73,7 @@ namespace IGC
 	typedef class D3DMesh Mesh;
 	typedef class D3DModel Model;
 	typedef class D3DFont Font;
+	typedef class D3DTexture Texture;
 #endif
 #ifdef USE_OPENGL
 	typedef class OGLRenderer Renderer;
@@ -80,6 +81,7 @@ namespace IGC
 	typedef class OGLMesh Mesh;
 	typedef class OGLModel Model;
 	typedef class OGLFont Font;
+	typedef class OGLTexture Texture;
 #endif
 }
 
@@ -180,12 +182,12 @@ inline static void _assert( bool predicate, const char* file, int line, const ch
 	{
 		printf( "Error in %s, line %d : %s\n\n", file, line, message );
 
-
 #ifdef _WIN32
 		system( "pause" );
 #else
 		system( "read" ); // TODO : This is workaround.
 #endif
+
 		exit( -1 );
 	}
 }

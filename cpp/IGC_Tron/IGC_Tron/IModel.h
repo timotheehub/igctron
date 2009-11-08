@@ -75,14 +75,14 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe en d�finissant un mod�le 3d situ� au point { 0.0f, 0.0f, 0.0f },
-			orient� en direction de l'axe X positif, et de taille normale. Ce mod�le est d�fini
-			isol�, sans parent ni enfant, et n'a pas de maillage associ�.
+			Instancie la classe en d?finissant un mod?le 3d situ? au point { 0.0f, 0.0f, 0.0f },
+			orient? en direction de l'axe X positif, et de taille normale. Ce mod?le est d?fini
+			isol?, sans parent ni enfant, et n'a pas de maillage associ?.
 		*/
 		IModel( Engine* _engine );
 
 		/*
-			D�truit tous les enfants de ce mod�le 3d.
+			D?truit tous les enfants de ce mod?le 3d.
 		*/
 		virtual ~IModel();
 
@@ -93,42 +93,42 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie un pointeur vers le moteur associ� � cet objet.
+			Renvoie un pointeur vers le moteur associ? ? cet objet.
 		*/
 		Engine* getEngine();
 
 		/*
-			Renvoie le renderer associ� � ce mod�le.
+			Renvoie le renderer associ? ? ce mod?le.
 		*/
 		IRenderer* getRenderer();
 
 		/*
-			Cr�e un nouveau maillage pour ce mod�le 3d puis le renvoie.
+			Cr?e un nouveau maillage pour ce mod?le 3d puis le renvoie.
 		*/
 		IMesh* newMesh();
 
 		/*
-			Renvoie le maillage associ� � ce mod�le 3d.
+			Renvoie le maillage associ? ? ce mod?le 3d.
 		*/
 		IMesh* getMesh();
 
 		/*
-			Sp�cifie un maillage pour ce mod�le 3d.
+			Sp?cifie un maillage pour ce mod?le 3d.
 		*/
 		void setMesh( IMesh* _mesh );
 
 		/*
-			Cr�e un nouveau fils pour ce mod�le puis le renvoie.
+			Cr?e un nouveau fils pour ce mod?le puis le renvoie.
 		*/
 		IModel* newChild();
 
 		/*
-			Ajoute un fils � ce mod�le.
+			Ajoute un fils ? ce mod?le.
 		*/
 		void addChild( IModel* _child );
 
 		/*
-			D�truit l'un des fils de ce mod�le, si ce dernier se trouve dans la liste.
+			D?truit l'un des fils de ce mod?le, si ce dernier se trouve dans la liste.
 		*/
 		void delChild( IModel* _child );
 
@@ -138,129 +138,129 @@ namespace IGC
 		IModel* getChild( int _id );
 
 		/*
-			Renvoie le nombre de fils qu'a ce mod�le 3d.
+			Renvoie le nombre de fils qu'a ce mod?le 3d.
 		*/
 		int getChildCount();
 
 		/*
-			D�place ce mod�le d'un certain nombre d'unit�s sur les axes X, Y, et Z.
+			D?place ce mod?le d'un certain nombre d'unit?s sur les axes X, Y, et Z.
 		*/
 		void move( float _x, float _y, float _z );
 
 		/*
-			Fait pivoter ce mod�le d'un certain nombre de radians par rapport aux axes X, Y, et Z.
+			Fait pivoter ce mod?le d'un certain nombre de radians par rapport aux axes X, Y, et Z.
 		*/
 		void rotate( float _x, float _y, float _z );
 
 		/*
-			Grossit ce mod�le d'un certain nombre d'unit�s sur les axes X, Y, et Z.
+			Grossit ce mod?le d'un certain nombre d'unit?s sur les axes X, Y, et Z.
 		*/
 		void grow( float _x, float _y, float _z );
 
 		/*
-			R�duit ce mod�le d'un certain nombre d'unit�s par rapport aux axes X, Y, et Z.
+			R?duit ce mod?le d'un certain nombre d'unit?s par rapport aux axes X, Y, et Z.
 		*/
 		void shrink( float _x, float _y, float _z );
 
 		/*
-			T�l�porte ce mod�le 3d au point { _x, _y, _z } dans le rep�re global.
+			T?l?porte ce mod?le 3d au point { _x, _y, _z } dans le rep?re global.
 		*/
 		void setCenter( float _x, float _y, float _z );
 
 		/*
-			T�l�porte ce mod�le au point { _center.x, _center.y, _center.z } dans le rep�re global.
+			T?l?porte ce mod?le au point { _center.x, _center.y, _center.z } dans le rep?re global.
 		*/
 		void setCenter( float3& _center );
 
 		/*
-			Renvoie la position de ce mod�le 3d dans le rep�re global.
+			Renvoie la position de ce mod?le 3d dans le rep?re global.
 		*/
 		float3 getCenter() { return center; };
 
 		/*
-			D�finit les angles (en radians) de ce mod�le 3d par rapport aux axes X (tangage),
+			D?finit les angles (en radians) de ce mod?le 3d par rapport aux axes X (tangage),
 			Y (lacet), et Z (roulis).
 		*/
 		void setAngle( float _x, float _y, float _z );
 
 		/*
-			D�finit les angles (en radians) de ce mod�le 3d par rapport aux axes X (tangage),
+			D?finit les angles (en radians) de ce mod?le 3d par rapport aux axes X (tangage),
 			Y (lacet), et Z (roulis).
 		*/
 		void setAngle( float3& _angle ) ;
 
 		/*
-			Renvoie un vecteur contenant les angles (en radians) de ce mod�le par rapport
+			Renvoie un vecteur contenant les angles (en radians) de ce mod?le par rapport
 			aux axes X (tangage), Y (lacet), et Z (roulis).
 		*/
 		float3 getAngle() { return angle; };
 
 		/*
-			Sp�cifie la taille de ce mod�le 3d par rapport aux axes X, Y, et Z. Une taille
-			normale �quivaut aux param�tres _x = 1.0f, _y = 1.0f, et _z = 1.0f.
+			Sp?cifie la taille de ce mod?le 3d par rapport aux axes X, Y, et Z. Une taille
+			normale ?quivaut aux param?tres _x = 1.0f, _y = 1.0f, et _z = 1.0f.
 		*/
 		void setSize( float _x, float _y, float _z );
 
 		/*
-			Sp�cifie la taille de ce mod�le 3d par rapport aux axes X, Y, et Z. Une taille
-			normale �quivaut au param�tre _size = { 1.0f, 1.0f, 1.0f }.
+			Sp?cifie la taille de ce mod?le 3d par rapport aux axes X, Y, et Z. Une taille
+			normale ?quivaut au param?tre _size = { 1.0f, 1.0f, 1.0f }.
 		*/
 		void setSize( float3 & _size );
 
 		/*
-			Renvoie un vecteur contenant les rapports de taille (en multiple de u) de ce mod�le
+			Renvoie un vecteur contenant les rapports de taille (en multiple de u) de ce mod?le
 			par rapport	aux axes X, Y, et Z.
 		*/
 		float3 getSize() { return size; };
 
 		/*
-			Renvoie l'angle (en radians) de ce mod�le 3d par rapport � l'axe X (tangage).
+			Renvoie l'angle (en radians) de ce mod?le 3d par rapport ? l'axe X (tangage).
 		*/
 		float pitch() { return angle.x; };
 
 		/*
-			Renvoie l'angle (en radians) de ce mod�le 3d par rapport � l'axe Y (lacet).
+			Renvoie l'angle (en radians) de ce mod?le 3d par rapport ? l'axe Y (lacet).
 		*/
 		float yaw() { return angle.y; };
 
 		/*
-			Renvoie l'angle (en radians) de ce mod�le 3d par rapport � l'axe Z (roulis).
+			Renvoie l'angle (en radians) de ce mod?le 3d par rapport ? l'axe Z (roulis).
 		*/
 		float roll() { return angle.z;  };
 
 		/*
-			Renvoie la position (en u) de ce mod�le 3d sur l'axe X dans le rep�re global.
+			Renvoie la position (en u) de ce mod?le 3d sur l'axe X dans le rep?re global.
 		*/
 		float x() { return center.x; };
 
 		/*
-			Renvoie la position (en u) de ce mod�le 3d sur l'axe Y dans le rep�re global.
+			Renvoie la position (en u) de ce mod?le 3d sur l'axe Y dans le rep?re global.
 		*/
 		float y() { return center.y; };
 
 		/*
-			Renvoie la position (en u) de ce mod�le 3d sur l'axe Z dans le rep�re global.
+			Renvoie la position (en u) de ce mod?le 3d sur l'axe Z dans le rep?re global.
 		*/
 		float z() { return center.z; };
 
 		/*
-			Renvoie le rapport de taille (en u) de ce mod�le 3d sur l'axe X (largeur).
+			Renvoie le rapport de taille (en u) de ce mod?le 3d sur l'axe X (largeur).
 		*/
 		float width() { return size.x; };
 
 		/*
-			Renvoie le rapport de taille (en u) de ce mod�le 3d sur l'axe Y (hauteur).
+			Renvoie le rapport de taille (en u) de ce mod?le 3d sur l'axe Y (hauteur).
 		*/
 		float height() { return size.y; };
 
 		/*
-			Renvoie le rapport de taille (en u) de ce mod�le 3d sur l'axe Z (profondeur).
+			Renvoie le rapport de taille (en u) de ce mod?le 3d sur l'axe Z (profondeur).
 		*/
 		float depth() { return size.z; };
 
 		/*
-			Renvoie la matrice permettant de transformer l'ensemble des coordonn�es de
-			ce mod�le 3d depuis son propre rep�re vers le rep�re global.
+			Renvoie la matrice permettant de transformer l'ensemble des coordonn?es de
+			ce mod?le 3d depuis son propre rep?re vers le rep?re global.
 		*/
 		float4x4 getWorldMatrix();
 
@@ -271,19 +271,19 @@ namespace IGC
 	public:
 
 		/*
-			Force la mise � jour de la matrice.
+			Force la mise ? jour de la matrice.
 		*/
 		virtual void update();
 
 		/*
-			Rend le maillage de ce mod�le ainsi que ceux de tous ses fils.
+			Rend le maillage de ce mod?le ainsi que ceux de tous ses fils.
 		*/
 		virtual void render();
 
 		/*
 			Charge un fichier au format 3D Studio (*.3ds).
 		*/
-		void import( const  char* _path );
+		void import( const char* _path );
 
 	};
 }

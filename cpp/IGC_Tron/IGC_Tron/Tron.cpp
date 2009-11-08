@@ -32,11 +32,13 @@
 #include "D3DMesh.h"
 #include "D3DModel.h"
 #include "D3DFont.h"
+#include "D3DTexture.h"
 #include "OGLRenderer.h"
 #include "OGLCamera.h"
 #include "OGLMesh.h"
 #include "OGLModel.h"
 #include "OGLFont.h"
+#include "OGLTexture.h"
 
 #ifdef _WIN32
 	#pragma warning (disable : 4996)
@@ -67,13 +69,14 @@ const bool DEBUG_KEY_CODE = false;
 const float MOUSE_SENSIVITY = 0.01f;
 const float MOVE_SPEED = 50.0f;
 
-Engine* engine = NULL;
-Factory* factory = NULL;
+IGC::Engine* engine = NULL;
+IGC::Factory* factory = NULL;
 IGC::Window* window = NULL;
-Renderer* renderer = NULL;
-Camera* camera = NULL;
-Model* model = NULL;
+IGC::Renderer* renderer = NULL;
+IGC::Camera* camera = NULL;
+IGC::Model* model = NULL;
 IGC::Font* font = NULL;
+IGC::Texture* texture = NULL;
 
 bool running;
 
@@ -153,9 +156,11 @@ void mainLoop()
 
 	while( running )
 	{
-		renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
+		renderer->clear( 0.2f, 0.2f, 0.2f, 1.0f );
 
 		camera->bind();
+
+		texture->bind();
 
 		model->render();
 
@@ -210,7 +215,7 @@ void mainLoop()
 
 void initWindow()
 {
-	window = new IGC::Window( engine );
+	window = factory->acquire( (IGC::Window*)NULL );
 
 	window->setLeft( 120 );
 	window->setTop( 80 );
@@ -235,7 +240,7 @@ void freeWindow()
 	window->unregisterKeyUpCallback( onKeyUp );
 	window->unregisterMouseMoveCallback( onMouseMove );
 
-	delete window;
+	factory->release( window );
 }
 
 void initEngine()
@@ -254,7 +259,7 @@ void freeEngine()
 
 void initRenderer()
 {
-	renderer = factory->acquire( (Renderer*)NULL );
+	renderer = factory->acquire( (IGC::Renderer*)NULL );
 
 	renderer->disableFullscreen();
 	renderer->disableVSync();
@@ -262,7 +267,7 @@ void initRenderer()
 
 	renderer->initialize();
 
-	camera = factory->acquire( (Camera*)NULL );
+	camera = factory->acquire( (IGC::Camera*)NULL );
 
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
 	camera->setCenter( 0.0f, 30.0f, 10.0f );
@@ -291,16 +296,22 @@ void freeRenderer()
 
 void loadScene()
 {
-	model = factory->acquire( (Model*)NULL );
+	model = factory->acquire( (IGC::Model*)NULL );
 
 	model->import( "ship.3ds" );
 	model->shrink( 8.0f, 8.0f, 8.0f );
 	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
 	model->move( 0.0f, 0.0f, -50.0f );
+
+	texture = factory->acquire( (IGC::Texture*)NULL );
+
+	texture->import( "warp.png" );
 }
 
 void unloadScene()
 {
+	factory->release( texture );
+
 	factory->release( model );
 }
 
