@@ -261,6 +261,19 @@ namespace IGC
 #endif
 	}
 
+	void OGLRenderer::setTransparency( bool _value )
+	{
+		if ( _value )
+		{
+			glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+			glEnable( GL_BLEND );
+		}
+		else
+		{
+			glDisable( GL_BLEND );
+		}
+	}
+
 	void OGLRenderer::clear( float _r, float _g, float _b, float _depth )
 	{
 		glClearColor( _r, _g, _b, 1.0f );
@@ -287,10 +300,8 @@ namespace IGC
 
 		GLfloat offset = 16.0f * inv_height;
 
-		// Pulsing Colors Based On Text Position
 		glColor4f( _r, _g, _b, _a );
 
-		// Position The Text On The Screen
 		glRasterPos2f( inv_width * (GLfloat)_x - 1.0f, 1.0f - offset - inv_height * (GLfloat)_y );
 
 		glPushAttrib( GL_LIST_BIT );
@@ -298,4 +309,34 @@ namespace IGC
 		glCallLists( strlen( _text ), GL_UNSIGNED_BYTE, _text );
 		glPopAttrib();
 	}
+
+	void OGLRenderer::drawImage( int _x0, int _y0, int _x1, int _y1, float _px, float _py, float _sx, float _sy, float _r, float _g, float _b, float _a )
+	{
+		glEnable( GL_TEXTURE_2D );
+
+		glMatrixMode( GL_PROJECTION );
+		glLoadIdentity();
+
+		gluPerspective( 90.0f, 1.0f, 0.1f, 100.0f );
+
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
+
+		GLfloat inv_width = 2.0f / (GLfloat)width;
+		GLfloat inv_height = 2.0f / (GLfloat)height;
+
+		glColor4f( _r, _g, _b, _a );
+
+		glBegin( GL_QUADS );
+			glTexCoord2f( _px, _py + _sy );
+			glVertex3f( inv_width * (GLfloat)_x0 - 1.0f,  1.0f - inv_height * (GLfloat)_y1, -1.0f );
+			glTexCoord2f( _px + _sx, _py + _sy );
+			glVertex3f(  inv_width * (GLfloat)_x1 - 1.0f,  1.0f - inv_height * (GLfloat)_y1, -1.0f );
+			glTexCoord2f( _px + _sx, _py );
+			glVertex3f(  inv_width * (GLfloat)_x1 - 1.0f, 1.0f - inv_height * (GLfloat)_y0, -1.0f );
+			glTexCoord2f( _px, _py );
+			glVertex3f( inv_width * (GLfloat)_x0 - 1.0f, 1.0f - inv_height * (GLfloat)_y0, -1.0f );
+		glEnd();
+	}
+
 }

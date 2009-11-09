@@ -77,6 +77,7 @@ IGC::Camera* camera = NULL;
 IGC::Model* model = NULL;
 IGC::Font* font = NULL;
 IGC::Texture* texture = NULL;
+IGC::Texture* image = NULL;
 
 bool running;
 
@@ -162,6 +163,8 @@ void mainLoop()
 
 		texture->bind();
 
+		renderer->setTransparency( false );
+
 		model->render();
 
 		{
@@ -185,6 +188,19 @@ void mainLoop()
 				renderer->drawText( avgBuffer, x, y + 48, 1.0f, 1.0f, 0.0f, 1.0f );
 			else
 				renderer->drawText( avgBuffer, x, y + 48, 1.0f, 0.0f, 0.0f, 1.0f );
+		}
+
+		{
+			image->bind();
+			
+			renderer->setTransparency( true );
+
+			int x0 = renderer->toPointX( 0.01f );
+			int y0 = renderer->toPointY( 0.63f );
+			int x1 = renderer->toPointX( 0.27f );
+			int y1 = renderer->toPointY( 0.79f );
+
+			renderer->drawImage( x0, y0, x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 0.4f, 1.0f, 0.4f, 1.0f );
 		}
 
 		renderer->update();
@@ -306,10 +322,15 @@ void loadScene()
 	texture = factory->acquire( (IGC::Texture*)NULL );
 
 	texture->import( "warp.png" );
+
+	image = factory->acquire( (IGC::Texture*)NULL );
+
+	image->import( "logo.png" );
 }
 
 void unloadScene()
 {
+	factory->release( image );
 	factory->release( texture );
 
 	factory->release( model );
