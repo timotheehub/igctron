@@ -75,7 +75,7 @@ namespace IGC
 		else if ( format == FORMAT_L8A8 )
 			D3DXCreateTexture( lpD3DDevice, width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8L8, D3DPOOL_DEFAULT, (LPDIRECT3DTEXTURE9*)&lpTexture );
 		else if ( format == FORMAT_R8G8B8 )
-			D3DXCreateTexture( lpD3DDevice, width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_R8G8B8, D3DPOOL_DEFAULT, (LPDIRECT3DTEXTURE9*)&lpTexture );
+			D3DXCreateTexture( lpD3DDevice, width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, (LPDIRECT3DTEXTURE9*)&lpTexture );
 		else if ( format == FORMAT_R8G8B8A8 )
 			D3DXCreateTexture( lpD3DDevice, width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, (LPDIRECT3DTEXTURE9*)&lpTexture );
 
@@ -84,41 +84,66 @@ namespace IGC
 
 		byte* d3d_data = (byte*)rect.pBits;
 
-		int m = rect.Pitch / width;
-		int n = width * height * getPixelSize();
+		int u = rect.Pitch;
+		int v = width;
 
 		if ( format == FORMAT_L8 )
 		{
-			for ( int p = 0, q = 0 ; p < n ; p += 1, q += m )
+			for ( int p = 0 ; p < height ; p++ )
 			{
-				d3d_data[q+0] = data[p+0];
+				int i = p * u;
+				int j = p * v;
+
+				for ( int q = 0 ; q < width ; q++ )
+				{
+					d3d_data[i+q] = data[j+q];
+				}
 			}
 		}
 		else if ( format == FORMAT_L8A8 )
 		{
-			for ( int p = 0, q = 0 ; p < n ; p += 2, q += m )
+			for ( int p = 0 ; p < height ; p++ )
 			{
-				d3d_data[q+0] = data[p+1];
-				d3d_data[q+1] = data[p+0];
+				int i = p * u;
+				int j = p * v * 2;
+
+				for ( int q = 0 ; q < width ; q++ )
+				{
+					d3d_data[i+2*q+0] = data[j+2*q+1];
+					d3d_data[i+2*q+1] = data[j+2*q+0];
+				}
 			}
 		}
 		else if ( format == FORMAT_R8G8B8 )
 		{
-			for ( int p = 0, q = 0 ; p < n ; p += 3, q += m )
+			for ( int p = 0 ; p < height ; p++ )
 			{
-				d3d_data[q+0] = data[p+2];
-				d3d_data[q+1] = data[p+1];
-				d3d_data[q+2] = data[p+0];
+				int i = p * u;
+				int j = p * v * 3;
+
+				for ( int q = 0 ; q < width ; q++ )
+				{
+					d3d_data[i+4*q+0] = data[j+3*q+2];
+					d3d_data[i+4*q+1] = data[j+3*q+1];
+					d3d_data[i+4*q+2] = data[j+3*q+0];
+					d3d_data[i+4*q+3] = 0;
+				}
 			}
 		}
 		else if ( format == FORMAT_R8G8B8A8 )
 		{
-			for ( int p = 0, q = 0 ; p < n ; p += 4, q += m )
+			for ( int p = 0 ; p < height ; p++ )
 			{
-				d3d_data[q+0] = data[p+2];
-				d3d_data[q+1] = data[p+1];
-				d3d_data[q+2] = data[p+0];
-				d3d_data[q+3] = data[p+3];
+				int i = p * u;
+				int j = p * v * 4;
+
+				for ( int q = 0 ; q < width ; q++ )
+				{
+					d3d_data[i+4*q+0] = data[j+4*q+2];
+					d3d_data[i+4*q+1] = data[j+4*q+1];
+					d3d_data[i+4*q+2] = data[j+4*q+0];
+					d3d_data[i+4*q+3] = data[j+4*q+3];
+				}
 			}
 		}
 

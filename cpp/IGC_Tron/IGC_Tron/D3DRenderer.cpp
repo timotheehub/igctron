@@ -267,6 +267,20 @@ namespace IGC
 		lpD3DDevice->Present( NULL, NULL, NULL, NULL );
 	}
 
+	void D3DRenderer::setTransparency( bool _value )
+	{
+		if ( _value )
+		{
+			lpD3DDevice->SetRenderState( D3DRS_SRCBLEND, D3DBLEND_SRCALPHA );
+			lpD3DDevice->SetRenderState( D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA );
+			lpD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE );
+		}
+		else
+		{
+			lpD3DDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, FALSE );
+		}
+	}
+
 	void D3DRenderer::clear( float _r, float _g, float _b, float _depth )
 	{
 		lpD3DDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
@@ -288,6 +302,65 @@ namespace IGC
 
 		lpD3DDevice->EndScene();
 	}
+
+	void D3DRenderer::drawImage( int _x0, int _y0, int _x1, int _y1, float _px, float _py, float _sx, float _sy, float _r, float _g, float _b, float _a )
+	{
+		float inv_width = 2.0f / (float)width;
+		float inv_height = 2.0f / (float)height;
+
+		static float4x4 matIdentity = { 1.0f, 0.0f, 0.0f, 0.0f,
+										0.0f, 1.0f, 0.0f, 0.0f,
+										0.0f, 0.0f, 1.0f, 0.0f,
+										0.0f, 0.0f, 0.0f, 1.0f };
+
+		dword color = D3DCOLOR_ARGB( (int)(_a * 255.0f), (int)(_r * 255.0f), (int)(_g * 255.0f), (int)(_b * 255.0f) );
+
+		struct vertex
+		{
+			FLOAT x, y, z;
+			D3DCOLOR color;
+			FLOAT u, v;
+		};
+
+		vertex vertices[4];
+		word indices[6];
+		
+		vertices[0].x = inv_width * (float)_x0 - 1.0f; vertices[0].y = 1.0f - inv_height * (float)_y1; vertices[0].z = 0.0f; vertices[0].color = color; vertices[0].u = _px;		vertices[0].v = _py + _sy;
+		vertices[1].x = inv_width * (float)_x1 - 1.0f; vertices[1].y = 1.0f - inv_height * (float)_y1; vertices[1].z = 0.0f; vertices[1].color = color; vertices[1].u = _px + _sx;	vertices[1].v = _py + _sy;
+		vertices[2].x = inv_width * (float)_x0 - 1.0f; vertices[2].y = 1.0f - inv_height * (float)_y0; vertices[2].z = 0.0f; vertices[2].color = color; vertices[2].u = _px;		vertices[2].v = _py;
+		vertices[3].x = inv_width * (float)_x1 - 1.0f; vertices[3].y = 1.0f - inv_height * (float)_y0; vertices[3].z = 0.0f; vertices[3].color = color; vertices[3].u = _px + _sx;	vertices[3].v = _py;
+
+		indices[0] = 0; indices[1] = 1; indices[2] = 2;
+		indices[3] = 3; indices[4] = 2; indices[5] = 1;
+
+		lpD3DDevice->BeginScene();
+
+		lpD3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_CW );
+		lpD3DDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
+		lpD3DDevice->SetRenderState( D3DRS_LIGHTING, FALSE );
+		lpD3DDevice->SetRenderState( D3DRS_COLORVERTEX, TRUE );
+
+		lpD3DDevice->SetTransform( D3DTS_WORLD, (D3DMATRIX*)&matIdentity );
+		lpD3DDevice->SetTransform( D3DTS_VIEW, (D3DMATRIX*)&matIdentity );
+		lpD3DDevice->SetTransform( D3DTS_PROJECTION, (D3DMATRIX*)&matIdentity );
+
+		lpD3DDevice->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR );
+		lpD3DDevice->SetSamplerState( 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
+		lpD3DDevice->SetSamplerState( 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
+
+		lpD3DDevice->SetFVF( D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1 );
+
+		lpD3DDevice->SetVertexShader( NULL );
+		lpD3DDevice->SetPixelShader( NULL );
+
+		lpD3DDevice->DrawIndexedPrimitiveUP( D3DPT_TRIANGLELIST, 0, 4, 2, indices, D3DFMT_INDEX16, vertices, sizeof(vertex) );
+
+		lpD3DDevice->SetVertexShader( NULL );
+		lpD3DDevice->SetPixelShader( NULL );
+
+		lpD3DDevice->EndScene();
+	}
+
 } 
 
 #endif

@@ -86,13 +86,13 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et alloue la m?moire vid?o pour une surface de rendu dont la taille
-			correspond ? celle de la fen?tre associ?e ? _engine.
+			Instancie la classe et alloue la mémoire vidéo pour une surface de rendu dont la taille
+			correspond à celle de la fenêtre associée à _engine.
 		*/
 		OGLRenderer( Engine* _engine );
 
 		/*
-			Lib?re la m?moire vid?o r?serv?e pour une surface de rendu.
+			Libère la mémoire vidéo réservée pour une surface de rendu.
 		*/
 		virtual ~OGLRenderer();
 
@@ -103,7 +103,7 @@ namespace IGC
 	private:
 
 		/*
-			Sp?cifie une police pour le prochain rendu de texte.
+			Spécifie une police pour le prochain rendu de texte.
 		*/
 		void setFont( GLuint _glFontList );
 
@@ -119,25 +119,38 @@ namespace IGC
 		virtual void initialize();
 
 		/*
-			Lib?re toutes les ressources relatives ? OpenGL.
+			Libère toutes les ressources relatives à OpenGL.
 		*/
 		virtual void finalize();
 
 		/*
-			Met ? jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
+			Met à jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
 		*/
 		virtual void update();
 
 		/*
-			Remplit le back buffer de la couleur sp?cifi?e et le depth buffer de la profondeur sp?cifi?e.
+			Active ou non la transparence pour le prochain rendu.
+		*/
+		virtual void setTransparency( bool _value );
+
+		/*
+			Remplit le back buffer de la couleur spécifiée et le depth buffer de la profondeur spécifiée.
 		*/
 		virtual void clear( float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _depth = 1.0f );
 
 		/*
-			Affiche du texte ? la position absolue sp?cifi?e avec la couleur sp?cifi?e en fonction de la police
-			qui aura pr?c?demment ?t? d?finie.
+			Affiche du texte à la position absolue spécifiée avec la couleur spécifiée en fonction de la police
+			qui aura précédemment été définie.
 		*/
 		virtual void drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a );
+
+		/*
+			Affiche une image à la position absolue spécifiée avec la couleur spécifiée en fonction de la texture
+			qui aura précédemment été définie.
+		*/
+		virtual void drawImage( int _x0, int _y0, int _x1, int _y1,
+									float _px = 0.0f, float _py = 0.0f, float _sx = 1.0f, float _sy = 1.0f,
+											float _r = 1.0f, float _g = 1.0f, float _b = 1.0f, float _a = 1.0f );
 
 	};
 }
