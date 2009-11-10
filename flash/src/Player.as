@@ -76,14 +76,14 @@
 				{
 					newX -= vehicle.getSpeed();
 					x0 = newX - vehicle.getWidth() / 2;
-					x1 = x + vehicle.getWidth() / 2;
+					x1 = x;
 					y0 = y - vehicle.getHeight() / 2;
 					y1 = y + vehicle.getHeight() / 2;
 				}
 				else if( direction == DIRECTION_RIGHT )
 				{
 					newX += vehicle.getSpeed();
-					x0 = x - vehicle.getWidth() / 2;
+					x0 = x;
 					x1 = newX + vehicle.getWidth() / 2;
 					y0 = y - vehicle.getHeight() / 2;
 					y1 = y + vehicle.getHeight() / 2;
@@ -93,7 +93,7 @@
 					newY += vehicle.getSpeed();
 					x0 = x - vehicle.getHeight() / 2;
 					x1 = x + vehicle.getHeight() / 2;
-					y0 = y - vehicle.getWidth() / 2;
+					y0 = y;
 					y1 = newY + vehicle.getWidth() / 2;
 				}
 				else if( direction == DIRECTION_UP )
@@ -102,7 +102,7 @@
 					x0 = x - vehicle.getHeight() / 2;
 					x1 = x + vehicle.getHeight() / 2;
 					y0 = newY - vehicle.getWidth() / 2;
-					y1 = y + vehicle.getWidth() / 2;
+					y1 = y;
 				}	
 				
 				var lastSegment : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
