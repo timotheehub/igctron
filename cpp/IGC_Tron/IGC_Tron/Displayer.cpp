@@ -2,7 +2,24 @@
 // Déclaration de la classe Displayer
 
 #include "Displayer.h"
-#include "main.h"
+using namespace IGC;
+
+bool Displayer::running = true;
+
+void Displayer::OnClose ( )
+{
+	running = false;
+}
+
+bool Displayer::GetRunning ( )
+{
+	return running;
+}
+	
+void Displayer::SetRunning ( bool isRunning )
+{
+	running = isRunning;
+}
 
 /******************************************************************************
 *                   Chargement des ressources                                 *
@@ -14,19 +31,21 @@ void Displayer::LoadRessources ( )
 
 void Displayer::LoadScene()
 {
-	model = factory->acquire( (Model*)NULL );
+	model = factory->acquire( (IGC::Model*)NULL );
 
 	model->import( "ship.3ds" );
 	model->shrink( 8.0f, 8.0f, 8.0f );
 	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
 	model->move( 0.0f, 0.0f, -50.0f );
+
+	texture = factory->acquire( (IGC::Texture*)NULL );
+	texture->import( "warp.png" );
 }
 
 void Displayer::UnloadScene()
 {
-	Displayer *aDisplayer = Displayer::GetInstance ( );
-
-	aDisplayer->factory->release( model );
+	factory->release( texture );
+	factory->release( model );
 }
 
 
@@ -60,7 +79,7 @@ void Displayer::initWindow ( )
 	window->setHeight( 768 );
 	window->setTitle( "Tron" );
 
-	window->registerCloseCallback( onClose );
+	window->registerCloseCallback( OnClose );
 
 	window->show();
 }
@@ -68,19 +87,19 @@ void Displayer::initWindow ( )
 // Initialise renderer
 void Displayer::initRenderer ( )
 {
-	renderer = factory->acquire( (Renderer*)NULL );
+	renderer = factory->acquire( (IGC::Renderer*)NULL );
 	renderer->disableFullscreen();
 	renderer->disableVSync();
 	renderer->useHardware();
 	renderer->initialize();
 
-	camera = factory->acquire( (Camera*)NULL );
+	camera = factory->acquire( (IGC::Camera*)NULL );
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
 	camera->setCenter( 0.0f, 30.0f, 10.0f );
 	camera->lookAt( 0.0f, 0.0f, -50.0f );
 	camera->update();
 
-	font = factory->acquire( (Font*)NULL );
+	font = factory->acquire( (IGC::Font*)NULL );
 	font->setName( "Verdana" );
 	font->setSize( 12 );
 	font->setBold( true );
@@ -104,6 +123,10 @@ void Displayer::UpdateGraphics ( )
 	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
 
 	camera->bind();
+
+	texture->bind();
+
+	renderer->setTransparency( false );
 
 	model->render();
 
@@ -169,7 +192,7 @@ void Displayer::freeRenderer ( )
 void Displayer::freeWindow ( )
 {
 	window->hide();
-	window->unregisterCloseCallback( onClose );
+	window->unregisterCloseCallback( OnClose );
 
 	delete window;
 }
@@ -189,7 +212,8 @@ void Displayer::freeEngine ( )
 ******************************************************************************/
 // Constructeur
 Displayer::Displayer ( )
-: engine( 0 ), factory( 0 ), window( 0 ), renderer( 0 ), camera( 0 ), model( 0 ), font( 0 )
+: engine( 0 ), factory( 0 ), window( 0 ), renderer( 0 ), camera( 0 ),
+		model( 0 ), font( 0 ), texture( 0 )
 {
 }
 

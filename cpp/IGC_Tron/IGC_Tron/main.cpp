@@ -30,7 +30,6 @@ int main( int argc, char** argv )
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 #include "Displayer.h"
-#include "main.h"
 
 #include "Common.h"
 
@@ -48,17 +47,6 @@ int main( int argc, char** argv )
 
 using namespace IGC;
 
-
-/***********************************************************************************/
-/** EVENEMENTS                                                                    **/
-/***********************************************************************************/
-
-void onClose()
-{
-	Displayer *aDisplayer = Displayer::GetInstance ( );
-	aDisplayer->running = false;
-}
-
 /***********************************************************************************/
 /** FONCTIONS                                                                     **/
 /***********************************************************************************/
@@ -66,9 +54,9 @@ void onClose()
 void mainLoop()
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
-	aDisplayer->running = true;
+	Displayer::SetRunning( true );
 
-	while( aDisplayer->running == true )
+	while( Displayer::GetRunning() == true )
 	{
 		aDisplayer->UpdateGraphics ( );
 	}
