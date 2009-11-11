@@ -8,6 +8,7 @@
 
 #include "Common.h"
 #include "Engine.h"
+#include "Factory.h"
 #include "W32Window.h"
 #include "X11Window.h"
 #include "D3DRenderer.h"
@@ -15,11 +16,13 @@
 #include "D3DMesh.h"
 #include "D3DModel.h"
 #include "D3DFont.h"
+#include "D3DTexture.h"
 #include "OGLRenderer.h"
 #include "OGLCamera.h"
 #include "OGLMesh.h"
 #include "OGLModel.h"
 #include "OGLFont.h"
+#include "OGLTexture.h"
 
 using namespace IGC;
 
@@ -46,7 +49,11 @@ public:
 	void LoadScene ( );
 	void UnloadScene ( );
 	
-	bool running;
+	static void OnClose ( );
+	static bool GetRunning ( );
+	static void SetRunning ( bool isRunning );
+
+
 
 private:
 	// Constructeur
@@ -73,6 +80,9 @@ private:
 	Camera *camera;
 	Model* model;
 	Font* font;
+	Texture *texture;
+
+	static bool running;
 };
 
 #endif // __DISPLAYER_H__
