@@ -76,7 +76,6 @@
 			for (var i : int = 0; i < players.length; i++)
 			{
 				players[i].update ();
-				
 			}
 		}
 		
