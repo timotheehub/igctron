@@ -1,5 +1,5 @@
 // Displayer.h
-// Déclaration de la classe Displayer
+// Dï¿½claration de la classe Displayer
 
 #include "Displayer.h"
 using namespace IGC;
@@ -51,9 +51,9 @@ void Displayer::UnloadScene()
 
 
 /******************************************************************************
-*                   Initialisation pour l'écran                               *
+*                   Initialisation pour l'ï¿½cran                               *
 ******************************************************************************/
-// Initialise l'écran
+// Initialise l'ï¿½cran
 void Displayer::InitScreen ( )
 {
 	initEngine ( );
@@ -71,7 +71,7 @@ void Displayer::initEngine ( )
 // Initialise window
 void Displayer::initWindow ( )
 {
-	window = new Window( engine );
+	window = new IGC::Window( engine );
 
 	window->setLeft( 120 );
 	window->setTop( 80 );
@@ -110,9 +110,9 @@ void Displayer::initRenderer ( )
 
 
 /******************************************************************************
-*              Met à jour la partie la partie graphique                       *
+*              Met ï¿½ jour la partie la partie graphique                       *
 ******************************************************************************/
-// Rafraîchit graphiquement
+// Rafraï¿½chit graphiquement
 void Displayer::UpdateGraphics ( )
 {
 	double cycleTime = 0;
@@ -169,9 +169,9 @@ void Displayer::UpdateGraphics ( )
 
 
 /******************************************************************************
-*                        Libère la mémoire                                    *
+*                        Libï¿½re la mï¿½moire                                    *
 ******************************************************************************/
-// Libère la mémoire
+// Libï¿½re la mï¿½moire
 void Displayer::FreeMemory ( )
 {
 	freeRenderer ( );
@@ -179,7 +179,7 @@ void Displayer::FreeMemory ( )
 	freeEngine ( );
 }
 
-// Libère renderer
+// Libï¿½re renderer
 void Displayer::freeRenderer ( )
 {
 	factory->release( font );
@@ -188,7 +188,7 @@ void Displayer::freeRenderer ( )
 	factory->release( renderer );
 }
 	
-// Libère window
+// Libï¿½re window
 void Displayer::freeWindow ( )
 {
 	window->hide();
@@ -197,7 +197,7 @@ void Displayer::freeWindow ( )
 	delete window;
 }
 
-// Libère engine
+// Libï¿½re engine
 void Displayer::freeEngine ( )
 {
 	factory = NULL;

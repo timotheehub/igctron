@@ -157,7 +157,7 @@ void mainLoop()
 
 	while( running )
 	{
-		renderer->clear( 0.2f, 0.2f, 0.2f, 1.0f );
+		renderer->clear( 1.0f, 0.2f, 0.2f, 1.0f );
 
 		camera->bind();
 
@@ -166,7 +166,7 @@ void mainLoop()
 		renderer->setTransparency( false );
 
 		model->render();
-
+/*
 		{
 			font->bind();
 
@@ -189,6 +189,7 @@ void mainLoop()
 			else
 				renderer->drawText( avgBuffer, x, y + 48, 1.0f, 0.0f, 0.0f, 1.0f );
 		}
+		*/
 
 		{
 			image->bind();
@@ -345,6 +346,7 @@ int main( int argc, char **argv )
 	initEngine();
 
 	initWindow();
+
 
 	initRenderer();
 

@@ -21,7 +21,7 @@
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 
-#include "libpng/png.h"
+#include "png.h"
 
 #include "ITexture.h"
 
@@ -232,7 +232,8 @@ namespace IGC
 		png_structp png_ptr;
 		png_infop info_ptr;
 
-		unsigned int sig_read = 0;
+		// TODO : à quoi sert ce truc ?
+		// unsigned int sig_read = 0;
 
 		FILE* fp = fopen( _path, "rb" );
 
@@ -246,7 +247,7 @@ namespace IGC
 		{
 			fclose( fp );
 
-			_assert( FALSE, __FILE__, __LINE__, "ITexture::import() : Invalid PNG file." );
+			_assert( false, __FILE__, __LINE__, "ITexture::import() : Invalid PNG file." );
 		}
 
 		png_ptr = png_create_read_struct( PNG_LIBPNG_VER_STRING, NULL, NULL, NULL );
@@ -255,7 +256,7 @@ namespace IGC
 		{
 			fclose( fp );
 
-			_assert( FALSE, __FILE__, __LINE__, "ITexture::import() : Unable to create PNG context." );
+			_assert( false, __FILE__, __LINE__, "ITexture::import() : Unable to create PNG context." );
 		}
 
 		info_ptr = png_create_info_struct( png_ptr );
@@ -266,7 +267,7 @@ namespace IGC
 
 			png_destroy_read_struct( &png_ptr, png_infopp_NULL, png_infopp_NULL );
 
-			_assert( FALSE, __FILE__, __LINE__, "ITexture::import() : Unable to allocate PNG header memory." );
+			_assert( false, __FILE__, __LINE__, "ITexture::import() : Unable to allocate PNG header memory." );
 		}
 
 		if ( setjmp( png_jmpbuf( png_ptr ) ) )
@@ -275,7 +276,7 @@ namespace IGC
 
 			fclose( fp );
 
-			_assert( FALSE, __FILE__, __LINE__, "ITexture::import() : Unable to read PNG data." );
+			_assert( false, __FILE__, __LINE__, "ITexture::import() : Unable to read PNG data." );
 		}
 
 		png_init_io( png_ptr, fp );
