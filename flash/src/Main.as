@@ -5,6 +5,7 @@
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.media.Sound;
 	
 	public class Main extends Sprite 
 	{
@@ -15,7 +16,7 @@
 		private var game : Game;
 		
 		private var menu : Menu;
-		
+		private var music : Music;
 		private var coord : Array = null;
 		
 		private static const X : int = 0;
@@ -36,12 +37,17 @@
 		private function init( e : Event = null) : void
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, init );
+			
+			music = new Music();
+			music.menuMusic();
+			
 			menu = new Menu( this, stage );
 		}
 		
 		public function initGame( ) : void 
 		{
 			menu = null;
+			music.gameMusic();
 			
 			addChild( background = new Bitmap( new BitmapData( stage.stageWidth, stage.stageHeight, false, 0x00 ) ) );
 			

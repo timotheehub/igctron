@@ -5,10 +5,14 @@
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	public class Player
 	{
 		public static const KEY_LEFT : uint = 37;
 		public static const KEY_RIGHT : uint = 39;
+		
+		public static const DELAY_WALL : uint = 10;
 		
 		public static const DIRECTION_LEFT : int = 0;
 		public static const DIRECTION_DOWN : int = 1;
@@ -132,7 +136,11 @@
 					game.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 					isDead = true;
 					trace('le player ' + id + ' est mort');
-					wall.destroyWall();
+					
+					// Tempo avant de détruire son mur
+					var timer : Timer = new Timer(DELAY_WALL, 1);					
+					timer.addEventListener(TimerEvent.TIMER_COMPLETE, destroyWall);
+					timer.start();
 				}
 				else
 				{
@@ -141,6 +149,11 @@
 					y = newY;
 				}
 			}
+		}
+		
+		private function destroyWall( e : Event = null ) : void
+		{
+			wall.destroyWall();
 		}
 		
 		public function setWall( _wall : Wall ) : void
