@@ -1,5 +1,5 @@
 // Displayer.h
-// Dï¿½finition de la classe Displayer
+// Déclaration de la classe Displayer
 
 #ifndef __DISPLAYER_H__
 #define __DISPLAYER_H__
@@ -24,6 +24,7 @@
 #include "OGLFont.h"
 #include "OGLTexture.h"
 
+using namespace std;
 using namespace IGC;
 
 class Displayer : public Singleton<Displayer>
@@ -31,16 +32,19 @@ class Displayer : public Singleton<Displayer>
   friend class Singleton<Displayer>;
 
 public:
+	// Types
+	enum StateEnum { MENU };
+
 	// Charge les ressources
 	void LoadRessources ( );
 
-	// Affiche l'ï¿½cran
+	// Affiche l'écran
 	void InitScreen ( );
 
-	// Rafraï¿½chit graphiquement
+	// Rafraîchit graphiquement
 	void UpdateGraphics ( );
 
-	// Libï¿½re la mï¿½moire
+	// Libère la mémoire
 	void FreeMemory ( );
 
 	// AddPlane, AddMoto
@@ -48,10 +52,23 @@ public:
 	// Pour plus tard, AddMesh
 	void LoadScene ( );
 	void UnloadScene ( );
+
+	void RegisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
+					IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp );
+	void UnregisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
+					IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp );
+
+	StateEnum GetState ( );
+	void SetState ( StateEnum aState );
 	
 	static void OnClose ( );
 	static bool GetRunning ( );
 	static void SetRunning ( bool isRunning );
+
+
+protected:
+	void DrawFps ( );
+	void DrawMenu ( );
 
 
 
@@ -62,12 +79,12 @@ private:
 	// Destructeur
 	~Displayer ( );
 
-	// Mï¿½thodes pour InitScreen
+	// Méthodes pour InitScreen
 	void initEngine ( );
 	void initWindow ( );	
 	void initRenderer ( );
 
-	// Mï¿½thodes pour FreeMemory
+	// Méthodes pour FreeMemory
 	void freeRenderer ( );
 	void freeWindow ( );
 	void freeEngine ( );
@@ -78,10 +95,14 @@ private:
 	IGC::Window* window;
 	Renderer* renderer;
 	Camera *camera;
-	Model* model;
+	IGC::Model* model;
 	IGC::Font* font;
-	Texture *texture;
+	IGC::Texture* texture;
 
+	// Variable d'etat
+	StateEnum state;
+
+	// Attributs statiques
 	static bool running;
 };
 
