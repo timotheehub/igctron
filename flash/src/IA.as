@@ -10,7 +10,9 @@
 			numero = (int)(Math.random()*2) + 1;
 		}
 		
-		public function update(direction : int, wall : Wall) : int {
+		public function update(direction : int, wall : Wall) : int 
+		{
+			/*
 			var newdirection;
 			
 			if (numero == 1) 
@@ -19,7 +21,7 @@
 			} 
 			else if (numero == 2) 
 			{
-				newdirection = IA2.update2(direction);
+				newdirection = IA2.update(direction);
 			}
 			
 			if (newdirection != direction)
@@ -28,6 +30,8 @@
 			}
 			
 			return newdirection;
+			*/
+			return 0;
 		}
 		
 	}
