@@ -1,16 +1,37 @@
-// Displayer.h
-// Dï¿½claration de la classe Displayer
+// Displayer.cpp
+// Définition de la classe Displayer
 
 #include "Displayer.h"
 using namespace IGC;
 
 bool Displayer::running = true;
 
+/******************************************************************************
+*                      Gestion des évenements                                 *
+******************************************************************************/
+
 void Displayer::OnClose ( )
 {
 	running = false;
 }
 
+void Displayer::RegisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
+							IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp )
+{
+	window->registerKeyDownCallback ( _cbKeyDown );
+	window->registerKeyUpCallback ( _cbKeyUp );
+}
+
+void Displayer::UnregisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
+							IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp )
+{
+	window->unregisterKeyDownCallback ( _cbKeyDown );
+	window->unregisterKeyUpCallback ( _cbKeyUp );
+}
+
+/******************************************************************************
+*                      Méthodes Get et Set                                    *
+******************************************************************************/
 bool Displayer::GetRunning ( )
 {
 	return running;
@@ -19,6 +40,16 @@ bool Displayer::GetRunning ( )
 void Displayer::SetRunning ( bool isRunning )
 {
 	running = isRunning;
+}
+
+Displayer::StateEnum Displayer::GetState ( )
+{
+	return state;
+}
+
+void Displayer::SetState ( Displayer::StateEnum aState )
+{
+	state = aState;
 }
 
 /******************************************************************************
@@ -51,11 +82,12 @@ void Displayer::UnloadScene()
 
 
 /******************************************************************************
-*                   Initialisation pour l'ï¿½cran                               *
+*                   Initialisation pour l'écran                               *
 ******************************************************************************/
-// Initialise l'ï¿½cran
+// Initialise l'écran
 void Displayer::InitScreen ( )
 {
+	state = MENU;
 	initEngine ( );
 	initWindow ( );
 	initRenderer ( );
@@ -71,7 +103,7 @@ void Displayer::initEngine ( )
 // Initialise window
 void Displayer::initWindow ( )
 {
-	window = new IGC::Window( engine );
+	window = new Window( engine );
 
 	window->setLeft( 120 );
 	window->setTop( 80 );
@@ -110,52 +142,51 @@ void Displayer::initRenderer ( )
 
 
 /******************************************************************************
-*              Met ï¿½ jour la partie la partie graphique                       *
+*              Met à jour la partie la partie graphique                       *
 ******************************************************************************/
-// Rafraï¿½chit graphiquement
+// Rafraîchit graphiquement
 void Displayer::UpdateGraphics ( )
+{
+	DrawMenu ( );
+	DrawFps ( );
+
+	renderer->update();
+
+	engine->update();
+}
+
+
+/******************************************************************************
+*                      Fonctions d'affichage                                  *
+******************************************************************************/
+// Affiche les fps
+void Displayer::DrawFps ( )
 {
 	double cycleTime = 0;
 
 	static char fpsBuffer[20];
 	static char avgBuffer[20];
 
-	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
+	font->bind();
 
-	camera->bind();
+	int x = renderer->toPointX( 0.01f );
+	int y = renderer->toPointY( 0.01f );
 
-	texture->bind();
+	renderer->drawText( "tron", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
 
-	renderer->setTransparency( false );
+	if ( engine->getCurrentFramerate() > 40 )
+		renderer->drawText( fpsBuffer, x, y + 32, 0.0f, 1.0f, 0.0f, 1.0f );
+	else if ( engine->getCurrentFramerate() > 20 )
+		renderer->drawText( fpsBuffer, x, y + 32, 1.0f, 1.0f, 0.0f, 1.0f );
+	else
+		renderer->drawText( fpsBuffer, x, y + 32, 1.0f, 0.0f, 0.0f, 1.0f );
 
-	model->render();
-
-	{
-		font->bind();
-
-		int x = renderer->toPointX( 0.01f );
-		int y = renderer->toPointY( 0.01f );
-
-		renderer->drawText( "tron", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-
-		if ( engine->getCurrentFramerate() > 40 )
-			renderer->drawText( fpsBuffer, x, y + 32, 0.0f, 1.0f, 0.0f, 1.0f );
-		else if ( engine->getCurrentFramerate() > 20 )
-			renderer->drawText( fpsBuffer, x, y + 32, 1.0f, 1.0f, 0.0f, 1.0f );
-		else
-			renderer->drawText( fpsBuffer, x, y + 32, 1.0f, 0.0f, 0.0f, 1.0f );
-
-		if ( engine->getAverageFramerate() > 60 )
-			renderer->drawText( avgBuffer, x, y + 48, 0.0f, 1.0f, 0.0f, 1.0f );
-		else if ( engine->getAverageFramerate() > 20 )
-			renderer->drawText( avgBuffer, x, y + 48, 1.0f, 1.0f, 0.0f, 1.0f );
-		else
-			renderer->drawText( avgBuffer, x, y + 48, 1.0f, 0.0f, 0.0f, 1.0f );
-	}
-
-	renderer->update();
-
-	engine->update();
+	if ( engine->getAverageFramerate() > 60 )
+		renderer->drawText( avgBuffer, x, y + 48, 0.0f, 1.0f, 0.0f, 1.0f );
+	else if ( engine->getAverageFramerate() > 20 )
+		renderer->drawText( avgBuffer, x, y + 48, 1.0f, 1.0f, 0.0f, 1.0f );
+	else
+		renderer->drawText( avgBuffer, x, y + 48, 1.0f, 0.0f, 0.0f, 1.0f );
 
 	if ( engine->getTime() > cycleTime )
 	{
@@ -166,12 +197,39 @@ void Displayer::UpdateGraphics ( )
 	}
 }
 
+// Affiche le menu
+void Displayer::DrawMenu ( )
+{
+	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
+
+	camera->bind();
+
+	texture->bind();
+			
+	renderer->setTransparency( true );
+
+	int x0 = renderer->toPointX( 0.00f );
+	int x1 = renderer->toPointX( 1.00f );
+	int y0 = renderer->toPointY( 0.00f );
+	int y1 = renderer->toPointY( 1.00f );
+
+	renderer->drawImage( x0, y0, x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f );
+
+	font->bind();
+	int x = renderer->toPointX( 0.5f );
+	int y = renderer->toPointY( 0.3f );
+	renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+	y = renderer->toPointY( 0.5f );
+	renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+	y = renderer->toPointY( 0.7f );
+	renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+}
 
 
 /******************************************************************************
-*                        Libï¿½re la mï¿½moire                                    *
+*                        Libère la mémoire                                    *
 ******************************************************************************/
-// Libï¿½re la mï¿½moire
+// Libère la mémoire
 void Displayer::FreeMemory ( )
 {
 	freeRenderer ( );
@@ -179,7 +237,7 @@ void Displayer::FreeMemory ( )
 	freeEngine ( );
 }
 
-// Libï¿½re renderer
+// Libère renderer
 void Displayer::freeRenderer ( )
 {
 	factory->release( font );
@@ -188,7 +246,7 @@ void Displayer::freeRenderer ( )
 	factory->release( renderer );
 }
 	
-// Libï¿½re window
+// Libère window
 void Displayer::freeWindow ( )
 {
 	window->hide();
@@ -197,7 +255,7 @@ void Displayer::freeWindow ( )
 	delete window;
 }
 
-// Libï¿½re engine
+// Libère engine
 void Displayer::freeEngine ( )
 {
 	factory = NULL;

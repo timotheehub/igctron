@@ -112,6 +112,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="directx\inc;opengl\inc;hashlib"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -128,6 +129,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="dxerr.lib d3dxof.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib opengl32.lib glu32.lib glew32.lib"
+				AdditionalLibraryDirectories="directx\lib;opengl\lib"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -308,6 +311,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Menu"
+				>
+				<File
+					RelativePath=".\Menu.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Headers"
@@ -467,6 +478,14 @@
 				</File>
 				<File
 					RelativePath=".\X11Window.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Menu"
+				>
+				<File
+					RelativePath=".\Menu.h"
 					>
 				</File>
 			</Filter>

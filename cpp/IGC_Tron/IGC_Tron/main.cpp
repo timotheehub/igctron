@@ -30,6 +30,7 @@ int main( int argc, char** argv )
 /** INCLUSIONS                                                                    **/
 /***********************************************************************************/
 #include "Displayer.h"
+#include "Menu.h"
 
 #include "Common.h"
 
@@ -53,12 +54,19 @@ using namespace IGC;
 
 void mainLoop()
 {
+	Displayer::StateEnum aState;
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	Displayer::SetRunning( true );
 
 	while( Displayer::GetRunning() == true )
 	{
 		aDisplayer->UpdateGraphics ( );
+		aState = aDisplayer->GetState ( );
+		if ( aState == Displayer::MENU ) 
+		{
+			Menu *aMenu = Menu::GetInstance ( );
+			aMenu->Update ( );
+		}
 	}
 }
 

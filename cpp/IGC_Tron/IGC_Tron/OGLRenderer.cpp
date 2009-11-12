@@ -275,6 +275,7 @@ namespace IGC
 	void OGLRenderer::drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a )
 	{
 		glDisable( GL_TEXTURE_2D );
+		glDisable( GL_DEPTH_TEST );
 
 		glMatrixMode( GL_PROJECTION );
 		glLoadIdentity();
@@ -299,10 +300,13 @@ namespace IGC
 		glListBase( glFontList - 32 );
 		glCallLists( strlen( _text ), GL_UNSIGNED_BYTE, _text );
 		glPopAttrib();
+
+		glEnable( GL_DEPTH_TEST );
 	}
 
 	void OGLRenderer::drawImage( int _x0, int _y0, int _x1, int _y1, float _px, float _py, float _sx, float _sy, float _r, float _g, float _b, float _a )
 	{
+		glDisable( GL_DEPTH_TEST );
 		glEnable( GL_TEXTURE_2D );
 
 		glMatrixMode( GL_PROJECTION );
@@ -328,6 +332,7 @@ namespace IGC
 			glTexCoord2f( _px, _py );
 			glVertex3f( inv_width * (GLfloat)_x0 - 1.0f, 1.0f - inv_height * (GLfloat)_y0, -1.0f );
 		glEnd();
+		glEnable( GL_DEPTH_TEST );
 	}
 
 	void OGLRenderer::resizeScene(int newWidth, int newHeight)
