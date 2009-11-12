@@ -135,7 +135,7 @@
 					// Mort
 					game.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 					isDead = true;
-					trace('le player ' + id + ' est mort');
+					trace('Player ' + id + ' is dead.')
 					
 					// Tempo avant de détruire son mur
 					var timer : Timer = new Timer(DELAY_WALL, 1);					
