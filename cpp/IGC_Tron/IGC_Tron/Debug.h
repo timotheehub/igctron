@@ -40,18 +40,18 @@
 
 /*
 debugPrint( char* _format, ... )
-	* sous Windows : affiche un message personnalisé dans l'onglet output de Visual Studio
-	* sous UNIX : envoie un message personnalisé sur stderr
-	-> les arguments à passer sont de même nature que lors de l'appel de la fonction printf()
+	* sous Windows : affiche un message personnalisï¿½ dans l'onglet output de Visual Studio
+	* sous UNIX : envoie un message personnalisï¿½ sur stderr
+	-> les arguments ï¿½ passer sont de mï¿½me nature que lors de l'appel de la fonction printf()
 */
-void debugPrint( char* _format, ... );
+void debugPrint( const char* _format, ... );
 
 /*
 debugMemoryLeaks()
 	* sous Windows : affiche dans l'onglet output de Visual Studio l'ensemble des pointeurs
-					 n'ayant pas été libérés
+					 n'ayant pas ï¿½tï¿½ libï¿½rï¿½s
 	* sous UNIX : sans effet
-	-> l'entête de debug doit être placée au début de chaque fichier source
+	-> l'entï¿½te de debug doit ï¿½tre placï¿½e au dï¿½but de chaque fichier source
 */
 void debugMemoryLeaks();
 

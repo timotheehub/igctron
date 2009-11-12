@@ -52,7 +52,7 @@
 /** FONCTIONS                                                                     **/
 /***********************************************************************************/
 
-void debugPrint ( char* _format, ... )
+void debugPrint ( const char* _format, ... )
 {
 #ifdef _DEBUG
 

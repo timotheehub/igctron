@@ -1,5 +1,5 @@
 // Displayer.h
-// Définition de la classe Displayer
+// Dï¿½finition de la classe Displayer
 
 #ifndef __DISPLAYER_H__
 #define __DISPLAYER_H__
@@ -34,13 +34,13 @@ public:
 	// Charge les ressources
 	void LoadRessources ( );
 
-	// Affiche l'écran
+	// Affiche l'ï¿½cran
 	void InitScreen ( );
 
-	// Rafraîchit graphiquement
+	// Rafraï¿½chit graphiquement
 	void UpdateGraphics ( );
 
-	// Libère la mémoire
+	// Libï¿½re la mï¿½moire
 	void FreeMemory ( );
 
 	// AddPlane, AddMoto
@@ -62,12 +62,12 @@ private:
 	// Destructeur
 	~Displayer ( );
 
-	// Méthodes pour InitScreen
+	// Mï¿½thodes pour InitScreen
 	void initEngine ( );
 	void initWindow ( );	
 	void initRenderer ( );
 
-	// Méthodes pour FreeMemory
+	// Mï¿½thodes pour FreeMemory
 	void freeRenderer ( );
 	void freeWindow ( );
 	void freeEngine ( );
@@ -75,11 +75,11 @@ private:
 	// Attributs pour le moteur 3D
 	Engine* engine;
 	Factory* factory;
-	Window* window;
+	IGC::Window* window;
 	Renderer* renderer;
 	Camera *camera;
 	Model* model;
-	Font* font;
+	IGC::Font* font;
 	Texture *texture;
 
 	static bool running;

@@ -46,7 +46,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="Lock.h|Globals.h|CriticalSection.h|MemoryManager.h|MemoryManager.cpp|GraphNode.h|GraphNode.cpp|GraphIterator.h|GraphIterator.cpp|Graph.h|Graph.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry excluding="main.cpp|zlib|libpng|Lock.h|Globals.h|CriticalSection.h|MemoryManager.h|MemoryManager.cpp|GraphNode.h|GraphNode.cpp|GraphIterator.h|GraphIterator.cpp|Graph.h|Graph.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 </sourceEntries>
 </configuration>
 </storageModule>
@@ -412,7 +412,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="Lock.h|Globals.h|CriticalSection.h|MemoryManager.h|MemoryManager.cpp|GraphNode.h|GraphNode.cpp|GraphIterator.h|GraphIterator.cpp|Graph.h|Graph.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry excluding="main.cpp|zlib|libpng|Lock.h|Globals.h|CriticalSection.h|MemoryManager.h|MemoryManager.cpp|GraphNode.h|GraphNode.cpp|GraphIterator.h|GraphIterator.cpp|Graph.h|Graph.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 </sourceEntries>
 </configuration>
 </storageModule>

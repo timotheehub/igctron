@@ -190,6 +190,7 @@ namespace IGC
 		if ( visible ) return;
 
 		visible = true;
+		create(false);
 	}
 
 	void X11Window::hide()
