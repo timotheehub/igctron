@@ -14,12 +14,21 @@
 		
 		private var game : Game;
 		
+		private var coord : Array = null;
+		
+		private static const X : int = 0;
+		private static const Y : int = 1;
+		
 		public function Main() : void 
 		{
 			if ( stage != null )
+			{
 				init();
+			}
 			else
+			{
 				addEventListener( Event.ADDED_TO_STAGE, init );
+			}
 		}
 		
 		private function init( e : Event = null ) : void 
@@ -52,13 +61,14 @@
 			{
 				var player : Player = game.getPlayer(k);
 				
-				if( !player.isDead )
+				if( !player.getLife ())
 				{
-					//objects.graphics.drawCircle( player.x, player.y, 6 );
-					objects.graphics.moveTo( player.x - 7, player.y - 7 );
-					objects.graphics.lineTo( player.x - 7, player.y + 7 );
-					objects.graphics.lineTo( player.x + 7, player.y + 7 );
-					objects.graphics.lineTo( player.x + 7, player.y - 7 );
+					coord = player.getCoord ();
+					
+					objects.graphics.moveTo( coord [X] - 7, coord [Y] - 7 );
+					objects.graphics.lineTo( coord [X] - 7, coord [Y] + 7 );
+					objects.graphics.lineTo( coord [X] + 7, coord [Y] + 7 );
+					objects.graphics.lineTo( coord [X] + 7, coord [Y] - 7 );
 				}
 			}
 			
@@ -66,7 +76,6 @@
 			{
 				var wall : Wall = game.getWall(p);
 				
-				//objects.graphics.drawCircle( player.x, player.y, 6 );
 				
 				for ( var q : int = 0 ; q < wall.getSegmentCount() ; q++ )
 				{

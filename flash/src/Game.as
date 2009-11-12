@@ -10,8 +10,8 @@
 	{
 		public static var MAX_PLAYERS : int = 4;
 		
-		private var players : Array = new Array (0);
-		private var walls : Array = new Array (0);
+		private var players : Array = new Array ();
+		private var walls : Array = new Array ();
 		
 		public var stage : Stage;
 		
@@ -61,12 +61,13 @@
 			
 			for (var i : int = 0; i < walls.length; i++)
 			{
-				if ( (!players[idPlayer].isDead) && (collision = walls [i].checkWallCollision (x0, y0, x1, y1, idPlayer, i)))
+				var p : Player = Player(players[idPlayer]);
+				if ((!p.getLife()) && (collision = walls [i].checkWallCollision (x0, y0, x1, y1, idPlayer, i)))
 				{
 					break;
 				}
 			}
-			
+	
 			return collision;
 					
 		}

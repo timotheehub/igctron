@@ -9,6 +9,11 @@
 	{
 		private var WallArray:Array = new Array();
 		
+		private const MIN_X : Number = 0;
+		private const MIN_Y : Number = 0;
+		private const MAX_X : Number = 800; /*!!!!! Trouver moyen de récup les bords !!!!!*/
+		private const MAX_Y : Number = 600;
+		
 		public function Wall( MyPlayer : Player) 
 		{
 			MyPlayer.setWall(this);
@@ -28,6 +33,11 @@
 			if ( idPlayer == idWall )
 			{
 				lastSegment -= 2; // no collision 
+			}
+			
+			if (x1 <= MIN_X || x2 >= MAX_X || y1 <= MIN_Y || y2 >= MAX_Y)
+			{
+				return true;
 			}
 			
 			for (var i : int = 0; i < lastSegment; i++)
