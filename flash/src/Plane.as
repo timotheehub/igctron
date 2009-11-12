@@ -14,12 +14,20 @@
 			
 		}
 		
-		public function setplane (width : int = 800, heigh : int = 600)
+		public function setPlane (width : int = 800, heigh : int = 600)
 		{
 			width = width;
 			heigh = heigh;
 		}
 		
+		public function getWidth () : int
+		{
+			return width;
+		}
+		
+		public function getHeigh () : int
+		{
+			return heigh;
+		}
 	}
-
 }

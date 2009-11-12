@@ -9,7 +9,7 @@
 		public var x0 : Number;
 		public var x1 : Number;
 		public var y0 : Number;
-		public var y1 : Number;
+		public var y1 : Number;		
 			
 		public function Segment( ix1 : Number, iy1 : Number, ix2 : Number, iy2 : Number ) : void
 		{

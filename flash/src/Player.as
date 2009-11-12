@@ -15,8 +15,11 @@
 		public static const DIRECTION_RIGHT : int = 2;
 		public static const DIRECTION_UP : int = 3;
 		
-		public var x : Number;
-		public var y : Number;
+		private static const X : int = 0;
+		private static const Y : int = 1;
+		
+		private var x : Number;
+		private var y : Number;
 		private var game : Game;
 		private var vehicle : Motorbike;
 		private var wall : Wall;
@@ -24,8 +27,10 @@
 		private var id : int;
 		
 		private var isHuman : Boolean;
-		public var isDead : Boolean;
+		private var isDead : Boolean;
 		private var direction : int;
+		
+		private var ia : IA = null;
 		
 		private var bm : Bitmap;
 		
@@ -47,7 +52,7 @@
 			}
 			else
 			{
-				
+				ia = new IA();
 			}
 		}
 		
@@ -77,6 +82,11 @@
 				var y0 : Number = 0;
 				var x1 : Number = 0;
 				var y1 : Number = 0;
+				
+				if ( !isHuman )
+				{
+					/*direction = ia.update (direction, wall);*/
+				}
 				
 				if( direction == DIRECTION_LEFT )
 				{
@@ -138,6 +148,20 @@
 			wall = _wall;
 
 			wall.insertSegment( x, y, x, y );
+		}
+		
+		public function getCoord () : Array
+		{
+			var coord : Array = new Array ();
+			coord [X] = x;
+			coord [Y] = y;
+			
+			return coord;
+		}
+		
+		public function getLife () : Boolean
+		{
+			return isDead;
 		}
 	}
 }

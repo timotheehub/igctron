@@ -1,5 +1,6 @@
 ﻿package  
 {
+	
 	public class IA
 	{
 		private var numero :int = 0;
