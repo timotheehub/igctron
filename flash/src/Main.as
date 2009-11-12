@@ -14,6 +14,8 @@
 		
 		private var game : Game;
 		
+		private var menu : Menu;
+		
 		private var coord : Array = null;
 		
 		private static const X : int = 0;
@@ -31,9 +33,15 @@
 			}
 		}
 		
-		private function init( e : Event = null ) : void 
+		private function init( e : Event = null) : void
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, init );
+			menu = new Menu( this, stage );
+		}
+		
+		public function initGame( ) : void 
+		{
+			menu = null;
 			
 			addChild( background = new Bitmap( new BitmapData( stage.stageWidth, stage.stageHeight, false, 0x00 ) ) );
 			
