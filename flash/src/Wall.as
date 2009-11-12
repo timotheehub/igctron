@@ -11,8 +11,9 @@
 		
 		private const MIN_X : Number = 0;
 		private const MIN_Y : Number = 0;
-		private const MAX_X : Number = 800; /*!!!!! Trouver moyen de récup les bords !!!!!*/
-		private const MAX_Y : Number = 600;
+		private const MAX_X : Number = Main.PLANE_WIDTH //800; /*!!!!! Trouver moyen de récup les bords !!!!!*/
+		private const MAX_Y : Number = Main.PLANE_HEIGHT //600;
+		
 		
 		public function Wall( MyPlayer : Player) 
 		{
