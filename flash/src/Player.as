@@ -41,8 +41,14 @@
 			
 			vehicle = new Motorbike();			
 			
-			if( isHuman )
+			if ( isHuman )
+			{
 				game.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			}
+			else
+			{
+				
+			}
 		}
 		
 		private function keyDown(e : KeyboardEvent) : void
@@ -54,8 +60,8 @@
 				else if( e.keyCode == KEY_RIGHT )
 					direction--;
 				
-				direction = (direction < 0) ? 3 : direction;
-				direction = (direction > 3) ? 0 : direction;
+				direction = (direction < DIRECTION_LEFT) ? DIRECTION_UP : direction;
+				direction = (direction > DIRECTION_UP) ? DIRECTION_LEFT : direction;
 				
 				wall.insertSegment( x, y, x, y );
 			}
@@ -134,5 +140,4 @@
 			wall.insertSegment( x, y, x, y );
 		}
 	}
-
 }
