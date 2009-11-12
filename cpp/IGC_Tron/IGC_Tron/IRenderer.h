@@ -47,11 +47,11 @@ namespace IGC
 
 		Engine* engine;
 
-		bool fullscreen; // vrai pour le mode plein écran, faux pour le mode fen?tre
+		bool fullscreen; // vrai pour le mode plein ï¿½cran, faux pour le mode fen?tre
 
 		bool verticalSync; // vrai pour activer la synchronisation verticale
 
-		bool hardware; // vrai pour faire les rendus à l'aide de la carte graphique
+		bool hardware; // vrai pour faire les rendus ï¿½ l'aide de la carte graphique
 
 		int width;
 		int height;
@@ -63,13 +63,13 @@ namespace IGC
 	public:
 
 		/*
-			Instancie la classe et alloue la mémoire vidéo pour une surface de rendu dont la taille correspond à
-			celle de la fenêtre associée à _engine.
+			Instancie la classe et alloue la mï¿½moire vidï¿½o pour une surface de rendu dont la taille correspond ï¿½
+			celle de la fenï¿½tre associï¿½e ï¿½ _engine.
 		*/
 		IRenderer( Engine* _engine );
 
 		/*
-			Libère la mémoire vidéo réservée pour une surface de rendu.
+			Libï¿½re la mï¿½moire vidï¿½o rï¿½servï¿½e pour une surface de rendu.
 		*/
 		virtual ~IRenderer();
 
@@ -80,22 +80,22 @@ namespace IGC
 	public:
 
 		/*
-			Renvoie un pointeur vers le moteur associé à ce renderer.
+			Renvoie un pointeur vers le moteur associï¿½ ï¿½ ce renderer.
 		*/
 		Engine* getEngine();
 
 		/*
-			Active le mode plein écran et spécifie la résolution à appliquer.
+			Active le mode plein ï¿½cran et spï¿½cifie la rï¿½solution ï¿½ appliquer.
 		*/
 		void enableFullscreen( int _width, int _height );
 
 		/*
-			Désactive le mode plein écran.
+			Dï¿½sactive le mode plein ï¿½cran.
 		*/
 		void disableFullscreen();
 
 		/*
-			Active la synchronisation du framerate avec le taux de rafraichissement vertical de l'écran.
+			Active la synchronisation du framerate avec le taux de rafraichissement vertical de l'ï¿½cran.
 		*/
 		void enableVSync();
 
@@ -121,14 +121,14 @@ namespace IGC
 	public:
 
 		/*
-			Convertit une coordonnée de point relatif ({0,0} étant le coin supérieur gauche
-			de l'écran et {1,1} le coin inférieur droit) en coordonnée absolue sur l'axe X.
+			Convertit une coordonnï¿½e de point relatif ({0,0} ï¿½tant le coin supï¿½rieur gauche
+			de l'ï¿½cran et {1,1} le coin infï¿½rieur droit) en coordonnï¿½e absolue sur l'axe X.
 		*/
 		int toPointX( float _x );
 
 		/*
-			Convertit une coordonnée de point relatif ({0,0} étant le coin supérieur gauche
-			de l'écran et {1,1} le coin inférieur droit) en coordonnée absolue sur l'axe Y.
+			Convertit une coordonnï¿½e de point relatif ({0,0} ï¿½tant le coin supï¿½rieur gauche
+			de l'ï¿½cran et {1,1} le coin infï¿½rieur droit) en coordonnï¿½e absolue sur l'axe Y.
 		*/
 		int toPointY( float _y );
 
@@ -138,7 +138,7 @@ namespace IGC
 		virtual void initialize() = 0;
 
 		/*
-			Libère toutes les ressources relatives à l'API.
+			Libï¿½re toutes les ressources relatives ï¿½ l'API.
 		*/
 		virtual void finalize() = 0;
 
@@ -148,29 +148,33 @@ namespace IGC
 		virtual void setTransparency( bool _value ) = 0;
 
 		/*
-			Met à jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
+			Met ï¿½ jour l'affichage en copiant le contenu du back buffer vers le frame buffer.
 		*/
 		virtual void update() = 0;
 
 		/*
-			Remplit le back buffer de la couleur spécifiée et le depth buffer de la profondeur spécifiée.
+			Remplit le back buffer de la couleur spï¿½cifiï¿½e et le depth buffer de la profondeur spï¿½cifiï¿½e.
 		*/
 		virtual void clear( float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _depth = 1.0f ) = 0;
 
 		/*
-			Affiche du texte à la position absolue spécifiée avec la couleur spécifiée en fonction de la police
-			qui aura précédemment été définie.
+			Affiche du texte ï¿½ la position absolue spï¿½cifiï¿½e avec la couleur spï¿½cifiï¿½e en fonction de la police
+			qui aura prï¿½cï¿½demment ï¿½tï¿½ dï¿½finie.
 		*/
 		virtual void drawText( const char* _text, int _x, int _y, float _r, float _g, float _b, float _a ) = 0;
 
 		/*
-			Affiche une image à la position absolue spécifiée avec la couleur spécifiée en fonction de la texture
-			qui aura précédemment été définie.
+			Affiche une image ï¿½ la position absolue spï¿½cifiï¿½e avec la couleur spï¿½cifiï¿½e en fonction de la texture
+			qui aura prï¿½cï¿½demment ï¿½tï¿½ dï¿½finie.
 		*/
 		virtual void drawImage( int _x0, int _y0, int _x1, int _y1,
 									float _px = 0.0f, float _py = 0.0f, float _sx = 1.0f, float _sy = 1.0f,
 											float _r = 1.0f, float _g = 1.0f, float _b = 1.0f, float _a = 1.0f ) = 0;
 
+		/*
+			 Redimensionne la scÃ¨ne.
+		 */
+		virtual void resizeScene ( int newWidth, int newHeight );
 	};
 }
 

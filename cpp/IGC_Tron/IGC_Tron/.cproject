@@ -30,8 +30,8 @@
 <option id="gnu.cpp.link.option.libs.771104356" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="GL"/>
 <listOptionValue builtIn="false" value="png"/>
-<listOptionValue builtIn="false" value="z"/>
 <listOptionValue builtIn="false" value="3ds"/>
+<listOptionValue builtIn="false" value="z"/>
 <listOptionValue builtIn="false" value="GLU"/>
 <listOptionValue builtIn="false" value="GLEW"/>
 </option>
@@ -401,8 +401,14 @@
 <tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.816273946" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 <option id="gnu.cpp.link.option.libs.1849648110" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="GL"/>
+<listOptionValue builtIn="false" value="png"/>
+<listOptionValue builtIn="false" value="3ds"/>
+<listOptionValue builtIn="false" value="z"/>
 <listOptionValue builtIn="false" value="GLU"/>
 <listOptionValue builtIn="false" value="GLEW"/>
+</option>
+<option id="gnu.cpp.link.option.paths.1964781268" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+<listOptionValue builtIn="false" value="../lib3ds"/>
 </option>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.470197113" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

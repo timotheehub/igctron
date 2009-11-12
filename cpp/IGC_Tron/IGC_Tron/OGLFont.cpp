@@ -92,7 +92,10 @@ namespace IGC
 		X11Window* window = (X11Window*)renderer->getEngine()->getWindow();
 
 		/* TODO : Comment on sp?cifie la police qu'on veut sans passer par une chaine de caract?res immonde ? */
-		XFontStruct* font = XLoadQueryFont(window->getDisplay() , "-*-helvetica-bold-r-normal--24-*-*-*-p-*-iso8859-1" );
+		static char fontStr[200];
+		sprintf(fontStr,"-*-%s-%s-r-normal--%d-*-*-*-p-*-iso8859-1", name, bold ? "bold" : "*", size);
+		XFontStruct* font = XLoadQueryFont(window->getDisplay() , fontStr);
+		//"-*-helvetica-bold-r-normal--24-*-*-*-p-*-iso8859-1"
 
 		if ( font == NULL )
 		{

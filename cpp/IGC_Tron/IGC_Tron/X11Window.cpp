@@ -206,18 +206,73 @@ namespace IGC
 		uint border_dummy;
 
 		int x, y;
-		uint w, h;    
-		uint depth;    
+		uint w, h;
+		uint depth;
 
 		XGetGeometry( dpy, win, &win_dummy, &x, &y,
 						&w, &h, &border_dummy, &depth );
 
+		innerWidth = w;
+		innerHeight = h;
 		width = w;
 		height = h;
 	}
 
 	void X11Window::swapBuffers()
 	{
+		// TODO : Gérer événements dans un autre thread.
+		XEvent event;
+		while (XPending(dpy) > 0)
+        {
+            XNextEvent(dpy, &event);
+            switch (event.type)
+            {
+                case Expose:
+	                if (event.xexpose.count != 0)
+	                    break;
+         	        break;
+	            case ConfigureNotify:
+	            /* call resizeGLScene only if our window-size changed */
+	                if ((event.xconfigure.width != width) ||
+	                    (event.xconfigure.height != height))
+	                {
+	                    width = event.xconfigure.width;
+	                    height = event.xconfigure.height;
+	                    engine->getRenderer()->resizeScene(event.xconfigure.width,
+	                        event.xconfigure.height);
+	                }
+	                break;
+                /* exit in case of a mouse button press */
+                case ButtonPress:
+                    break;
+                case KeyPress:
+                    /*if (XLookupKeysym(&event.xkey, 0) == XK_Escape)
+                    {
+                        done = True;
+                    }
+                    if (XLookupKeysym(&event.xkey,0) == XK_F1)
+                    {
+                        killGLWindow();
+                        GLWin.fs = !GLWin.fs;
+                        createGLWindow("NeHe's Solid Objects Tutorial",
+                            640, 480, 24, GLWin.fs);
+                    }*/
+                    break;
+                case ClientMessage:
+                	// TODO : fermer.
+                	/*
+                    if (*XGetAtomName(GLWin.dpy, event.xclient.message_type) ==
+                        *"WM_PROTOCOLS")
+                    {
+                        printf("Exiting sanely...\n");
+                        done = True;
+                    }*/
+                    break;
+                default:
+                    break;
+            }
+        }
+
 		if ( doubleBuffered )
 		{
 			glXSwapBuffers( dpy,  win );
