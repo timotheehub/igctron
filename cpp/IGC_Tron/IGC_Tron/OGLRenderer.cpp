@@ -155,15 +155,6 @@ namespace IGC
 		width = engine->getWindow()->getInnerWidth();
 		height = engine->getWindow()->getInnerHeight();
 
-		glViewport( 0, 0, width, height );
-
-		glMatrixMode( GL_PROJECTION );
-		glLoadIdentity();
-
-		gluPerspective( 90.0f, 1.0f, 0.1f, 100.0f );
-
-		glMatrixMode( GL_MODELVIEW );
-		glLoadIdentity();
 
 		glFlush();
 
@@ -337,6 +328,25 @@ namespace IGC
 			glTexCoord2f( _px, _py );
 			glVertex3f( inv_width * (GLfloat)_x0 - 1.0f, 1.0f - inv_height * (GLfloat)_y0, -1.0f );
 		glEnd();
+	}
+
+	void OGLRenderer::resizeScene(int newWidth, int newHeight)
+	{
+	    if (height == 0)    /* Prevent A Divide By Zero If The Window Is Too Small */
+	        height = 1;
+
+	    width = newWidth;
+	    height = newHeight;
+
+		glViewport( 0, 0, width, height );
+
+		glMatrixMode( GL_PROJECTION );
+		glLoadIdentity();
+
+		gluPerspective( 90.0f, 1.0f, 0.1f, 100.0f );
+
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
 	}
 
 }
