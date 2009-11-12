@@ -7,6 +7,8 @@
 	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import org.papervision3d.objects.primitives.Cube;
+	
 	public class Player
 	{
 		public static const KEY_LEFT : uint = 37;
@@ -38,6 +40,8 @@
 		
 		private var bm : Bitmap;
 		
+		private var segCube : Array = new Array(0); 
+		
 		public function Player(_game:Game, _id:Number, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
 		{
 			x = _x;
@@ -49,6 +53,7 @@
 			id = _id;
 			
 			vehicle = new Motorbike();			
+			//segCube = new Array(0);
 			
 			if ( isHuman )
 			{
@@ -141,6 +146,7 @@
 					var timer : Timer = new Timer(DELAY_WALL, 1);					
 					timer.addEventListener(TimerEvent.TIMER_COMPLETE, destroyWall);
 					timer.start();
+					segCube = new Array(0);
 				}
 				else
 				{
@@ -175,6 +181,29 @@
 		public function getLife () : Boolean
 		{
 			return isDead;
+		}
+		
+		public function addCube( _cube : Cube ) : Cube
+		{
+			segCube.push( _cube );
+			return _cube;
+		}
+		
+		public function getCube( i : int ) : Cube
+		{
+			return segCube[i];
+		}
+		
+		public function removeLastCube() : Cube
+		{
+			var cube:Cube = segCube[ segCube.length - 1 ]
+			segCube[ segCube.length - 1 ] = null;
+			return cube;
+		}
+		
+		public function cubeCount() : int
+		{
+			return segCube.length;
 		}
 	}
 }
