@@ -33,8 +33,7 @@
 		public static const PLANE_WIDTH:int = 1000;
 		public static const PLANE_HEIGHT:int = 500;
 		
-		public static const VEHICLEZ:Number = -5;
-		public static const THICKNESS:Number = 2;
+		public static const VEHICLEZ:Number = -8;
 		
 		private var background : Bitmap;
 		
@@ -131,14 +130,14 @@
 			{
 				var x:Number = i * 100 + 100;
 				var y:Number = 450;
-				var z:Number = VEHICLEZ + 10;
+				var z:Number = VEHICLEZ ; // bug : aucune influence sur le reste 
 				var color:int;
 				
 				game.addPlayer( new Player( game, i, x, y, i > 0 ? false : true, Player.DIRECTION_UP ) );
 				
 				color = Math.round( Math.random() * 0xFFFFFF );
 				vehicleMat.push( new CellMaterial(light, color, color, 2) );
-				vehicleCube.push( new Cube( new MaterialsList( { all : vehicleMat[i] } ), 15, 15, -2*VEHICLEZ ) );
+				vehicleCube.push( new Cube( new MaterialsList( { all : vehicleMat[i] } ), 15, -2*VEHICLEZ, 15 ) );
 				
 				coord[X]= x; coord[Y]=y; coord[Z] = z;
 				
@@ -173,12 +172,12 @@
 				}
 				else if ( vehicleCube[k] != null )
 				{
-					var count:int = player.wallCount();
+					var count:int = player.wallCount()-1;
 					
 					universe.removeChild( vehicleCube[k] );
 					vehicleCube[k] = null;
 					
-					for ( var t : int = t; t < count; t++ )
+					for ( var t : int = count; t>0 ; t-- )
 					{ universe.removeChild( player.getPlane(t) ); }
 					player.cleanPlanes();
 				}
