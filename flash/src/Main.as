@@ -96,10 +96,11 @@
 			renderer = new BasicRenderEngine();
 
 			camere = new Camera3D();
-			camere.z = -250;
-			camere.y = +100;
-			camere.zoom = 20;
-			camere.orbit( 10, -90, true, plane );
+			camere.z = -1000;
+			camere.y = +200;
+			//camere.x = +100;
+			camere.zoom = 70;
+			camere.orbit( 50, -90, true, plane ); //-90
 
 			light = new PointLight3D(true);
 			light.x = 500;
@@ -107,15 +108,15 @@
 			scene = new Scene3D();
 			
 			//addChild( background = new Bitmap( new BitmapData( stage.stageWidth, stage.stageHeight, false, 0x00 ) ) );
-			cellMat = new CellMaterial(light, 0xffffff,0x0000ff, 3 );
-			plane  = new Plane(cellMat, PLANE_WIDTH, PLANE_HEIGHT, 10, 10);
+			cellMat = new CellMaterial(light, 0x0000ff,0x0000ff, 2 );
+			plane  = new Plane(cellMat, PLANE_WIDTH, PLANE_HEIGHT );
 			
 			universe = new DisplayObject3D();
 			universe.addChild(plane);
 			scene.addChild(universe);
 		
-			universe.localRotationX = -90;
-		
+			universe.rotationX +=90;
+			
 			renderer.renderScene(scene, camere,viewport);
 
 			
@@ -130,24 +131,19 @@
 			{
 				var x:Number = i * 100 + 100;
 				var y:Number = 450;
-				var z:Number = VEHICLEZ;
-
+				var z:Number = VEHICLEZ + 10;
+				var color:int;
+				
 				game.addPlayer( new Player( game, i, x, y, i > 0 ? false : true, Player.DIRECTION_UP ) );
-
-				vehicleMat.push( new CellMaterial(light, 0x0000ff, 0xff0000, 3) );
+				
+				color = Math.round( Math.random() * 0xFFFFFF );
+				vehicleMat.push( new CellMaterial(light, color, color, 2) );
 				vehicleCube.push( new Cube( new MaterialsList( { all : vehicleMat[i] } ), 15, 15, -2*VEHICLEZ ) );
 				
 				coord[X]= x; coord[Y]=y; coord[Z] = z;
 				
 				coord = convert3D(coord);
 				vehicleCube[i] = moveVehicle( vehicleCube[i], coord );
-				
-				/*vehicleCube[i].x = x;
-				vehicleCube[i].y = y;
-				vehicleCube[i].z = z;
-				*/
-				
-				//moveVehicle( vehicleCube[i], convert3D(coord) );
 				
 				universe.addChild(vehicleCube[i]);
 				
@@ -171,68 +167,22 @@
 					
 					coord = convert3D(coord); coord[Z] = VEHICLEZ;
 					vehicleCube[k] = moveVehicle( vehicleCube[k], coord );
+					drawWall( player, game.getWall(k), k );
 					
-					
-					//moveVehicle( vehicleCube[k], convert3D(coord) );
-					
-					/*
-					objects.graphics.moveTo( coord [X] - 7, coord [Y] - 7 );
-					objects.graphics.lineTo( coord [X] - 7, coord [Y] + 7 );
-					objects.graphics.lineTo( coord [X] + 7, coord [Y] + 7 );
-					objects.graphics.lineTo( coord [X] + 7, coord [Y] - 7 );
-					*/
+
 				}
 				else if ( vehicleCube[k] != null )
 				{
+					var count:int = player.wallCount();
+					
 					universe.removeChild( vehicleCube[k] );
 					vehicleCube[k] = null;
 					
-					for ( var t : int = t; t < player.cubeCount(); t++ )
-					{
-						universe.removeChild( player.getCube(t) );
-					}
+					for ( var t : int = t; t < count; t++ )
+					{ universe.removeChild( player.getPlane(t) ); }
+					player.cleanPlanes();
 				}
 			}
-			
-			/*
-			for ( var p : int = 0 ; p < game.getWallCount() ; p++ )
-			{
-				var wall : Wall = game.getWall(p);
-				var wallPlayer : Player = game.getPlayer(p);
-				var count : int = wallPlayer.cubeCount()
-				var lastSeg : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
-				
-				trace(count);
-				
-				if ( count > 0 )
-				{
-					if ( count == wall.getSegmentCount() ) // si pas de nouveau segment : MAJ du dernier
-					{
-						universe.removeChild(wallPlayer.removeLastCube());
-						universe.addChild( wallPlayer.addCube( segToCube( lastSeg, p ) ) );
-					}
-					else if ( wall.getSegmentCount() < 2 )
-					{
-						universe.addChild( wallPlayer.addCube( segToCube( lastSeg, p ) ) );
-					}
-					else
-					{
-						universe.removeChild(wallPlayer.removeLastCube());
-						universe.addChild( wallPlayer.addCube( segToCube( wall.getSegment( wall.getSegmentCount() - 2 ), p  ) ) );
-						universe.addChild( wallPlayer.addCube( segToCube( lastSeg, p ) ) );		
-					}
-				}
-				else
-				{
-					universe.addChild( wallPlayer.addCube( segToCube( lastSeg, p ) ) );
-				}
-				
-				
-			}
-			*/
-			
-			//objects.graphics.endFill();
-			
 			
 			renderer.renderScene(scene, camere,viewport);
 		}
@@ -257,28 +207,62 @@
 			return vehicle;
 		}
 		
-		public function segToCube( seg : Segment, id : int ) : Cube
+		public function drawWall( player : Player, wall : Wall, id : Number ) : void
 		{
-			var cube:Cube;
+			var count : int = player.wallCount()
+			var lastSeg : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
+			
+			if ( count > 0 )
+				{
+					if ( count == wall.getSegmentCount() ) // si pas de nouveau segment : MAJ du dernier
+					{	
+						//trace( 'Player '+ p +' dans count>0 et segcount==' + count );
+						universe.removeChild(player.lastPlane());
+						universe.addChild( player.changeLast( segToPlane( lastSeg, id ) ) );
+					}
+					else
+					{
+						//trace(count + ' ; ' + wall.getSegmentCount());
+						//trace( 'Player '+ p + ' dans count > 0 et <> segCount' + count );
+						
+						universe.removeChild(player.lastPlane());
+						universe.addChild( player.changeLast( segToPlane( wall.getSegment( wall.getSegmentCount() - 2 ), id  ) ) );
+						universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );		
+					}
+				}
+				else
+				{
+					//trace( 'Player '+p+' dans count <= 0 ' + count );
+					universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );
+				}
+		}
+		
+		public function segToPlane( seg : Segment, id : int ) : Plane
+		{
+			var plane:Plane;
 			
 			//trace('x0 : ' + seg.x0 + ' , x1 : ' + seg.x1 );
 			
 			if ( seg.x0 == seg.x1 )
 			{	
-				cube = new Cube( new MaterialsList( { all : vehicleMat[id] } ), THICKNESS, (seg.y1 - seg.y0), -2*VEHICLEZ );
-				cube.x = seg.x0 - PLANE_WIDTH / 2;
-				cube.y = -(seg.y1 + seg.y0 - PLANE_HEIGHT) / 2 ;
-				cube.z = VEHICLEZ;
+				plane = new Plane( vehicleMat[id] , Math.abs(seg.y1 - seg.y0), -2*VEHICLEZ );
+				
+				plane.x = seg.x0 - PLANE_WIDTH / 2;
+				plane.y = -(seg.y1 + seg.y0 - PLANE_HEIGHT) / 2 ;
+				plane.z = VEHICLEZ;
+				plane.rotationX = -90;
+				plane.rotationZ = 90;
 			}
 			else
 			{
-				cube = new Cube( new MaterialsList( { all : vehicleMat[id] } ), (seg.x1 - seg.x0), THICKNESS, -2*VEHICLEZ );
-				cube.x = (seg.x1 + seg.x0 - PLANE_WIDTH) / 2 ;
-				cube.y = -seg.y0 + PLANE_HEIGHT / 2;
-				cube.z = VEHICLEZ;
+				plane = new Plane ( vehicleMat[id], Math.abs(seg.x1 - seg.x0),-2*VEHICLEZ );
+				plane.rotationX = -90;
+				plane.x = (seg.x1 + seg.x0 - PLANE_WIDTH) / 2 ;
+				plane.y = -seg.y0 + PLANE_HEIGHT / 2;
+				plane.z = VEHICLEZ;
 			}
 			
-			return cube;
+			return plane;
 		}
 		
 	}
