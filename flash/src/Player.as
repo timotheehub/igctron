@@ -7,7 +7,7 @@
 	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
-	import org.papervision3d.objects.primitives.Cube;
+	import org.papervision3d.objects.primitives.Plane;
 	
 	public class Player
 	{
@@ -40,7 +40,7 @@
 		
 		private var bm : Bitmap;
 		
-		private var segCube : Array = new Array(0); 
+		private var playerWall : Array; 
 		
 		public function Player(_game:Game, _id:Number, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
 		{
@@ -51,9 +51,9 @@
 			direction = _direction;
 			isDead = false;
 			id = _id;
+			playerWall = new Array(0);
 			
 			vehicle = new Motorbike();			
-			//segCube = new Array(0);
 			
 			if ( isHuman )
 			{
@@ -146,7 +146,7 @@
 					var timer : Timer = new Timer(DELAY_WALL, 1);					
 					timer.addEventListener(TimerEvent.TIMER_COMPLETE, destroyWall);
 					timer.start();
-					segCube = new Array(0);
+					playerWall = new Array(0);
 				}
 				else
 				{
@@ -183,27 +183,36 @@
 			return isDead;
 		}
 		
-		public function addCube( _cube : Cube ) : Cube
+		public function addPlane( _plane : Plane ) : Plane
 		{
-			segCube.push( _cube );
-			return _cube;
+			playerWall.push( _plane );
+			return _plane;
 		}
 		
-		public function getCube( i : int ) : Cube
+		public function getPlane( i : int ) : Plane
 		{
-			return segCube[i];
+			return playerWall[i];
 		}
 		
-		public function removeLastCube() : Cube
-		{
-			var cube:Cube = segCube[ segCube.length - 1 ]
-			segCube[ segCube.length - 1 ] = null;
-			return cube;
+		public function lastPlane() : Plane
+		{	
+			return playerWall[ playerWall.length - 1 ];
 		}
 		
-		public function cubeCount() : int
+		public function changeLast( plane : Plane ) : Plane
 		{
-			return segCube.length;
+			playerWall[ playerWall.length - 1 ] = plane;
+			return plane;
+		}
+		
+		public function wallCount() : int
+		{
+			return playerWall.length;
+		}
+		
+		public function cleanPlanes() : void
+		{
+			playerWall = new Array(0);
 		}
 	}
 }
