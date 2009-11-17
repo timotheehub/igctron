@@ -146,7 +146,6 @@
 					var timer : Timer = new Timer(DELAY_WALL, 1);					
 					timer.addEventListener(TimerEvent.TIMER_COMPLETE, destroyWall);
 					timer.start();
-					playerWall = new Array(0);
 				}
 				else
 				{
@@ -214,5 +213,7 @@
 		{
 			playerWall = new Array(0);
 		}
+		
+		
 	}
 }
