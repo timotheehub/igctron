@@ -30,7 +30,7 @@
 	
 	public class Main extends Sprite 
 	{
-		public static const PLANE_WIDTH:int = 1000;
+		public static const PLANE_WIDTH:int = 600;
 		public static const PLANE_HEIGHT:int = 500;
 		
 		public static const VEHICLEZ:Number = -8;
@@ -98,8 +98,8 @@
 			camere.z = -1000;
 			camere.y = +200;
 			//camere.x = +100;
-			camere.zoom = 70;
-			camere.orbit( 50, -90, true, plane ); //-90
+			camere.zoom = 90;
+			camere.orbit( 60, -75, true, plane ); //-90
 
 			light = new PointLight3D(true);
 			light.x = 500;
@@ -135,7 +135,8 @@
 				
 				game.addPlayer( new Player( game, i, x, y, i > 0 ? false : true, Player.DIRECTION_UP ) );
 				
-				color = Math.round( Math.random() * 0xFFFFFF );
+				color = Math.round( Math.random() * 0xFFFF )*256 + Math.round( Math.random()*0x10 );
+				
 				vehicleMat.push( new CellMaterial(light, color, color, 2) );
 				vehicleCube.push( new Cube( new MaterialsList( { all : vehicleMat[i] } ), 15, -2*VEHICLEZ, 15 ) );
 				
