@@ -170,14 +170,16 @@
 					
 
 				}
-				else if ( vehicleCube[k] != null )
+				else if ( vehicleCube[k] != null ) // new dead player
 				{
-					var count:int = player.wallCount()-1;
+					var count:int = (player.wallCount() - 1);
+					
 					
 					universe.removeChild( vehicleCube[k] );
 					vehicleCube[k] = null;
 					
-					for ( var t : int = count; t>0 ; t-- )
+					
+					for ( var t : int = count; t>=0 ; t-- )
 					{ universe.removeChild( player.getPlane(t) ); }
 					player.cleanPlanes();
 				}
