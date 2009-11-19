@@ -1,14 +1,14 @@
 // Menu.cpp
-// Définition de la classe Menu
+// Dï¿½finition de la classe Menu
 #include "Game.h"
 #include "Menu.h"
 #include "Globals.h"
 #include "Displayer.h"
 
-using namespace KeyCode;
+using namespace KeyCodes;
 
 /******************************************************************************
-*                    Gestion des événements                                   *
+*                    Gestion des ï¿½vï¿½nements                                   *
 ******************************************************************************/
 void Game::OnKeyDown( int keyboardContext, int keyCode )
 {
@@ -32,9 +32,9 @@ void Game::OnKeyUp( int keyboardContext, int keyCode )
 }
 
 /******************************************************************************
-*                              Mise à jour                                    *
+*                              Mise ï¿½ jour                                    *
 ******************************************************************************/
-// Met à jour le menu
+// Met ï¿½ jour le menu
 void Game::Update ( )
 {
 }
@@ -49,7 +49,7 @@ void Game::Init ( )
 	aDisplayer->RegisterKeys ( OnKeyDown, OnKeyUp );
 }
 
-// Libère le menu
+// Libï¿½re le menu
 void Game::Free ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
