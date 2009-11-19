@@ -8,10 +8,10 @@
 		private var walls : Array = new Array ();
 		
 		//Constantes de la matrice representant le plateau de jeu
-		private const VIDE = 0;
-		private const PLAYER = 1;
-		private const MUR = 2;
-		private const PLAYER_AND_WALL = 3; //Cas qui n'arrive jamais
+		private const VIDE : int = 0;
+		private const PLAYER :int = 1;
+		private const MUR :int = 2;
+		private const PLAYER_AND_WALL :int = 3; //Cas qui n'arrive jamais
 		
 		
 		private var tab :Array;
@@ -19,21 +19,22 @@
 		 
 		public function IA() 
 		{
+			var i : int;
 			var nPlayers : int = Main.game.getPlayerCount ();
 			var nWalls : int = Main.game.getWallCount ();
 			
-			for (var i : int = 0; i < nPlayers; i++)
+			for (i = 0; i < nPlayers; i++)
 			{
-				players [i] = Main.game.getPlayer [i];
+				players [i] = Main.game.getPlayer (i);
 			}
 			
-			for (var i : int = 0; i < nWalls; i++)
+			for (i = 0; i < nWalls; i++)
 			{
-				walls [i] = Main.game.getWall [i];
+				walls [i] = Main.game.getWall (i);
 			}
 		}
 		
-		public function update(direction : int) : int 
+		public function update(direction : int, id : int) : int 
 		{
 			
 			
@@ -43,22 +44,21 @@
 		
 		private function calcul () : void
 		{
-			//Discretisation du probleme
+			var i : int;
+			
+			//DISCRETISATION DU PROBLEME
 			tab = new Array();
-			for (var i:int = 0; i < Main.PLANE_WIDTH * precision; i++)
+			
+			for (i = 0; i < Main.PLANE_WIDTH * precision; i++)
 			{
 				tab[i] = new Array();
-			}
-			
-			for (var i:int = 0; i < Main.PLANE_WIDTH * precision; i++)
-			{
 				for (var j:int = 0; j < Main.PLANE_HEIGHT * precision; j++)
 				{
-					//On cherche à savoir ce qui se trouve sur cette case
-					if(
-					tab[i][j];
+					//fonction de discrétisation :D
 				}
 			}
+			
+			//ici on a un tab qui contient une matrice du plateau de jeu
 			
 		}
 		
