@@ -3,12 +3,7 @@
 	
 	public class IA
 	{
-		/*
-		 Constantes de la taille du plateau : Main.PLANE_WIDTH, Main.PLANE_HEIGHT
-		 Il faut avoir tout les players et tout les Walls
-		 */
-		 
-		 
+		//Directions : Player.DIRECTION_<LEFT/DOWN/RIGHT/UP>
 		 
 		public function IA() 
 		{
@@ -20,6 +15,8 @@
 			
 			return 0;
 		}
+		
+		private function calcul(
 		
 	}
 
