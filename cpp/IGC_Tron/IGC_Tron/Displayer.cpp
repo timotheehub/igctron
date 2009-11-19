@@ -1,5 +1,5 @@
 // Displayer.cpp
-// Définition de la classe Displayer
+// Dï¿½finition de la classe Displayer
 
 #include "Displayer.h"
 #include "Menu.h"
@@ -8,7 +8,7 @@ using namespace IGC;
 bool Displayer::running = true;
 
 /******************************************************************************
-*                      Gestion des évenements                                 *
+*                      Gestion des ï¿½venements                                 *
 ******************************************************************************/
 
 void Displayer::OnClose ( )
@@ -31,7 +31,7 @@ void Displayer::UnregisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
 }
 
 /******************************************************************************
-*                      Méthodes Get et Set                                    *
+*                      Mï¿½thodes Get et Set                                    *
 ******************************************************************************/
 bool Displayer::GetRunning ( )
 {
@@ -83,9 +83,9 @@ void Displayer::UnloadScene()
 
 
 /******************************************************************************
-*                   Initialisation pour l'écran                               *
+*                   Initialisation pour l'ï¿½cran                               *
 ******************************************************************************/
-// Initialise l'écran
+// Initialise l'ï¿½cran
 void Displayer::InitScreen ( )
 {
 	state = MENU;
@@ -145,9 +145,9 @@ void Displayer::initRenderer ( )
 
 
 /******************************************************************************
-*              Met à jour la partie la partie graphique                       *
+*              Met ï¿½ jour la partie la partie graphique                       *
 ******************************************************************************/
-// Rafraîchit graphiquement
+// Rafraï¿½chit graphiquement
 void Displayer::UpdateGraphics ( )
 {
 	switch ( state )
@@ -155,7 +155,7 @@ void Displayer::UpdateGraphics ( )
 		case GAME:
 			DrawGame ( );
 			break;
-		case MENU:	
+		case MENU:
 			DrawMenu ( );
 			break;
 	}
@@ -246,9 +246,9 @@ void Displayer::DrawMenu ( )
 
 
 /******************************************************************************
-*                        Libère la mémoire                                    *
+*                        Libï¿½re la mï¿½moire                                    *
 ******************************************************************************/
-// Libère la mémoire
+// Libï¿½re la mï¿½moire
 void Displayer::FreeMemory ( )
 {
 	freeRenderer ( );
@@ -256,7 +256,7 @@ void Displayer::FreeMemory ( )
 	freeEngine ( );
 }
 
-// Libère renderer
+// Libï¿½re renderer
 void Displayer::freeRenderer ( )
 {
 	factory->release( font );
@@ -265,7 +265,7 @@ void Displayer::freeRenderer ( )
 	factory->release( renderer );
 }
 	
-// Libère window
+// Libï¿½re window
 void Displayer::freeWindow ( )
 {
 	window->hide();
@@ -274,7 +274,7 @@ void Displayer::freeWindow ( )
 	factory->release( window );
 }
 
-// Libère engine
+// Libï¿½re engine
 void Displayer::freeEngine ( )
 {
 	factory = NULL;
