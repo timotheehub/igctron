@@ -15,7 +15,7 @@
 		private static const HEIGHT : int =  - 20;
 		private static const BACK : int = + 60; 
 		private static const V_ORBIT : int = 50;
-		private static const PSI : int = -5;
+		private static const PSI : int = +30;
 				
 		/**
 		 * Constructor.

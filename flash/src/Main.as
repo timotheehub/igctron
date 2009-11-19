@@ -123,7 +123,7 @@
 		
 			universe.rotationX += 90;
 				
-			renderer.renderScene(scene, camere,viewport);
+			renderer.renderScene(scene, camere, viewport);
 
 			
 			game = new Game( stage );
@@ -195,7 +195,7 @@
 				}
 			}
 			
-			renderer.renderScene(scene, camere,viewport);
+			renderer.renderScene(scene, camere, viewport);
 		}
 		
 		private function convert3D ( coord : Array ) : Array
