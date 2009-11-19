@@ -148,6 +148,9 @@
 				universe.addChild(vehicleCube[i]);
 				
 			}
+			
+			game.ia = new IA ();
+			
 			stage.addEventListener( Event.ENTER_FRAME, loop );
 		}
 		

@@ -4,6 +4,8 @@
 	public class IA
 	{
 		//Directions : Player.DIRECTION_<LEFT/DOWN/RIGHT/UP>
+		private var players : Array = new Array ();
+		private var walls : Array = new Array ();
 		
 		//Constantes de la matrice representant le plateau de jeu
 		private const VIDE = 0;
@@ -17,13 +19,26 @@
 		 
 		public function IA() 
 		{
+			var nPlayers : int = Main.game.getPlayerCount ();
+			var nWalls : int = Main.game.getWallCount ();
 			
+			for (var i : int = 0; i < nPlayers; i++)
+			{
+				players [i] = Main.game.getPlayer [i];
+			}
+			
+			for (var i : int = 0; i < nWalls; i++)
+			{
+				walls [i] = Main.game.getWall [i];
+			}
 		}
 		
-		public function update(direction : int, wall : Wall) : int 
+		public function update(direction : int) : int 
 		{
 			
-			return 0;
+			
+			
+			return direction;
 		}
 		
 		private function calcul () : void
