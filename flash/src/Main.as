@@ -39,7 +39,7 @@
 		
 		private var objects : Shape;
 		
-		private var game : Game;
+		public static var game : Game;
 		
 		private var menu : Menu;
 		private var music : Music;
@@ -126,14 +126,14 @@
 			vehicleMat = new Array(0);
 			coord = new Array(0);
 			
-			for ( var i : int = 0 ; i < Game.MAX_PLAYERS ; i++ )
+			for ( var i : int = 0 ; i < Main.game.MAX_PLAYERS ; i++ )
 			{
 				var x:Number = i * 100 + 100;
 				var y:Number = 450;
 				var z:Number = VEHICLEZ ; // bug : aucune influence sur le reste 
 				var color:int;
 				
-				game.addPlayer( new Player( game, i, x, y, i > 0 ? false : true, Player.DIRECTION_UP ) );
+				game.addPlayer( new Player(i, x, y, i > 0 ? false : true, Player.DIRECTION_UP ) );
 				
 				color = Math.round( Math.random() * 0xFFFF )*256 + Math.round( Math.random()*0x10 );
 				

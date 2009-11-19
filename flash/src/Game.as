@@ -8,7 +8,9 @@
 	 */
 	public class Game
 	{
-		public static var MAX_PLAYERS : int = 4;
+		public  var MAX_PLAYERS : int = 4;
+		
+		public static var ia : IA;
 		
 		private var players : Array = new Array ();
 		private var walls : Array = new Array ();

@@ -26,7 +26,6 @@
 		
 		private var x : Number;
 		private var y : Number;
-		private var game : Game;
 		private var vehicle : Motorbike;
 		private var wall : Wall;
 	
@@ -36,17 +35,14 @@
 		private var isDead : Boolean;
 		private var direction : int;
 		
-		private var ia : IA = null;
-		
 		private var bm : Bitmap;
 		
 		private var playerWall : Array; 
 		
-		public function Player(_game:Game, _id:Number, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
+		public function Player(_id:Number, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
 		{
 			x = _x;
 			y = _y;
-			game = _game;
 			isHuman = _isHuman;
 			direction = _direction;
 			isDead = false;
@@ -57,11 +53,7 @@
 			
 			if ( isHuman )
 			{
-				game.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			}
-			else
-			{
-				ia = new IA();
+				Main.game.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			}
 		}
 		
@@ -93,8 +85,8 @@
 				var y1 : Number = 0;
 				
 				if ( !isHuman )
-				{
-					/*direction = ia.update (direction, wall);*/
+				{					
+					/*direction = Main.game.ia.update (direction);*/
 				}
 				
 				if( direction == DIRECTION_LEFT )
@@ -135,10 +127,10 @@
 				lastSegment.y1 = newY;
 				
 				//trace ( "joueur : " + x0 + " ; " + y0 + " ; " + x1 + " ; " + y1);
-				if( game.check_collision(x0, y0, x1, y1, id) )
+				if(Main.game.check_collision(x0, y0, x1, y1, id) )
 				{
 					// Mort
-					game.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+					Main.game.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 					isDead = true;
 					trace('Player ' + id + ' is dead.')
 					
