@@ -207,6 +207,11 @@
 			playerWall = new Array(0);
 		}
 		
+		public function getDir() : int
+		{
+			return direction;
+		}
+		
 		
 	}
 }
