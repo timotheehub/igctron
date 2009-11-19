@@ -5,6 +5,7 @@
 	import flash.display.Scene;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.media.Camera;
 	import org.papervision3d.materials.MovieAssetMaterial;
 	import org.papervision3d.materials.shadematerials.CellMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
@@ -51,7 +52,7 @@
 		
 		private var scene:Scene3D;
 		private var viewport:Viewport3D;
-		private var camere:Camera3D;
+		private var camere:DynamicCam;//Camera3D;
 		private var light:PointLight3D;
 		private var renderer:BasicRenderEngine;
 		private var universe:DisplayObject3D;
@@ -93,33 +94,37 @@
 			addChild(viewport);
 		
 			renderer = new BasicRenderEngine();
-
-			camere = new Camera3D();
-			camere.z = -1000;
-			camere.y = +200;
+			
+			camere = new DynamicCam();
+			
+			/*
+			camere = new Camera3D;// 3D();
+			camere.z = -500;
+			camere.y = +100;
 			//camere.x = +100;
-			camere.zoom = 90;
-			camere.orbit( 60, -75, true, plane ); //-90
+			//camere.zoom = 120;
+			camere.orbit( 60, -75, true ); //-90
+			*/
+			
+			
 
 			light = new PointLight3D(true);
 			light.x = 500;
 			light.z = - 300; 
 			scene = new Scene3D();
 			
-			//addChild( background = new Bitmap( new BitmapData( stage.stageWidth, stage.stageHeight, false, 0x00 ) ) );
 			cellMat = new CellMaterial(light, 0x0000ff,0x0000ff, 2 );
-			plane  = new Plane(cellMat, PLANE_WIDTH, PLANE_HEIGHT );
+			plane  = new Plane(cellMat, PLANE_WIDTH, PLANE_HEIGHT, 10, 10 );
+			plane.z = 20;
 			
 			universe = new DisplayObject3D();
 			universe.addChild(plane);
 			scene.addChild(universe);
 		
-			universe.rotationX +=90;
-			
+			universe.rotationX += 90;
+				
 			renderer.renderScene(scene, camere,viewport);
 
-			
-			//addChild( objects = new Shape() );
 			
 			game = new Game( stage );
 			vehicleCube = new Array(0);
@@ -130,7 +135,7 @@
 			{
 				var x:Number = i * 100 + 100;
 				var y:Number = 450;
-				var z:Number = VEHICLEZ ; // bug : aucune influence sur le reste 
+				var z:Number = VEHICLEZ ;
 				var color:int;
 				
 				game.addPlayer( new Player(i, x, y, i > 0 ? false : true, Player.DIRECTION_UP ) );
@@ -149,8 +154,9 @@
 				
 			}
 			
-			game.ia = new IA ();
+			camere.updateCam( vehicleCube[0], game.getPlayer(0) );
 			
+			game.ia = new IA ();
 			stage.addEventListener( Event.ENTER_FRAME, loop );
 		}
 		
@@ -164,15 +170,15 @@
 			{
 				var player : Player = game.getPlayer(k);
 				
-				if( !player.getLife ())
+				if( !player.getLife () )
 				{
 					coord = player.getCoord ();
 					
-					coord = convert3D(coord); coord[Z] = VEHICLEZ;
+					coord = convert3D(coord); coord[Z] = VEHICLEZ ;
 					vehicleCube[k] = moveVehicle( vehicleCube[k], coord );
 					drawWall( player, game.getWall(k), k );
 					
-
+					if ( k == 0 ) { camere.updateCam( vehicleCube[k], player ) };
 				}
 				else if ( vehicleCube[k] != null ) // new dead player
 				{
@@ -221,15 +227,11 @@
 				{
 					if ( count == wall.getSegmentCount() ) // si pas de nouveau segment : MAJ du dernier
 					{	
-						//trace( 'Player '+ p +' dans count>0 et segcount==' + count );
 						universe.removeChild(player.lastPlane());
 						universe.addChild( player.changeLast( segToPlane( lastSeg, id ) ) );
 					}
 					else
 					{
-						//trace(count + ' ; ' + wall.getSegmentCount());
-						//trace( 'Player '+ p + ' dans count > 0 et <> segCount' + count );
-						
 						universe.removeChild(player.lastPlane());
 						universe.addChild( player.changeLast( segToPlane( wall.getSegment( wall.getSegmentCount() - 2 ), id  ) ) );
 						universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );		
