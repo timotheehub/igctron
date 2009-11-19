@@ -11,7 +11,7 @@
 
 namespace KeyCode
 {
-	const int ENTER = 10;
+	const int ENTER = 13;
 	const int ESCAPE = 27;
 	const int LEFT = 37;
 	const int UP = 38;

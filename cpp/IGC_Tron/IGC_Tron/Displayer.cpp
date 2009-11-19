@@ -1,13 +1,14 @@
 // Displayer.cpp
-// Dï¿½finition de la classe Displayer
+// Définition de la classe Displayer
 
 #include "Displayer.h"
+#include "Menu.h"
 using namespace IGC;
 
 bool Displayer::running = true;
 
 /******************************************************************************
-*                      Gestion des ï¿½venements                                 *
+*                      Gestion des évenements                                 *
 ******************************************************************************/
 
 void Displayer::OnClose ( )
@@ -30,7 +31,7 @@ void Displayer::UnregisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
 }
 
 /******************************************************************************
-*                      Mï¿½thodes Get et Set                                    *
+*                      Méthodes Get et Set                                    *
 ******************************************************************************/
 bool Displayer::GetRunning ( )
 {
@@ -82,15 +83,17 @@ void Displayer::UnloadScene()
 
 
 /******************************************************************************
-*                   Initialisation pour l'ï¿½cran                               *
+*                   Initialisation pour l'écran                               *
 ******************************************************************************/
-// Initialise l'ï¿½cran
+// Initialise l'écran
 void Displayer::InitScreen ( )
 {
 	state = MENU;
 	initEngine ( );
 	initWindow ( );
 	initRenderer ( );
+	Menu *aMenu = Menu::GetInstance ( );
+	aMenu->Init ( );
 }
 
 // Initialise Engine
@@ -103,7 +106,7 @@ void Displayer::initEngine ( )
 // Initialise window
 void Displayer::initWindow ( )
 {
-	window = new IGC::Window( engine );
+	window = factory->acquire( (IGC::Window*)NULL );
 
 	window->setLeft( 120 );
 	window->setTop( 80 );
@@ -142,9 +145,9 @@ void Displayer::initRenderer ( )
 
 
 /******************************************************************************
-*              Met ï¿½ jour la partie la partie graphique                       *
+*              Met à jour la partie la partie graphique                       *
 ******************************************************************************/
-// Rafraï¿½chit graphiquement
+// Rafraîchit graphiquement
 void Displayer::UpdateGraphics ( )
 {
 	DrawMenu ( );
@@ -227,9 +230,9 @@ void Displayer::DrawMenu ( )
 
 
 /******************************************************************************
-*                        Libï¿½re la mï¿½moire                                    *
+*                        Libère la mémoire                                    *
 ******************************************************************************/
-// Libï¿½re la mï¿½moire
+// Libère la mémoire
 void Displayer::FreeMemory ( )
 {
 	freeRenderer ( );
@@ -237,7 +240,7 @@ void Displayer::FreeMemory ( )
 	freeEngine ( );
 }
 
-// Libï¿½re renderer
+// Libère renderer
 void Displayer::freeRenderer ( )
 {
 	factory->release( font );
@@ -246,16 +249,16 @@ void Displayer::freeRenderer ( )
 	factory->release( renderer );
 }
 	
-// Libï¿½re window
+// Libère window
 void Displayer::freeWindow ( )
 {
 	window->hide();
 	window->unregisterCloseCallback( OnClose );
 
-	delete window;
+	factory->release( window );
 }
 
-// Libï¿½re engine
+// Libère engine
 void Displayer::freeEngine ( )
 {
 	factory = NULL;

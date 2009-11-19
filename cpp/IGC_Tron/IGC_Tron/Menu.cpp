@@ -1,6 +1,7 @@
 // Menu.cpp
 // Définition de la classe Menu
 #include "Menu.h"
+#include "Game.h"
 #include "Globals.h"
 #include "Displayer.h"
 
@@ -11,15 +12,21 @@ using namespace KeyCode;
 ******************************************************************************/
 void Menu::OnKeyDown( int keyboardContext, int keyCode )
 {
+	Menu *aMenu = Menu::GetInstance ( );
+	Game *aGame = Game::GetInstance ( );
 	switch ( keyCode )
 	{
 		case ESCAPE :
+			//aMenu->Free ( );
 			Displayer::OnClose();
 			break;
 		case UP :
 			break;
 		case DOWN :
 			break;
+		case ENTER :
+			//aMenu->Free ( );
+			//aGame->Init ( );
 		default:
 			printf("context : %d || code : %d\n", keyboardContext, keyCode);
 			break;
@@ -48,14 +55,14 @@ void Menu::Init ( )
 {
 	nButtonPointer = SOLO;
 	Displayer *aDisplayer = Displayer::GetInstance ( );
-	aDisplayer->RegisterKeys ( OnKeyDown, OnKeyUp );
+	aDisplayer->RegisterKeys ( &Menu::OnKeyDown, &Menu::OnKeyUp );
 }
 
 // Libère le menu
 void Menu::Free ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
-	aDisplayer->UnregisterKeys ( OnKeyDown, OnKeyUp );
+	aDisplayer->UnregisterKeys ( &Menu::OnKeyDown, &Menu::OnKeyUp );
 }
 
 /******************************************************************************
@@ -64,11 +71,9 @@ void Menu::Free ( )
 // Constructeur
 Menu::Menu ( )
 {
-	Init ( );
 }
 
 // Destructeur
 Menu::~Menu ( )
 {
-	Free ( );
 }
