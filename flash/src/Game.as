@@ -10,7 +10,7 @@
 	{
 		public  var MAX_PLAYERS : int = 4;
 		
-		public static var ia : IA;
+		public  var ia : IA;
 		
 		private var players : Array = new Array ();
 		private var walls : Array = new Array ();

@@ -86,7 +86,7 @@
 				
 				if ( !isHuman )
 				{					
-					direction = Main.game.ia.update (direction);
+					direction = Main.game.ia.update (direction, id);
 				}
 				
 				if( direction == DIRECTION_LEFT )

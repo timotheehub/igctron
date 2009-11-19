@@ -9,15 +9,15 @@
 		
 		//Constantes de la matrice representant le plateau de jeu
 		private const VIDE : int = 0;
-		private const PLAYER :int = 1;
-		private const MUR :int = 2;
-		private const PLAYER_AND_WALL :int = 3; //Cas qui n'arrive jamais
+		private const PLAYER : int = 1;
+		private const MUR : int = 2;
+		private const PLAYER_AND_WALL : int = 3; //Cas qui n'arrive jamais
 		
 		
 		private var tab :Array;
 		private var precision : Number;
 		 
-		public function IA() 
+		public function IA() : void
 		{
 			var i : int;
 			var nPlayers : int = Main.game.getPlayerCount ();
@@ -39,10 +39,10 @@
 			
 			
 			
-			return direction;
+			return calcul ();
 		}
 		
-		private function calcul () : void
+		private function calcul () : int
 		{
 			var i : int;
 			
@@ -52,12 +52,12 @@
 			for (i = 0; i < Main.PLANE_WIDTH * precision; i++)
 			{
 				tab[i] = new Array();
-				for (var j:int = 0; j < Main.PLANE_HEIGHT * precision; j++)
+				/*for (var j:int = 0; j < Main.PLANE_HEIGHT * precision; j++)
 				{
 					//fonction de discrétisation :D
-				}
+				}*/
 			}
-			
+			return Math.random () * 2;
 			//ici on a un tab qui contient une matrice du plateau de jeu
 			
 		}
