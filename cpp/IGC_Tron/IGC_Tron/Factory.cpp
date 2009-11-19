@@ -218,7 +218,7 @@ namespace IGC
 
 #define DEFINE_FACTORY_FUNCTIONS( Class )												\
 																						\
-	Class* Factory::acquire( Class* addr, char* name )									\
+	Class* Factory::acquire( Class* addr, const char* name )									\
 	{																					\
 		ACQUIRE_OBJECT_BY_NAME( Class );												\
 																						\

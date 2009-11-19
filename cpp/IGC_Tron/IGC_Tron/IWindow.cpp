@@ -161,7 +161,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( int i = 0 ; i < closeCallbacks.size() ; i++ )
+		for ( unsigned int i = 0 ; i < closeCallbacks.size() ; i++ )
 		{
 			if ( closeCallbacks[i] == _callback ) closeCallbacks.erase( closeCallbacks.begin() + i-- );
 		}
@@ -176,7 +176,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( int i = 0 ; i < keyUpCallbacks.size() ; i++ )
+		for ( unsigned int i = 0 ; i < keyUpCallbacks.size() ; i++ )
 		{
 			if ( keyUpCallbacks[i] == _callback ) keyUpCallbacks.erase( keyUpCallbacks.begin() + i-- );
 		}
@@ -191,7 +191,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( int i = 0 ; i < keyDownCallbacks.size() ; i++ )
+		for ( unsigned int i = 0 ; i < keyDownCallbacks.size() ; i++ )
 		{
 			if ( keyDownCallbacks[i] == _callback ) keyDownCallbacks.erase( keyDownCallbacks.begin() + i-- );
 		}
@@ -206,7 +206,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( int i = 0 ; i < mouseMoveCallbacks.size() ; i++ )
+		for ( unsigned int i = 0 ; i < mouseMoveCallbacks.size() ; i++ )
 		{
 			if ( mouseMoveCallbacks[i] == _callback ) mouseMoveCallbacks.erase( mouseMoveCallbacks.begin() + i-- );
 		}
@@ -222,7 +222,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( int i = 0 ; i < mouseUpCallbacks.size() ; i++ )
+		for ( unsigned int i = 0 ; i < mouseUpCallbacks.size() ; i++ )
 		{
 			if ( mouseUpCallbacks[i] == _callback ) mouseUpCallbacks.erase( mouseUpCallbacks.begin() + i-- );
 		}
@@ -237,7 +237,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( int i = 0 ; i < mouseDownCallbacks.size() ; i++ )
+		for ( unsigned int i = 0 ; i < mouseDownCallbacks.size() ; i++ )
 		{
 			if ( mouseDownCallbacks[i] == _callback ) mouseDownCallbacks.erase( mouseDownCallbacks.begin() + i-- );
 		}

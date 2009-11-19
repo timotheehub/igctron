@@ -179,6 +179,16 @@ namespace IGC
 
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+
+		glViewport( 0, 0, width, height );
+
+		glMatrixMode( GL_PROJECTION );
+		glLoadIdentity();
+
+		gluPerspective( 90.0f, 1.0f, 0.1f, 100.0f );
+
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity();
 	}
 
 	void OGLRenderer::finalize()

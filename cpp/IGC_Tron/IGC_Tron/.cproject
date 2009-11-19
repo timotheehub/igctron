@@ -46,7 +46,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="main.cpp|zlib|libpng|Lock.h|Globals.h|CriticalSection.h|MemoryManager.h|MemoryManager.cpp|GraphNode.h|GraphNode.cpp|GraphIterator.h|GraphIterator.cpp|Graph.h|Graph.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry excluding="Tron.cpp|zlib|libpng|Lock.h|CriticalSection.h|MemoryManager.h|MemoryManager.cpp|GraphNode.h|GraphNode.cpp|GraphIterator.h|GraphIterator.cpp|Graph.h|Graph.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 </sourceEntries>
 </configuration>
 </storageModule>
@@ -407,7 +407,7 @@
 <listOptionValue builtIn="false" value="GLU"/>
 <listOptionValue builtIn="false" value="GLEW"/>
 </option>
-<option id="gnu.cpp.link.option.paths.1964781268" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+<option id="gnu.cpp.link.option.paths.1964781268" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 <listOptionValue builtIn="false" value="../lib3ds"/>
 </option>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.470197113" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
@@ -418,7 +418,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="main.cpp|zlib|libpng|Lock.h|Globals.h|CriticalSection.h|MemoryManager.h|MemoryManager.cpp|GraphNode.h|GraphNode.cpp|GraphIterator.h|GraphIterator.cpp|Graph.h|Graph.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry excluding="Tron.cpp|zlib|libpng|Lock.h|CriticalSection.h|MemoryManager.h|MemoryManager.cpp|GraphNode.h|GraphNode.cpp|GraphIterator.h|GraphIterator.cpp|Graph.h|Graph.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 </sourceEntries>
 </configuration>
 </storageModule>

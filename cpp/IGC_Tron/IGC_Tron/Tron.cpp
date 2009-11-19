@@ -64,7 +64,7 @@ using namespace IGC;
 /** VARIABLES GLOBALES                                                            **/
 /***********************************************************************************/
 
-const bool DEBUG_KEY_CODE = true;
+const bool DEBUG_KEY_CODE = false;
 
 const float MOUSE_SENSIVITY = 0.01f;
 const float MOVE_SPEED = 50.0f;
@@ -129,7 +129,7 @@ void onMouseMove( int _keyboardContext, int _mouseContext, int _mouseX, int _mou
 void onKeyDown( int _keyboardContext, int _keyCode )
 {
 	if ( DEBUG_KEY_CODE )
-		printf( "_keyCode = %d\n", _keyCode );
+		printf( "DOWN : _keyCode = %d\n", _keyCode );
 
 	if ( _keyCode == MoveForwardKeyCode )
 		moveForward = true;
@@ -145,6 +145,9 @@ void onKeyDown( int _keyboardContext, int _keyCode )
 
 void onKeyUp( int _keyboardContext, int _keyCode )
 {
+	if ( DEBUG_KEY_CODE )
+		printf( "UP : _keyCode = %d\n", _keyCode );
+
 	if ( _keyCode == MoveForwardKeyCode )
 		moveForward = false;
 	else if ( _keyCode == MoveBackwardKeyCode )

@@ -143,7 +143,8 @@ namespace IGC
 			XFree( modes );
 
 			attr.override_redirect = True;
-			attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask | StructureNotifyMask;
+			attr.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask |
+					ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
 			win = XCreateWindow( dpy, RootWindow( dpy, vi->screen ),
 				0, 0, dpyWidth, dpyHeight, 0, vi->depth, InputOutput, vi->visual,
@@ -156,7 +157,8 @@ namespace IGC
 		}
 		else
 		{
-			attr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask | StructureNotifyMask;
+			attr.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask |
+					ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 			win = XCreateWindow( dpy, RootWindow( dpy, vi->screen ),
 				0, 0, width, height, 0, vi->depth, InputOutput, vi->visual,
 				CWBorderPixel | CWColormap | CWEventMask, &attr );
@@ -242,18 +244,20 @@ namespace IGC
 	                        event.xconfigure.height);
 	                }
 	                break;
+	            case MotionNotify:
+	            	onMouseMove();
                 case ButtonPress:
                 	onMouseDown();
                     break;
                 case ButtonRelease:
                 	onMouseUp();
                     break;
-                case KeyPress:
-                	onKeyDown(event.xkey.keycode);
-                	break;
                 case KeyRelease:
                 	onKeyUp(event.xkey.keycode);
                     break;
+                case KeyPress:
+                	onKeyDown(event.xkey.keycode);
+                	break;
                 case ClientMessage:
                 	onClose();
                     if (*XGetAtomName(dpy, event.xclient.message_type) ==
