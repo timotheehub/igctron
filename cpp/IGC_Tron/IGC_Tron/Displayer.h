@@ -33,7 +33,7 @@ class Displayer : public Singleton<Displayer>
 
 public:
 	// Types
-	enum StateEnum { MENU };
+	enum StateEnum { MENU, GAME };
 
 	// Charge les ressources
 	void LoadRessources ( );
@@ -68,6 +68,7 @@ public:
 
 protected:
 	void DrawFps ( );
+	void DrawGame ( );
 	void DrawMenu ( );
 
 

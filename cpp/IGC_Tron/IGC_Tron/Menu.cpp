@@ -12,12 +12,13 @@ using namespace KeyCodes;
 ******************************************************************************/
 void Menu::OnKeyDown( int keyboardContext, int keyCode )
 {
-	//Menu *aMenu = Menu::GetInstance ( );
-	//Game *aGame = Game::GetInstance ( );
+	Menu *aMenu = Menu::GetInstance ( );
+	Game *aGame = Game::GetInstance ( );
+	Displayer *aDisplayer = Displayer::GetInstance ( );
 	switch ( keyCode )
 	{
 		case ESCAPE :
-			//aMenu->Free ( );
+			aMenu->Free ( );
 			Displayer::OnClose();
 			break;
 		case UP :
@@ -25,8 +26,10 @@ void Menu::OnKeyDown( int keyboardContext, int keyCode )
 		case DOWN :
 			break;
 		case ENTER :
-			//aMenu->Free ( );
-			//aGame->Init ( );
+			aMenu->Free ( );
+			aGame->Init ( );
+			aDisplayer->SetState ( Displayer::GAME );
+			break;
 		default:
 			printf("context : %d || code : %d\n", keyboardContext, keyCode);
 			break;

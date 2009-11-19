@@ -31,7 +31,6 @@ int main( int argc, char** argv )
 /***********************************************************************************/
 #include "Displayer.h"
 #include "Menu.h"
-#include "Game.h"
 
 #include "Common.h"
 

@@ -150,7 +150,15 @@ void Displayer::initRenderer ( )
 // Rafraîchit graphiquement
 void Displayer::UpdateGraphics ( )
 {
-	DrawMenu ( );
+	switch ( state )
+	{
+		case GAME:
+			DrawGame ( );
+			break;
+		case MENU:	
+			DrawMenu ( );
+			break;
+	}
 	DrawFps ( );
 
 	renderer->update();
@@ -198,6 +206,14 @@ void Displayer::DrawFps ( )
 
 		cycleTime = engine->getTime() + 1.0;
 	}
+}
+
+// Affiche le jeu
+void Displayer::DrawGame ( )
+{
+	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
+
+	camera->bind();
 }
 
 // Affiche le menu
@@ -253,7 +269,7 @@ void Displayer::freeRenderer ( )
 void Displayer::freeWindow ( )
 {
 	window->hide();
-	window->unregisterCloseCallback( OnClose );
+	//window->unregisterCloseCallback( OnClose );
 
 	factory->release( window );
 }

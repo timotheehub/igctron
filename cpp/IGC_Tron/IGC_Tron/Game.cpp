@@ -14,11 +14,13 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 {
 	Game *aGame = Game::GetInstance ( );
 	Menu *aMenu = Menu::GetInstance ( );
+	Displayer *aDisplayer = Displayer::GetInstance ( );
 	switch ( keyCode )
 	{
 		case ESCAPE :
 			aGame->Free ( );
 			aMenu->Init ( );
+			aDisplayer->SetState ( Displayer::MENU );
 			break;
 		default:
 			printf("context : %d || code : %d\n", keyboardContext, keyCode);
