@@ -161,9 +161,9 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( vector<LPCLOSECALLBACK>::iterator it = closeCallbacks.begin() ; it != closeCallbacks.end() ; ++it )
+		for ( int i = 0 ; i < closeCallbacks.size() ; i++ )
 		{
-			if ( *it == _callback ) closeCallbacks.erase( it );
+			if ( closeCallbacks[i] == _callback ) closeCallbacks.erase( closeCallbacks.begin() + i-- );
 		}
 	}
 
@@ -176,9 +176,9 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( vector<LPKEYUPCALLBACK>::iterator it = keyUpCallbacks.begin() ; it != keyUpCallbacks.end() ; ++it )
+		for ( int i = 0 ; i < keyUpCallbacks.size() ; i++ )
 		{
-			if ( *it == _callback ) keyUpCallbacks.erase( it );
+			if ( keyUpCallbacks[i] == _callback ) keyUpCallbacks.erase( keyUpCallbacks.begin() + i-- );
 		}
 	}
 
@@ -191,9 +191,9 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( vector<LPKEYDOWNCALLBACK>::iterator it = keyDownCallbacks.begin() ; it != keyDownCallbacks.end() ; ++it )
+		for ( int i = 0 ; i < keyDownCallbacks.size() ; i++ )
 		{
-			if ( *it == _callback ) keyDownCallbacks.erase( it );
+			if ( keyDownCallbacks[i] == _callback ) keyDownCallbacks.erase( keyDownCallbacks.begin() + i-- );
 		}
 	}
 
@@ -206,10 +206,11 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( vector<LPMOUSEMOVECALLBACK>::iterator it = mouseMoveCallbacks.begin() ; it != mouseMoveCallbacks.end() ; ++it )
+		for ( int i = 0 ; i < mouseMoveCallbacks.size() ; i++ )
 		{
-			if ( *it == _callback ) mouseMoveCallbacks.erase( it );
+			if ( mouseMoveCallbacks[i] == _callback ) mouseMoveCallbacks.erase( mouseMoveCallbacks.begin() + i-- );
 		}
+
 	}
 
 	void IWindow::registerMouseUpCallback( LPMOUSEUPCALLBACK _callback )
@@ -221,9 +222,9 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( vector<LPMOUSEUPCALLBACK>::iterator it = mouseUpCallbacks.begin() ; it != mouseUpCallbacks.end() ; ++it )
+		for ( int i = 0 ; i < mouseUpCallbacks.size() ; i++ )
 		{
-			if ( *it == _callback ) mouseUpCallbacks.erase( it );
+			if ( mouseUpCallbacks[i] == _callback ) mouseUpCallbacks.erase( mouseUpCallbacks.begin() + i-- );
 		}
 	}
 
@@ -236,9 +237,9 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( vector<LPMOUSEDOWNCALLBACK>::iterator it = mouseDownCallbacks.begin() ; it != mouseDownCallbacks.end() ; ++it )
+		for ( int i = 0 ; i < mouseDownCallbacks.size() ; i++ )
 		{
-			if ( *it == _callback ) mouseDownCallbacks.erase( it );
+			if ( mouseDownCallbacks[i] == _callback ) mouseDownCallbacks.erase( mouseDownCallbacks.begin() + i-- );
 		}
 	}
 

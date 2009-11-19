@@ -31,6 +31,7 @@ int main( int argc, char** argv )
 /***********************************************************************************/
 #include "Displayer.h"
 #include "Menu.h"
+#include "Game.h"
 
 #include "Common.h"
 
@@ -84,7 +85,7 @@ int main( int argc, char **argv )
 	aDisplayer->InitScreen ( );
 
 	aDisplayer->LoadScene();
-
+	
 	mainLoop();
 
 	aDisplayer->UnloadScene();

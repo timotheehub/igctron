@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="hashlib;directx\inc;opengl\inc"
+				AdditionalIncludeDirectories="hashlib;directx\inc;opengl\inc;libpng"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -319,6 +319,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="GamePlay"
+				>
+				<File
+					RelativePath=".\Game.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Headers"
@@ -486,6 +494,14 @@
 				>
 				<File
 					RelativePath=".\Menu.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="GamePlay"
+				>
+				<File
+					RelativePath=".\Game.h"
 					>
 				</File>
 			</Filter>
