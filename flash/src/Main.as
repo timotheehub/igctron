@@ -223,25 +223,24 @@
 			var count : int = player.wallCount()
 			var lastSeg : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
 			
+			//trace( count );
+			
 			if ( count > 0 )
-				{
-					if ( count == wall.getSegmentCount() ) // si pas de nouveau segment : MAJ du dernier
-					{	
-						universe.removeChild(player.lastPlane());
-						universe.addChild( player.changeLast( segToPlane( lastSeg, id ) ) );
-					}
-					else
-					{
-						universe.removeChild(player.lastPlane());
-						universe.addChild( player.changeLast( segToPlane( wall.getSegment( wall.getSegmentCount() - 2 ), id  ) ) );
-						universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );		
-					}
+			{
+				if ( count == wall.getSegmentCount() ) // si pas de nouveau segment : MAJ du dernier
+				{	
+					universe.removeChild( player.lastPlane() );
+					universe.addChild( player.changeLast( segToPlane( lastSeg, id ) ) );
 				}
 				else
 				{
-					//trace( 'Player '+p+' dans count <= 0 ' + count );
-					universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );
+					universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );		
 				}
+			}
+			else
+			{
+				universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );
+			}
 		}
 		
 		public function segToPlane( seg : Segment, id : int ) : Plane

@@ -15,7 +15,7 @@
 		private static const HEIGHT : int =  - 20;
 		private static const BACK : int = + 60; 
 		private static const V_ORBIT : int = 50;
-		private static const PSI : int = +30;
+		private static const PSI : int = +10;
 				
 		/**
 		 * Constructor.
@@ -49,29 +49,31 @@
 			
 			if( direction == Player.DIRECTION_LEFT )
 			{
+				orbit( V_ORBIT, 0 + PSI, true, cube);	
 				//x = cube.x - BACK;
 				//y = cube.y;
-				orbit( V_ORBIT, 0+PSI, true, cube );	
 			}
 			else if ( direction == Player.DIRECTION_RIGHT )
 			{
+				orbit( V_ORBIT, 180 + PSI, true, cube);
 				//x = cube.x + BACK;
 				//y = cube.y;
-				orbit( V_ORBIT, 180+PSI, true, cube );
 			}
 			else if ( direction == Player.DIRECTION_DOWN  )
 			{
+				orbit( V_ORBIT, 90 + PSI , true, cube);
 				//x = cube.x;
 				//y = cube.y + BACK;
-				orbit( V_ORBIT, 90+PSI , true, cube );
 			}
 			else if ( direction == Player.DIRECTION_UP )
 			{
+				orbit( V_ORBIT, -90 + PSI , true, cube);	
 				//x = cube.x;
 				//y = cube.y - BACK;
-				orbit( V_ORBIT, -90+PSI , true, cube );	
+				
 			}
 			
+			//z = HEIGHT;
 		}
 		
 		
