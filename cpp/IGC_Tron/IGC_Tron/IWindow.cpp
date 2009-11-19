@@ -161,7 +161,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( unsigned int i = 0 ; i < closeCallbacks.size() ; i++ )
+		for ( uint i = 0 ; i < closeCallbacks.size() ; i++ )
 		{
 			if ( closeCallbacks[i] == _callback ) closeCallbacks.erase( closeCallbacks.begin() + i-- );
 		}
@@ -176,7 +176,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( unsigned int i = 0 ; i < keyUpCallbacks.size() ; i++ )
+		for ( uint i = 0 ; i < keyUpCallbacks.size() ; i++ )
 		{
 			if ( keyUpCallbacks[i] == _callback ) keyUpCallbacks.erase( keyUpCallbacks.begin() + i-- );
 		}
@@ -191,7 +191,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( unsigned int i = 0 ; i < keyDownCallbacks.size() ; i++ )
+		for ( uint i = 0 ; i < keyDownCallbacks.size() ; i++ )
 		{
 			if ( keyDownCallbacks[i] == _callback ) keyDownCallbacks.erase( keyDownCallbacks.begin() + i-- );
 		}
@@ -206,7 +206,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( unsigned int i = 0 ; i < mouseMoveCallbacks.size() ; i++ )
+		for ( uint i = 0 ; i < mouseMoveCallbacks.size() ; i++ )
 		{
 			if ( mouseMoveCallbacks[i] == _callback ) mouseMoveCallbacks.erase( mouseMoveCallbacks.begin() + i-- );
 		}
@@ -222,7 +222,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( unsigned int i = 0 ; i < mouseUpCallbacks.size() ; i++ )
+		for ( uint i = 0 ; i < mouseUpCallbacks.size() ; i++ )
 		{
 			if ( mouseUpCallbacks[i] == _callback ) mouseUpCallbacks.erase( mouseUpCallbacks.begin() + i-- );
 		}
@@ -237,7 +237,7 @@ namespace IGC
 	{
 		if ( visible == false ) return;
 
-		for ( unsigned int i = 0 ; i < mouseDownCallbacks.size() ; i++ )
+		for ( uint i = 0 ; i < mouseDownCallbacks.size() ; i++ )
 		{
 			if ( mouseDownCallbacks[i] == _callback ) mouseDownCallbacks.erase( mouseDownCallbacks.begin() + i-- );
 		}
@@ -249,7 +249,9 @@ namespace IGC
 
 	void IWindow::onClose()
 	{
-		for ( vector<LPCLOSECALLBACK>::iterator it = closeCallbacks.begin() ; it != closeCallbacks.end() ; ++it )
+		vector<LPCLOSECALLBACK> temp = closeCallbacks;
+
+		for ( vector<LPCLOSECALLBACK>::iterator it = temp.begin() ; it != temp.end() ; ++it )
 		{
 			LPCLOSECALLBACK Callback = *it;
 
@@ -261,7 +263,9 @@ namespace IGC
 
 	void IWindow::onKeyUp( int _keyCode )
 	{
-		for ( vector<LPKEYUPCALLBACK>::iterator it = keyUpCallbacks.begin() ; it != keyUpCallbacks.end() ; ++it )
+		vector<LPKEYUPCALLBACK> temp = keyUpCallbacks;
+
+		for ( vector<LPKEYUPCALLBACK>::iterator it = temp.begin() ; it != temp.end() ; ++it )
 		{
 			LPKEYUPCALLBACK Callback = *it;
 
@@ -271,7 +275,9 @@ namespace IGC
 
 	void IWindow::onKeyDown( int _keyCode )
 	{
-		for ( vector<LPKEYDOWNCALLBACK>::iterator it = keyDownCallbacks.begin() ; it != keyDownCallbacks.end() ; ++it )
+		vector<LPKEYDOWNCALLBACK> temp = keyDownCallbacks;
+
+		for ( vector<LPKEYDOWNCALLBACK>::iterator it = temp.begin() ; it != temp.end() ; ++it )
 		{
 			LPKEYDOWNCALLBACK Callback = *it;
 
@@ -281,7 +287,9 @@ namespace IGC
 
 	void IWindow::onMouseUp()
 	{
-		for ( vector<LPMOUSEUPCALLBACK>::iterator it = mouseUpCallbacks.begin() ; it != mouseUpCallbacks.end() ; ++it )
+		vector<LPMOUSEUPCALLBACK> temp = mouseUpCallbacks;
+
+		for ( vector<LPMOUSEUPCALLBACK>::iterator it = temp.begin() ; it != temp.end() ; ++it )
 		{
 			LPMOUSEUPCALLBACK Callback = *it;
 
@@ -291,7 +299,9 @@ namespace IGC
 
 	void IWindow::onMouseDown()
 	{
-		for ( vector<LPMOUSEDOWNCALLBACK>::iterator it = mouseDownCallbacks.begin() ; it != mouseDownCallbacks.end() ; ++it )
+		vector<LPMOUSEDOWNCALLBACK> temp = mouseDownCallbacks;
+
+		for ( vector<LPMOUSEDOWNCALLBACK>::iterator it = temp.begin() ; it != temp.end() ; ++it )
 		{
 			LPMOUSEDOWNCALLBACK Callback = *it;
 
@@ -301,7 +311,9 @@ namespace IGC
 
 	void IWindow::onMouseMove()
 	{
-		for ( vector<LPMOUSEMOVECALLBACK>::iterator it = mouseMoveCallbacks.begin() ; it != mouseMoveCallbacks.end() ; ++it )
+		vector<LPMOUSEMOVECALLBACK> temp = mouseMoveCallbacks;
+
+		for ( vector<LPMOUSEMOVECALLBACK>::iterator it = temp.begin() ; it != temp.end() ; ++it )
 		{
 			LPMOUSEMOVECALLBACK Callback = *it;
 
