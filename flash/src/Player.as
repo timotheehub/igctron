@@ -47,7 +47,7 @@
 			direction = _direction;
 			isDead = false;
 			id = _id;
-			playerWall = new Array(0);
+			playerWall = new Array();
 			
 			vehicle = new Motorbike();			
 			
@@ -87,6 +87,7 @@
 				if ( !isHuman )
 				{					
 					direction = Main.game.ia.update (direction, id);
+					wall.insertSegment( x, y, x, y );
 				}
 				
 				if( direction == DIRECTION_LEFT )
