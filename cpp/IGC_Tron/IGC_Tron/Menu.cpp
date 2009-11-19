@@ -8,7 +8,7 @@
 using namespace KeyCodes;
 
 /******************************************************************************
-*                    Gestion des ï¿½vï¿½nements                                   *
+*                    Gestion des evenements                                   *
 ******************************************************************************/
 void Menu::OnKeyDown( int keyboardContext, int keyCode )
 {
@@ -22,8 +22,12 @@ void Menu::OnKeyDown( int keyboardContext, int keyCode )
 			Displayer::OnClose();
 			break;
 		case UP :
+			aMenu->SetButtonPointer( static_cast<Menu::ButtonEnum>
+					( ( aMenu->GetButtonPointer ( ) + BUTTON_COUNT - 1 ) % BUTTON_COUNT ) );
 			break;
 		case DOWN :
+			aMenu->SetButtonPointer( static_cast<Menu::ButtonEnum>
+					( ( aMenu->GetButtonPointer ( ) + 1 ) % BUTTON_COUNT ) );
 			break;
 		case ENTER :
 			aMenu->Free ( );
@@ -43,7 +47,20 @@ void Menu::OnKeyUp( int keyboardContext, int keyCode )
 }
 
 /******************************************************************************
-*                              Mise ï¿½ jour                                    *
+*                         Méthodes Get et Set                                 *
+******************************************************************************/
+Menu::ButtonEnum Menu::GetButtonPointer ( )
+{
+	return nButtonPointer;
+}
+	
+void Menu::SetButtonPointer ( Menu::ButtonEnum aButton )
+{
+	nButtonPointer = aButton;
+}
+
+/******************************************************************************
+*                              Mise a jour                                    *
 ******************************************************************************/
 // Met ï¿½ jour le menu
 void Menu::Update ( )

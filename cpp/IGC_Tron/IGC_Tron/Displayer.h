@@ -95,10 +95,6 @@ private:
 	Factory* factory;
 	IGC::Window* window;
 	Renderer* renderer;
-	Camera *camera;
-	IGC::Model* model;
-	IGC::Font* font;
-	IGC::Texture* texture;
 
 	// Variable d'etat
 	StateEnum state;
