@@ -45,6 +45,9 @@
 		private function calcul () : int
 		{
 			var i : int;
+			var j : int;
+			var k : int;
+			var l : int;
 			
 			//DISCRETISATION DU PROBLEME
 			tab = new Array();
@@ -52,13 +55,28 @@
 			for (i = 0; i < Main.PLANE_WIDTH * precision; i++)
 			{
 				tab[i] = new Array();
-				/*for (var j:int = 0; j < Main.PLANE_HEIGHT * precision; j++)
+				for (j = 0; j < Main.PLANE_HEIGHT * precision; j++)
 				{
-					//fonction de discrétisation :D
-				}*/
+					tab[i][j] = 0;
+				}
 			}
+			
+			
+			for (i = 0; i < players.length; i++) {
+				/* Pour chaque pixel (j, k) de player (en tenant comptede la précision), 
+				 * on fait tab[Math.round(j)][Math.round(k)] = PLAYER;
+				 */
+			}
+			
+			for (i = 0; i < walls.length; i++) {
+				for (j = 0; j < walls[i].getSegmentCount(); j++) {
+					/* Pour chaque pixel (k, l) de player (en tenant comptede la précision), 
+					* on fait tab[Math.round(k)][Math.round(l)] = MUR;
+					*/
+				}
+			}
+			
 			return Math.random () * 2;
-			//ici on a un tab qui contient une matrice du plateau de jeu
 			
 		}
 		
