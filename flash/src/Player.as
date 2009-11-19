@@ -87,7 +87,10 @@
 				if ( !isHuman )
 				{					
 					direction = Main.game.ia.update (direction, id);
-					wall.insertSegment( x, y, x, y );
+					//wall.insertSegment( x, y, x, y ); 
+					// ATTENTION : un segment est ajouté à chaque frame pour chaque AI
+					// du coup il y a rapidement des centaines d'objets à actualiser à chaque frame et une grosse chute de FPS
+					// Il faut juste changer les derniers coord. s'il y a aucun virage.
 				}
 				
 				if( direction == DIRECTION_LEFT )
@@ -127,7 +130,6 @@
 				lastSegment.x1 = newX;
 				lastSegment.y1 = newY;
 				
-				//trace ( "joueur : " + x0 + " ; " + y0 + " ; " + x1 + " ; " + y1);
 				if(Main.game.check_collision(x0, y0, x1, y1, id) )
 				{
 					// Mort
