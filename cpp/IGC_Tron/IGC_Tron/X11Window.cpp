@@ -242,31 +242,25 @@ namespace IGC
 	                        event.xconfigure.height);
 	                }
 	                break;
-                /* exit in case of a mouse button press */
                 case ButtonPress:
+                	onMouseDown();
+                    break;
+                case ButtonRelease:
+                	onMouseUp();
                     break;
                 case KeyPress:
-                    /*if (XLookupKeysym(&event.xkey, 0) == XK_Escape)
-                    {
-                        done = True;
-                    }
-                    if (XLookupKeysym(&event.xkey,0) == XK_F1)
-                    {
-                        killGLWindow();
-                        GLWin.fs = !GLWin.fs;
-                        createGLWindow("NeHe's Solid Objects Tutorial",
-                            640, 480, 24, GLWin.fs);
-                    }*/
+                	onKeyDown(event.xkey.keycode);
+                	break;
+                case KeyRelease:
+                	onKeyUp(event.xkey.keycode);
                     break;
                 case ClientMessage:
-                	// TODO : fermer.
-                	/*
-                    if (*XGetAtomName(GLWin.dpy, event.xclient.message_type) ==
+                	onClose();
+                    if (*XGetAtomName(dpy, event.xclient.message_type) ==
                         *"WM_PROTOCOLS")
                     {
-                        printf("Exiting sanely...\n");
-                        done = True;
-                    }*/
+                        onClose();
+                    }
                     break;
                 default:
                     break;

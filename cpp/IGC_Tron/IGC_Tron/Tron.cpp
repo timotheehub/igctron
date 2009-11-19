@@ -64,7 +64,7 @@ using namespace IGC;
 /** VARIABLES GLOBALES                                                            **/
 /***********************************************************************************/
 
-const bool DEBUG_KEY_CODE = false;
+const bool DEBUG_KEY_CODE = true;
 
 const float MOUSE_SENSIVITY = 0.01f;
 const float MOVE_SPEED = 50.0f;
@@ -85,6 +85,19 @@ bool moveForward;
 bool moveBackward;
 bool strafeLeft;
 bool strafeRight;
+#ifdef _WIN32
+	int MoveForwardKeyCode = 90;
+	int MoveBackwardKeyCode = 83;
+	int StrafeLeftKeyCode = 81;
+	int StrafeRightKeyCode = 68;
+	int QuitKeyCode = 27;
+#else
+	int MoveForwardKeyCode = 111;
+	int MoveBackwardKeyCode = 116;
+	int StrafeLeftKeyCode = 113;
+	int StrafeRightKeyCode = 114;
+	int QuitKeyCode = 9;
+#endif
 
 int lastX, lastY;
 
@@ -118,27 +131,27 @@ void onKeyDown( int _keyboardContext, int _keyCode )
 	if ( DEBUG_KEY_CODE )
 		printf( "_keyCode = %d\n", _keyCode );
 
-	if ( _keyCode == 90 )
+	if ( _keyCode == MoveForwardKeyCode )
 		moveForward = true;
-	else if ( _keyCode == 83 )
+	else if ( _keyCode == MoveBackwardKeyCode )
 		moveBackward = true;
-	else if ( _keyCode == 81 )
+	else if ( _keyCode == StrafeLeftKeyCode )
 		strafeLeft = true;
-	else if ( _keyCode == 68 )
+	else if ( _keyCode == StrafeRightKeyCode )
 		strafeRight = true;
 
-	if ( _keyCode == 27 ) running = false;
+	if ( _keyCode == QuitKeyCode ) running = false;
 }
 
 void onKeyUp( int _keyboardContext, int _keyCode )
 {
-	if ( _keyCode == 90 )
+	if ( _keyCode == MoveForwardKeyCode )
 		moveForward = false;
-	else if ( _keyCode == 83 )
+	else if ( _keyCode == MoveBackwardKeyCode )
 		moveBackward = false;
-	else if ( _keyCode == 81 )
+	else if ( _keyCode == StrafeLeftKeyCode )
 		strafeLeft = false;
-	else if ( _keyCode == 68 )
+	else if ( _keyCode == StrafeRightKeyCode )
 		strafeRight = false;
 }
 

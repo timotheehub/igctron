@@ -156,7 +156,7 @@ namespace IGC
 		/*
 			 Redimensionne la scène.
 		 */
-		virtual void resizeScene ( int newWidth, int newHeight );
+		virtual void resizeScene ( int newWidth, int newHeight ) = 0;
 
 	};
 }
