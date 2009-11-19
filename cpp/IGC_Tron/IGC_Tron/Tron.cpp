@@ -245,7 +245,7 @@ void mainLoop()
 
 void initWindow()
 {
-	window = factory->acquire( (IGC::Window*)NULL );
+	window = factory->acquire( (IGC::Window*)NULL, "toto" );
 
 	window->setLeft( 120 );
 	window->setTop( 80 );

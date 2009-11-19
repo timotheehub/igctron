@@ -32,10 +32,9 @@
 #ifdef _WIN32
 	#include <google/dense_hash_map>
 	using google::dense_hash_map;
-	using std::tr1::hash; // or ext::hash, __gnu_cxx::hash, or maybe tr1::hash
 #else
-	#include <map>
-	using std::map;
+	#include <unordered_map>
+	using boost::unordered_map;
 #endif
 
 /***********************************************************************************/
@@ -57,17 +56,39 @@ namespace IGC
 
 	private:
 
+		struct hashstr
+		{
+			size_t operator()( const char* s ) const 
+			{
+				const byte* p = (const byte*)s; 
+
+				size_t hashval = 0; 
+
+				while ( *p != '\0' ) hashval += *p++;
+
+				return hashval; 
+			}
+		};
+
 		struct eqstr
 		{
-			bool operator()( char* s1, char* s2 ) const
+			bool operator()( const char* s1, const char* s2 ) const
 			{
 				return (s1 == s2) || (s1 && s2 && strcmp(s1, s2) == 0);
 			}
 		};
 
+		struct hashptr
+		{
+			size_t operator()( const void* p ) const 
+			{
+				return (size_t)p; 
+			}
+		};
+
 		struct eqptr
 		{
-			bool operator()( void* p1, void* p2 ) const
+			bool operator()( const void* p1, const void* p2 ) const
 			{
 				return (p1 == p2);
 			}
@@ -82,11 +103,11 @@ namespace IGC
 		};
 
 #ifdef _WIN32
-		typedef dense_hash_map<char*, object*, hash<char*>, eqstr> StringHashMap;
-		typedef dense_hash_map<void*, object*, hash<void*>, eqptr> PointerHashMap;
+		typedef dense_hash_map<const char*, object*, hashstr, eqstr> StringHashMap;
+		typedef dense_hash_map<const void*, object*, hashptr, eqptr> PointerHashMap;
 #else
-		typedef map<char*, object*, eqstr> StringHashMap;
-		typedef map<void*, object*, eqptr> PointerHashMap;
+		typedef unordered_map<const char*, object*, hashstr, eqstr> StringHashMap;
+		typedef unordered_map<const void*, object*, hashptr, eqptr> PointerHashMap;
 #endif
 
 /***********************************************************************************/
