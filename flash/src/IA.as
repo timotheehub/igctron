@@ -35,14 +35,11 @@
 		}
 		
 		public function update(direction : int, id : int) : int 
-		{
-			
-			
-			
-			return calcul ();
+		{			
+			return calcul (direction, id);
 		}
 		
-		private function calcul () : int
+		private function calcul (direction : int, id : int) : int
 		{
 			var i : int;
 			var j : int;
@@ -60,7 +57,7 @@
 					tab[i][j] = 0;
 				}
 			}
-			
+						
 			
 			for (i = 0; i < players.length; i++) {
 				/* Pour chaque pixel (j, k) de player (en tenant comptede la précision), 
@@ -75,9 +72,7 @@
 					*/
 				}
 			}
-			
-			return Math.random () * 2;
-			
+			return direction;
 		}
 		
 	}
