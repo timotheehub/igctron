@@ -63,20 +63,22 @@ void Displayer::LoadRessources ( )
 
 void Displayer::LoadScene()
 {
-	model = factory->acquire( (IGC::Model*)NULL );
+	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
 
 	model->import( "ship.3ds" );
 	model->shrink( 8.0f, 8.0f, 8.0f );
 	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
 	model->move( 0.0f, 0.0f, -50.0f );
 
-	texture = factory->acquire( (IGC::Texture*)NULL );
+	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	texture->import( "warp.png" );
 }
 
 void Displayer::UnloadScene()
 {
+	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	factory->release( texture );
+	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
 	factory->release( model );
 }
 
@@ -128,13 +130,13 @@ void Displayer::initRenderer ( )
 	renderer->useHardware();
 	renderer->initialize();
 
-	camera = factory->acquire( (IGC::Camera*)NULL );
+	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
 	camera->setCenter( 0.0f, 30.0f, 10.0f );
 	camera->lookAt( 0.0f, 0.0f, -50.0f );
 	camera->update();
 
-	font = factory->acquire( (IGC::Font*)NULL );
+	Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->setName( "Verdana" );
 	font->setSize( 12 );
 	font->setBold( true );
@@ -145,9 +147,9 @@ void Displayer::initRenderer ( )
 
 
 /******************************************************************************
-*              Met � jour la partie la partie graphique                       *
+*              Met a jour la partie la partie graphique                       *
 ******************************************************************************/
-// Rafra�chit graphiquement
+// Rafraichit graphiquement
 void Displayer::UpdateGraphics ( )
 {
 	switch ( state )
@@ -178,6 +180,7 @@ void Displayer::DrawFps ( )
 	static char fpsBuffer[20];
 	static char avgBuffer[20];
 
+	Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->bind();
 
 	int x = renderer->toPointX( 0.01f );
@@ -213,6 +216,7 @@ void Displayer::DrawGame ( )
 {
 	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
 
+	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->bind();
 }
 
@@ -221,7 +225,10 @@ void Displayer::DrawMenu ( )
 {
 	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
 
+	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->bind();
+
+	Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 
 	texture->bind();
 			
@@ -234,21 +241,42 @@ void Displayer::DrawMenu ( )
 
 	renderer->drawImage( x0, y0, x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f );
 
+	Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->bind();
 	int x = renderer->toPointX( 0.5f );
 	int y = renderer->toPointY( 0.3f );
-	renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-	y = renderer->toPointY( 0.5f );
-	renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-	y = renderer->toPointY( 0.7f );
-	renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+	Menu *aMenu = Menu::GetInstance ( );
+	switch ( aMenu->GetButtonPointer ( ) )
+	{
+		case Menu::SOLO:
+			renderer->drawText( "solo", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
+			y = renderer->toPointY( 0.5f );
+			renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			y = renderer->toPointY( 0.7f );
+			renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			break;
+		case Menu::SETTINGS:
+			renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			y = renderer->toPointY( 0.5f );
+			renderer->drawText( "settings", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
+			y = renderer->toPointY( 0.7f );
+			renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			break;
+		case Menu::QUIT:
+			renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			y = renderer->toPointY( 0.5f );
+			renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			y = renderer->toPointY( 0.7f );
+			renderer->drawText( "quit", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
+			break;
+	}
 }
 
 
 /******************************************************************************
-*                        Lib�re la m�moire                                    *
+*                        Libere la memoire                                    *
 ******************************************************************************/
-// Lib�re la m�moire
+// Libere la memoire 
 void Displayer::FreeMemory ( )
 {
 	freeRenderer ( );
@@ -259,7 +287,9 @@ void Displayer::FreeMemory ( )
 // Lib�re renderer
 void Displayer::freeRenderer ( )
 {
+	Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	factory->release( font );
+	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	factory->release( camera );
 	renderer->finalize();
 	factory->release( renderer );
@@ -269,7 +299,7 @@ void Displayer::freeRenderer ( )
 void Displayer::freeWindow ( )
 {
 	window->hide();
-	//window->unregisterCloseCallback( OnClose );
+	window->unregisterCloseCallback( OnClose );
 
 	factory->release( window );
 }
@@ -289,8 +319,7 @@ void Displayer::freeEngine ( )
 ******************************************************************************/
 // Constructeur
 Displayer::Displayer ( )
-: engine( 0 ), factory( 0 ), window( 0 ), renderer( 0 ), camera( 0 ),
-		model( 0 ), font( 0 ), texture( 0 )
+: engine( 0 ), factory( 0 ), window( 0 ), renderer( 0 )
 {
 }
 

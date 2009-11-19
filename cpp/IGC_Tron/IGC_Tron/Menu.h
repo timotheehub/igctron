@@ -10,16 +10,20 @@ class Menu : public Singleton<Menu>
 {
   friend class Singleton<Menu>;
 
-public:
+public:	
+	static const int BUTTON_COUNT = 3;
+	enum ButtonEnum { SOLO, SETTINGS, QUIT };
+
 	static void OnKeyDown( int keyboardContext, int keyCode );
 	static void OnKeyUp( int keyboardContext, int keyCode );
 
 	void Init ( );
 	void Free ( );
-
 	void Update ( );
 
-	enum ButtonEnum { SOLO, SETTINGS, QUIT };
+	ButtonEnum GetButtonPointer ( );
+	void SetButtonPointer ( ButtonEnum aButton );
+
 
 protected:
 	ButtonEnum nButtonPointer;
