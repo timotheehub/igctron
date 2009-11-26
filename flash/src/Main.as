@@ -152,8 +152,8 @@
 		
 			renderer = new BasicRenderEngine();
 			
-			camere = new DynamicCam();
-			
+			camere = new DynamicCam( PLANE_WIDTH, PLANE_HEIGHT);
+						
 			/*
 			camere = new Camera3D;// 3D();
 			camere.z = -500;
@@ -182,7 +182,6 @@
 				
 			renderer.renderScene(scene, camere, viewport);
 
-			
 			game = new Game( stage );
 			vehicleCube = new Array(0);
 			vehicleMat = new Array(0);
@@ -235,7 +234,7 @@
 					vehicleCube[k] = moveVehicle( vehicleCube[k], coord );
 					drawWall( player, game.getWall(k), k );
 					
-					if ( k == 0 ) { camere.updateCam( vehicleCube[k], player ) };
+					if ( k == 0 ) { camere.updateCam( vehicleCube[0], player ) };
 				}
 				else if ( vehicleCube[k] != null ) // new dead player
 				{
@@ -255,7 +254,7 @@
 			renderer.renderScene(scene, camere, viewport);
 		}
 		
-		private function convert3D ( coord : Array ) : Array
+		static public function convert3D ( coord : Array ) : Array
 		{
 			var converted : Array = new Array(0);
 			
@@ -279,8 +278,6 @@
 		{
 			var count : int = player.wallCount()
 			var lastSeg : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
-			
-			//trace( count );
 			
 			if ( count > 0 )
 			{
