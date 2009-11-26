@@ -57,6 +57,8 @@ public:
 					IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp );
 	void UnregisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
 					IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp );
+	
+	double GetTime ( );
 
 	StateEnum GetState ( );
 	void SetState ( StateEnum aState );

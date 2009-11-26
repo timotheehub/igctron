@@ -30,6 +30,11 @@ void Displayer::UnregisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
 	window->unregisterKeyUpCallback ( _cbKeyUp );
 }
 
+double Displayer::GetTime ( )
+{
+	return engine->getTime ( );
+}
+
 /******************************************************************************
 *                      M�thodes Get et Set                                    *
 ******************************************************************************/
@@ -64,11 +69,16 @@ void Displayer::LoadRessources ( )
 void Displayer::LoadScene()
 {
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
-
 	model->import( "ship.3ds" );
 	model->shrink( 8.0f, 8.0f, 8.0f );
 	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
 	model->move( 0.0f, 0.0f, -50.0f );
+
+	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
+	Mesh * mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );
+	mesh->createPlane( 1, 1 );
+	mesh->update ( );
+	model->setMesh( mesh );
 
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	texture->import( "warp.png" );
@@ -218,6 +228,12 @@ void Displayer::DrawGame ( )
 
 	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->bind();
+
+	Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
+	texture->bind();
+			
+	Model* model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
+	model->render();
 }
 
 // Affiche le menu

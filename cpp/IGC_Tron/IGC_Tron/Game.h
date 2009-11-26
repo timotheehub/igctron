@@ -4,7 +4,17 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
+#include "Player.h"
 #include "Singleton.h"
+#include <string>
+
+
+struct PlayerInfos
+{
+	enum TypePlayer { NO, KEYBOARD, COMPUTER };
+	TypePlayer ATypePlayer;
+	std::string Name; 
+};
 
 class Game : public Singleton<Game>
 {
@@ -21,8 +31,8 @@ public:
 	void Update ( );
 
 protected:
-	//Player* tabPlayers [ NB_PLAYERS ];
-	//Player** tabPlayersIndex;
+	(Player*) tabPlayers [ MAX_PLAYERS ];
+	Player** tabPlayersIndex;
 	int nbPlayers;
 
 private:

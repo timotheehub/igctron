@@ -70,26 +70,51 @@ namespace IGC
 		// TODO : rendre le VBO
 
 		glBegin( GL_TRIANGLES );
+		
+		float3 va;
+		float3 vb;
+		float3 vc;
+		float3 na;
+		float3 nb;
+		float3 nc;
+		float4 ca;
+		float4 cb;
+		float4 cc;
+		float2 ta;
+		float2 tb;
+		float2 tc;
 
 		for ( uint k = 0 ; k < faceCount ; k++ )
 		{
 			uint3 face = faces[k];
+			
+			if ( hasVertices )
+			{
+				va = vertices[face.x];
+				vb = vertices[face.y];
+				vc = vertices[face.z];
+			}
 
-			float3 va = vertices[face.x];
-			float3 vb = vertices[face.y];
-			float3 vc = vertices[face.z];
+			if ( hasNormals )
+			{
+				na = normals[face.x];
+				nb = normals[face.y];
+				nc = normals[face.z];
+			}
 
-			float3 na = normals[face.x];
-			float3 nb = normals[face.y];
-			float3 nc = normals[face.z];
+			if ( hasColors )
+			{
+				ca = colors[face.x];
+				cb = colors[face.y];
+				cc = colors[face.z];
+			}
 
-			float4 ca = colors[face.x];
-			float4 cb = colors[face.y];
-			float4 cc = colors[face.z];
-
-			float2 ta = texcoords[face.x];
-			float2 tb = texcoords[face.y];
-			float2 tc = texcoords[face.z];
+			if ( hasTexcoords )
+			{
+				ta = texcoords[face.x];
+				tb = texcoords[face.y];
+				tc = texcoords[face.z];
+			}
 
 			if ( hasColors ) glColor4f( ca.x, ca.y, ca.z, ca.w );
 			if ( hasTexcoords ) glTexCoord2f( ta.x, ta.y );
