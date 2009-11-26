@@ -1,5 +1,5 @@
 // Game.h
-// Déclaration de la classe Game
+// Dï¿½claration de la classe Game
 
 #ifndef __GAME_H__
 #define __GAME_H__
@@ -31,8 +31,8 @@ public:
 	void Update ( );
 
 protected:
-	(Player*) tabPlayers [ MAX_PLAYERS ];
 	Player** tabPlayersIndex;
+	Player* tabPlayers [ MAX_PLAYERS ];
 	int nbPlayers;
 
 private:

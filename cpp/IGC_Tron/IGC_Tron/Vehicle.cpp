@@ -23,7 +23,7 @@ void Vehicle::Init()
 
 void Vehicle::MoveForward()
 {
-	if (boost && (Displayer::GetTime() - boostBeginDate) >= BOOST_LENGTH)
+	if (boost && (Displayer::GetInstance()->GetTime() - boostBeginDate) >= BOOST_LENGTH)
 	{
 		boost = false;
 	}
@@ -40,21 +40,21 @@ void Vehicle::MoveForward()
 
 void Vehicle::Boost()
 {
-	boostBeginDate = Displayer::GetTime();
+	boostBeginDate = Displayer::GetInstance()->GetTime();
 	boost = true;
 }
 
 void Vehicle::MoveLeft()
 {
-	double tmp = speed.x;
-	speed.x = speed.y;
-	speed.y = -tmp;
+	double tmp = speed.z;
+	speed.z = -speed.x;
+	speed.x = tmp;
 }
 void Vehicle::MoveRight()
 {
-	double tmp = speed.x;
-	speed.x = -speed.y;
-	speed.y = tmp;
+	double tmp = speed.z;
+	speed.z = speed.x;
+	speed.x = -tmp;
 }
 
 CartesianVector Vehicle::GetPosition() const
