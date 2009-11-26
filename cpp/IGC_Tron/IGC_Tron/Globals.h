@@ -34,7 +34,7 @@ struct CartesianVector
 {
 	double x, y, z;
 
-	CartesianVector& operator +=(const CartesianVector& c)
+	inline CartesianVector& operator +=(const CartesianVector& c)
 	{
 		x += c.x;
 		y += c.y;
@@ -42,7 +42,7 @@ struct CartesianVector
 		return *this;
 	}
 
-	CartesianVector& operator -=(const CartesianVector& c)
+	inline CartesianVector& operator -=(const CartesianVector& c)
 	{
 		x -= c.x;
 		y -= c.y;
@@ -50,7 +50,7 @@ struct CartesianVector
 		return *this;
 	}
 
-	CartesianVector& operator *=(double c)
+	inline CartesianVector& operator *=(double c)
 	{
 		x *= c;
 		y *= c;
@@ -58,7 +58,7 @@ struct CartesianVector
 		return *this;
 	}
 
-	CartesianVector& operator /=(double c)
+	inline CartesianVector& operator /=(double c)
 	{
 		x /= c;
 		y /= c;
@@ -70,16 +70,22 @@ struct CartesianVector
 		x(xi), y(yi), z(zi)
 	{
 	}
+
+	CartesianVector() :
+		x(0), y(0), z(0)
+	{
+
+	}
 };
 
-CartesianVector operator +(const CartesianVector& c1, const CartesianVector& c2)
+inline CartesianVector operator +(const CartesianVector& c1, const CartesianVector& c2)
 {
 	CartesianVector res(c1);
 	res += c2;
 	return res;
 }
 
-CartesianVector operator *(double d, const CartesianVector& c)
+inline CartesianVector operator *(double d, const CartesianVector& c)
 {
 	CartesianVector res(c);
 	res *= d;
