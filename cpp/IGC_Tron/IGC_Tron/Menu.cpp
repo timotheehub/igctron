@@ -86,6 +86,63 @@ void Menu::Free ( )
 }
 
 /******************************************************************************
+*                                Affichage                                    *
+******************************************************************************/
+void Menu::Draw ( )
+{
+	Displayer *aDisplayer = Displayer::GetInstance ();
+	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
+	IGC::Factory *factory = aDisplayer->GetFactory ( );
+
+	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
+
+	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
+	camera->bind();
+
+	Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
+
+	texture->bind();
+			
+	renderer->setTransparency( true );
+
+	int x0 = renderer->toPointX( 0.00f );
+	int x1 = renderer->toPointX( 1.00f );
+	int y0 = renderer->toPointY( 0.00f );
+	int y1 = renderer->toPointY( 1.00f );
+
+	renderer->drawImage( x0, y0, x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f );
+
+	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
+	font->bind();
+	int x = renderer->toPointX( 0.5f );
+	int y = renderer->toPointY( 0.3f );
+	switch ( nButtonPointer )
+	{
+		case SOLO:
+			renderer->drawText( "solo", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
+			y = renderer->toPointY( 0.5f );
+			renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			y = renderer->toPointY( 0.7f );
+			renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			break;
+		case SETTINGS:
+			renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			y = renderer->toPointY( 0.5f );
+			renderer->drawText( "settings", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
+			y = renderer->toPointY( 0.7f );
+			renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			break;
+		case QUIT:
+			renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			y = renderer->toPointY( 0.5f );
+			renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
+			y = renderer->toPointY( 0.7f );
+			renderer->drawText( "quit", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
+			break;
+	}
+}
+
+/******************************************************************************
 *                 Constructeurs et destructeurs                               *
 ******************************************************************************/
 // Constructeur

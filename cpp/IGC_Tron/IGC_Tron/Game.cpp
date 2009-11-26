@@ -54,6 +54,7 @@ void Game::Init ( )
 	PlayerInfos tabPlayersInfos [ MAX_PLAYERS ];// Temp
 	Utils::CartesianVector aVector ( 1, 1, 1 ); // Temp
 
+	// Players
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	aDisplayer->RegisterKeys ( OnKeyDown, OnKeyUp );
 	nbPlayers = 0;
@@ -77,11 +78,15 @@ void Game::Init ( )
 			tabPlayersIndex [ j++ ] = tabPlayers [ i ];
 		}
 	}
+
+	// Plane
+	aPlane = new Plane;
 }
 
 // Lib�re le menu
 void Game::Free ( )
 {
+	// Players
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	aDisplayer->UnregisterKeys ( OnKeyDown, OnKeyUp );
 	for ( int i = 0; i < MAX_PLAYERS; i++ )
@@ -89,6 +94,32 @@ void Game::Free ( )
 		delete tabPlayers [ i ];
 	}
 	delete [] tabPlayersIndex;
+
+	// Plane
+	delete aPlane;
+}
+
+/******************************************************************************
+*                                Affichage                                    *
+******************************************************************************/
+void Game::Draw ( )
+{
+	Displayer *aDisplayer = Displayer::GetInstance ();
+	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
+	IGC::Factory *factory = aDisplayer->GetFactory ( );
+
+	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
+
+	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
+	camera->bind();
+	
+	aPlane->Draw ( );
+
+	IGC::Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
+	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
+	texture->bind();
+	renderer->setTransparency( false );
+	model->render();
 }
 
 /******************************************************************************

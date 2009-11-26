@@ -62,6 +62,11 @@ public:
 
 	StateEnum GetState ( );
 	void SetState ( StateEnum aState );
+
+	inline IGC::Engine* GetEngine ( );
+	inline IGC::Factory* GetFactory ( );
+	inline IGC::Renderer* GetRenderer ( );
+	inline IGC::Window* GetWindow ( );
 	
 	static void OnClose ( );
 	static bool GetRunning ( );
@@ -70,10 +75,6 @@ public:
 
 protected:
 	void DrawFps ( );
-	void DrawGame ( );
-	void DrawMenu ( );
-
-
 
 private:
 	// Constructeur
@@ -93,10 +94,10 @@ private:
 	void freeEngine ( );
 
 	// Attributs pour le moteur 3D
-	Engine* engine;
-	Factory* factory;
+	IGC::Engine* engine;
+	IGC::Factory* factory;
 	IGC::Window* window;
-	Renderer* renderer;
+	IGC::Renderer* renderer;
 
 	// Variable d'etat
 	StateEnum state;
@@ -104,5 +105,28 @@ private:
 	// Attributs statiques
 	static bool running;
 };
+
+/******************************************************************************
+*                              Accesseurs                                     *
+******************************************************************************/
+inline IGC::Engine* Displayer::GetEngine ( )
+{
+	return engine;
+}
+
+inline IGC::Factory* Displayer::GetFactory ( )
+{
+	return factory;
+}
+
+inline IGC::Renderer* Displayer::GetRenderer ( )
+{
+	return renderer;
+}
+
+inline IGC::Window* Displayer::GetWindow ( )
+{
+	return window;
+}
 
 #endif // __DISPLAYER_H__
