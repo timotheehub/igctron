@@ -6,6 +6,7 @@
 
 #include "Player.h"
 #include "Singleton.h"
+#include "Plane.h"
 #include <string>
 
 
@@ -30,10 +31,13 @@ public:
 
 	void Update ( );
 
+	void Draw ( );
+
 protected:
 	Player** tabPlayersIndex;
 	Player* tabPlayers [ MAX_PLAYERS ];
 	int nbPlayers;
+	Plane *aPlane;
 
 private:
 	// Constructeur

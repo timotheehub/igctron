@@ -20,6 +20,7 @@ public:
 	void Init ( );
 	void Free ( );
 	void Update ( );
+	void Draw ( );
 
 	ButtonEnum GetButtonPointer ( );
 	void SetButtonPointer ( ButtonEnum aButton );

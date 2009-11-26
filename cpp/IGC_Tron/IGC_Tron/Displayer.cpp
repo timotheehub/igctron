@@ -3,6 +3,7 @@
 
 #include "Displayer.h"
 #include "Menu.h"
+#include "Game.h"
 using namespace IGC;
 
 bool Displayer::running = true;
@@ -72,16 +73,24 @@ void Displayer::LoadScene()
 	model->import( "ship.3ds" );
 	model->shrink( 8.0f, 8.0f, 8.0f );
 	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
-	model->move( 0.0f, 0.0f, -50.0f );
+	//model->move( 0.0f, 0.0f, -50.0f );
 
-	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
-	Mesh * mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );
-	mesh->createPlane( 1, 1 );
+	model = factory->acquire( (IGC::Model*)NULL, "model_cube" );
+	Mesh* mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_cube" );
+	mesh->createCube( 1, 1, 1 );
 	mesh->update ( );
 	model->setMesh( mesh );
+	model->grow( 10.0f, 1.0f, 1.0f );
 
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	texture->import( "warp.png" );
+
+	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
+	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );
+	mesh->createPlane( 1, 1 );
+	mesh->update ( );
+	model->setMesh( mesh );
+	model->grow( 30.0f, 1.0f, 20.0f );
 }
 
 void Displayer::UnloadScene()
@@ -142,8 +151,8 @@ void Displayer::initRenderer ( )
 
 	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
-	camera->setCenter( 0.0f, 30.0f, 10.0f );
-	camera->lookAt( 0.0f, 0.0f, -50.0f );
+	camera->setCenter( 0.0f, 30.0f, 0.0f );
+	camera->lookAt( 0.0f, -10.0f, 0.1f );
 	camera->update();
 
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
@@ -165,10 +174,10 @@ void Displayer::UpdateGraphics ( )
 	switch ( state )
 	{
 		case GAME:
-			DrawGame ( );
+			Game::GetInstance ( )->Draw ( );
 			break;
 		case MENU:
-			DrawMenu ( );
+			Menu::GetInstance ( )->Draw ( );
 			break;
 	}
 	DrawFps ( );
@@ -220,74 +229,6 @@ void Displayer::DrawFps ( )
 		cycleTime = engine->getTime() + 1.0;
 	}
 }
-
-// Affiche le jeu
-void Displayer::DrawGame ( )
-{
-	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
-
-	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
-	camera->bind();
-
-	Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
-	texture->bind();
-			
-	Model* model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
-	model->render();
-}
-
-// Affiche le menu
-void Displayer::DrawMenu ( )
-{
-	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
-
-	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
-	camera->bind();
-
-	Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
-
-	texture->bind();
-			
-	renderer->setTransparency( true );
-
-	int x0 = renderer->toPointX( 0.00f );
-	int x1 = renderer->toPointX( 1.00f );
-	int y0 = renderer->toPointY( 0.00f );
-	int y1 = renderer->toPointY( 1.00f );
-
-	renderer->drawImage( x0, y0, x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f );
-
-	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
-	font->bind();
-	int x = renderer->toPointX( 0.5f );
-	int y = renderer->toPointY( 0.3f );
-	Menu *aMenu = Menu::GetInstance ( );
-	switch ( aMenu->GetButtonPointer ( ) )
-	{
-		case Menu::SOLO:
-			renderer->drawText( "solo", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
-			y = renderer->toPointY( 0.5f );
-			renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			y = renderer->toPointY( 0.7f );
-			renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			break;
-		case Menu::SETTINGS:
-			renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			y = renderer->toPointY( 0.5f );
-			renderer->drawText( "settings", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
-			y = renderer->toPointY( 0.7f );
-			renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			break;
-		case Menu::QUIT:
-			renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			y = renderer->toPointY( 0.5f );
-			renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			y = renderer->toPointY( 0.7f );
-			renderer->drawText( "quit", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
-			break;
-	}
-}
-
 
 /******************************************************************************
 *                        Libere la memoire                                    *

@@ -6,7 +6,14 @@
 
 class Plane
 {
-	Plane ( );
+protected:
+	int width;
+	int height;
+
+public:
+	void Draw ( );
+	Plane ( int aWidth = 30, int aHeight = 20 );
+	~Plane ( );
 };
 
 #endif
