@@ -29,8 +29,17 @@
 	import flash.events.Event;
 	import flash.media.Sound;
 	
+	import i12.data.Pool;
+	import i12.gui.Loader;
+	import i12.data.ImageLoader;
+	import i12.data.SoundLoader;
+	import i12.data.TextLoader;
+	
 	public class Main extends Sprite 
 	{
+		private var pool : Pool;
+		private var loader : Loader;
+
 		public static const PLANE_WIDTH:int = 600;
 		public static const PLANE_HEIGHT:int = 500;
 		
@@ -78,13 +87,59 @@
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, init );
 			
+			pool = new Pool( stage );
+
+			new ImageLoader( pool, "LoadAsset", "sphere.png", true );
+
+			pool.addEventListener( Event.COMPLETE, onPreloadComplete );
+			pool.beginLoading();
+		}
+		
+		private function onPreloadComplete( e : Event ) : void // cette fonction est automatiquement appelée lorque le preloading est terminé
+		{
+			pool.removeEventListener( Event.COMPLETE, onPreloadComplete );
+
+			// chargez vos images ici :
+			// new ImageLoader( pool, "Logo", "logo.jpg", true );
+
+			// chargez vos textes, xml, fichiers de config ici :
+			// new TextLoader( pool, "ConfigXML", "config.xml", true );
+
+			// chargez vos sons, musiques ici :
+			//new SoundLoader( pool, "SoundSample", "sample.mp3", true );
+			
+			pool.addEventListener( Event.COMPLETE, onLoadComplete );
+
+			loader = new Loader( this, pool );
+		}
+
+		private function onLoadComplete( e : Event ) : void // cette fonction est automatiquement appelée lorque le loading est terminé
+		{
+			pool.removeEventListener( Event.COMPLETE, onLoadComplete );
+			
+			// c'est ici le véritable point d'entrée de votre programme
+			
+			// pour accéder à une ressource chargée de type image :
+			// var bmpdata : BitmapData = (BitmapData)(pool.getResource( "Logo" ));
+			
+			// pour accéder à une ressource chargée de type texte :
+			// var text : String = (String)(pool.getResource( "ConfigXML" ));
+
+			// pour accéder à une ressource chargée de type image :
+			// var sound : Sound = (Sound)(pool.getResource( "SoundSample" ));
+
+			initMenu();
+		}
+
+		public function initMenu() : void
+		{
 			music = new Music();
 			music.menuMusic();
 			
 			menu = new Menu( this, stage );
 		}
 		
-		public function initGame( ) : void 
+		public function initGame() : void 
 		{
 			menu = null;
 			music.gameMusic();
