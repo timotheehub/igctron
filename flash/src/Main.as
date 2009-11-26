@@ -89,7 +89,7 @@
 			
 			pool = new Pool( stage );
 
-			new ImageLoader( pool, "LoadAsset", "sphere.png", true );
+			new ImageLoader( pool, "LoadAsset", "img/sphere.png", true );
 
 			pool.addEventListener( Event.COMPLETE, onPreloadComplete );
 			pool.beginLoading();
@@ -100,7 +100,9 @@
 			pool.removeEventListener( Event.COMPLETE, onPreloadComplete );
 
 			// chargez vos images ici :
-			// new ImageLoader( pool, "Logo", "logo.jpg", true );
+			new ImageLoader( pool, "MenuImage0", "img/menu_0_0.JPG", true );
+			new ImageLoader( pool, "MenuImage1", "img/menu_0_1.JPG", true );
+			new ImageLoader( pool, "MenuImage2", "img/menu_0_2.JPG", true );
 
 			// chargez vos textes, xml, fichiers de config ici :
 			// new TextLoader( pool, "ConfigXML", "config.xml", true );
