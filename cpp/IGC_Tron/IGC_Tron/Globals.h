@@ -34,7 +34,7 @@ struct CartesianVector
 {
 	double x, y, z;
 
-	inline CartesianVector& operator +=(const CartesianVector& c)
+	CartesianVector& operator +=(const CartesianVector& c)
 	{
 		x += c.x;
 		y += c.y;
@@ -42,7 +42,7 @@ struct CartesianVector
 		return *this;
 	}
 
-	inline CartesianVector& operator -=(const CartesianVector& c)
+	CartesianVector& operator -=(const CartesianVector& c)
 	{
 		x -= c.x;
 		y -= c.y;
@@ -50,7 +50,7 @@ struct CartesianVector
 		return *this;
 	}
 
-	inline CartesianVector& operator *=(double c)
+	CartesianVector& operator *=(double c)
 	{
 		x *= c;
 		y *= c;
@@ -58,7 +58,7 @@ struct CartesianVector
 		return *this;
 	}
 
-	inline CartesianVector& operator /=(double c)
+	CartesianVector& operator /=(double c)
 	{
 		x /= c;
 		y /= c;
@@ -96,6 +96,76 @@ inline CartesianVector operator *(const CartesianVector& c, double d)
 {
 	return c * d;
 }
+
+struct CartesianVector2D
+{
+	double x, z;
+
+	CartesianVector2D& operator +=(const CartesianVector2D& c)
+	{
+		x += c.x;
+		z += c.z;
+		return *this;
+	}
+
+	CartesianVector2D& operator -=(const CartesianVector2D& c)
+	{
+		x -= c.x;
+		z -= c.z;
+		return *this;
+	}
+
+	CartesianVector2D& operator *=(double c)
+	{
+		x *= c;
+		z *= c;
+		return *this;
+	}
+
+	CartesianVector2D& operator /=(double c)
+	{
+		x /= c;
+		z /= c;
+		return *this;
+	}
+
+	CartesianVector2D(double xi, double zi) :
+		x(xi), z(zi)
+	{
+	}
+
+	CartesianVector2D(CartesianVector c) :
+		x(c.x), z(c.z)
+	{
+	}
+
+	CartesianVector2D() :
+		x(0), z(0)
+	{
+
+	}
+};
+
+inline CartesianVector2D operator +(const CartesianVector2D& c1, const CartesianVector2D& c2)
+{
+	CartesianVector2D res(c1);
+	res += c2;
+	return res;
+}
+
+inline CartesianVector2D operator *(double d, const CartesianVector2D& c)
+{
+	CartesianVector2D res(c);
+	res *= d;
+	return res;
+}
+
+inline CartesianVector2D operator *(const CartesianVector2D& c, double d)
+{
+	return c * d;
+}
+
+
 }
 
 #endif // __GLOBALS_H__
