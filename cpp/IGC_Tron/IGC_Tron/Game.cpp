@@ -39,6 +39,9 @@ void Game::OnKeyUp( int keyboardContext, int keyCode )
 // Met � jour le menu
 void Game::Update ( )
 {
+	/*for ( int i = 0; i < NB_PLAYERS; i++ )
+	{
+	}*/
 }
 
 /******************************************************************************
@@ -49,6 +52,12 @@ void Game::Init ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	aDisplayer->RegisterKeys ( OnKeyDown, OnKeyUp );
+//	nbPlayersIndex = 0;
+	/*for ( int i = 0, j = 0; i < NB_PLAYERS; i++ )
+	{
+		tabPlayers [ i ] = new Player;
+		nbPlayer
+	}*/
 }
 
 // Lib�re le menu
@@ -56,6 +65,10 @@ void Game::Free ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	aDisplayer->UnregisterKeys ( OnKeyDown, OnKeyUp );
+	/*for ( int i = 0; i < NB_PLAYERS; i++ )
+	{
+		tabPlayers [ i ] = delete Player;
+	}*/
 }
 
 /******************************************************************************

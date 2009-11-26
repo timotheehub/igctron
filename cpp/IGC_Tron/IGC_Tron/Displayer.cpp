@@ -136,7 +136,7 @@ void Displayer::initRenderer ( )
 	camera->lookAt( 0.0f, 0.0f, -50.0f );
 	camera->update();
 
-	Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
+	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->setName( "Verdana" );
 	font->setSize( 12 );
 	font->setBold( true );
@@ -180,7 +180,7 @@ void Displayer::DrawFps ( )
 	static char fpsBuffer[20];
 	static char avgBuffer[20];
 
-	Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
+	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->bind();
 
 	int x = renderer->toPointX( 0.01f );
@@ -241,7 +241,7 @@ void Displayer::DrawMenu ( )
 
 	renderer->drawImage( x0, y0, x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f );
 
-	Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
+	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->bind();
 	int x = renderer->toPointX( 0.5f );
 	int y = renderer->toPointY( 0.3f );
@@ -287,7 +287,7 @@ void Displayer::FreeMemory ( )
 // Lib�re renderer
 void Displayer::freeRenderer ( )
 {
-	Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
+	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	factory->release( font );
 	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	factory->release( camera );
