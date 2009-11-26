@@ -12,11 +12,15 @@
 	public class DynamicCam extends Camera3D
 	{
 		
-		private static const HEIGHT : int =  - 20;
+		private static const ZHEIGHT : int =  20;
 		private static const BACK : int = + 60; 
-		private static const V_ORBIT : int = 50;
-		private static const PSI : int = +10;
-				
+		private static const V_ORBIT : int = 65;
+		private static const PSI : int = +1; // 
+		private static const ROT_SPEED : int = 2;
+		private var width:Number;
+		private var height:Number;
+		private var h_orbit:Number;
+		
 		/**
 		 * Constructor.
 		 * 
@@ -26,9 +30,12 @@
 		 * @param	useCulling		Boolean indicating whether to use frustum culling. When true all objects outside the view will be culled.
 		 * @param	useProjection 	Boolean indicating whether to use a projection matrix for perspective.
 		 */ 
-		public function DynamicCam(fov:Number=60, near:Number=10, far:Number=5000, useCulling:Boolean=false, useProjection:Boolean=false)
+		public function DynamicCam( _width:int, _height:int, _h_orbit:int=-90, fov:Number = 60, near:Number = 10, far:Number = 5000, useCulling:Boolean = false, useProjection:Boolean = false)
 		{
 			super(near, 40);
+			width = _width;
+			height = _height;
+			h_orbit = _h_orbit;
 			
 			this.fov = fov; 
 			
@@ -40,42 +47,56 @@
 			_useProjectionMatrix = useProjection;
 			_far = far;
 			_focusFix = Matrix3D.IDENTITY;
-			z = HEIGHT;
+			z = ZHEIGHT;
 		}
 		
 		public function updateCam( cube : Cube, player : Player ) : void
 		{
 			var direction : int = player.getDir();
+			var newX : Number;
+			var newZ : Number;
+			
 			
 			if( direction == Player.DIRECTION_LEFT )
 			{
-				orbit( V_ORBIT, 0 + PSI, true, cube);	
-				//x = cube.x - BACK;
-				//y = cube.y;
+				h_orbit = h_orbit * ROT_SPEED / (ROT_SPEED+1);
+				newX = cube.x + BACK;
+				newZ = cube.y;
 			}
 			else if ( direction == Player.DIRECTION_RIGHT )
 			{
-				orbit( V_ORBIT, 180 + PSI, true, cube);
-				//x = cube.x + BACK;
-				//y = cube.y;
+				h_orbit = (180 + h_orbit * ROT_SPEED) / (ROT_SPEED +1);
+				newX = cube.x - BACK;
+				newZ = cube.y;
 			}
 			else if ( direction == Player.DIRECTION_DOWN  )
 			{
-				orbit( V_ORBIT, 90 + PSI , true, cube);
-				//x = cube.x;
-				//y = cube.y + BACK;
+				h_orbit = (90 + h_orbit * ROT_SPEED) / (ROT_SPEED+1);
+				newX = cube.x;
+				newZ = cube.y - BACK;
 			}
 			else if ( direction == Player.DIRECTION_UP )
 			{
-				orbit( V_ORBIT, -90 + PSI , true, cube);	
-				//x = cube.x;
-				//y = cube.y - BACK;
-				
+				h_orbit = (270 + h_orbit * ROT_SPEED) / (ROT_SPEED+1);	
+				newX = cube.x;
+				newZ = cube.y + BACK;
 			}
 			
-			//z = HEIGHT;
+			
+			
+			h_orbit = (h_orbit < 0)? -h_orbit : h_orbit;
+			
+			x = newX;
+			y = ZHEIGHT;
+			z = newZ;
+			orbit( V_ORBIT, h_orbit, true, cube);
+			zoom = 50;
+			//this.lookAt( cube );
+			//this.updateTransform();
+			
+			trace(h_orbit);
+			//trace( distanceTo(cube));
 		}
-		
 		
 	}
 
