@@ -323,6 +323,10 @@ namespace IGC
 		*/
 		void createCube( float width = 10.0f, float height = 10.0f, float depth = 10.0f );
 
+		/*
+			Construit un maillage de plan
+		*/
+		void createPlane( float width = 10.0f, float depth = 10.0f );
 		
 		/*
 			Copie les données de ce maillage en mémoire vidéo selon l'API utilisée.

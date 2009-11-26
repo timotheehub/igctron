@@ -195,4 +195,20 @@ namespace IGC
 		setFace( 11, 3, 5, 7 );
 	}
 
+	void IMesh::createPlane( float width, float depth )
+	{
+		hasVertices = true;
+
+		setVertexCount( 4 );
+
+		setVertex( 0, -0.5f * width, 0, -0.5f * depth );
+		setVertex( 1, -0.5f * width, 0, +0.5f * depth );
+		setVertex( 2, +0.5f * width, 0, -0.5f * depth );
+		setVertex( 3, +0.5f * width, 0, +0.5f * depth );
+
+		setFaceCount( 2 );
+
+		setFace(  0, 0, 1, 2 );
+		setFace(  1, 3, 2, 1 );
+	}
 }
