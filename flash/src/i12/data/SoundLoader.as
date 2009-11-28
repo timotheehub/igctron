@@ -37,7 +37,7 @@ package i12.data
 			sound.addEventListener( Event.COMPLETE, onLoadComplete );
 			sound.addEventListener( IOErrorEvent.IO_ERROR, onLoadError );
 			
-			sound.load( new URLRequest( Flouzer.BASE_URL + resourceURL ) );
+			sound.load( new URLRequest( DATA_URL + resourceURL ) );
 		}
 		
 		/******************************************************************************************/

@@ -37,7 +37,7 @@ package i12.data
 			stream.addEventListener( Event.COMPLETE, onLoadComplete );
 			stream.addEventListener( IOErrorEvent.IO_ERROR, onLoadError );
 			
-			stream.load( new URLRequest( Flouzer.DATA_URL + resourceURL ) );
+			stream.load( new URLRequest( DATA_URL + resourceURL ) );
 		}
 		
 		/******************************************************************************************/
