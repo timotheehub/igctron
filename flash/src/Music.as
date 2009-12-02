@@ -8,6 +8,7 @@
 	
 	public class Music
 	{
+		private var main : Main;
 		private var music : Sound;
 		private var soundVolume : Number = 1;
 		private var soundTransform : SoundTransform;
@@ -16,20 +17,23 @@
 		private var typeMusic : int = 0;
 		private var listMusic : Array = [[0],[0]];
 		
-		public function Music() 
+		public function Music( _main : Main ) 
 		{
-			listMusic[0][0] = new Sound( new URLRequest("music/menu.mp3") );
-			listMusic[1][0] = new Sound( new URLRequest("music/game0.mp3") );
-			listMusic[1][1] = new Sound( new URLRequest("music/game1.mp3") );
+			main = _main;
 			
-			soundChannel = listMusic[typeMusic][currentMusic].play( );
+			listMusic[0][0] = "Menu_Music_0";
+			listMusic[1][0] = "Game_Music_0";
+			listMusic[1][1] = "Game_Music_1";
+			
+			soundChannel = (Sound)(main.getResource(listMusic[typeMusic][currentMusic])).play( );
 			soundChannel.soundTransform = new SoundTransform( soundVolume );
 			soundChannel.addEventListener( Event.SOUND_COMPLETE, changeMusic );
 		}
 		
 		private function changeMusic( e : Event ) : void
 		{
-			if ( currentMusic >= listMusic[typeMusic].lenght )
+			trace(currentMusic);
+			if ( currentMusic >= listMusic[typeMusic].length - 1 )
 			{
 				currentMusic = 0;
 			}
@@ -37,6 +41,7 @@
 			{
 				currentMusic++;
 			}
+			trace(currentMusic);
 			playSong();
 		}
 		
@@ -57,8 +62,9 @@
 		private function playSong() : void
 		{
 			soundChannel.stop();
-			soundChannel = listMusic[typeMusic][currentMusic].play( );
+			soundChannel = (Sound)(main.getResource(listMusic[typeMusic][currentMusic])).play( );
 			soundChannel.soundTransform = new SoundTransform( soundVolume );
+			soundChannel.addEventListener( Event.SOUND_COMPLETE, changeMusic );
 		}
 	}
 }
