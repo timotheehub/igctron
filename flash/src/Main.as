@@ -6,6 +6,7 @@
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.media.Camera;
+	import flash.text.TextField;
 	import org.papervision3d.materials.MovieAssetMaterial;
 	import org.papervision3d.materials.shadematerials.CellMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
@@ -28,6 +29,7 @@
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.media.Sound;
+	import flash.utils.getTimer;
 	
 	import i12.data.Pool;
 	import i12.gui.Loader;
@@ -37,6 +39,9 @@
 	
 	public class Main extends Sprite 
 	{
+		[Embed(source="../bin/font/Horsal.ttf", fontFamily="Horseshoes", mimeType="application/x-font-truetype")]
+		public static var Horseshoes : Class;
+		
 		private var pool : Pool;
 		private var loader : Loader;
 
@@ -71,6 +76,14 @@
 		private var vehicleCube : Array = null;
 		private var vehicleMat : Array = null;
 		
+		private var fpsLabel : TextField;
+		private var frameCount : Number = 0; // nombre d'images affichées depuis le début de la dernière seconde
+		private var timeMark : Number = 0; // marque temporelle du début de la dernière seconde
+		private var frameTime : Number = 0; // temps écoulé pour calculer l'avant dernière image
+		private var frameMark : Number = 0;
+		private var currentFramerate : Number = 0; // nombre d'images calculées durant l'avant dernière seconde
+		
+		
 		public function Main() : void 
 		{
 			if ( stage != null )
@@ -85,8 +98,8 @@
 		
 		private function init( e : Event = null) : void
 		{
-			removeEventListener( Event.ADDED_TO_STAGE, init );
-			
+			//removeEventListener( Event.ADDED_TO_STAGE, init );
+			stage.scaleMode = "exactFit";
 			pool = new Pool( stage );
 
 			new ImageLoader( pool, "LoadAsset", "img/sphere.png", true );
@@ -100,15 +113,18 @@
 			pool.removeEventListener( Event.COMPLETE, onPreloadComplete );
 
 			// chargez vos images ici :
-			new ImageLoader( pool, "MenuImage0", "img/menu_0_0.JPG", true );
-			new ImageLoader( pool, "MenuImage1", "img/menu_0_1.JPG", true );
-			new ImageLoader( pool, "MenuImage2", "img/menu_0_2.JPG", true );
+			new ImageLoader( pool, "Menu_Image_0_0", "img/menu_0_0.png", true );
+			new ImageLoader( pool, "Menu_Image_0_1", "img/menu_0_1.png", true );
+			new ImageLoader( pool, "Menu_Image_0_2", "img/menu_0_2.png", true );
 
 			// chargez vos textes, xml, fichiers de config ici :
 			// new TextLoader( pool, "ConfigXML", "config.xml", true );
 
 			// chargez vos sons, musiques ici :
 			//new SoundLoader( pool, "SoundSample", "sample.mp3", true );
+			new SoundLoader( pool, "Menu_Music_0", "music/menu.mp3", true );
+			new SoundLoader( pool, "Game_Music_0", "music/game0.mp3", true );
+			new SoundLoader( pool, "Game_Music_1", "music/game1.mp3", true );
 			
 			pool.addEventListener( Event.COMPLETE, onLoadComplete );
 
@@ -120,22 +136,27 @@
 			pool.removeEventListener( Event.COMPLETE, onLoadComplete );
 			
 			// c'est ici le véritable point d'entrée de votre programme
-			
-			// pour accéder à une ressource chargée de type image :
-			// var bmpdata : BitmapData = (BitmapData)(pool.getResource( "Logo" ));
-			
-			// pour accéder à une ressource chargée de type texte :
-			// var text : String = (String)(pool.getResource( "ConfigXML" ));
-
-			// pour accéder à une ressource chargée de type image :
-			// var sound : Sound = (Sound)(pool.getResource( "SoundSample" ));
 
 			initMenu();
 		}
 
+		public function getResource( _name : String ) : Object
+		{			
+			// pour accéder à une ressource chargée de type image :
+			// var bmpdata : BitmapData = (BitmapData)(main.getResource( "Logo" ));
+			
+			// pour accéder à une ressource chargée de type texte :
+			// var text : String = (String)(main.getResource( "ConfigXML" ));
+
+			// pour accéder à une ressource chargée de type image :
+			// var sound : Sound = (Sound)(main.getResource( "SoundSample" ));
+			
+			return pool.getResource( _name );
+		}
+		
 		public function initMenu() : void
 		{
-			music = new Music();
+			music = new Music( this );
 			music.menuMusic();
 			
 			menu = new Menu( this, stage );
@@ -153,7 +174,7 @@
 			renderer = new BasicRenderEngine();
 			
 			camere = new DynamicCam( PLANE_WIDTH, PLANE_HEIGHT);
-						
+			stage.scaleMode = "exactFit";
 			/*
 			camere = new Camera3D;// 3D();
 			camere.z = -500;
@@ -212,12 +233,41 @@
 			
 			camere.updateCam( vehicleCube[0], game.getPlayer(0) );
 			
+			fpsLabel = new TextField();
+			fpsLabel.textColor = 0xFFFFFF;
+			fpsLabel.selectable = false;
+			fpsLabel.autoSize = "left";
+			fpsLabel.text = "";
+			addChild(fpsLabel);
+			
 			game.ia = new IA ();
 			stage.addEventListener( Event.ENTER_FRAME, loop );
 		}
 		
 		private function loop( e : Event = null ) : void
 		{
+			// Calcul du framerate
+			frameCount++;
+			
+			var time : Number = getTimer();
+			
+			frameTime = time - frameMark;
+			frameMark = time;
+			if ( time - timeMark >= 1000.0 )
+			{
+				currentFramerate = 1000.0 * frameCount / (time - timeMark);
+				
+				timeMark = time;
+
+				frameCount = 0;
+				
+				if ( fpsLabel != null )
+				{
+					fpsLabel.text = "FPS : " + Math.round( currentFramerate );
+				}
+			}
+			
+			
 			game.update();
 			
 			
