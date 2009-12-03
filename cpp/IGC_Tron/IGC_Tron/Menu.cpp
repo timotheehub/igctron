@@ -1,9 +1,9 @@
 // Menu.cpp
 // D�finition de la classe Menu
-#include "Menu.h"
-#include "Game.h"
 #include "Globals.h"
 #include "Displayer.h"
+#include "Menu.h"
+#include "Game.h"
 
 using namespace KeyCodes;
 

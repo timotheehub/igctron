@@ -270,6 +270,10 @@ namespace IGC
 
 	public:
 
+		
+		// Copy
+		void Clone( IModel * model );
+
 		/*
 			Force la mise ? jour de la matrice.
 		*/

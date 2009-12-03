@@ -69,11 +69,15 @@ void Displayer::LoadRessources ( )
 
 void Displayer::LoadScene()
 {
-	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
+	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
 	model->import( "ship.3ds" );
-	model->shrink( 8.0f, 8.0f, 8.0f );
-	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
-	//model->move( 0.0f, 0.0f, -50.0f );
+	model->shrink( 80.0f, 80.0f, 80.0f );
+	Model* model2 = factory->acquire( (IGC::Model*)NULL, "model_ship2" );
+	model2->Clone ( model );
+	model2 = factory->acquire( (IGC::Model*)NULL, "model_ship3" );
+	model2->Clone ( model );
+	model2 = factory->acquire( (IGC::Model*)NULL, "model_ship4" );
+	model2->Clone ( model );
 
 	model = factory->acquire( (IGC::Model*)NULL, "model_cube" );
 	Mesh* mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_cube" );
@@ -84,6 +88,9 @@ void Displayer::LoadScene()
 
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	texture->import( "warp.png" );
+	
+	texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
+	texture->import( "plane.png" );
 
 	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
 	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );

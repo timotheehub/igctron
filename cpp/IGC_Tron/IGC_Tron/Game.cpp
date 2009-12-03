@@ -1,9 +1,9 @@
 // Menu.cpp
 // D�finition de la classe Menu
-#include "Game.h"
 #include "Menu.h"
 #include "Globals.h"
 #include "Displayer.h"
+#include "Game.h"
 
 using namespace KeyCodes;
 
@@ -14,18 +14,20 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 {
 	Game *aGame = Game::GetInstance ( );
 	Menu *aMenu = Menu::GetInstance ( );
+	aGame->MutexAcquireLock ( );
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	switch ( keyCode )
 	{
 		case ESCAPE :
+			aDisplayer->SetState ( Displayer::MENU );
 			aGame->Free ( );
 			aMenu->Init ( );
-			aDisplayer->SetState ( Displayer::MENU );
 			break;
 		default:
 			printf("context : %d || code : %d\n", keyboardContext, keyCode);
 			break;
 	}	
+	aGame->MutexReleaseLock ( );
 }
 
 void Game::OnKeyUp( int keyboardContext, int keyCode )
@@ -51,8 +53,47 @@ void Game::Update ( )
 // Initialisation le menu
 void Game::Init ( )
 {
-	PlayerInfos tabPlayersInfos [ MAX_PLAYERS ];// Temp
-	Utils::CartesianVector aVector ( 1, 1, 1 ); // Temp
+	/********** Initialisation temporaire ******/
+	const int SPEED = 1;
+	PlayerInfos tabPlayersInfos [ MAX_PLAYERS ];
+	Utils::CartesianVector tabPos [ MAX_PLAYERS ];
+	Utils::CartesianVector tabDir [ MAX_PLAYERS ];
+
+	tabPlayersInfos[0].ATypePlayer = PlayerInfos::KEYBOARD;
+	tabPlayersInfos[0].Name = "Toto";
+	tabPlayersInfos[1].ATypePlayer = PlayerInfos::COMPUTER;
+	tabPlayersInfos[1].Name = "Tata";
+	tabPlayersInfos[2].ATypePlayer = PlayerInfos::COMPUTER;
+	tabPlayersInfos[2].Name = "Titi";
+	tabPlayersInfos[3].ATypePlayer = PlayerInfos::COMPUTER;
+	tabPlayersInfos[3].Name = "Tutu";
+
+	tabPos[0].x = 25;
+	tabPos[0].y = 0;
+	tabPos[0].z = 15;
+	tabPos[1].x = 25;
+	tabPos[1].y = 0;
+	tabPos[1].z = 5;
+	tabPos[2].x = 5;
+	tabPos[2].y = 0;
+	tabPos[2].z = 5;
+	tabPos[3].x = 5;
+	tabPos[3].y = 0;
+	tabPos[3].z = 15;
+
+	tabDir[0].x = 0;
+	tabDir[0].y = -SPEED;
+	tabDir[0].z = 0;
+	tabDir[1].x = -SPEED;
+	tabDir[1].y = 0;
+	tabDir[1].z = 0;
+	tabDir[2].x = 0;
+	tabDir[2].y = SPEED;
+	tabDir[2].z = 0;
+	tabDir[3].x = SPEED;
+	tabDir[3].y = 0;
+	tabDir[3].z = 0;
+	/****** Fin d'initialisation temporaire ****/
 
 	// Players
 	Displayer *aDisplayer = Displayer::GetInstance ( );
@@ -62,7 +103,8 @@ void Game::Init ( )
 	{
 		if ( tabPlayersInfos[ i ].ATypePlayer != PlayerInfos::NO )
 		{
-			tabPlayers [ i ] = new Player ( "nom", aVector, aVector );
+			tabPlayers [ i ] = new Player ( tabPlayersInfos[ i ].Name, tabPos[ i ], tabDir [ i ], i
+				);
 			nbPlayers++;
 		}
 		else
@@ -104,27 +146,25 @@ void Game::Free ( )
 ******************************************************************************/
 void Game::Draw ( )
 {
+	aMutex.AcquireLock ( );
+
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
 	IGC::Factory *factory = aDisplayer->GetFactory ( );
 
-	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
+	renderer->clear( 0.0f, 0.0f, 0.1f, 1.0f );
 
 	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->bind();
 	
 	aPlane->Draw ( );
 
-	IGC::Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
-	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
-	texture->bind();
-	renderer->setTransparency( false );
-	model->render();
-
 	for ( int i = 0; i < nbPlayers; i++ )
 	{
-		(*tabPlayersIndex)->Draw ( );
+		tabPlayersIndex[i]->Draw ( );
 	}
+
+	aMutex.ReleaseLock ( );
 }
 
 /******************************************************************************

@@ -203,6 +203,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\SimpleMutex.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Singleton.cpp"
 					>
 				</File>
@@ -386,6 +390,10 @@
 				</File>
 				<File
 					RelativePath=".\MemoryManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SimpleMutex.h"
 					>
 				</File>
 				<File

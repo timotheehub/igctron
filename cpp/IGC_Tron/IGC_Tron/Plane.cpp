@@ -11,8 +11,10 @@ void Plane::Draw ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	IGC::Factory *factory = aDisplayer->GetFactory ( );
+	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
 			
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
+	texture->bind();
 	model->render();
 }
 
