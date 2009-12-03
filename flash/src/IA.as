@@ -95,7 +95,7 @@
 			//FIN DISCRETISATION
 			
 			//Fonction "en attendant"
-			if (Math.random() > 0.9)
+			if (Math.random() > 0.9) //METTRE 1 POUR QUE L'IA NE TOURNE PAS
 			{
 				var modif:Number = (int)(Math.random() * 2);
 				if (modif == 0)
