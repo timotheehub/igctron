@@ -199,10 +199,6 @@
 				Name="Utils"
 				>
 				<File
-					RelativePath=".\MemoryManager.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\SimpleMutex.cpp"
 					>
 				</File>
@@ -342,6 +338,10 @@
 					RelativePath=".\Vehicle.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Wall.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -377,6 +377,10 @@
 				Name="Utils"
 				>
 				<File
+					RelativePath=".\CartesianVector.h"
+					>
+				</File>
+				<File
 					RelativePath=".\CriticalSection.h"
 					>
 				</File>
@@ -386,10 +390,6 @@
 				</File>
 				<File
 					RelativePath=".\Lock.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MemoryManager.h"
 					>
 				</File>
 				<File
@@ -534,6 +534,10 @@
 				</File>
 				<File
 					RelativePath=".\Vehicle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Wall.h"
 					>
 				</File>
 			</Filter>

@@ -65,9 +65,9 @@ CartesianVector Vehicle::GetPosition() const
 	return position;
 }
 
-Rectangle Vehicle::GetRectangle() const
+Utils::Rectangle Vehicle::GetRectangle() const
 {
-	return Rectangle(position,speed,0.5,0.5,0.25,0.25);
+	return Utils::Rectangle(position,speed,0.5,0.5,0.25,0.25);
 }
 
 /******************************************************************************
@@ -94,8 +94,25 @@ void Vehicle::Draw ( ) const
 			model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
 			break;
 	}
+	model->setCenter ( position.x - 15, position.y + 1, position.z - 10 );
+	if ( abs ( speed.x ) > abs ( speed.z ) )
+	{
+		if ( speed.x < 0 )
+			model->setAngle ( PI / 2, PI, 0 );
+		else
+			model->setAngle ( PI / 2, 0, 0 );
+	}
+	else
+	{
+		if ( speed.z < 0 )
+			model->setAngle ( PI / 2, PI / 2, 0 );
+		else
+			model->setAngle ( PI / 2, 3*PI / 2, 0 );
+	}
+
+	
+		
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );	
-	model->setCenter ( position.x/2, position.y/2, position.z/2 );
 	texture->bind();
 	renderer->setTransparency( false );
 	model->render();

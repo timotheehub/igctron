@@ -22,6 +22,7 @@
 /***********************************************************************************/
 #include "Displayer.h"
 #include "Menu.h"
+#include "Game.h"
 
 #include "Common.h"
 
@@ -57,6 +58,11 @@ void mainLoop()
 		{
 			Menu *aMenu = Menu::GetInstance ( );
 			aMenu->Update ( );
+		}
+		else if ( aState == Displayer::GAME )
+		{
+			Game *aGame = Game::GetInstance ( );
+			aGame->Update ( );
 		}
 	}
 }
