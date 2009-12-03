@@ -11,21 +11,24 @@
 #include <string>
 #include "Globals.h"
 #include "Vehicle.h"
+#include "Wall.h"
 
 class Player
 {
 public:
 	void Init();
 
-	void Update();
+	void Update(double dt);
 	void MoveLeft();
 	void MoveRight();
 	void Boost();
 
-	void Draw ( );
+	void Draw ( ) const;
 
 	Utils::CartesianVector GetPosition() const;
 	std::string GetName() const;
+	bool IsGettingKilled(const Player& killer);
+	// Provoque l'explosion en cas de mort
 
 	Player(std::string aName, Utils::CartesianVector initPos,
 			Utils::CartesianVector initSpeed, int aNumero);
@@ -33,6 +36,7 @@ public:
 private:
 	std::string name;
 	Vehicle myVehicle;
+	Wall myWall;
 	bool isAlive;
 	int numeroPlayer;
 };

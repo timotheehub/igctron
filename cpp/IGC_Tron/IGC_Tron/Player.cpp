@@ -11,27 +11,29 @@ using namespace std;
 using namespace Utils;
 
 /******************************************************************************
-*                             Mise à jour                                     *
-******************************************************************************/
+ *                             Mise ï¿½ jour                                     *
+ ******************************************************************************/
 void Player::Init()
 {
 	myVehicle.Init();
 }
 
-void Player::Update()
+void Player::Update(double dt)
 {
-	myVehicle.MoveForward();
-	//Displayer::???;
+	myVehicle.MoveForward(dt);
+	myWall.SetLastVertex(myVehicle.GetPosition());
 }
 
 void Player::MoveLeft()
 {
 	myVehicle.MoveLeft();
+	myWall.NewVertex();
 }
 
 void Player::MoveRight()
 {
 	myVehicle.MoveRight();
+	myWall.NewVertex();
 }
 
 void Player::Boost()
@@ -49,22 +51,46 @@ string Player::GetName() const
 	return name;
 }
 
-/******************************************************************************
-*                                Affichage                                    *
-******************************************************************************/
-void Player::Draw ( )
+bool Player::IsGettingKilled(const Player& killer)
 {
-	if ( isAlive )
+	if (!isAlive)
 	{
-		myVehicle.Draw ( );
+		return false;
+	}
+	else
+	{
+		Rectangle r = myVehicle.GetRectangle();
+		isAlive = r.IsInCollision(killer.myVehicle.GetRectangle())
+				|| killer.myWall.IsInCollision(r);
+		if (!isAlive)
+		{
+			myVehicle.Explode();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 
 /******************************************************************************
-*                 Constructeurs et destructeurs                               *
-******************************************************************************/
+ *                                Affichage                                    *
+ ******************************************************************************/
+void Player::Draw() const
+{
+	if (isAlive)
+	{
+		myVehicle.Draw();
+	}
+}
+
+/******************************************************************************
+ *                 Constructeurs et destructeurs                               *
+ ******************************************************************************/
+
 Player::Player(string aName, CartesianVector initPos, CartesianVector initSpeed, int aNumero) :
-	name(aName), myVehicle(initPos, initSpeed,aNumero), isAlive(true), numeroPlayer ( aNumero )
+	name(aName), myVehicle(initPos, initSpeed, aNumero), isAlive(true), myWall(initPos)
 {
 
 }
