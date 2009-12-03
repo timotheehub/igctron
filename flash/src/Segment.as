@@ -59,6 +59,41 @@
 			
 		}
 		
+		public function getXmin() : Number
+		{
+			if ( x0 <= x1 )
+			{
+				return x0;
+			}
+			return x1;
+		}
+		
+		public function getXmax() : Number
+		{
+			if ( x0 >= x1 )
+			{
+				return x0;
+			}
+			return x1;
+		}
+		
+		public function getYmin() : Number
+		{
+			if ( y0 <= y1 )
+			{ 
+				return y0;
+			}
+			return y1;
+		}
+		
+		public function getYmax() : Number
+		{
+			if ( y0 >= y1 )
+			{ 
+				return y0;
+			}
+			return y1;
+		}
 
 	}
 

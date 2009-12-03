@@ -21,8 +21,8 @@
 		public static const DIRECTION_RIGHT : int = 2;
 		public static const DIRECTION_UP : int = 3;
 		
-		private static const X : int = 0;
-		private static const Y : int = 1;
+		public static const X : int = 0;
+		public static const Y : int = 1;
 		
 		private var x : Number;
 		private var y : Number;
@@ -37,7 +37,7 @@
 		
 		private var bm : Bitmap;
 		
-		private var playerWall : Array; 
+		private var playerWall : Array; //Pour la 3D
 		
 		public function Player(_id:Number, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
 		{
@@ -86,11 +86,7 @@
 				
 				if ( !isHuman )
 				{					
-					direction = Main.game.ia.update (direction, id);
-					//wall.insertSegment( x, y, x, y ); 
-					// ATTENTION : un segment est ajouté à chaque frame pour chaque AI
-					// du coup il y a rapidement des centaines d'objets à actualiser à chaque frame et une grosse chute de FPS
-					// Il faut juste changer les derniers coord. s'il y a aucun virage.
+					direction = Main.game.ia.update (direction, id); //Cette fonction insere aussi un segment
 				}
 				
 				if( direction == DIRECTION_LEFT )
@@ -163,6 +159,11 @@
 			wall.insertSegment( x, y, x, y );
 		}
 		
+		public function getWall() : Wall
+		{
+			return wall;
+		}
+		
 		public function getCoord () : Array
 		{
 			var coord : Array = new Array ();
@@ -212,6 +213,11 @@
 		public function getDir() : int
 		{
 			return direction;
+		}
+		
+		public function getVehicle() : Vehicle
+		{
+			return vehicle;
 		}
 		
 		

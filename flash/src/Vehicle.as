@@ -1,9 +1,6 @@
 ﻿package  
 {
-	/**
-	 * Vehicule generique
-	 * @author thibautp
-	 */
+	
 	public class Vehicle
 	{
 		protected var speed:Number = 1;
