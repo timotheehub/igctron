@@ -19,7 +19,6 @@
 	
 	public class Menu
 	{
-		
 		private const DUREE_TRANSITION : Number = 1;
 		private const KEYBOARD_LEFT : uint = 37;
 		private const KEYBOARD_RIGHT : uint = 39;
@@ -41,6 +40,8 @@
 		private var oldMenuLabel : TextField;
 		private var newMenuLabel : TextField;
 		
+		private var cookie_param : Cookie;
+		
 		public function Menu( _main : Main, _stage : Stage ) 
 		{
 			main = _main;
@@ -49,6 +50,13 @@
 			list = new Array();
 			spots = new Array();
 			spotItem0 = 0;
+			
+			cookie_param = new Cookie( "igc_tron_param" );
+			cookie_param.write( "keybord_left", 37 );
+			cookie_param.write( "keybord_right", 39 );
+			cookie_param.write( "music_level", 50 );
+			cookie_param.write( "sound_level", 50 );
+			cookie_param.write( "graphic_level", 5 );
 			
 			background = new Menu_Background( stage.stageWidth, stage.stageHeight );
 			stage.addChild(background);
@@ -134,17 +142,20 @@
 				stage.removeChild(newMenuLabel);
 				stage.removeChild(background);
 				stage.removeChild(rondDesItems);
+				background.stopScintillement = true;
 				main.initGame();
 			}
 			else if ( _index == 1 )
 			{
 				// Lancement du multi
 				trace('multi');
+				background.stopScintillement = true;
 			}
 			else if ( _index == 2 )
 			{
 				// Affichage des options
 				trace('options');
+				background.stopScintillement = true;
 			}
 		}
 		
