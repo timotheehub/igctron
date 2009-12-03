@@ -10,6 +10,9 @@
 using namespace std;
 using namespace Utils;
 
+/******************************************************************************
+*                             Mise à jour                                     *
+******************************************************************************/
 void Player::Init()
 {
 	myVehicle.Init();
@@ -46,6 +49,20 @@ string Player::GetName() const
 	return name;
 }
 
+/******************************************************************************
+*                                Affichage                                    *
+******************************************************************************/
+void Player::Draw ( )
+{
+	if ( isAlive )
+	{
+		myVehicle.Draw ( );
+	}
+}
+
+/******************************************************************************
+*                 Constructeurs et destructeurs                               *
+******************************************************************************/
 Player::Player(string aName, CartesianVector initPos, CartesianVector initSpeed) :
 	name(aName), myVehicle(initPos, initSpeed)
 {

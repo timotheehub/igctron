@@ -22,6 +22,8 @@ public:
 	void MoveRight();
 	void Boost();
 
+	void Draw ( );
+
 	Utils::CartesianVector GetPosition() const;
 	std::string GetName() const;
 
@@ -31,6 +33,7 @@ public:
 private:
 	std::string name;
 	Vehicle myVehicle;
+	bool isAlive;
 };
 
 #endif /* PLAYER_H_ */
