@@ -6,6 +6,9 @@
 	import flash.display.Sprite;
 	import flash.filters.BlurFilter;
 	import flash.filters.GlowFilter;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
+	import flash.events.Event;
 	
 	public class Menu_Background extends Sprite
 	{
@@ -14,8 +17,12 @@
 		private const LARGEUR_CARRE : int = 50;
 		private const PROFONDEUR : int = 700;
 		private const Y_DEPART : int = 300;
+		private const DUREE_MAX_RANDOM_TIMER : int = 100;
+		
 		private var widthMax : int;
 		private var heightMax : int;
+		private var stars : Sprite;
+		public var stopScintillement : Boolean = false;
 		
 		public function Menu_Background( _width : int, _height : int ) 
 		{
@@ -23,14 +30,18 @@
 			heightMax = _height;
 			var i : int;
 			var bmpData : BitmapData = new BitmapData( 1, 1, false, 0xFFFFFF );
+			stars = new Sprite();
+			addChild(stars);
 			for ( i = 0 ; i < 1000 ; i++ )
 			{
 				var bmp : Bitmap = new Bitmap(bmpData);
 				bmp.x = (int)(Math.random() * widthMax);
 				bmp.y = (int)(Math.random() * heightMax);
-				addChild(bmp);
+				stars.addChild(bmp);
 			}
-			
+			var timer : Timer = new Timer(Math.random() * DUREE_MAX_RANDOM_TIMER, 1);					
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, scintillement);
+			timer.start();
 			
 			var shape : Shape = new Shape();
 			shape.graphics.beginFill(0x000000);
@@ -63,6 +74,29 @@
 			}
 			shape.graphics.endFill();
 			addChild(shape);
+		}
+		
+		private function scintillement( e : Event = null ) : void
+		{
+			var i : Number;
+			var random : Number = Math.round(Math.random() * 50 + 1);
+			var bmpData : BitmapData = new BitmapData( 1, 1, false, 0xFFFFFF );
+			for ( i = 0 ; i < random ; i++ )
+			{
+				stars.removeChildAt( (int)(Math.random() * stars.numChildren) );
+				
+				var bmp : Bitmap = new Bitmap(bmpData);
+				bmp.x = (int)(Math.random() * widthMax);
+				bmp.y = (int)(Math.random() * heightMax);
+				stars.addChild(bmp);
+			}
+			
+			if( stopScintillement == false )
+			{
+				var timer : Timer = new Timer(Math.random() * DUREE_MAX_RANDOM_TIMER, 1);		
+				timer.addEventListener(TimerEvent.TIMER_COMPLETE, scintillement);
+				timer.start();			
+			}
 		}
 	}
 }
