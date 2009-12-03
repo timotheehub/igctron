@@ -15,17 +15,19 @@ class Vehicle
 public:
 	void Init();
 
-	void MoveForward();
+	void MoveForward(double dt);
 	void Boost();
 	void MoveLeft();
 	void MoveRight();
 
-	void Draw ( );
+	void Draw() const;
+	void Explode() const;
 
 	Vehicle(Utils::CartesianVector anInitPosition,
 			Utils::CartesianVector anInitSpeed, int aNumero);
 
 	Utils::CartesianVector GetPosition() const;
+	Utils::Rectangle GetRectangle() const;
 
 protected:
 	static const double BOOST_COEF;

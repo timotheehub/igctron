@@ -15,7 +15,7 @@ const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
 
 /******************************************************************************
-*                              Mise à jour                                    *
+*                              Mise ï¿½ jour                                    *
 ******************************************************************************/
 void Vehicle::Init()
 {
@@ -24,7 +24,7 @@ void Vehicle::Init()
 	boost = false;
 }
 
-void Vehicle::MoveForward()
+void Vehicle::MoveForward(double dt)
 {
 	if (boost && (Displayer::GetInstance()->GetTime() - boostBeginDate) >= BOOST_LENGTH)
 	{
@@ -33,11 +33,11 @@ void Vehicle::MoveForward()
 
 	if (boost)
 	{
-		position += BOOST_COEF * speed;
+		position += BOOST_COEF * dt * speed;
 	}
 	else
 	{
-		position += speed;
+		position += dt * speed;
 	}
 }
 
@@ -65,10 +65,15 @@ CartesianVector Vehicle::GetPosition() const
 	return position;
 }
 
+Rectangle Vehicle::GetRectangle() const
+{
+	return Rectangle(position,speed,0.5,0.5,0.25,0.25);
+}
+
 /******************************************************************************
 *                                Affichage                                    *
 ******************************************************************************/
-void Vehicle::Draw ( )
+void Vehicle::Draw ( ) const
 {
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
@@ -94,6 +99,11 @@ void Vehicle::Draw ( )
 	texture->bind();
 	renderer->setTransparency( false );
 	model->render();
+}
+
+void Vehicle::Explode() const
+{
+
 }
 
 /******************************************************************************
