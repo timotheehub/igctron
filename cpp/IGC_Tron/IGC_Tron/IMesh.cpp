@@ -199,12 +199,26 @@ namespace IGC
 	{
 		hasVertices = true;
 
+		hasTexcoords = true;
+
+		hasColors = true;
+
 		setVertexCount( 4 );
 
 		setVertex( 0, -0.5f * width, 0, -0.5f * depth );
 		setVertex( 1, -0.5f * width, 0, +0.5f * depth );
 		setVertex( 2, +0.5f * width, 0, -0.5f * depth );
 		setVertex( 3, +0.5f * width, 0, +0.5f * depth );
+
+		setTexcoord( 0, 0.0f, 0.0f );
+		setTexcoord( 1, 0.0f, 10.0f );
+		setTexcoord( 2, 10.0f, 0.0f );
+		setTexcoord( 3, 10.0f, 10.0f );
+
+		setColor( 0, 1.0f, 1.0f, 1.0f, 1.0f );
+		setColor( 1, 1.0f, 1.0f, 1.0f, 1.0f );
+		setColor( 2, 1.0f, 1.0f, 1.0f, 1.0f );
+		setColor( 3, 1.0f, 1.0f, 1.0f, 1.0f );
 
 		setFaceCount( 2 );
 

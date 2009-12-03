@@ -28,12 +28,13 @@ public:
 	std::string GetName() const;
 
 	Player(std::string aName, Utils::CartesianVector initPos,
-			Utils::CartesianVector initSpeed);
+			Utils::CartesianVector initSpeed, int aNumero);
 
 private:
 	std::string name;
 	Vehicle myVehicle;
 	bool isAlive;
+	int numeroPlayer;
 };
 
 #endif /* PLAYER_H_ */

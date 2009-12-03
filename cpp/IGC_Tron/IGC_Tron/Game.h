@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Singleton.h"
 #include "Plane.h"
+#include "SimpleMutex.h"
 #include <string>
 
 
@@ -33,11 +34,15 @@ public:
 
 	void Draw ( );
 
+	inline void MutexAcquireLock ( );
+	inline void MutexReleaseLock ( );
+
 protected:
 	Player** tabPlayersIndex;
 	Player* tabPlayers [ MAX_PLAYERS ];
 	int nbPlayers;
 	Plane *aPlane;
+	SimpleMutex aMutex;
 
 private:
 	// Constructeur
@@ -47,5 +52,14 @@ private:
 	~Game ( );
 };
 
+inline void Game::MutexAcquireLock ( )
+{
+	aMutex.AcquireLock ( );
+}
+
+inline void Game::MutexReleaseLock ( )
+{
+	aMutex.ReleaseLock ( );
+}
 
 #endif // __MENU_H__*/

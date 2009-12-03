@@ -77,6 +77,7 @@ namespace IGC
 		mesh = NULL;
 	}
 
+	
 	IModel::~IModel()
 	{
 		if ( mesh )
@@ -262,6 +263,40 @@ namespace IGC
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
 
+	void IModel::Clone( IModel* model )
+	{
+		engine = model->engine;
+
+		renderer = model->renderer;
+
+		//parent = model.parent;
+
+		center.x = model->center.x;
+		center.y = model->center.y;
+		center.z = model->center.z;
+
+		angle.x = model->angle.x;
+		angle.y = model->angle.y;
+		angle.z = model->angle.z;
+
+		size.x = model->size.x;
+		size.y = model->size.y;
+		size.z = model->size.z;
+
+		mesh = model->mesh;
+
+		for ( vector<IModel*>::iterator it = model->children.begin() ; it != model->children.end() ; ++it )
+		{
+			IModel* child = newChild();
+
+			child->Clone( *it );
+		}
+
+		dirty = true;
+
+		update ();
+	}
+
 	void IModel::update()
 	{
 		matrixTranslation( matCenter, center.x, center.y, center.z );
@@ -272,6 +307,11 @@ namespace IGC
 
 		if ( parent )
 			matWorld = matWorld * parent->getWorldMatrix();
+
+		for ( vector<IModel*>::iterator it = children.begin() ; it != children.end() ; ++it )
+		{
+			(*it)->dirty = true;
+		}
 
 		dirty = false;
 	}

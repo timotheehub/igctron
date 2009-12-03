@@ -74,8 +74,23 @@ void Vehicle::Draw ( )
 	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
 	IGC::Factory *factory = aDisplayer->GetFactory ( );
 
-	IGC::Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
-	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
+	IGC::Model* model;
+	switch ( numeroPlayer )
+	{
+		case 0: model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
+			break;
+		case 1: model = factory->acquire( (IGC::Model*)NULL, "model_ship2" );
+			break;
+		case 2: model = factory->acquire( (IGC::Model*)NULL, "model_ship3" );
+			break;
+		case 3: model = factory->acquire( (IGC::Model*)NULL, "model_ship4" );
+			break;
+		default:
+			model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
+			break;
+	}
+	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );	
+	model->setCenter ( position.x/2, position.y/2, position.z/2 );
 	texture->bind();
 	renderer->setTransparency( false );
 	model->render();
@@ -84,9 +99,9 @@ void Vehicle::Draw ( )
 /******************************************************************************
 *                 Constructeurs et destructeurs                               *
 ******************************************************************************/
-Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed) :
+Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed, int aNumero) :
 	initPosition(anInitPosition), initSpeed(anInitSpeed), position(
-			anInitPosition), speed(anInitSpeed), boostBeginDate(0)
+			anInitPosition), speed(anInitSpeed), boostBeginDate(0), numeroPlayer(aNumero)
 {
 
 }

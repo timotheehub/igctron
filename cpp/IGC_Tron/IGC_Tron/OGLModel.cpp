@@ -59,7 +59,8 @@ namespace IGC
 		glPushMatrix();
 		glMultMatrixf( (GLfloat*)&matWorld );
 
-		if ( mesh != NULL ) mesh->render();
+		if ( mesh != NULL )
+			mesh->render();
 
 		glPopMatrix();
 

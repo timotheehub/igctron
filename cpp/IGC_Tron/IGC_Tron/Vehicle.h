@@ -23,7 +23,7 @@ public:
 	void Draw ( );
 
 	Vehicle(Utils::CartesianVector anInitPosition,
-			Utils::CartesianVector anInitSpeed);
+			Utils::CartesianVector anInitSpeed, int aNumero);
 
 	Utils::CartesianVector GetPosition() const;
 
@@ -37,6 +37,7 @@ protected:
 	Utils::CartesianVector speed;
 	bool boost;
 	double boostBeginDate;
+	int numeroPlayer;
 };
 
 #endif /* VEHICLE_H_ */

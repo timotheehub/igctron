@@ -63,8 +63,8 @@ void Player::Draw ( )
 /******************************************************************************
 *                 Constructeurs et destructeurs                               *
 ******************************************************************************/
-Player::Player(string aName, CartesianVector initPos, CartesianVector initSpeed) :
-	name(aName), myVehicle(initPos, initSpeed)
+Player::Player(string aName, CartesianVector initPos, CartesianVector initSpeed, int aNumero) :
+	name(aName), myVehicle(initPos, initSpeed,aNumero), isAlive(true), numeroPlayer ( aNumero )
 {
 
 }
