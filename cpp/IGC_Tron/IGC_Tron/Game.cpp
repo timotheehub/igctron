@@ -120,6 +120,11 @@ void Game::Draw ( )
 	texture->bind();
 	renderer->setTransparency( false );
 	model->render();
+
+	for ( int i = 0; i < nbPlayers; i++ )
+	{
+		(*tabPlayersIndex)->Draw ( );
+	}
 }
 
 /******************************************************************************

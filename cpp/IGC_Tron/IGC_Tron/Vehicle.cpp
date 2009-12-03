@@ -14,6 +14,9 @@ using namespace Utils;
 const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
 
+/******************************************************************************
+*                              Mise à jour                                    *
+******************************************************************************/
 void Vehicle::Init()
 {
 	position = initPosition;
@@ -62,6 +65,25 @@ CartesianVector Vehicle::GetPosition() const
 	return position;
 }
 
+/******************************************************************************
+*                                Affichage                                    *
+******************************************************************************/
+void Vehicle::Draw ( )
+{
+	Displayer *aDisplayer = Displayer::GetInstance ();
+	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
+	IGC::Factory *factory = aDisplayer->GetFactory ( );
+
+	IGC::Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
+	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
+	texture->bind();
+	renderer->setTransparency( false );
+	model->render();
+}
+
+/******************************************************************************
+*                 Constructeurs et destructeurs                               *
+******************************************************************************/
 Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed) :
 	initPosition(anInitPosition), initSpeed(anInitSpeed), position(
 			anInitPosition), speed(anInitSpeed), boostBeginDate(0)

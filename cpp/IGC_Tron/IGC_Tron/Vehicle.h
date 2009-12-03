@@ -20,6 +20,8 @@ public:
 	void MoveLeft();
 	void MoveRight();
 
+	void Draw ( );
+
 	Vehicle(Utils::CartesianVector anInitPosition,
 			Utils::CartesianVector anInitSpeed);
 
