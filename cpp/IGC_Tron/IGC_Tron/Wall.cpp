@@ -5,20 +5,20 @@
  *      Author: fenrhil
  */
 
-using namespace std;
 #include <vector>
 #include "Wall.h"
 #include "Globals.h"
+using namespace std;
 using namespace Utils;
 
 void Wall::SetLastVertex(const CartesianVector& value)
 {
-	*vertexes.rend() = value;
+	*vertexes.rbegin() = value;
 }
 
 void Wall::NewVertex()
 {
-	vertexes.push_back(*vertexes.rend());
+	vertexes.push_back(*vertexes.rbegin());
 }
 
 bool Wall::IsInCollision(const Rectangle& object) const

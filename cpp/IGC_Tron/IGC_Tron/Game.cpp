@@ -41,9 +41,11 @@ void Game::OnKeyUp( int keyboardContext, int keyCode )
 // Met � jour le menu
 void Game::Update ( )
 {
+	Displayer *aDisplayer = Displayer::GetInstance ( );
+	double dt = aDisplayer->GetTime ( );
 	for ( int i = 0; i < nbPlayers; i++ )
 	{
-		//tabPlayersIndex[i].Update ( );
+		tabPlayersIndex[i]->Update ( dt );
 	}
 }
 
@@ -54,7 +56,7 @@ void Game::Update ( )
 void Game::Init ( )
 {
 	/********** Initialisation temporaire ******/
-	const int SPEED = 1;
+	const double SPEED = 10e-7;
 	PlayerInfos tabPlayersInfos [ MAX_PLAYERS ];
 	Utils::CartesianVector tabPos [ MAX_PLAYERS ];
 	Utils::CartesianVector tabDir [ MAX_PLAYERS ];
@@ -82,14 +84,14 @@ void Game::Init ( )
 	tabPos[3].z = 15;
 
 	tabDir[0].x = 0;
-	tabDir[0].y = -SPEED;
-	tabDir[0].z = 0;
+	tabDir[0].y = 0;
+	tabDir[0].z = -SPEED;
 	tabDir[1].x = -SPEED;
 	tabDir[1].y = 0;
 	tabDir[1].z = 0;
 	tabDir[2].x = 0;
-	tabDir[2].y = SPEED;
-	tabDir[2].z = 0;
+	tabDir[2].y = 0;
+	tabDir[2].z = SPEED;
 	tabDir[3].x = SPEED;
 	tabDir[3].y = 0;
 	tabDir[3].z = 0;
