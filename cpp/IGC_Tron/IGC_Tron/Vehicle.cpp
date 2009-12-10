@@ -11,7 +11,7 @@
 
 using namespace Utils;
 
-const double Vehicle::RECTANGLE_GAP = 10e-10;
+const double Vehicle::RECTANGLE_GAP = 10e-5;
 const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
 
