@@ -23,7 +23,7 @@ public:
 	void MoveRight();
 	void Boost();
 
-	void Draw ( ) const;
+	void Draw() const;
 
 	Utils::CartesianVector GetPosition() const;
 	std::string GetName() const;
@@ -37,6 +37,7 @@ private:
 	std::string name;
 	Vehicle myVehicle;
 	Wall myWall;
+	Utils::CartesianVector initPosition;
 	bool isAlive;
 	int playerNumber;
 };

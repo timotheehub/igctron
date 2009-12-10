@@ -16,7 +16,8 @@ using namespace Utils;
  ******************************************************************************/
 void Player::Init()
 {
-	myVehicle.Init();
+	myVehicle.Init(initPosition);
+	myWall.Init(initPosition);
 }
 
 void Player::Update(double dt)
@@ -73,8 +74,8 @@ bool Player::IsGettingKilled(const Player& killer)
 	else
 	{
 		Utils::Rectangle r = myVehicle.GetRectangle();
-		isAlive = !(r.IsOutOf(Game::GetInstance()->GetPlane())
-				|| (&killer != this && r.IsInCollision(killer.myVehicle.GetRectangle()))
+		isAlive = !(r.IsOutOf(Game::GetInstance()->GetPlane()) || (&killer
+				!= this && r.IsInCollision(killer.myVehicle.GetRectangle()))
 				|| killer.myWall.IsInCollision(r));
 		if (!isAlive)
 		{
@@ -107,7 +108,7 @@ void Player::Draw() const
 Player::Player(string aName, CartesianVector initPos,
 		CartesianVector initSpeed, int aNumber) :
 	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos),
-			isAlive(true), playerNumber(aNumber)
+			initPosition(initPos), isAlive(true), playerNumber(aNumber)
 {
 
 }

@@ -14,6 +14,8 @@
 class Wall
 {
 public:
+	void Init(const Utils::CartesianVector& origin);
+
 	void SetLastVertex(const Utils::CartesianVector& value);
 	void NewVertex();
 
