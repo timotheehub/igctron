@@ -24,12 +24,13 @@ public:
 	void Explode() const;
 
 	Vehicle(Utils::CartesianVector anInitPosition,
-			Utils::CartesianVector anInitSpeed, int aNumero);
+			Utils::CartesianVector anInitSpeed, int aNmber);
 
 	Utils::CartesianVector GetPosition() const;
 	Utils::Rectangle GetRectangle() const;
 
 protected:
+	static const double RECTANGLE_GAP;
 	static const double BOOST_COEF;
 	static const double BOOST_LENGTH;
 
@@ -38,8 +39,8 @@ protected:
 	Utils::CartesianVector position;
 	Utils::CartesianVector speed;
 	bool boost;
-	double boostBeginDate;
-	int numeroPlayer;
+	double boostElapsed;
+	int playerNumber;
 };
 
 #endif /* VEHICLE_H_ */

@@ -31,14 +31,14 @@ public:
 	// Provoque l'explosion en cas de mort
 
 	Player(std::string aName, Utils::CartesianVector initPos,
-			Utils::CartesianVector initSpeed, int aNumero);
+			Utils::CartesianVector initSpeed, int aNumber);
 
 private:
 	std::string name;
 	Vehicle myVehicle;
 	Wall myWall;
 	bool isAlive;
-	int numeroPlayer;
+	int playerNumber;
 };
 
 #endif /* PLAYER_H_ */

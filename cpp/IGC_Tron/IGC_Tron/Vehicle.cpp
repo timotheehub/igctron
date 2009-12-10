@@ -11,6 +11,7 @@
 
 using namespace Utils;
 
+const double Vehicle::RECTANGLE_GAP = 10e-10;
 const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
 
@@ -26,13 +27,13 @@ void Vehicle::Init()
 
 void Vehicle::MoveForward(double dt)
 {
-	if (boost && (Displayer::GetInstance()->GetTime() - boostBeginDate) >= BOOST_LENGTH)
-	{
-		boost = false;
-	}
-
 	if (boost)
 	{
+		boostElapsed += dt;
+		if (boostElapsed >= BOOST_LENGTH)
+		{
+			boost = false;
+		}
 		position += BOOST_COEF * dt * speed;
 	}
 	else
@@ -43,21 +44,21 @@ void Vehicle::MoveForward(double dt)
 
 void Vehicle::Boost()
 {
-	boostBeginDate = Displayer::GetInstance()->GetTime();
+	boostElapsed = 0.0;
 	boost = true;
 }
 
 void Vehicle::MoveLeft()
 {
-	double tmp = speed.z;
-	speed.z = -speed.x;
-	speed.x = tmp;
+	double tmp = speed.x;
+	speed.x = -speed.z;
+	speed.z= tmp;
 }
 void Vehicle::MoveRight()
 {
-	double tmp = speed.z;
-	speed.z = speed.x;
-	speed.x = -tmp;
+	double tmp = speed.x;
+	speed.x = speed.z;
+	speed.z = -tmp;
 }
 
 CartesianVector Vehicle::GetPosition() const
@@ -67,7 +68,7 @@ CartesianVector Vehicle::GetPosition() const
 
 Utils::Rectangle Vehicle::GetRectangle() const
 {
-	return Utils::Rectangle(position,speed,0.5,0.5,0.25,0.25);
+	return Utils::Rectangle(position,speed,1.0,RECTANGLE_GAP,0.25,0.25);
 }
 
 /******************************************************************************
@@ -80,7 +81,7 @@ void Vehicle::Draw ( ) const
 	IGC::Factory *factory = aDisplayer->GetFactory ( );
 
 	IGC::Model* model;
-	switch ( numeroPlayer )
+	switch ( playerNumber )
 	{
 		case 0: model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
 			break;
@@ -124,9 +125,9 @@ void Vehicle::Explode() const
 /******************************************************************************
 *                 Constructeurs et destructeurs                               *
 ******************************************************************************/
-Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed, int aNumero) :
+Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed, int aNumber) :
 	initPosition(anInitPosition), initSpeed(anInitSpeed), position(
-			anInitPosition), speed(anInitSpeed), boostBeginDate(0), numeroPlayer(aNumero)
+			anInitPosition), speed(anInitSpeed), boostElapsed(0.0), playerNumber(aNumber)
 {
 
 }

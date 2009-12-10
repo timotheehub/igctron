@@ -1,5 +1,5 @@
 // Menu.cpp
-// Définition de la classe Plane
+// Dï¿½finition de la classe Plane
 
 #include "Plane.h"
 #include "Displayer.h"
@@ -21,8 +21,8 @@ void Plane::Draw ( )
 /******************************************************************************
 *                 Constructeurs et destructeurs                               *
 ******************************************************************************/
-Plane::Plane ( int aWidth, int aHeight )
-: width ( aWidth ), height ( aHeight )
+Plane::Plane ( int zValue, int xValue )
+: z ( zValue ), x ( xValue )
 {
 }
 
