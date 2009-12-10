@@ -92,12 +92,21 @@ void Displayer::LoadScene()
 	texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
 	texture->import( "plane.png" );
 
+	texture = factory->acquire( (IGC::Texture*)NULL, "logo_orange" );
+	texture->import( "logo_orange.png" );
+
 	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
 	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );
 	mesh->createPlane( 1, 1 );
 	mesh->update ( );
 	model->setMesh( mesh );
 	model->grow( 20.0f, 1.0f, 30.0f );
+	model = factory->acquire( (IGC::Model*)NULL, "model_wallX" );
+	model->setMesh( mesh );
+	model->rotate ( PI / 2, 0, 0 );
+	model = factory->acquire( (IGC::Model*)NULL, "model_wallZ" );
+	model->setMesh( mesh );
+	model->rotate ( 0, 0, PI / 2 );
 }
 
 void Displayer::UnloadScene()
@@ -158,7 +167,7 @@ void Displayer::initRenderer ( )
 
 	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
-	camera->setCenter( 00.0f, 20.0f, 0.0f );
+	camera->setCenter( 20.0f, 20.0f, 0.0f );
 	camera->lookAt( -0.1f, -1.0f, 0.0f );
 	camera->update();
 

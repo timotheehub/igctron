@@ -16,9 +16,9 @@ const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
 
 /******************************************************************************
- *                              Mise � jour                                    *
- ******************************************************************************/
-void Vehicle::Init(const CartesianVector& initPosition)
+*                              Mise � jour                                    *
+******************************************************************************/
+void Vehicle::Init(const Utils::CartesianVector& initPosition)
 {
 	position = initPosition;
 	speed = initSpeed;
@@ -52,7 +52,7 @@ void Vehicle::MoveLeft()
 {
 	double tmp = speed.x;
 	speed.x = -speed.z;
-	speed.z = tmp;
+	speed.z= tmp;
 }
 void Vehicle::MoveRight()
 {
@@ -68,57 +68,63 @@ CartesianVector Vehicle::GetPosition() const
 
 Utils::Rectangle Vehicle::GetRectangle() const
 {
-	return Utils::Rectangle(position, speed, 4.0, RECTANGLE_GAP, 1.8, 1.8);
+	return Utils::Rectangle(position,speed,4.5,RECTANGLE_GAP,2.25,2.25);
 }
 
 /******************************************************************************
- *                                Affichage                                    *
- ******************************************************************************/
-void Vehicle::Draw() const
+*                                Affichage                                    *
+******************************************************************************/
+void Vehicle::Draw ( ) const
 {
-	Displayer *aDisplayer = Displayer::GetInstance();
-	IGC::Renderer *renderer = aDisplayer->GetRenderer();
-	IGC::Factory *factory = aDisplayer->GetFactory();
+	Displayer *aDisplayer = Displayer::GetInstance ();
+	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
+	IGC::Factory *factory = aDisplayer->GetFactory ( );
 
 	IGC::Model* model;
-	switch (playerNumber)
+	switch ( playerNumber )
 	{
-	case 0:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship1");
-		break;
-	case 1:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship2");
-		break;
-	case 2:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship3");
-		break;
-	case 3:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship4");
-		break;
-	default:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship1");
-		break;
+		case 0: model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
+			break;
+		case 1: model = factory->acquire( (IGC::Model*)NULL, "model_ship2" );
+			break;
+		case 2: model = factory->acquire( (IGC::Model*)NULL, "model_ship3" );
+			break;
+		case 3: model = factory->acquire( (IGC::Model*)NULL, "model_ship4" );
+			break;
+		default:
+			model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
+			break;
 	}
-	model->setCenter(position.x - 10, position.y + 1, position.z - 15);
-	if (abs(speed.x) > abs(speed.z))
+	
+	if ( abs ( speed.x ) > abs ( speed.z ) )
 	{
-		if (speed.x < 0)
-			model->setAngle(PI / 2, PI / 2, 0);
+		if ( speed.x < 0 )
+		{
+			model->setAngle ( PI / 2, PI / 2, 0 );
+			model->setCenter ( position.x - ( 2.25 + RECTANGLE_GAP ) - 10, position.y + 1, position.z - 15 );
+		}
 		else
-			model->setAngle(PI / 2, 3 * PI / 2, 0);
+		{
+			model->setAngle ( PI / 2, 3*PI / 2, 0 );
+			model->setCenter ( position.x + ( 2.25 + RECTANGLE_GAP ) - 10, position.y + 1, position.z - 15 );
+		}
 	}
 	else
 	{
-		if (speed.z < 0)
-			model->setAngle(PI / 2, 0, 0);
+		if ( speed.z < 0 )
+		{
+			model->setAngle ( PI / 2, 0, 0 );
+			model->setCenter ( position.x - 10, position.y + 1, position.z - ( 2.25 + RECTANGLE_GAP ) - 15 );
+		}
 		else
-			model->setAngle(PI / 2, PI, 0);
+		{
+			model->setAngle ( PI / 2, PI, 0 );
+			model->setCenter ( position.x - 10, position.y + 1, position.z + ( 2.25 + RECTANGLE_GAP ) - 15 );
+		}
 	}
-
-	IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL,
-			"back_screen_menu");
+	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );	
 	texture->bind();
-	renderer->setTransparency(false);
+	renderer->setTransparency( false );
 	model->render();
 }
 
@@ -128,12 +134,10 @@ void Vehicle::Explode() const
 }
 
 /******************************************************************************
- *                 Constructeurs et destructeurs                               *
- ******************************************************************************/
-Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed,
-		int aNumber) :
-	initSpeed(anInitSpeed), position(anInitPosition), speed(anInitSpeed),
-			boostElapsed(0.0), playerNumber(aNumber)
+*                 Constructeurs et destructeurs                               *
+******************************************************************************/
+Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed, int aNumber) :
+	initSpeed(anInitSpeed), position(anInitPosition), speed(anInitSpeed), boostElapsed(0.0), playerNumber(aNumber)
 {
 
 }

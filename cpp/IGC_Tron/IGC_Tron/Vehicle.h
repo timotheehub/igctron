@@ -24,7 +24,7 @@ public:
 	void Explode() const;
 
 	Vehicle(Utils::CartesianVector anInitPosition,
-			Utils::CartesianVector anInitSpeed, int aNmber);
+			Utils::CartesianVector anInitSpeed, int aNumber);
 
 	Utils::CartesianVector GetPosition() const;
 	Utils::Rectangle GetRectangle() const;
