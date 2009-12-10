@@ -78,7 +78,11 @@ void Game::Update ( )
 void Game::Init ( )
 {
 	/********** Initialisation temporaire ******/
+#ifdef _WIN32 // TODO : résoudre ce problème
 	const double SPEED = 10e-6;
+#else
+	const double SPEED = 5*10e-12;
+#endif
 	PlayerInfos tabPlayersInfos [ MAX_PLAYERS ];
 	Utils::CartesianVector tabPos [ MAX_PLAYERS ];
 	Utils::CartesianVector tabDir [ MAX_PLAYERS ];
