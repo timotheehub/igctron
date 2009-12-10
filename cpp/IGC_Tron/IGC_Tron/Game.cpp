@@ -1,14 +1,15 @@
 // Menu.cpp
-// D�finition de la classe Menu
+// Definition de la classe Menu
 #include "Menu.h"
 #include "Globals.h"
 #include "Displayer.h"
 #include "Game.h"
+#include "Settings.h"
 
 using namespace KeyCodes;
 
 /******************************************************************************
-*                    Gestion des �v�nements                                   *
+*                    Gestion des evenements                                   *
 ******************************************************************************/
 void Game::OnKeyDown( int keyboardContext, int keyCode )
 {
@@ -16,6 +17,8 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 	Menu *aMenu = Menu::GetInstance ( );
 	aGame->MutexAcquireLock ( );
 	Displayer *aDisplayer = Displayer::GetInstance ( );
+	Settings *aSettings = Settings::GetInstance ( );
+	const PlayerSettings *aPlayerSettings = aSettings->GetPlayerSettings ( 0 );
 	switch ( keyCode )
 	{
 		case ESCAPE :
@@ -24,6 +27,20 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 			aMenu->Init ( );
 			break;
 		default:
+			if ( keyCode == aPlayerSettings->TurnLeft )
+			{
+				if ( aGame->tabPlayers[0] != 0 )
+				{
+					aGame->tabPlayers[0]->MoveLeft ( );
+				}
+			}
+			else if ( keyCode == aPlayerSettings->TurnRight )
+			{
+				if ( aGame->tabPlayers[0] != 0 )
+				{
+					aGame->tabPlayers[0]->MoveRight( );
+				}
+			}
 			printf("context : %d || code : %d\n", keyboardContext, keyCode);
 			break;
 	}	
@@ -36,9 +53,9 @@ void Game::OnKeyUp( int keyboardContext, int keyCode )
 }
 
 /******************************************************************************
-*                              Mise � jour                                    *
+*                              Mise a jour                                    *
 ******************************************************************************/
-// Met � jour le menu
+// Met a jour le menu
 void Game::Update ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
@@ -46,6 +63,11 @@ void Game::Update ( )
 	for ( int i = 0; i < nbPlayers; i++ )
 	{
 		tabPlayersIndex[i]->Update ( dt );
+		// On verifie qu'il n'a fonce dans aucun mur.
+		for ( int j = 0; j < nbPlayers; j++ )
+		{
+			tabPlayersIndex[i]->IsGettingKilled ( *tabPlayersIndex[j] );
+		}
 	}
 }
 
