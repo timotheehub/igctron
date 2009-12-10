@@ -11,6 +11,11 @@
 using namespace std;
 using namespace Utils;
 
+void Wall::Init(const CartesianVector& origin)
+{
+	vertexes.assign(2, origin);
+}
+
 void Wall::SetLastVertex(const CartesianVector& value)
 {
 	*vertexes.rbegin() = value;

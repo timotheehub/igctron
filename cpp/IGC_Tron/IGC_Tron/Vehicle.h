@@ -13,7 +13,7 @@
 class Vehicle
 {
 public:
-	void Init();
+	void Init(const Utils::CartesianVector& initPosition);
 
 	void MoveForward(double dt);
 	void Boost();
@@ -34,7 +34,6 @@ protected:
 	static const double BOOST_COEF;
 	static const double BOOST_LENGTH;
 
-	Utils::CartesianVector initPosition;
 	Utils::CartesianVector initSpeed;
 	Utils::CartesianVector position;
 	Utils::CartesianVector speed;
