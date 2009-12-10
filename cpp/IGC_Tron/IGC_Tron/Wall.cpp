@@ -25,17 +25,18 @@ void Wall::SetLastVertex(const CartesianVector& value)
 void Wall::NewVertex()
 {
 	vertexes.push_back(*vertexes.rbegin());
+	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
 
-	xDirection = !xDirection;
-	models.push_back(factory->aquire((IGC::Model*)NULL));
+	models.push_back(factory->acquire((IGC::Model*)NULL));
 	if (xDirection)
 	{
-		models.back()->Clone(Displayer::GetInstance()->GetFactory()->acquire ( (IGC::Model*)NULL, "model_wallX" ));
+		models.back()->Clone(factory->acquire ( (IGC::Model*)NULL, "model_wallX" ));
 	}
 	else
 	{
-		models.back()->Clone(Displayer::GetInstance()->GetFactory()->acquire ( (IGC::Model*)NULL, "model_wallZ" ));
+		models.back()->Clone(factory->acquire ( (IGC::Model*)NULL, "model_wallZ" ));
 	}
+	xDirection = !xDirection;
 }
 
 void Wall::Draw() const
@@ -49,20 +50,25 @@ void Wall::Draw() const
 	texture->bind ( );
 	renderer->setTransparency( false );
 
-	vector<CartesianVector>::const_iterator it1, it2;
+	// Mise à jour du dernier IGC::Model
+	vector<CartesianVector>::const_reverse_iterator it1 = vertexes.rbegin(),
+			it2 = it1++;
+	vector<IGC::Model*>::const_reverse_iterator itm = models.rbegin();
 
-	for (it1 = vertexes.begin(), it2 = it1 + 1; it2 != vertexes.end(); it1 = it2, ++it2)
+	if (fabs(it1->x - it2->x) > fabs(it1->z - it2->z))
 	{
-		if (fabs(it1->x - it2->x) > fabs(it1->z - it2->z))
-		{
-			model->grow( fabs(it1->x - it2->x), 1.0f, 1.0f );
-		}
-		else
-		{
-			model->grow( 1.0f, 1.0f, fabs(it1->z - it2->z) );	
-		}
-		model->setCenter ( fabs(it1->x + it2->x)/2 - 10, 0.5f, fabs(it1->z + it2->z)/2 - 15);
-		model->render();
+		(*itm)->setSize( fabs(it1->x - it2->x), 1.0f, 1.0f );
+	}
+	else
+	{
+		(*itm)->setSize( 1.0f, 1.0f, fabs(it1->z - it2->z) );	
+	}
+	(*itm)->setCenter ( fabs(it1->x + it2->x)/2 - 10, 0.5f, fabs(it1->z + it2->z)/2 - 15);
+	
+	// Affichage des IGC::Model
+	for ( itm = models.rbegin(); itm != models.rend(); itm++ )
+	{
+		(*itm)->render();
 	}
 }
 
@@ -80,8 +86,9 @@ bool Wall::IsInCollision(const Utils::Rectangle& object) const
 }
 
 Wall::Wall(const CartesianVector& origin, const CartesianVector& direction) :
-	vertexes(2, origin), models(1,0), xDirection(fabs(direction.x) > fabs(direction.z))
+vertexes(1, origin), models(),
+		xDirection(fabs(direction.x) > fabs(direction.z))
 {
-
+	NewVertex();
 }
 
