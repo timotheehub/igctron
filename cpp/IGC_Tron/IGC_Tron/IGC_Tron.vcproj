@@ -516,6 +516,10 @@
 					RelativePath=".\Menu.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Settings.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="GamePlay"

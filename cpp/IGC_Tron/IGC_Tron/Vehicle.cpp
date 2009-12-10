@@ -94,24 +94,22 @@ void Vehicle::Draw ( ) const
 			model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
 			break;
 	}
-	model->setCenter ( position.x - 15, position.y + 1, position.z - 10 );
+	model->setCenter ( position.x - 10, position.y + 1, position.z - 15 );
 	if ( abs ( speed.x ) > abs ( speed.z ) )
 	{
 		if ( speed.x < 0 )
-			model->setAngle ( PI / 2, PI, 0 );
-		else
-			model->setAngle ( PI / 2, 0, 0 );
-	}
-	else
-	{
-		if ( speed.z < 0 )
 			model->setAngle ( PI / 2, PI / 2, 0 );
 		else
 			model->setAngle ( PI / 2, 3*PI / 2, 0 );
 	}
+	else
+	{
+		if ( speed.z < 0 )
+			model->setAngle ( PI / 2, 0, 0 );
+		else
+			model->setAngle ( PI / 2, PI, 0 );
+	}
 
-	
-		
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );	
 	texture->bind();
 	renderer->setTransparency( false );
