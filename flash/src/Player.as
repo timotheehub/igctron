@@ -16,19 +16,19 @@
 		
 		public static const DELAY_WALL : uint = 10;
 		
-		public static const DIRECTION_LEFT : int = 0;
-		public static const DIRECTION_DOWN : int = 1;
-		public static const DIRECTION_RIGHT : int = 2;
-		public static const DIRECTION_UP : int = 3;
+		public static const DIRECTION_LEFT : uint = 0;
+		public static const DIRECTION_DOWN : uint = 1;
+		public static const DIRECTION_RIGHT : uint = 2;
+		public static const DIRECTION_UP : uint = 3;
 		
-		public static const X : int = 0;
-		public static const Y : int = 1;
+		public static const X : uint = 0;
+		public static const Y : uint = 1;
 			
 		private var x : Number;
 		private var y : Number;
 		private var vehicle : Motorbike;
 		private var wall : Wall;
-		private var ia:IA2;
+		private var ia:IA2pp;
 	
 		private var id : int;
 		
@@ -48,11 +48,11 @@
 			direction = _direction;
 			isDead = false;
 			id = _id;
-			playerWall = new Array();
+			playerWall = new Array(); // 3D wall
 			
 			vehicle = new Motorbike();
 			
-			ia = new IA2( this,  _id );
+			ia = new IA2pp( this,  _id );
 			
 			if ( isHuman )
 			{
@@ -69,8 +69,7 @@
 				else if( e.keyCode == KEY_RIGHT )
 					direction--;
 				
-				direction = (direction < DIRECTION_LEFT) ? DIRECTION_UP : direction;
-				direction = (direction > DIRECTION_UP) ? DIRECTION_LEFT : direction;
+				direction = convertDirection(direction);
 				
 				wall.insertSegment( x, y, x, y );
 			}
@@ -229,6 +228,13 @@
 			return id;	
 		}
 		
-		
+		static public function convertDirection( dir:int ) :int 
+		{
+			var newDir:int = dir;
+			newDir = (newDir < Player.DIRECTION_LEFT) ? Player.DIRECTION_UP : newDir;
+			newDir = (newDir > Player.DIRECTION_UP) ? Player.DIRECTION_LEFT : newDir;
+			
+			return newDir;
+		}
 	}
 }

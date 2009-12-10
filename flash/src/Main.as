@@ -184,8 +184,6 @@
 			camere.orbit( 60, -75, true ); //-90
 			*/
 			
-			
-
 			light = new PointLight3D(true);
 			light.x = 500;
 			light.z = - 300; 
@@ -219,7 +217,7 @@
 				
 				color = Math.round( Math.random() * 0xFFFF )*256 + Math.round( Math.random()*0x10 );
 				
-				vehicleMat.push( new CellMaterial(light, color, color, 2) );
+				vehicleMat.push( new CellMaterial(light, color, color, 10) );/////////////////////////////////// 2 -> 10
 				vehicleCube.push( new Cube( new MaterialsList( { all : vehicleMat[i] } ), 15, -2 * VEHICLEZ, 15 ) );
 				
 				coord[X]= x; coord[Y]=y; coord[Z] = z;

@@ -7,19 +7,26 @@
 	public class IA2
 	{
 	
-		private var player : Player;
-		private var id : int;
-		private var timer : int;
+		protected var player : Player;
+		protected var id : int;
+		protected var timer : int;
 		
-		private static const VISIBILITY : int = 20;
-		private static const TURN_PERCENT : int = 1;
-		private static const NO_TURN :int = 10;
+		protected var width:Number;
+		protected var heigth:Number;
+		
+		protected static const VISIBILITY : uint = 10; // range of frontal collision check
+		protected static const TURN_PERCENT : uint = 1; // random percent -> turn
+		protected static const NO_TURN : uint = 1; // number of frames before be alowed to turn after a turn
 		
 		public function IA2( _player:Player, _id:int ) 
 		{
 			player = _player;
-			id = _id;		
+			id = _id;
 			timer = 0;
+			
+			width = (player.getVehicle()).getWidth();
+			heigth = (player.getVehicle()).getHeight();
+			
 		}
 		
 		
@@ -50,19 +57,18 @@
 			return direction;
 		}
 		
-		private function checkCollision( x:Number, y:Number, dir:int ) : Boolean
+		protected function checkCollision( x:Number, y:Number, dir:int ) : Boolean
 		{
 			var x0:Number;
 			var x1:Number;
 			var y0:Number;
 			var y1:Number;
 			
-			
-			// ajouter gestion de la largeur
+			// ajouter gestion de la hauteur
 			if ( dir == Player.DIRECTION_LEFT )
 			{
-				y0 = y;
-				y1 = y;
+				y0 = y - width;
+				y1 = y + width;
 				x0 = x - VISIBILITY;
 				x1 = x;
 			}
@@ -70,13 +76,13 @@
 			{
 				y0 = y;
 				y1 = y + VISIBILITY;
-				x0 = x;
-				x1 = x;
+				x0 = x -  width;
+				x1 = x +  width;
 			}
 			else if ( dir == Player.DIRECTION_RIGHT)
 			{
-				y0 = y;
-				y1 = y;
+				y0 = y - width;
+				y1 = y + width;
 				x0 = x;
 				x1 = x + VISIBILITY;
 			}
@@ -84,8 +90,8 @@
 			{
 				y0 = y - VISIBILITY;
 				y1 = y;
-				x0 = x;
-				x1 = x;
+				x0 = x - width;
+				x1 = x + width;
 			}
 			
 			return Main.game.check_collision( x0, y0, x1, y1, id);
