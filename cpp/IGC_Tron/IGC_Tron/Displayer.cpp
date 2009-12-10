@@ -159,7 +159,7 @@ void Displayer::initRenderer ( )
 	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
 	camera->setCenter( 00.0f, 20.0f, 0.0f );
-	camera->lookAt( 0.1f, -1.0f, 0.0f );
+	camera->lookAt( -0.1f, -1.0f, 0.0f );
 	camera->update();
 
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );

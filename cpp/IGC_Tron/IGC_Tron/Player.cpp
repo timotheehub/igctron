@@ -60,7 +60,7 @@ bool Player::IsGettingKilled(const Player& killer)
 	}
 	else
 	{
-		Rectangle r = myVehicle.GetRectangle();
+		Utils::Rectangle r = myVehicle.GetRectangle();
 		isAlive = r.IsOutOf(Game::GetInstance()->GetPlane())
 				|| r.IsInCollision(killer.myVehicle.GetRectangle())
 				|| killer.myWall.IsInCollision(r);
