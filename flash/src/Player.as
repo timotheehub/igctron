@@ -23,11 +23,12 @@
 		
 		public static const X : int = 0;
 		public static const Y : int = 1;
-		
+			
 		private var x : Number;
 		private var y : Number;
 		private var vehicle : Motorbike;
 		private var wall : Wall;
+		private var ia:IA2;
 	
 		private var id : int;
 		
@@ -49,7 +50,9 @@
 			id = _id;
 			playerWall = new Array();
 			
-			vehicle = new Motorbike();			
+			vehicle = new Motorbike();
+			
+			ia = new IA2( this,  _id );
 			
 			if ( isHuman )
 			{
@@ -86,7 +89,8 @@
 				
 				if ( !isHuman )
 				{					
-					direction = Main.game.ia.update (direction, id); //Cette fonction insere aussi un segment
+					//direction = Main.game.ia.update (direction, id); //Cette fonction insere aussi un segment
+					direction = ia.update();
 				}
 				
 				if( direction == DIRECTION_LEFT )
@@ -218,6 +222,11 @@
 		public function getVehicle() : Vehicle
 		{
 			return vehicle;
+		}
+		
+		public function getID() : int
+		{
+			return id;	
 		}
 		
 		
