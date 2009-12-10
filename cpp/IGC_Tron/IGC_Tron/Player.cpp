@@ -7,13 +7,13 @@
 
 #include "Player.h"
 #include "Vehicle.h"
-#include <iostream>
+#include "Game.h"
 using namespace std;
 using namespace Utils;
 
 /******************************************************************************
-*                             Mise a jour                                     *
-******************************************************************************/
+ *                             Mise a jour                                     *
+ ******************************************************************************/
 void Player::Init()
 {
 	myVehicle.Init();
@@ -61,7 +61,8 @@ bool Player::IsGettingKilled(const Player& killer)
 	else
 	{
 		Rectangle r = myVehicle.GetRectangle();
-		isAlive = r.IsInCollision(killer.myVehicle.GetRectangle())
+		isAlive = r.IsOutOf(Game::GetInstance()->GetPlane())
+				|| r.IsInCollision(killer.myVehicle.GetRectangle())
 				|| killer.myWall.IsInCollision(r);
 		if (!isAlive)
 		{
@@ -83,6 +84,7 @@ void Player::Draw() const
 	if (isAlive)
 	{
 		myVehicle.Draw();
+		myWall.Draw();
 	}
 }
 
@@ -90,8 +92,10 @@ void Player::Draw() const
  *                 Constructeurs et destructeurs                               *
  ******************************************************************************/
 
-Player::Player(string aName, CartesianVector initPos, CartesianVector initSpeed, int aNumero) :
-	name(aName), myVehicle(initPos, initSpeed, aNumero), isAlive(true), myWall(initPos)
+Player::Player(string aName, CartesianVector initPos,
+		CartesianVector initSpeed, int aNumber) :
+	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos),
+			isAlive(true), playerNumber(aNumber)
 {
 
 }

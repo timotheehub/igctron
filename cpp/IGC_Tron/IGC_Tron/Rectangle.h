@@ -10,6 +10,7 @@
 
 #include <cmath>
 #include "CartesianVector.h"
+#include "Plane.h"
 
 namespace Utils
 {
@@ -76,6 +77,11 @@ struct Rectangle
 		}
 	}
 
+	bool IsOutOf(const Plane* p) const
+	{
+		return (xMin < 0 || zMin < 0 || zMax > p->GetZ() || xMax > p->GetX());
+	}
+
 	bool IsInCollision(const Rectangle& r) const
 	{
 		return !(zMax < r.zMin || r.zMax < zMin || xMax
@@ -83,54 +89,52 @@ struct Rectangle
 	}
 
 	Rectangle(const CartesianVector& position, const CartesianVector& direction,
-			CoordType lengthAhead, CoordType lengthBack, CoordType widthLeft,
+			CoordType length, CoordType shiftAhead, CoordType widthLeft,
 			CoordType widthRight) :
+	//	Crée un rectangle.
+	// 'position' définit une position de référence (l'«arrière» du rectangle),
+	// 'direction' le sens de la longueur, 'shiftAhead' le décalage vers l'avant
+	// par rapport à la position, 'widthLeft' et 'widthRight' les
+	// «demi-largeurs» gauche et droite.
 		xMin(position.x), xMax(position.x), zMin(position.z), zMax(position.z)
 	{
 		// On a forcément direction.x == 0 xor direction.z == 0
 		// Et position.x >= 0 et position.z >= 0
 		if (direction.x < 0)
 		{
-			xMin -= lengthAhead;
-			xMax += lengthBack;
+			xMin -= shiftAhead + length;
+			xMax -= shiftAhead;
 			zMin -= widthRight;
 			zMax += widthLeft;
 		}
 		else if (direction.x > 0)
 		{
-			xMin -= lengthBack;
-			xMax += lengthAhead;
+			xMin += shiftAhead;
+			xMax += shiftAhead + length;
 			zMin -= widthLeft;
 			zMax += widthRight;
 		}
 		else if (direction.z < 0)
 		{
-			zMin -= lengthAhead;
-			zMax += lengthBack;
+			zMin -= shiftAhead + length;
+			zMax -= shiftAhead;
 			xMin -= widthLeft;
 			xMax += widthRight;
 		}
 		else
 		{
-			zMin -= lengthBack;
-			zMax += lengthAhead;
+			zMin += shiftAhead;
+			zMax += shiftAhead + length;
 			xMin -= widthRight;
 			xMax += widthLeft;
 		}
 	}
 
-	// On modélise le rectangle par une croix dont les lignes sont
-	// perpendiculaires aux côtés du rectangles.
-	// Ex :
-	// ---------------------
-	// |     |             |
-	// |-----+-------------|
-	// |     |             |
-	// ---------------------
-	CoordType xMin; // Point le plus proche de l'axe z
-	CoordType xMax; // Point le plus éloigné de l'axe z
-	CoordType zMin; // Point le plus proche de l'axe x
-	CoordType zMax; // Point le plus éloigné de l'axe x
+	// On modélise le rectangle par ses coordonnées minimales et maximales.
+	CoordType xMin;
+	CoordType xMax;
+	CoordType zMin;
+	CoordType zMax;
 
 private:
 };

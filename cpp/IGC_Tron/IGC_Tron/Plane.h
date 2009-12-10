@@ -1,5 +1,5 @@
 // Plane.h
-// Déclaration de la classe Plane
+// Dï¿½claration de la classe Plane
 
 #ifndef __PLANE_H__
 #define __PLANE_H__
@@ -7,25 +7,25 @@
 class Plane
 {
 protected:
-	int width;
-	int height;
+	int z;
+	int x;
 
 public:
-	inline int GetWidth ( );
-	inline int GetHeight ( );
+	inline int GetZ ( ) const;
+	inline int GetX ( ) const;
 	void Draw ( );
-	Plane ( int aWidth = 30, int aHeight = 20 );
+	Plane ( int zValue = 30, int xValue = 20 );
 	~Plane ( );
 };
 
-inline int Plane::GetWidth ( )
+inline int Plane::GetZ ( ) const
 {
-	return width;
+	return z;
 }
 
-inline int Plane::GetHeight ( )
+inline int Plane::GetX ( ) const
 {
-	return height;
+	return x;
 }
 
 #endif

@@ -15,8 +15,9 @@ class Wall
 {
 public:
 	void SetLastVertex(const Utils::CartesianVector& value);
-
 	void NewVertex();
+
+	void Draw() const;
 
 	bool IsInCollision(const Utils::Rectangle& object) const;
 

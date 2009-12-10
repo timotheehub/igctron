@@ -36,8 +36,7 @@ public:
 
 	inline void MutexAcquireLock ( );
 	inline void MutexReleaseLock ( );
-	inline int GetPlaneWidth ( );
-	inline int GetPlaneHeight( );
+	inline const Plane* GetPlane ( ) const;
 
 protected:
 	Player** tabPlayersIndex;
@@ -64,14 +63,9 @@ inline void Game::MutexReleaseLock ( )
 	aMutex.ReleaseLock ( );
 }
 
-inline int Game::GetPlaneWidth ( )
+inline const Plane* Game::GetPlane ( ) const
 {
-	return aPlane->GetWidth ( );
+	return aPlane;
 }
 	
-inline int Game::GetPlaneHeight( )
-{
-	return aPlane->GetHeight ( );
-}
-
 #endif // __MENU_H__*/
