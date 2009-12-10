@@ -10,6 +10,7 @@
 
 #include <vector>
 #include "Globals.h"
+#include "IModel.h"
 
 class Wall
 {
@@ -23,10 +24,12 @@ public:
 
 	bool IsInCollision(const Utils::Rectangle& object) const;
 
-	Wall (const Utils::CartesianVector& origin);
+	Wall (const Utils::CartesianVector& origin, const Utils::CartesianVector& direction);
 
 private:
+	bool xDirection;
 	std::vector<Utils::CartesianVector> vertexes;
+	std::vector<IGC::Model*> models;
 };
 
 #endif /* WALL_H_ */

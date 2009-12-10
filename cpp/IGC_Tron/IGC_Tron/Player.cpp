@@ -107,7 +107,7 @@ void Player::Draw() const
 
 Player::Player(string aName, CartesianVector initPos,
 		CartesianVector initSpeed, int aNumber) :
-	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos),
+	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos,initSpeed),
 			initPosition(initPos), isAlive(true), playerNumber(aNumber)
 {
 

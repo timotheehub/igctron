@@ -25,6 +25,17 @@ void Wall::SetLastVertex(const CartesianVector& value)
 void Wall::NewVertex()
 {
 	vertexes.push_back(*vertexes.rbegin());
+
+	xDirection = !xDirection;
+	models.push_back(factory->aquire((IGC::Model*)NULL));
+	if (xDirection)
+	{
+		models.back()->Clone(Displayer::GetInstance()->GetFactory()->acquire ( (IGC::Model*)NULL, "model_wallX" ));
+	}
+	else
+	{
+		models.back()->Clone(Displayer::GetInstance()->GetFactory()->acquire ( (IGC::Model*)NULL, "model_wallZ" ));
+	}
 }
 
 void Wall::Draw() const
@@ -44,12 +55,10 @@ void Wall::Draw() const
 	{
 		if (fabs(it1->x - it2->x) > fabs(it1->z - it2->z))
 		{
-			model = factory->acquire ( (IGC::Model*)NULL, "model_wallX" );
 			model->grow( fabs(it1->x - it2->x), 1.0f, 1.0f );
 		}
 		else
 		{
-			model = factory->acquire ( (IGC::Model*)NULL, "model_wallZ" );
 			model->grow( 1.0f, 1.0f, fabs(it1->z - it2->z) );	
 		}
 		model->setCenter ( fabs(it1->x + it2->x)/2 - 10, 0.5f, fabs(it1->z + it2->z)/2 - 15);
@@ -70,8 +79,9 @@ bool Wall::IsInCollision(const Utils::Rectangle& object) const
 	return it2 != vertexes.end();
 }
 
-Wall::Wall(const CartesianVector& origin) :
-	vertexes(2, origin)
+Wall::Wall(const CartesianVector& origin, const CartesianVector& direction) :
+	vertexes(2, origin), models(1,0), xDirection(fabs(direction.x) > fabs(direction.z))
 {
 
 }
+
