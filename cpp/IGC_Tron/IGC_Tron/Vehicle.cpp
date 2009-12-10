@@ -68,7 +68,7 @@ CartesianVector Vehicle::GetPosition() const
 
 Utils::Rectangle Vehicle::GetRectangle() const
 {
-	return Utils::Rectangle(position,speed,1.0,RECTANGLE_GAP,0.25,0.25);
+	return Utils::Rectangle(position,speed,4.5,RECTANGLE_GAP,2.25,2.25);
 }
 
 /******************************************************************************
