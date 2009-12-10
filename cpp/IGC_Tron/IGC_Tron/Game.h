@@ -36,6 +36,8 @@ public:
 
 	inline void MutexAcquireLock ( );
 	inline void MutexReleaseLock ( );
+	inline int GetPlaneWidth ( );
+	inline int GetPlaneHeight( );
 
 protected:
 	Player** tabPlayersIndex;
@@ -60,6 +62,16 @@ inline void Game::MutexAcquireLock ( )
 inline void Game::MutexReleaseLock ( )
 {
 	aMutex.ReleaseLock ( );
+}
+
+inline int Game::GetPlaneWidth ( )
+{
+	return aPlane->GetWidth ( );
+}
+	
+inline int Game::GetPlaneHeight( )
+{
+	return aPlane->GetHeight ( );
 }
 
 #endif // __MENU_H__*/

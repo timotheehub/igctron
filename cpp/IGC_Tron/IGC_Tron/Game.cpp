@@ -56,7 +56,7 @@ void Game::Update ( )
 void Game::Init ( )
 {
 	/********** Initialisation temporaire ******/
-	const double SPEED = 10e-7;
+	const double SPEED = 10e-6;
 	PlayerInfos tabPlayersInfos [ MAX_PLAYERS ];
 	Utils::CartesianVector tabPos [ MAX_PLAYERS ];
 	Utils::CartesianVector tabDir [ MAX_PLAYERS ];
@@ -70,31 +70,31 @@ void Game::Init ( )
 	tabPlayersInfos[3].ATypePlayer = PlayerInfos::COMPUTER;
 	tabPlayersInfos[3].Name = "Tutu";
 
-	tabPos[0].x = 25;
+	tabPos[0].x = 15;
 	tabPos[0].y = 0;
-	tabPos[0].z = 15;
-	tabPos[1].x = 25;
+	tabPos[0].z = 25;
+	tabPos[1].x = 5;
 	tabPos[1].y = 0;
-	tabPos[1].z = 5;
+	tabPos[1].z = 25;
 	tabPos[2].x = 5;
 	tabPos[2].y = 0;
 	tabPos[2].z = 5;
-	tabPos[3].x = 5;
+	tabPos[3].x = 15;
 	tabPos[3].y = 0;
-	tabPos[3].z = 15;
+	tabPos[3].z = 5;
 
-	tabDir[0].x = 0;
+	tabDir[0].x = -SPEED;
 	tabDir[0].y = 0;
-	tabDir[0].z = -SPEED;
-	tabDir[1].x = -SPEED;
+	tabDir[0].z = 0;
+	tabDir[1].x = 0;
 	tabDir[1].y = 0;
-	tabDir[1].z = 0;
-	tabDir[2].x = 0;
+	tabDir[1].z = -SPEED;
+	tabDir[2].x = SPEED;
 	tabDir[2].y = 0;
-	tabDir[2].z = SPEED;
-	tabDir[3].x = SPEED;
+	tabDir[2].z = 0;
+	tabDir[3].x = 0;
 	tabDir[3].y = 0;
-	tabDir[3].z = 0;
+	tabDir[3].z = SPEED;
 	/****** Fin d'initialisation temporaire ****/
 
 	// Players
