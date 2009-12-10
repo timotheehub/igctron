@@ -541,6 +541,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Rectangle.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Vehicle.h"
 					>
 				</File>
