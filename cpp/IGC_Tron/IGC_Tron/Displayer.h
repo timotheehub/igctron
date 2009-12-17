@@ -24,6 +24,7 @@
 #include "OGLFont.h"
 #include "OGLTexture.h"
 #include "CameraOverall.h"
+#include "CameraFree.h"
 
 using namespace std;
 using namespace IGC;

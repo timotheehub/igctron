@@ -157,7 +157,7 @@ void Game::Init ( )
 	aPlane = new Plane;
 }
 
-// Lib�re le menu
+// Libere le menu
 void Game::Free ( )
 {
 	// Players
