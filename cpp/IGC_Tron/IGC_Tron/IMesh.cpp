@@ -195,7 +195,7 @@ namespace IGC
 		setFace( 11, 3, 5, 7 );
 	}
 
-	void IMesh::createPlane( float width, float depth )
+	void IMesh::createPlane( float width, float depth, float texcoordX, float texcoordY )
 	{
 		hasVertices = true;
 
@@ -211,9 +211,9 @@ namespace IGC
 		setVertex( 3, +0.5f * width, 0, +0.5f * depth );
 
 		setTexcoord( 0, 0.0f, 0.0f );
-		setTexcoord( 1, 0.0f, 10.0f );
-		setTexcoord( 2, 10.0f, 0.0f );
-		setTexcoord( 3, 10.0f, 10.0f );
+		setTexcoord( 1, 0.0f, texcoordY );
+		setTexcoord( 2, texcoordX, 0.0f );
+		setTexcoord( 3, texcoordX, texcoordY );
 
 		setColor( 0, 1.0f, 1.0f, 1.0f, 1.0f );
 		setColor( 1, 1.0f, 1.0f, 1.0f, 1.0f );
