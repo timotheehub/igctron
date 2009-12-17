@@ -14,27 +14,34 @@
 		
 		override public function update() : int
 		{
-			var direction:int = player.getDir();
+			var lastDirection:int = player.getDir();
+			var direction : int = lastDirection;
 			var x:Number = player.getCoord()[Player.X];
 			var y:Number = player.getCoord()[Player.Y];
-			
-			
+			var choixDir : Array = new Array (0,0,0,0);
+			var newDir : int = 0;
 			
 			if (  ( timer == 0 )&&( checkCollision(x, y, direction) || ( Math.round(Math.random()*100) <= TURN_PERCENT ))  )
 			{
 				
 				timer = NO_TURN;
 				
-				( Math.random() >= 0.5 ) ? direction++: direction-- ;
+				/*( Math.random() >= 0.5 ) ? direction++: direction-- ;
 				
-				direction = Player.convertDirection(direction);
-				
-				if ( checkCollision(x, y, direction) )
+				direction = Player.convertDirection(direction);*/
+				for (var i : int = 0; i < 4; i++)
 				{
-					direction += 2;
+					if (!checkCollision(x, y, direction) && direction != Player.convertDirection(lastDirection + 2))
+					{
+						choixDir [direction] = Math.random ();
+						if (choixDir [direction] > choixDir [newDir])
+						{
+							newDir = direction;
+						}
+					}	
+					direction++;
 					direction = Player.convertDirection(direction);
-					
-				}				
+				}
 				
 				if ( ! checkCollision(x, y, direction) )
 				{
@@ -47,7 +54,7 @@
 			(timer > 0)? timer-- : timer;
 			
 			
-			return direction;
+			return newDir;
 		}
 	}
 
