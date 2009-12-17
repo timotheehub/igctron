@@ -5,6 +5,7 @@
 #include "Displayer.h"
 #include "Game.h"
 #include "Settings.h"
+#include "Computer.h"
 
 using namespace KeyCodes;
 
@@ -59,7 +60,7 @@ void Game::OnKeyUp( int keyboardContext, int keyCode )
 void Game::Update ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
-	double dt = aDisplayer->GetTime ( );
+	double dt = aDisplayer->GetDelta ( );
 	for ( int i = 0; i < nbPlayers; i++ )
 	{
 		tabPlayersIndex[i]->Update ( dt );
@@ -78,11 +79,8 @@ void Game::Update ( )
 void Game::Init ( )
 {
 	/********** Initialisation temporaire ******/
-#ifdef _WIN32 // TODO : résoudre ce problème
-	const double SPEED = 10e-6;
-#else
-	const double SPEED = 5*10e-12;
-#endif
+	const double SPEED = 5;
+
 	PlayerInfos tabPlayersInfos [ MAX_PLAYERS ];
 	Utils::CartesianVector tabPos [ MAX_PLAYERS ];
 	Utils::CartesianVector tabDir [ MAX_PLAYERS ];
@@ -131,8 +129,14 @@ void Game::Init ( )
 	{
 		if ( tabPlayersInfos[ i ].ATypePlayer != PlayerInfos::NO )
 		{
-			tabPlayers [ i ] = new Player ( tabPlayersInfos[ i ].Name, tabPos[ i ], tabDir [ i ], i
-				);
+			if ( tabPlayersInfos[ i ].ATypePlayer == PlayerInfos::KEYBOARD )
+			{
+				tabPlayers [ i ] = new Player ( tabPlayersInfos[ i ].Name, tabPos[ i ], tabDir [ i ], i );
+			}
+			else
+			{
+				tabPlayers [ i ] = new Computer ( tabPlayersInfos[ i ].Name, tabPos[ i ], tabDir [ i ], i );
+			}
 			nbPlayers++;
 		}
 		else
@@ -181,9 +185,6 @@ void Game::Draw ( )
 	IGC::Factory *factory = aDisplayer->GetFactory ( );
 
 	renderer->clear( 0.0f, 0.0f, 0.1f, 1.0f );
-
-	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
-	camera->bind();
 	
 	aPlane->Draw ( );
 

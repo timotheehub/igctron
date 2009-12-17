@@ -36,6 +36,11 @@ double Displayer::GetTime ( )
 	return engine->getTime ( );
 }
 
+double Displayer::GetDelta ( )
+{
+	return engine->getDelta ( );
+}
+
 /******************************************************************************
 *                      M�thodes Get et Set                                    *
 ******************************************************************************/
@@ -168,11 +173,7 @@ void Displayer::initRenderer ( )
 	renderer->useHardware();
 	renderer->initialize();
 
-	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
-	camera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
-	camera->setCenter( 20.0f, 20.0f, 0.0f );
-	camera->lookAt( -0.1f, -1.0f, 0.0f );
-	camera->update();
+	currentCamera = new CameraOverall;
 
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->setName( "Verdana" );
@@ -190,6 +191,8 @@ void Displayer::initRenderer ( )
 // Rafraichit graphiquement
 void Displayer::UpdateGraphics ( )
 {
+	currentCamera->Update ( );
+
 	switch ( state )
 	{
 		case GAME:
@@ -265,8 +268,7 @@ void Displayer::freeRenderer ( )
 {
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	factory->release( font );
-	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
-	factory->release( camera );
+	delete currentCamera;
 	renderer->finalize();
 	factory->release( renderer );
 }

@@ -23,6 +23,7 @@
 #include "OGLModel.h"
 #include "OGLFont.h"
 #include "OGLTexture.h"
+#include "CameraOverall.h"
 
 using namespace std;
 using namespace IGC;
@@ -59,6 +60,7 @@ public:
 					IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp );
 	
 	double GetTime ( );
+	double GetDelta ( );
 
 	StateEnum GetState ( );
 	void SetState ( StateEnum aState );
@@ -98,6 +100,8 @@ private:
 	IGC::Factory* factory;
 	IGC::Window* window;
 	IGC::Renderer* renderer;
+
+	AbstractCamera* currentCamera;
 
 	// Variable d'etat
 	StateEnum state;

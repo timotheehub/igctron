@@ -179,18 +179,18 @@
 					>
 				</File>
 				<Filter
-					Name="Graph"
+					Name="Camera"
 					>
 					<File
-						RelativePath=".\Graph.cpp"
+						RelativePath=".\AbstractCamera.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\GraphIterator.cpp"
+						RelativePath=".\CameraFree.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\GraphNode.cpp"
+						RelativePath=".\CameraOverall.cpp"
 						>
 					</File>
 				</Filter>
@@ -327,6 +327,10 @@
 				Name="GamePlay"
 				>
 				<File
+					RelativePath=".\Computer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Game.cpp"
 					>
 				</File>
@@ -373,6 +377,22 @@
 					</File>
 					<File
 						RelativePath=".\GraphNode.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Camera"
+					>
+					<File
+						RelativePath=".\AbstractCamera.h"
+						>
+					</File>
+					<File
+						RelativePath=".\CameraFree.h"
+						>
+					</File>
+					<File
+						RelativePath=".\CameraOverall.h"
 						>
 					</File>
 				</Filter>
@@ -528,6 +548,10 @@
 			<Filter
 				Name="GamePlay"
 				>
+				<File
+					RelativePath=".\Computer.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Game.h"
 					>
