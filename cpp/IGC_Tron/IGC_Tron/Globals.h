@@ -27,10 +27,10 @@ const int UP = 111;
 const int LEFT = 113;
 const int RIGHT = 114;
 const int DOWN = 116;
-const int Z = 111;
-const int S = 116;
-const int Q = 113;
-const int D = 114;
+const int Z = 25;
+const int S = 39;
+const int Q = 38;
+const int D = 40;
 #endif
 }
 

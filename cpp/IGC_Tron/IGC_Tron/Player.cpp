@@ -11,6 +11,10 @@
 using namespace std;
 using namespace Utils;
 
+// TODO : convertir en variables
+const bool Player::OPTION_WALL_AFTER_DEATH = false;
+const float Player::WALL_BASE_HEIGHT = 1.0;
+
 /******************************************************************************
  *                             Mise a jour                                     *
  ******************************************************************************/
@@ -27,6 +31,10 @@ void Player::Update(double dt)
 		myVehicle.MoveForward(dt);
 		myWall.SetLastVertex(myVehicle.GetPosition());
 	}
+	else if (!OPTION_WALL_AFTER_DEATH)
+	{
+		myWall.Collapse(dt);
+	}
 }
 
 void Player::MoveLeft()
@@ -34,7 +42,7 @@ void Player::MoveLeft()
 	if (isAlive)
 	{
 		myVehicle.MoveLeft();
-		myWall.NewVertex();
+		myWall.AddVertex();
 	}
 }
 
@@ -43,7 +51,7 @@ void Player::MoveRight()
 	if (isAlive)
 	{
 		myVehicle.MoveRight();
-		myWall.NewVertex();
+		myWall.AddVertex();
 	}
 }
 
@@ -74,21 +82,11 @@ bool Player::IsGettingKilled(const Player& killer)
 	else
 	{
 		Utils::Rectangle r = myVehicle.GetRectangle();
-		if ( killer.isAlive == true )
-		{
-			isAlive = !(r.IsOutOf(Game::GetInstance()->GetPlane()) || (&killer
-					!= this && r.IsInCollision(killer.myVehicle.GetRectangle()))
-					|| killer.myWall.IsInCollision(r));
-		}
-		if (!isAlive)
-		{
-			myVehicle.Explode();
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		isAlive = !(r.IsOutOf(Game::GetInstance()->GetPlane()) || (&killer
+				!= this && r.IsInCollision(killer.myVehicle.GetRectangle()))
+				|| killer.myWall.IsInCollision(r));
+
+		return !isAlive;
 	}
 }
 
@@ -100,8 +98,8 @@ void Player::Draw() const
 	if (isAlive)
 	{
 		myVehicle.Draw();
-		myWall.Draw();
 	}
+	myWall.Draw();
 }
 
 /******************************************************************************
@@ -110,8 +108,9 @@ void Player::Draw() const
 
 Player::Player(string aName, CartesianVector initPos,
 		CartesianVector initSpeed, int aNumber) :
-	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos,initSpeed),
-			initPosition(initPos), isAlive(true), playerNumber(aNumber)
+	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos,
+			initSpeed, WALL_BASE_HEIGHT), initPosition(initPos), isAlive(true), playerNumber(
+			aNumber)
 {
 
 }
