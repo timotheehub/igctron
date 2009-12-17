@@ -17,19 +17,33 @@ class Wall
 public:
 	void Init(const Utils::CartesianVector& origin);
 
+	void Collapse(double dt); // Fait s'écrouler le mur un petit peu plus
+
+	// Les deux méthodes suivantes ne doivent pas être appelées après
+	// un appel à Collapse.
+	// Pour pouvoir de nouveau les utiliser, appeler Init.
 	void SetLastVertex(const Utils::CartesianVector& value);
-	void NewVertex();
+	void AddVertex();
 
 	void Draw() const;
 
 	bool IsInCollision(const Utils::Rectangle& object) const;
 
-	Wall (const Utils::CartesianVector& origin, const Utils::CartesianVector& direction);
+	Wall(const Utils::CartesianVector& origin,
+			const Utils::CartesianVector& direction, float userBaseHeight);
 
-private:
-	bool xDirection;
+protected:
+	static const float BASE_HEIGHT;
+	static const float COLLAPSE_RELATIVE_STEP;
+
+	void addModel();
+	void clear();
+
 	std::vector<Utils::CartesianVector> vertexes;
 	std::vector<IGC::Model*> models;
+	bool xDirection;
+	float baseHeight;
+	float height;
 };
 
 #endif /* WALL_H_ */

@@ -34,6 +34,9 @@ public:
 			Utils::CartesianVector initSpeed, int aNumber);
 
 private:
+	static const bool OPTION_WALL_AFTER_DEATH;
+	static const float WALL_BASE_HEIGHT;
+
 	std::string name;
 	Vehicle myVehicle;
 	Wall myWall;

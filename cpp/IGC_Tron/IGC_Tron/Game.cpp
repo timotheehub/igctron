@@ -182,7 +182,6 @@ void Game::Draw ( )
 
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
-	IGC::Factory *factory = aDisplayer->GetFactory ( );
 
 	renderer->clear( 0.0f, 0.0f, 0.1f, 1.0f );
 	
