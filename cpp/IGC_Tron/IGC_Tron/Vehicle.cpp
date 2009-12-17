@@ -14,6 +14,8 @@ using namespace Utils;
 const double Vehicle::RECTANGLE_GAP = 10e-5;
 const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
+const float Vehicle::LENGTH = 1;
+const float Vehicle::WIDTH = 0.5;
 
 /******************************************************************************
 *                              Mise � jour                                    *
@@ -68,7 +70,7 @@ CartesianVector Vehicle::GetPosition() const
 
 Utils::Rectangle Vehicle::GetRectangle() const
 {
-	return Utils::Rectangle(position,speed,4.5,RECTANGLE_GAP,2.25,2.25);
+	return Utils::Rectangle(position,speed,LENGTH,RECTANGLE_GAP,WIDTH/2,WIDTH/2);
 }
 
 /******************************************************************************
@@ -101,12 +103,12 @@ void Vehicle::Draw ( ) const
 		if ( speed.x < 0 )
 		{
 			model->setAngle ( PI / 2, PI / 2, 0 );
-			model->setCenter ( position.x - ( 2.25 + RECTANGLE_GAP ) - 10, position.y + 1, position.z - 15 );
+			model->setCenter ( position.x - ( LENGTH/2 + RECTANGLE_GAP ) - 10, position.y + 1, position.z - 15 );
 		}
 		else
 		{
 			model->setAngle ( PI / 2, 3*PI / 2, 0 );
-			model->setCenter ( position.x + ( 2.25 + RECTANGLE_GAP ) - 10, position.y + 1, position.z - 15 );
+			model->setCenter ( position.x + ( LENGTH/2 + RECTANGLE_GAP ) - 10, position.y + 1, position.z - 15 );
 		}
 	}
 	else
@@ -114,12 +116,12 @@ void Vehicle::Draw ( ) const
 		if ( speed.z < 0 )
 		{
 			model->setAngle ( PI / 2, 0, 0 );
-			model->setCenter ( position.x - 10, position.y + 1, position.z - ( 2.25 + RECTANGLE_GAP ) - 15 );
+			model->setCenter ( position.x - 10, position.y + 1, position.z - ( LENGTH/2 + RECTANGLE_GAP ) - 15 );
 		}
 		else
 		{
 			model->setAngle ( PI / 2, PI, 0 );
-			model->setCenter ( position.x - 10, position.y + 1, position.z + ( 2.25 + RECTANGLE_GAP ) - 15 );
+			model->setCenter ( position.x - 10, position.y + 1, position.z + ( LENGTH/2 + RECTANGLE_GAP ) - 15 );
 		}
 	}
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );	

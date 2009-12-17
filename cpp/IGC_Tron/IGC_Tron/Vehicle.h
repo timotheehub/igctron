@@ -13,6 +13,8 @@
 class Vehicle
 {
 public:
+    static const float LENGTH;
+	static const float WIDTH;
 	void Init(const Utils::CartesianVector& initPosition);
 
 	void MoveForward(double dt);

@@ -71,7 +71,7 @@ void Displayer::LoadScene()
 {
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
 	model->import( "ship.3ds" );
-	model->shrink( 80.0f, 80.0f, 80.0f );
+	model->shrink( 200.0f, 200.0f, 200.0f );
 	Model* model2 = factory->acquire( (IGC::Model*)NULL, "model_ship2" );
 	model2->Clone ( model );
 	model2 = factory->acquire( (IGC::Model*)NULL, "model_ship3" );
@@ -97,10 +97,13 @@ void Displayer::LoadScene()
 
 	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
 	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );
-	mesh->createPlane( 1, 1 );
+	mesh->createPlane( 1, 1, 20.0f, 30.0f );
 	mesh->update ( );
 	model->setMesh( mesh );
 	model->grow( 20.0f, 1.0f, 30.0f );
+	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_wall" );
+	mesh->createPlane( 1, 1, 1.0f, 1.0f );
+	mesh->update ( );
 	model = factory->acquire( (IGC::Model*)NULL, "model_wallX" );
 	model->setMesh( mesh );
 	model->rotate ( PI / 2, 0, 0 );
@@ -120,9 +123,9 @@ void Displayer::UnloadScene()
 
 
 /******************************************************************************
-*                   Initialisation pour l'�cran                               *
+*                   Initialisation pour l'ecran                               *
 ******************************************************************************/
-// Initialise l'�cran
+// Initialise l'ecran
 void Displayer::InitScreen ( )
 {
 	state = MENU;
@@ -257,7 +260,7 @@ void Displayer::FreeMemory ( )
 	freeEngine ( );
 }
 
-// Lib�re renderer
+// Libere renderer
 void Displayer::freeRenderer ( )
 {
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
@@ -268,7 +271,7 @@ void Displayer::freeRenderer ( )
 	factory->release( renderer );
 }
 	
-// Lib�re window
+// Libere window
 void Displayer::freeWindow ( )
 {
 	window->hide();
