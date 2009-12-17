@@ -18,7 +18,7 @@ class Player
 public:
 	void Init();
 
-	void Update(double dt);
+	virtual void Update(double dt);
 	void MoveLeft();
 	void MoveRight();
 	void Boost();
