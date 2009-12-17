@@ -173,7 +173,8 @@ void Displayer::initRenderer ( )
 	renderer->useHardware();
 	renderer->initialize();
 
-	currentCamera = new CameraOverall;
+	currentCamera = new CameraFree;
+	currentCamera->Init ( );
 
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->setName( "Verdana" );
@@ -268,7 +269,10 @@ void Displayer::freeRenderer ( )
 {
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	factory->release( font );
+
+	currentCamera->Free ( );
 	delete currentCamera;
+
 	renderer->finalize();
 	factory->release( renderer );
 }

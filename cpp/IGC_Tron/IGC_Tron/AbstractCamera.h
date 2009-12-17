@@ -11,6 +11,8 @@ class AbstractCamera
 {
 public:
 	virtual void Update ( );
+	virtual void Init ( );
+	virtual void Free ( );
 
 	AbstractCamera ( );
 	~AbstractCamera ( );
