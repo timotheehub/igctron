@@ -14,9 +14,9 @@
 		protected var width:Number;
 		protected var heigth:Number;
 		
-		protected static const VISIBILITY : uint = 10; // range of frontal collision check
+		protected static const VISIBILITY : uint = 20; // range of frontal collision check
 		protected static const TURN_PERCENT : uint = 1; // random percent -> turn
-		protected static const NO_TURN : uint = 1; // number of frames before be alowed to turn after a turn
+		protected static const NO_TURN : uint = 5; // number of frames before be alowed to turn after a turn
 		
 		public function IA2( _player:Player, _id:int ) 
 		{
