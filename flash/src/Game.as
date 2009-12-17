@@ -60,13 +60,39 @@
 		{ /* where (x0, y0) is the top left hand corner point and (x1, y1) the bottom right hand corner point */
 		
 			var collision : Boolean = false;
+			var p : Player = Player(players[idPlayer]);
 			
 			for (var i : int = 0; i < walls.length; i++)
-			{
-				var p : Player = Player(players[idPlayer]);
+			{				
 				if ((!p.getLife()) && (collision = walls [i].checkWallCollision (x0, y0, x1, y1, idPlayer, i)))
 				{
 					break;
+				}
+			}
+			
+			if (!collision)
+			{
+				var x : Number = p.getCoord () [Player.X];
+				var y : Number = p.getCoord () [Player.Y];
+				var x1 : Number;
+				var y1 : Number;
+				var width : int;
+				
+				for (var j : int = 0; j < players.length; j++)
+				{
+					if ((!players[j].getLife()) && j != idPlayer)
+					{
+						x1 = players[j].getCoord()[Player.X];
+						y1 = players[j].getCoord()[Player.Y];
+						width = (players[j].getVehicle()).getWidth();
+						
+						if ((Math.abs (x -  x1)  < (p.getVehicle ()).getWidth () + width) && (Math.abs (y - y1) < (p.getVehicle ()).getWidth () + width))
+						{
+							collision = true;
+							break;
+						}
+						
+					}
 				}
 			}
 	
