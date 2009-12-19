@@ -32,7 +32,7 @@
 		
 		private function changeMusic( e : Event ) : void
 		{
-			trace(currentMusic);
+			trace('Music ' + currentMusic + ' to');
 			if ( currentMusic >= listMusic[typeMusic].length - 1 )
 			{
 				currentMusic = 0;
@@ -41,7 +41,7 @@
 			{
 				currentMusic++;
 			}
-			trace(currentMusic);
+			trace('music ' +currentMusic);
 			playSong();
 		}
 		

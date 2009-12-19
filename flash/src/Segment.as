@@ -48,8 +48,6 @@
 				Y = y0;
 			}
 			
-			//trace ( "mur : " + x + " ; " + y + " ; " + X + " ; " + Y);
-			
 			if ((_x1 > x && _x0 < X) && (_y1 > y && _y0 < Y))
 			{
 				return true;

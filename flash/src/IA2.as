@@ -14,7 +14,8 @@
 		protected var width:Number;
 		protected var heigth:Number;
 		
-		protected static const VISIBILITY : uint = 20; // range of frontal collision check
+		// IA features
+		protected static const VISIBILITY : int = 50; // range of frontal collision check
 		protected static const TURN_PERCENT : uint = 1; // random percent -> turn
 		protected static const NO_TURN : uint = 5; // number of frames before be alowed to turn after a turn
 		
@@ -57,7 +58,7 @@
 			return direction;
 		}
 		
-		protected function checkCollision( x:Number, y:Number, dir:int ) : Boolean
+		protected function checkCollision( x:Number, y:Number, dir:int, visi:int=VISIBILITY) : Boolean
 		{
 			var x0:Number;
 			var x1:Number;
@@ -69,13 +70,13 @@
 			{
 				y0 = y - width;
 				y1 = y + width;
-				x0 = x - VISIBILITY;
+				x0 = x - visi;
 				x1 = x;
 			}
 			else if ( dir == Player.DIRECTION_DOWN )
 			{
 				y0 = y;
-				y1 = y + VISIBILITY;
+				y1 = y + visi;
 				x0 = x -  width;
 				x1 = x +  width;
 			}
@@ -84,11 +85,11 @@
 				y0 = y - width;
 				y1 = y + width;
 				x0 = x;
-				x1 = x + VISIBILITY;
+				x1 = x + visi;
 			}
 			else // UP
 			{
-				y0 = y - VISIBILITY;
+				y0 = y - visi;
 				y1 = y;
 				x0 = x - width;
 				x1 = x + width;

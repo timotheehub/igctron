@@ -48,6 +48,9 @@
 		public static const PLANE_WIDTH:int = 600;
 		public static const PLANE_HEIGHT:int = 500;
 		
+		public static const PLANE_WALL_H:int = 1;
+		public static const PLANE_WALL_L:int = 1;
+		
 		public static const VEHICLEZ:Number = -8;
 		
 		private var background : Bitmap;
@@ -190,7 +193,7 @@
 			scene = new Scene3D();
 			
 			cellMat = new CellMaterial(light, 0x0000ff,0x0000ff, 2 );
-			plane  = new Plane(cellMat, PLANE_WIDTH, PLANE_HEIGHT, 10, 10 );
+			plane  = new Plane(cellMat, PLANE_WIDTH, PLANE_HEIGHT, 15, 15 );
 			plane.z = 20;
 			
 			universe = new DisplayObject3D();
@@ -217,7 +220,7 @@
 				
 				color = Math.round( Math.random() * 0xFFFF )*256 + Math.round( Math.random()*0x10 );
 				
-				vehicleMat.push( new CellMaterial(light, color, color, 10) );/////////////////////////////////// 2 -> 10
+				vehicleMat.push( new CellMaterial(light, color, color, 2) );
 				vehicleCube.push( new Cube( new MaterialsList( { all : vehicleMat[i] } ), 15, -2 * VEHICLEZ, 15 ) );
 				
 				coord[X]= x; coord[Y]=y; coord[Z] = z;
@@ -274,7 +277,7 @@
 			{
 				var player : Player = game.getPlayer(k);
 				
-				if( !player.getLife () )
+				if( !player.getLife () ) // if not dead
 				{
 					coord = player.getCoord ();
 					
@@ -349,11 +352,9 @@
 		{
 			var plane:Plane;
 			
-			//trace('x0 : ' + seg.x0 + ' , x1 : ' + seg.x1 );
-			
 			if ( seg.x0 == seg.x1 )
 			{	
-				plane = new Plane( vehicleMat[id] , Math.abs(seg.y1 - seg.y0), -2*VEHICLEZ );
+				plane = new Plane( vehicleMat[id] , Math.abs(seg.y1 - seg.y0), -2*VEHICLEZ, PLANE_WALL_L, PLANE_WALL_H );
 				
 				plane.x = seg.x0 - PLANE_WIDTH / 2;
 				plane.y = -(seg.y1 + seg.y0 - PLANE_HEIGHT) / 2 ;
@@ -363,7 +364,7 @@
 			}
 			else
 			{
-				plane = new Plane ( vehicleMat[id], Math.abs(seg.x1 - seg.x0),-2*VEHICLEZ );
+				plane = new Plane ( vehicleMat[id], Math.abs(seg.x1 - seg.x0),-2*VEHICLEZ, PLANE_WALL_L, PLANE_WALL_H );
 				plane.rotationX = -90;
 				plane.x = (seg.x1 + seg.x0 - PLANE_WIDTH) / 2 ;
 				plane.y = -seg.y0 + PLANE_HEIGHT / 2;
