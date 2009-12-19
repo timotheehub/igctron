@@ -7,7 +7,7 @@
 	 */
 	public class Wall
 	{
-		private var WallArray:Array = new Array();
+		private var WallArray:Vector.<Segment> = new Vector.<Segment>();
 		
 		private const MIN_X : Number = 0;
 		private const MIN_Y : Number = 0;
@@ -64,7 +64,7 @@
 		
 		public function destroyWall() : void
 		{
-			WallArray = new Array();
+			WallArray = new Vector.<Segment>(0); // better solution ?
 		}
 		
 	}

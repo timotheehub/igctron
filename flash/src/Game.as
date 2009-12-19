@@ -2,6 +2,7 @@
 {
 	import flash.display.Stage;
 	import flash.errors.IOError;
+	
 	/**
 	 * ...
 	 * @author Goost
@@ -12,9 +13,12 @@
 		
 		public  var ia : IA;
 		
-		private var players : Array = new Array ();
-		private var walls : Array = new Array ();
+		//private var players : Array = new Array ();
+		private var players : Vector.<Player> = new Vector.<Player>();
 		
+		//private var walls : Array = new Array ();
+		private var walls : Vector.<Wall> = new Vector.<Wall>();
+	
 		public var stage : Stage;
 		
 		public function Game ( _stage : Stage ) 

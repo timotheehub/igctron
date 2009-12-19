@@ -38,7 +38,7 @@
 		
 		private var bm : Bitmap;
 		
-		private var playerWall : Array; //Pour la 3D
+		private var playerWall : Vector.<Plane> = new Vector.<Plane>(); //Pour la 3D
 		
 		public function Player(_id:Number, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
 		{
@@ -48,7 +48,6 @@
 			direction = _direction;
 			isDead = false;
 			id = _id;
-			playerWall = new Array(); // 3D wall
 			
 			vehicle = new Motorbike();
 			
@@ -210,7 +209,7 @@
 		
 		public function cleanPlanes() : void
 		{
-			playerWall = new Array(0);
+			playerWall = new Vector.<Plane>(0);
 		}
 		
 		public function getDir() : int
