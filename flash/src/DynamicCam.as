@@ -91,11 +91,7 @@
 			z = newZ;
 			orbit( V_ORBIT, h_orbit + PSI, true, cube);
 			zoom = 50;
-			//this.lookAt( cube );
-			//this.updateTransform();
-			//trace( distanceTo(cube));
 			
-			//trace(h_orbit);
 		}
 		
 		

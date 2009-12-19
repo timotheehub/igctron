@@ -84,9 +84,11 @@
 					{
 						x1 = players[j].getCoord()[Player.X];
 						y1 = players[j].getCoord()[Player.Y];
-						width = (players[j].getVehicle()).getWidth();
+						width = (players[j].getVehicle()).getWidth(); 
 						
-						if ((Math.abs (x -  x1)  < (p.getVehicle ()).getWidth () + width) && (Math.abs (y - y1) < (p.getVehicle ()).getWidth () + width))
+						//gestion véhicules non carrés à ajouter
+						if ((Math.abs (x -  x1)  < (p.getVehicle()).getWidth()/2 + width/2) 
+									&& (Math.abs (y - y1) < (p.getVehicle()).getWidth()/2 + width/2))
 						{
 							collision = true;
 							break;
