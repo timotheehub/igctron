@@ -67,8 +67,8 @@
 			var p : Player = Player(players[idPlayer]);
 			
 			for (var i : int = 0; i < walls.length; i++)
-			{				
-				if ((!p.getLife()) && (collision = walls [i].checkWallCollision (x0, y0, x1, y1, idPlayer, i)))
+			{
+				if ((!p.getLife()) && (collision = walls[i].checkWallCollision (x0, y0, x1, y1, idPlayer, i)))
 				{
 					break;
 				}
