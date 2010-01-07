@@ -115,7 +115,7 @@ void Wall::Draw() const
 			for (itm = models.rbegin(); itm != models.rend(); itm++)
 			{
 				float3 size = (*itm)->getSize();
-				(*itm)->setSize(size.x, 0.5, size.z);
+				(*itm)->setSize(size.x, height, size.z);
 				(*itm)->render();
 			}
 		}

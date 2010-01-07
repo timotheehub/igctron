@@ -8,6 +8,8 @@
 #ifndef CARTESIANVECTOR_H_
 #define CARTESIANVECTOR_H_
 
+#include <cmath>
+
 namespace Utils
 {
 
@@ -16,6 +18,11 @@ struct CartesianVector
 	typedef double CoordType;
 
 	CoordType x, y, z;
+
+	CoordType Module() const
+	{
+		return std::sqrt(x*x+y*y+z*z);
+	}
 
 	CartesianVector& operator +=(const CartesianVector& c)
 	{
