@@ -6,6 +6,8 @@
 #include "Game.h"
 #include "Settings.h"
 #include "Computer.h"
+#include "CameraFree.h"
+#include "CameraOverall.h"
 
 using namespace KeyCodes;
 
@@ -20,6 +22,9 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	Settings *aSettings = Settings::GetInstance ( );
 	const PlayerSettings *aPlayerSettings = aSettings->GetPlayerSettings ( 0 );
+	const CameraSettings *aCameraSettings = aSettings->GetCameraSettings ( );
+
+	// Traitement de la touche
 	switch ( keyCode )
 	{
 		case ESCAPE :
@@ -28,6 +33,7 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 			aMenu->Init ( );
 			break;
 		default:
+			// Touches de caméras
 			if ( keyCode == aPlayerSettings->TurnLeft )
 			{
 				if ( aGame->tabPlayers[0] != 0 )
@@ -42,7 +48,15 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 					aGame->tabPlayers[0]->MoveRight( );
 				}
 			}
-			//printf("context : %d || code : %d\n", keyboardContext, keyCode);
+			// Touches de changement de caméras
+			else if ( keyCode == aCameraSettings->PreviousCamera )
+			{
+				aGame->SetPreviousCamera();
+			}
+			else if ( keyCode == aCameraSettings->NextCamera )
+			{
+				aGame->SetNextCamera();
+			}
 			break;
 	}	
 	aGame->MutexReleaseLock ( );
@@ -121,9 +135,11 @@ void Game::Init ( )
 	tabDir[3].z = SPEED;
 	/****** Fin d'initialisation temporaire ****/
 
-	// Players
+	// Gestion des touches claviers
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	aDisplayer->RegisterKeys ( OnKeyDown, OnKeyUp );
+
+	// Mise à jour de tabPlayers
 	nbPlayers = 0;
 	for ( int i = 0; i < MAX_PLAYERS; i++ )
 	{
@@ -144,6 +160,8 @@ void Game::Init ( )
 			tabPlayers [ i ] = 0;
 		}
 	}
+
+	// Mise à jour de tabPlayersIndex
 	tabPlayersIndex = new Player * [ nbPlayers ];
 	for ( int i = 0, j = 0; i < MAX_PLAYERS; i++ )
 	{
@@ -155,14 +173,19 @@ void Game::Init ( )
 
 	// Plane
 	aPlane = new Plane;
+
+	// Gestion des cameras
+	tabCameras[nCurrentCamera]->Init();
 }
 
 // Libere le menu
 void Game::Free ( )
 {
-	// Players
+	// Gestion des touches
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	aDisplayer->UnregisterKeys ( OnKeyDown, OnKeyUp );
+
+	// Suppression des joueurs
 	for ( int i = 0; i < MAX_PLAYERS; i++ )
 	{
 		delete tabPlayers [ i ];
@@ -171,6 +194,9 @@ void Game::Free ( )
 
 	// Plane
 	delete aPlane;
+
+	// Gestion des caméras
+	tabCameras[nCurrentCamera]->Free();
 }
 
 /******************************************************************************
@@ -179,6 +205,8 @@ void Game::Free ( )
 void Game::Draw ( )
 {
 	aMutex.AcquireLock ( );
+
+	tabCameras[nCurrentCamera]->Update();
 
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
@@ -201,9 +229,16 @@ void Game::Draw ( )
 // Constructeur
 Game::Game ( )
 {
+	nCurrentCamera = 0;
+	tabCameras[0] = new CameraOverall;
+	tabCameras[1] = new CameraFree;
 }
 
 // Destructeur
 Game::~Game ( )
 {
+	for ( int i = 0; i < Game::MAX_CAMERAS; i++ )
+	{
+		delete tabCameras[i];
+	}
 }

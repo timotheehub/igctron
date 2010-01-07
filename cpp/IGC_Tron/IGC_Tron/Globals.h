@@ -20,6 +20,8 @@ const int Z = 90;
 const int S = 83;
 const int Q = 81;
 const int D = 68;
+const int F1 = 112;
+const int F2 = 113;
 #else
 const int ENTER = 36;
 const int ESCAPE = 9;
@@ -31,6 +33,8 @@ const int Z = 25;
 const int S = 39;
 const int Q = 38;
 const int D = 40;
+const int F1 = 67;
+const int F2 = 68;
 #endif
 }
 

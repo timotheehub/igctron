@@ -49,16 +49,17 @@ public:
 	// Libère la mémoire
 	void FreeMemory ( );
 
-	// AddPlane, AddMoto
-	// DrawPlane, DrawMoto
-	// Pour plus tard, AddMesh
+	// Scène
 	void LoadScene ( );
 	void UnloadScene ( );
 
+	// Gestion des touches et de la souris
 	void RegisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
 					IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp );
 	void UnregisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
 					IGC::IWindow::LPKEYUPCALLBACK _cbKeyUp );
+	void RegisterMouseMove ( IGC::IWindow::LPMOUSEMOVECALLBACK _callback );
+	void UnregisterMouseMove ( IGC::IWindow::LPMOUSEMOVECALLBACK _callback );
 	
 	double GetTime ( );
 	double GetDelta ( );
@@ -101,8 +102,6 @@ private:
 	IGC::Factory* factory;
 	IGC::Window* window;
 	IGC::Renderer* renderer;
-
-	AbstractCamera* currentCamera;
 
 	// Variable d'etat
 	StateEnum state;

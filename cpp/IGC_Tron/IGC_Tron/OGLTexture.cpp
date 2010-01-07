@@ -91,4 +91,9 @@ namespace IGC
 		glBindTexture( GL_TEXTURE_2D, glTexID );
 	}
 
+	void OGLTexture::unbind()
+	{
+		glDisable( GL_TEXTURE_2D );
+	}
+
 }

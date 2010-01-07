@@ -365,22 +365,6 @@
 					>
 				</File>
 				<Filter
-					Name="Graph"
-					>
-					<File
-						RelativePath=".\Graph.h"
-						>
-					</File>
-					<File
-						RelativePath=".\GraphIterator.h"
-						>
-					</File>
-					<File
-						RelativePath=".\GraphNode.h"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="Camera"
 					>
 					<File

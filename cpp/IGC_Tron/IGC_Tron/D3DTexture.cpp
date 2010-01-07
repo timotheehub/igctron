@@ -161,6 +161,13 @@ namespace IGC
 		lpD3DDevice->SetTexture( 0, lpTexture );
 	}
 
+	void D3DTexture::unbind()
+	{
+		LPDIRECT3DDEVICE9 lpD3DDevice = ((D3DRenderer*)renderer)->getDevice();
+
+		lpD3DDevice->SetTexture( 0, NULL );
+	}
+
 }
 
 #endif

@@ -19,6 +19,8 @@ CameraOverall::CameraOverall ( )
 : AbstractCamera ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ();
+	Factory* aFactory = aDisplayer->GetFactory();
+	aCamera = aFactory->acquire( (IGC::Camera*)NULL, "camera_overall" );
 	IGC::Window* window = aDisplayer->GetWindow ( );
 
 	aCamera->setRatio( window->getInnerWidth(), window->getInnerHeight() );

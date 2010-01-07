@@ -88,9 +88,8 @@ void Wall::Draw() const
 		IGC::Renderer *renderer = aDisplayer->GetRenderer();
 		IGC::Factory *factory = aDisplayer->GetFactory();
 
-		IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL,
-				"logo_orange"); // TODO : release ?
-		texture->bind();
+		IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL, "plane_tile" ); 
+		texture->unbind();
 		renderer->setTransparency(false);
 
 		// Mise à jour du dernier IGC::Model
