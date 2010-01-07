@@ -333,8 +333,10 @@ void loadScene()
 
 	model->import( "ship.3ds" );
 	model->shrink( 8.0f, 8.0f, 8.0f );
-	model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
-	model->move( 0.0f, 0.0f, -50.0f );
+	//model->rotate( PI * 0.5f, PI * 1.0f, 0.0f );
+	model->rotate(0,0,PI);
+	model->setSize(0.125,0.25,0.125);
+	model->move( 50.0f, 0.0f, -50.0f );
 
 	texture = factory->acquire( (IGC::Texture*)NULL );
 

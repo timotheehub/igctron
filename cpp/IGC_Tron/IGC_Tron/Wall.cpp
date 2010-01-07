@@ -98,16 +98,17 @@ void Wall::Draw() const
 				it1 = vertexes.rbegin(), it2 = it1++;
 		vector<IGC::Model*>::const_reverse_iterator itm = models.rbegin();
 
-		if (fabs(it1->x - it2->x) > fabs(it1->z - it2->z))
+		double sizeX = fabs(it1->x - it2->x);
+		double sizeZ = fabs(it1->z - it2->z);
+		if (sizeX > sizeZ)
 		{
-			(*itm)->setSize(fabs(it1->x - it2->x), height, 1.0f);
+			(*itm)->setSize(sizeX, 1.0f, height);
 		}
 		else
 		{
-			(*itm)->setSize(1.0f, height, fabs(it1->z - it2->z));
+			(*itm)->setSize(sizeZ, 1.0f, height);
 		}
-		(*itm)->setCenter(fabs(it1->x + it2->x) / 2 - 10, 0.5f, fabs(it1->z
-				+ it2->z) / 2 - 15);
+		(*itm)->setCenter((it1->x + it2->x) / 2, height/2, (it1->z + it2->z) / 2);
 
 		// Affichage des IGC::Model
 		if (height < baseHeight)
@@ -115,7 +116,7 @@ void Wall::Draw() const
 			for (itm = models.rbegin(); itm != models.rend(); itm++)
 			{
 				float3 size = (*itm)->getSize();
-				(*itm)->setSize(size.x, height, size.z);
+				(*itm)->setSize(size.x, size.y, height);
 				(*itm)->render();
 			}
 		}

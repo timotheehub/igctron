@@ -22,8 +22,8 @@ CameraOverall::CameraOverall ( )
 	IGC::Window* window = aDisplayer->GetWindow ( );
 
 	aCamera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
-	aCamera->setCenter( 20.0f, 20.0f, 0.0f );
-	aCamera->lookAt( -0.1f, -1.0f, 0.0f );
+	aCamera->setCenter( 30.0f, 20.0f, 15.0f );
+	aCamera->lookAt( -10.1f, -1.0f, 15.0f );
 	aCamera->update();
 }
 

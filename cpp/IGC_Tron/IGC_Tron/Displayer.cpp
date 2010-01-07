@@ -114,7 +114,7 @@ void Displayer::LoadScene()
 	model->rotate ( PI / 2, 0, 0 );
 	model = factory->acquire( (IGC::Model*)NULL, "model_wallZ" );
 	model->setMesh( mesh );
-	model->rotate ( 0, 0, PI / 2 );
+	model->rotate ( PI / 2, PI / 2, 0 );
 }
 
 void Displayer::UnloadScene()
