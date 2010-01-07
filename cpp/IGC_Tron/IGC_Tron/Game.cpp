@@ -42,7 +42,7 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 					aGame->tabPlayers[0]->MoveRight( );
 				}
 			}
-			printf("context : %d || code : %d\n", keyboardContext, keyCode);
+			//printf("context : %d || code : %d\n", keyboardContext, keyCode);
 			break;
 	}	
 	aGame->MutexReleaseLock ( );
