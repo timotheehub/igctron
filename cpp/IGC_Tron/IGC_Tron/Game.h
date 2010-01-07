@@ -8,6 +8,7 @@
 #include "Singleton.h"
 #include "Plane.h"
 #include "SimpleMutex.h"
+#include "AbstractCamera.h"
 #include <string>
 
 
@@ -24,6 +25,7 @@ class Game : public Singleton<Game>
 
 public:
 	static const int MAX_PLAYERS = 4;
+	static const int MAX_CAMERAS = 2;
 	static void OnKeyDown( int keyboardContext, int keyCode );
 	static void OnKeyUp( int keyboardContext, int keyCode );
 
@@ -37,12 +39,21 @@ public:
 	inline void MutexAcquireLock ( );
 	inline void MutexReleaseLock ( );
 	inline const Plane* GetPlane ( ) const;
+	inline void SetPreviousCamera ( );
+	inline void SetNextCamera ( );
 
 protected:
+	// Joueurs et plateau
 	Player** tabPlayersIndex;
 	Player* tabPlayers [ MAX_PLAYERS ];
 	int nbPlayers;
 	Plane *aPlane;
+
+	// Cameras
+	AbstractCamera *tabCameras [ MAX_CAMERAS ];
+	int nCurrentCamera;
+
+	// Mutex
 	SimpleMutex aMutex;
 
 private:
@@ -66,6 +77,20 @@ inline void Game::MutexReleaseLock ( )
 inline const Plane* Game::GetPlane ( ) const
 {
 	return aPlane;
+}
+
+inline void Game::SetNextCamera ( )
+{
+	tabCameras[nCurrentCamera]->Free();
+	nCurrentCamera = (nCurrentCamera + 1) % MAX_CAMERAS;
+	tabCameras[nCurrentCamera]->Init();
+}
+
+inline void Game::SetPreviousCamera ( )
+{
+	tabCameras[nCurrentCamera]->Free();
+	nCurrentCamera = (nCurrentCamera - 1 + MAX_CAMERAS) % MAX_CAMERAS;
+	tabCameras[nCurrentCamera]->Init();
 }
 	
 #endif // __MENU_H__*/

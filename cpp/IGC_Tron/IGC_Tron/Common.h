@@ -30,8 +30,8 @@
 
 #ifdef _WIN32
 	#define USE_WIN32
-	//#define USE_DIRECT3D
-	#define USE_OPENGL
+	#define USE_DIRECT3D
+	//#define USE_OPENGL
 #else
 	#define USE_X11
 	#define USE_OPENGL

@@ -5,6 +5,7 @@
 #define __MENU_H__
 
 #include "Singleton.h"
+#include "AbstractCamera.h"
 
 class Menu : public Singleton<Menu>
 {
@@ -28,6 +29,7 @@ public:
 
 protected:
 	ButtonEnum nButtonPointer;
+	AbstractCamera *currentCamera;
 
 private:
 	// Constructeur

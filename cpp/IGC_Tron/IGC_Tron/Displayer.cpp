@@ -9,7 +9,7 @@ using namespace IGC;
 bool Displayer::running = true;
 
 /******************************************************************************
-*                      Gestion des �venements                                 *
+*                      Gestion des evenements                                 *
 ******************************************************************************/
 
 void Displayer::OnClose ( )
@@ -31,6 +31,16 @@ void Displayer::UnregisterKeys( IGC::IWindow::LPKEYDOWNCALLBACK _cbKeyDown,
 	window->unregisterKeyUpCallback ( _cbKeyUp );
 }
 
+void Displayer::RegisterMouseMove ( IGC::IWindow::LPMOUSEMOVECALLBACK _callback )
+{
+	window->registerMouseMoveCallback ( _callback );
+}
+
+void Displayer::UnregisterMouseMove ( IGC::IWindow::LPMOUSEMOVECALLBACK _callback )
+{
+	window->unregisterMouseMoveCallback ( _callback );
+}
+
 double Displayer::GetTime ( )
 {
 	return engine->getTime ( );
@@ -42,7 +52,7 @@ double Displayer::GetDelta ( )
 }
 
 /******************************************************************************
-*                      M�thodes Get et Set                                    *
+*                      Methodes Get et Set                                    *
 ******************************************************************************/
 bool Displayer::GetRunning ( )
 {
@@ -101,6 +111,7 @@ void Displayer::LoadScene()
 	texture->import( "logo_orange.png" );
 
 	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
+	model->setCenter( 10.0f, 0.0f, 15.0f );
 	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );
 	mesh->createPlane( 1, 1, 20.0f, 30.0f );
 	mesh->update ( );
@@ -173,9 +184,6 @@ void Displayer::initRenderer ( )
 	renderer->useHardware();
 	renderer->initialize();
 
-	currentCamera = new CameraFree;
-	currentCamera->Init ( );
-
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->setName( "Verdana" );
 	font->setSize( 12 );
@@ -192,8 +200,6 @@ void Displayer::initRenderer ( )
 // Rafraichit graphiquement
 void Displayer::UpdateGraphics ( )
 {
-	currentCamera->Update ( );
-
 	switch ( state )
 	{
 		case GAME:
@@ -269,9 +275,6 @@ void Displayer::freeRenderer ( )
 {
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	factory->release( font );
-
-	currentCamera->Free ( );
-	delete currentCamera;
 
 	renderer->finalize();
 	factory->release( renderer );

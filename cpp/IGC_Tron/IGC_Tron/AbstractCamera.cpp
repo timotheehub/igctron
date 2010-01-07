@@ -17,6 +17,7 @@ void AbstractCamera::Update ( )
 ******************************************************************************/
 void AbstractCamera::Init ( )
 {
+	// Pas de gestion de souris et de touches par défaut.
 }
 
 void AbstractCamera::Free ( )
@@ -28,9 +29,6 @@ void AbstractCamera::Free ( )
 ******************************************************************************/
 AbstractCamera::AbstractCamera ( )
 {
-	Displayer *aDisplayer = Displayer::GetInstance ();
-	IGC::Factory *factory = aDisplayer->GetFactory ( );
-	aCamera = factory->acquire( (IGC::Camera*)NULL );
 }
 
 AbstractCamera::~AbstractCamera ( )

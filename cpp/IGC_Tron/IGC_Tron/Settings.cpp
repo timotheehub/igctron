@@ -11,4 +11,6 @@ Settings::Settings ( )
 {
 	tabPlayersSettings [ 0 ].TurnLeft = KeyCodes::LEFT;
 	tabPlayersSettings [ 0 ].TurnRight = KeyCodes::RIGHT;
+	aCameraSettings.PreviousCamera = KeyCodes::F1;
+	aCameraSettings.NextCamera = KeyCodes::F2;
 }

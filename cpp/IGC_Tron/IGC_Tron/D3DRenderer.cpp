@@ -264,6 +264,8 @@ namespace IGC
 
 		lpD3DDevice->EndScene();*/
 
+		lpD3DDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
+
 		lpD3DDevice->Present( NULL, NULL, NULL, NULL );
 	}
 

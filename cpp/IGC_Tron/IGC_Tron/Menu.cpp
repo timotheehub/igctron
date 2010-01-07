@@ -4,6 +4,7 @@
 #include "Displayer.h"
 #include "Menu.h"
 #include "Game.h"
+#include "CameraOverall.h"
 
 using namespace KeyCodes;
 
@@ -62,7 +63,7 @@ void Menu::SetButtonPointer ( Menu::ButtonEnum aButton )
 /******************************************************************************
 *                              Mise a jour                                    *
 ******************************************************************************/
-// Met � jour le menu
+// Met a jour le menu
 void Menu::Update ( )
 {
 }
@@ -74,13 +75,15 @@ void Menu::Update ( )
 void Menu::Init ( )
 {
 	nButtonPointer = SOLO;
+	currentCamera->Init ( );
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	aDisplayer->RegisterKeys ( &Menu::OnKeyDown, &Menu::OnKeyUp );
 }
 
-// Lib�re le menu
+// Libere le menu
 void Menu::Free ( )
 {
+	currentCamera->Free ( );
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	aDisplayer->UnregisterKeys ( &Menu::OnKeyDown, &Menu::OnKeyUp );
 }
@@ -90,6 +93,8 @@ void Menu::Free ( )
 ******************************************************************************/
 void Menu::Draw ( )
 {
+	currentCamera->Update();
+
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
 	IGC::Factory *factory = aDisplayer->GetFactory ( );
@@ -148,9 +153,11 @@ void Menu::Draw ( )
 // Constructeur
 Menu::Menu ( )
 {
+	currentCamera = new CameraOverall;
 }
 
 // Destructeur
 Menu::~Menu ( )
 {
+	delete currentCamera;
 }

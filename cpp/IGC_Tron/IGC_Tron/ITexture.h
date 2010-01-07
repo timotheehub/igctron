@@ -155,6 +155,10 @@ namespace IGC
 		*/
 		virtual void bind() = 0;
 
+		/*
+			Desactive la texture pour le prochain rendu.
+		*/
+		virtual void unbind() = 0;
 	};
 }
 
