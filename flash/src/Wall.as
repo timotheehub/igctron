@@ -33,7 +33,7 @@
 			
 			if ( idPlayer == idWall )
 			{
-				lastSegment -= 2; // no collision 
+				lastSegment -= 2; // no collision avalaible
 			}
 			
 			if (x1 <= MIN_X || x2 >= MAX_X || y1 <= MIN_Y || y2 >= MAX_Y)
