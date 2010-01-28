@@ -38,32 +38,6 @@
 					player.getWall().insertSegment( x, y, x, y );
 				}
 				
-				
-				
-				
-				/*( Math.random() >= 0.5 ) ? direction++: direction-- ;
-				
-				direction = Player.convertDirection(direction);
-				for (var i : int = 0; i < 4; i++)
-				{
-					if (!checkCollision(x, y, direction) && direction != Player.convertDirection(lastDirection + 2))
-					{
-						choixDir [direction] = Math.random ();
-						if (choixDir [direction] > choixDir [newDir])
-						{
-							newDir = direction;
-						}
-					}	
-					direction++;
-					direction = Player.convertDirection(direction);
-				}
-				
-				if ( ! checkCollision(x, y, direction) )
-				{
-					
-				}
-				*/
-
 			}
 			
 			(timer > 0)? timer-- : timer;

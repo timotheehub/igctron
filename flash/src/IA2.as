@@ -65,7 +65,7 @@
 			var y0:Number;
 			var y1:Number;
 			
-			// ajouter gestion de la hauteur
+			//TODO : add check on height of vehicles
 			if ( dir == Player.DIRECTION_LEFT )
 			{
 				y0 = y - width;
@@ -96,7 +96,7 @@
 			}
 			
 			return Main.game.check_collision( x0, y0, x1, y1, id);
-			/* where (x0, y0) is the top left hand corner point and (x1, y1) the bottom right hand corner point */			
+			// where (x0, y0) is the top left hand corner point and (x1, y1) the bottom right hand corner point
 		}
 	}
 

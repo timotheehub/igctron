@@ -15,7 +15,7 @@
 		private static const ZHEIGHT : int =  20;
 		private static const BACK : int = + 60; 
 		private static const V_ORBIT : int = 65;
-		private static const PSI : int = +3; // permet de ne pas être juste au dessus des murs (d'épaisseur nulle)
+		private static const PSI : int = +3; // required to see wall (thickness = 0) when cam. just behind
 		private static const ROT_SPEED : int = 10;
 		private var width:Number;
 		private var height:Number;
@@ -31,12 +31,13 @@
 		 * @param	useCulling		Boolean indicating whether to use frustum culling. When true all objects outside the view will be culled.
 		 * @param	useProjection 	Boolean indicating whether to use a projection matrix for perspective.
 		 */ 
+		
 		public function DynamicCam( _width:int, _height:int, _h_orbit:int=270, fov:Number = 60, near:Number = 10, far:Number = 5000, useCulling:Boolean = false, useProjection:Boolean = false)
 		{
 			super(near, 40);
 			width = _width;
 			height = _height;
-			h_orbit = _h_orbit; // par défaut : direction UP
+			h_orbit = _h_orbit; // default : direction UP
 			last_angle = h_orbit;
 			this.fov = fov; 
 			

@@ -7,11 +7,15 @@
 	import flash.display.StageScaleMode;
 	import flash.media.Camera;
 	import flash.text.TextField;
+	import org.papervision3d.materials.ColorMaterial;
 	import org.papervision3d.materials.MovieAssetMaterial;
 	import org.papervision3d.materials.shadematerials.CellMaterial;
+	import org.papervision3d.materials.special.CompositeMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
+	import org.papervision3d.materials.WireframeMaterial;
 	import org.papervision3d.objects.primitives.Cube;
 	import org.papervision3d.objects.primitives.Sphere;
+	import org.papervision3d.render.QuadrantRenderEngine;
 	
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.lights.PointLight3D;
@@ -52,6 +56,8 @@
 		public static const PLANE_WALL_L:int = 1;
 		
 		public static const VEHICLEZ:Number = -8;
+		public static const Z_OFFSET:Number = 10;
+		public static const NB_GROUND_POLY:Number = 15;
 		
 		private var background : Bitmap;
 		
@@ -69,13 +75,15 @@
 		
 		private var scene:Scene3D;
 		private var viewport:Viewport3D;
-		private var camere:DynamicCam;//Camera3D;
+		private var camera:DynamicCam;//Camera3D;
 		private var light:PointLight3D;
+		//TODO switch to QuadrantRenderEngine for better quality
 		private var renderer:BasicRenderEngine;
 		private var universe:DisplayObject3D;
 		
 		private var plane : Plane;
 		private var cellMat : CellMaterial;
+		private var colorMat : ColorMaterial;
 		private var vehicleCube : Array = null;
 		private var vehicleMat : Array = null;
 		
@@ -173,18 +181,19 @@
 			viewport = new Viewport3D(0, 0, true);
 			viewport.opaqueBackground = 0x00;
 			addChild(viewport);
-		
+			
 			renderer = new BasicRenderEngine();
 			
-			camere = new DynamicCam( PLANE_WIDTH, PLANE_HEIGHT);
+			camera = new DynamicCam( PLANE_WIDTH, PLANE_HEIGHT, 270, 60, 0, 1500, true, true);
 			stage.scaleMode = "exactFit";
+			
 			/*
-			camere = new Camera3D;// 3D();
-			camere.z = -500;
-			camere.y = +100;
-			//camere.x = +100;
-			//camere.zoom = 120;
-			camere.orbit( 60, -75, true ); //-90
+			camera = new Camera3D;// 3D();
+			camera.z = -500;
+			camera.y = +100;
+			//camera.x = +100;
+			//camera.zoom = 120;
+			camera.orbit( 60, -75, true ); //-90
 			*/
 			
 			light = new PointLight3D(true);
@@ -192,9 +201,14 @@
 			light.z = - 300; 
 			scene = new Scene3D();
 			
-			cellMat = new CellMaterial(light, 0x0000ff,0x0000ff, 2 );
-			plane  = new Plane(cellMat, PLANE_WIDTH, PLANE_HEIGHT, 15, 15 );
-			plane.z = 20;
+			
+			//TODO change the numbe of polygones if low ground quality
+			//cellMat = new CellMaterial(light, 0x0000ff, 0x0000ff, 2 );
+			//cellMat.smooth = false;
+			//colorMat = new ColorMaterial( 0x000066);
+			var testMat:WireframeMaterial = new WireframeMaterial(0x000066, 1, 1);
+			plane  = new Plane(testMat, PLANE_WIDTH, PLANE_HEIGHT, NB_GROUND_POLY, NB_GROUND_POLY );
+			plane.z = Z_OFFSET;
 			
 			universe = new DisplayObject3D();
 			universe.addChild(plane);
@@ -202,25 +216,29 @@
 		
 			universe.rotationX += 90;
 				
-			renderer.renderScene(scene, camere, viewport);
+			renderer.renderScene(scene, camera, viewport);
 
 			game = new Game( stage );
 			vehicleCube = new Array(0);
 			vehicleMat = new Array(0);
 			coord = new Array(0);
 			
+			var x:Number;
+			var y:Number;
+			var z:Number;
+			var color:int;
+			
 			for ( var i : int = 0 ; i < Main.game.MAX_PLAYERS ; i++ )
 			{
-				var x:Number = i * 100 + 100;
-				var y:Number = 450;
-				var z:Number = VEHICLEZ ;
-				var color:int;
+				x = i * 100 +100;
+				y = 450;
+				z = VEHICLEZ;
 				
 				game.addPlayer( new Player(i, x, y, i > 0 ? false : true, Player.DIRECTION_UP ) );
 				
 				color = Math.round( Math.random() * 0xFFFF )*256 + Math.round( Math.random()*0x10 );
 				
-				vehicleMat.push( new CellMaterial(light, color, color, 2) );
+				vehicleMat.push( new WireframeMaterial(color) );//new ColorMaterial(color) );//new CellMaterial(light, color, color, 2) );
 				vehicleCube.push( new Cube( new MaterialsList( { all : vehicleMat[i] } ), 15, -2 * VEHICLEZ, 15 ) );
 				
 				coord[X]= x; coord[Y]=y; coord[Z] = z;
@@ -232,7 +250,7 @@
 				
 			}
 			
-			camere.updateCam( vehicleCube[0], game.getPlayer(0) );
+			camera.updateCam( vehicleCube[0], game.getPlayer(0) );
 			
 			fpsLabel = new TextField();
 			fpsLabel.textColor = 0xFFFFFF;
@@ -268,10 +286,7 @@
 				}
 			}
 			
-			
 			game.update();
-			
-			
 			
 			for ( var k : int = 0 ; k < game.getPlayerCount() ; k++ )
 			{
@@ -281,28 +296,31 @@
 				{
 					coord = player.getCoord ();
 					
-					coord = convert3D(coord); coord[Z] = VEHICLEZ ;
-					vehicleCube[k] = moveVehicle( vehicleCube[k], coord );
+					coord = convert3D(coord); coord[Z] = VEHICLEZ;
+					
+					vehicleCube[k].x = coord[X];//moveVehicle( vehicleCube[k], coord );
+					vehicleCube[k].y = coord[Y];
+					vehicleCube[k].z = coord[Z];
+					
 					drawWall( player, game.getWall(k), k );
 					
-					if ( k == 0 ) { camere.updateCam( vehicleCube[0], player ) };
+					if ( k == 0 ) { camera.updateCam( vehicleCube[0], player ) };
 				}
-				else if ( vehicleCube[k] != null ) // new dead player
+				else if ( vehicleCube[k] != null ) // if new dead player
 				{
 					var count:int = (player.wallCount() - 1);
 					
-					
 					universe.removeChild( vehicleCube[k] );
-					vehicleCube[k] = null;
-					
+					delete vehicleCube[k];
 					
 					for ( var t : int = count; t>=0 ; t-- )
 					{ universe.removeChild( player.getPlane(t) ); }
 					player.cleanPlanes();
+					
 				}
 			}
 			
-			renderer.renderScene(scene, camere, viewport);
+			renderer.renderScene(scene, camera, viewport);
 		}
 		
 		static public function convert3D ( coord : Array ) : Array
@@ -334,7 +352,7 @@
 			{
 				if ( count == wall.getSegmentCount() ) // si pas de nouveau segment : MAJ du dernier
 				{	
-					universe.removeChild( player.lastPlane() );
+						universe.removeChild( player.lastPlane() );
 					universe.addChild( player.changeLast( segToPlane( lastSeg, id ) ) );
 				}
 				else
@@ -343,7 +361,7 @@
 				}
 			}
 			else
-			{
+			{	// initialisation
 				universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );
 			}
 		}
