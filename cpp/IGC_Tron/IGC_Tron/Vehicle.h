@@ -31,6 +31,7 @@ public:
 			Utils::CartesianVector anInitSpeed, int aNumber);
 
 	Utils::CartesianVector GetPosition() const;
+	Utils::CartesianVector GetSpeed() const;
 	Utils::Rectangle GetRectangle() const;
 
 protected:

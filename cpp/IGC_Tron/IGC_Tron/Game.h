@@ -36,6 +36,9 @@ public:
 
 	void Draw ( );
 
+	inline Player** Game::GetPlayers ( );
+	inline int GetNbrPlayers ( );
+
 	inline void MutexAcquireLock ( );
 	inline void MutexReleaseLock ( );
 	inline const Plane* GetPlane ( ) const;
@@ -46,6 +49,7 @@ protected:
 	// Joueurs et plateau
 	Player** tabPlayersIndex;
 	Player* tabPlayers [ MAX_PLAYERS ];
+	bool * tabPlayersAlive;
 	int nbPlayers;
 	Plane *aPlane;
 
@@ -63,6 +67,17 @@ private:
 	// Destructeur
 	~Game ( );
 };
+
+inline Player** Game::GetPlayers ( )
+{
+	return tabPlayersIndex;
+}
+
+inline int Game::GetNbrPlayers ( )
+{
+	return nbPlayers;
+}
+
 
 inline void Game::MutexAcquireLock ( )
 {
