@@ -75,13 +75,23 @@ void Game::Update ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	double dt = aDisplayer->GetDelta ( );
+	// On sauvegarde les vivants.
+	for ( int i = 0; i < nbPlayers; i++ )
+	{
+		tabPlayersAlive[i] = tabPlayersIndex[i]->IsAlive();
+	}
+
+	// On regarde qui est mort.
 	for ( int i = 0; i < nbPlayers; i++ )
 	{
 		tabPlayersIndex[i]->Update ( dt );
 		// On verifie qu'il n'a fonce dans aucun mur.
 		for ( int j = 0; j < nbPlayers; j++ )
 		{
-			tabPlayersIndex[i]->IsGettingKilled ( *tabPlayersIndex[j] );
+			if ( tabPlayersAlive[j] )
+			{
+				tabPlayersIndex[i]->IsGettingKilled ( *tabPlayersIndex[j] );
+			}
 		}
 	}
 }
@@ -163,6 +173,7 @@ void Game::Init ( )
 
 	// Mise à jour de tabPlayersIndex
 	tabPlayersIndex = new Player * [ nbPlayers ];
+	tabPlayersAlive = new bool [ nbPlayers ];
 	for ( int i = 0, j = 0; i < MAX_PLAYERS; i++ )
 	{
 		if ( tabPlayers [ i ] != 0 )
@@ -191,6 +202,7 @@ void Game::Free ( )
 		delete tabPlayers [ i ];
 	}
 	delete [] tabPlayersIndex;
+	delete tabPlayersAlive;
 
 	// Plane
 	delete aPlane;

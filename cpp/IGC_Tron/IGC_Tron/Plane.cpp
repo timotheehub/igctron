@@ -1,5 +1,5 @@
 // Menu.cpp
-// D�finition de la classe Plane
+// Definition de la classe Plane
 
 #include "Plane.h"
 #include "Displayer.h"

@@ -16,7 +16,13 @@ public:
 	~Computer ( );
 
 protected:
-	void ArtificielIntelligence ( );
+	void artificialIntelligence ( );
+	void getInformationBySenses ( );
+	int getAgainstBySensoryMemory ( int dl );
+
+	static const int SIZE_X = 40;
+	static const int SIZE_Z = 60;
+	int contentPlane [ SIZE_X ][ SIZE_Z ]; // Contient les élèments du plateau
 };
 
 #endif // __COMPUTER_H__

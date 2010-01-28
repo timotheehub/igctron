@@ -29,6 +29,9 @@ public:
 
 	bool IsInCollision(const Utils::Rectangle& object) const;
 
+	inline unsigned int GetVertexesCount ( );
+	inline bool GetVertexe ( Utils::CartesianVector & cVector, const unsigned int i );
+
 	Wall(const Utils::CartesianVector& origin,
 			const Utils::CartesianVector& direction, float userBaseHeight);
 
@@ -45,5 +48,23 @@ protected:
 	float baseHeight;
 	float height;
 };
+
+inline unsigned int Wall::GetVertexesCount ( )
+{
+	return vertexes.size ( );
+}
+inline bool Wall::GetVertexe ( Utils::CartesianVector & cVector, const unsigned int i )
+{
+	if ( i <= vertexes.size ( ) )
+	{
+		cVector = vertexes[i];
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 #endif /* WALL_H_ */

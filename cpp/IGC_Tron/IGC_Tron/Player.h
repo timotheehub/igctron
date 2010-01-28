@@ -25,6 +25,9 @@ public:
 
 	void Draw() const;
 
+	inline bool IsAlive ( );
+	inline Wall * Player::GetWall ( );
+
 	Utils::CartesianVector GetPosition() const;
 	std::string GetName() const;
 	bool IsGettingKilled(const Player& killer);
@@ -33,7 +36,7 @@ public:
 	Player(std::string aName, Utils::CartesianVector initPos,
 			Utils::CartesianVector initSpeed, int aNumber);
 
-private:
+protected:
 	static const bool OPTION_WALL_AFTER_DEATH;
 	static const float WALL_BASE_HEIGHT;
 
@@ -44,5 +47,15 @@ private:
 	bool isAlive;
 	int playerNumber;
 };
+
+inline bool Player::IsAlive ( )
+{
+	return isAlive;
+}
+
+inline Wall * Player::GetWall ( )
+{
+	return &myWall;
+}
 
 #endif /* PLAYER_H_ */
