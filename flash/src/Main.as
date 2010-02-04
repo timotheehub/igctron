@@ -7,6 +7,7 @@
 	import flash.display.StageScaleMode;
 	import flash.media.Camera;
 	import flash.text.TextField;
+	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.materials.ColorMaterial;
 	import org.papervision3d.materials.MovieAssetMaterial;
 	import org.papervision3d.materials.shadematerials.CellMaterial;
@@ -52,8 +53,10 @@
 		public static const PLANE_WIDTH:int = 600;
 		public static const PLANE_HEIGHT:int = 500;
 		
-		public static const PLANE_WALL_H:int = 1;
-		public static const PLANE_WALL_L:int = 1;
+		public static const WALL_SMALL_SEG:int = 1;
+		public static const WALL_LARGE_SEG:int = 1;//0;
+				
+		public static const WALL_THICK:Number = 0.3;
 		
 		public static const VEHICLEZ:Number = -8;
 		public static const Z_OFFSET:Number = 10;
@@ -354,46 +357,67 @@
 			
 			if ( count > 0 )
 			{
-				if ( count == wall.getSegmentCount() || player.isNew() ) // si pas de nouveau segment : MAJ du dernier
+				if ( count == wall.getSegmentCount() || player.isNew() ) 
+				// si pas de nouveau segment : MAJ du dernier
 				{	
-						universe.removeChild( player.lastPlane() );
-					universe.addChild( player.changeLast( segToPlane( lastSeg, id ) ) );
+					universe.removeChild( player.lastPlane() );
+					universe.addChild( player.changeLast( segTo3DWall( lastSeg, id)));//, Math.abs(player.getWallLength()/MAX_SEG_LENGTH) ) ) );
 				}
 				else
 				{
-					universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );		
+					universe.addChild( player.addPlane( segTo3DWall( lastSeg, id)));//, Math.abs(player.getWallLength()/MAX_SEG_LENGTH)  ) ) );
 				}
 			}
 			else
 			{	// initialisation
-				universe.addChild( player.addPlane( segToPlane( lastSeg, id ) ) );
+				universe.addChild( player.addPlane( segTo3DWall( lastSeg, id)));//, Math.abs(player.getWallLength()/MAX_SEG_LENGTH) ) ) );
 			}
 		}
 		
-		public function segToPlane( seg : Segment, id : int ) : Plane
+		public function segTo3DWall( seg : Segment, id : int) : TriangleMesh3D //, nb_seg : int 
 		{
-			var plane:Plane;
+			var wall:TriangleMesh3D;
 			
 			if ( seg.x0 == seg.x1 )
 			{	
-				plane = new Plane( vehicleMat[id] , Math.abs(seg.y1 - seg.y0), -2*VEHICLEZ, PLANE_WALL_L, PLANE_WALL_H );
+				/*
+				wall = new Plane( vehicleMat[id] , Math.abs(seg.y1 - seg.y0), -2*VEHICLEZ, WALL_SMALL_SEG, WALL_SMALL_SEG);
 				
-				plane.x = seg.x0 - PLANE_WIDTH / 2;
-				plane.y = -(seg.y1 + seg.y0 - PLANE_HEIGHT) / 2 ;
-				plane.z = VEHICLEZ;
-				plane.rotationX = -90;
-				plane.rotationZ = 90;
+				wall.x = seg.x0 - PLANE_WIDTH / 2;
+				wall.y = -(seg.y1 + seg.y0 - PLANE_HEIGHT) / 2 ;
+				wall.z = VEHICLEZ;
+				wall.rotationX = -90;
+				wall.rotationZ = 90;
+				*/
+				
+				wall = new Cube(  new MaterialsList( { all : vehicleMat[id] }), Math.abs(seg.y1 - seg.y0), WALL_THICK , -2 * VEHICLEZ, WALL_LARGE_SEG, WALL_SMALL_SEG, WALL_SMALL_SEG );
+				wall.x = seg.x0 - PLANE_WIDTH / 2;
+				wall.y = -(seg.y1 + seg.y0 - PLANE_HEIGHT) / 2 ;
+				wall.z = VEHICLEZ;
+				wall.rotationX = -90;
+				wall.rotationZ = 90;
+				
+				
 			}
 			else
 			{
-				plane = new Plane ( vehicleMat[id], Math.abs(seg.x1 - seg.x0),-2*VEHICLEZ, PLANE_WALL_L, PLANE_WALL_H );
-				plane.rotationX = -90;
-				plane.x = (seg.x1 + seg.x0 - PLANE_WIDTH) / 2 ;
-				plane.y = -seg.y0 + PLANE_HEIGHT / 2;
-				plane.z = VEHICLEZ;
+				/*
+				wall = new Plane ( vehicleMat[id], Math.abs(seg.x1 - seg.x0),-2*VEHICLEZ, WALL_SMALL_SEG, WALL_SMALL_SEG );
+				wall.rotationX = -90;
+				wall.x = (seg.x1 + seg.x0 - PLANE_WIDTH) / 2 ;
+				wall.y = -seg.y0 + PLANE_HEIGHT / 2;
+				wall.z = VEHICLEZ;
+				*/
+				
+				wall = new Cube(  new MaterialsList( { all : vehicleMat[id] } ), Math.abs(seg.x1 - seg.x0), WALL_THICK , -2 * VEHICLEZ, WALL_LARGE_SEG, WALL_SMALL_SEG, WALL_SMALL_SEG );
+				wall.rotationX = -90;
+				wall.x = (seg.x1 + seg.x0 - PLANE_WIDTH) / 2 ;
+				wall.y = -seg.y0 + PLANE_HEIGHT / 2;
+				wall.z = VEHICLEZ;
+				
 			}
 			
-			return plane;
+			return wall;
 		}
 		
 	}
