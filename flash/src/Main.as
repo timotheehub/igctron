@@ -196,9 +196,11 @@
 			camera.orbit( 60, -75, true ); //-90
 			*/
 			
-			light = new PointLight3D(true);
+			//Light
+			/*light = new PointLight3D(true);
 			light.x = 500;
 			light.z = - 300; 
+			*/
 			scene = new Scene3D();
 			
 			
@@ -234,6 +236,7 @@
 				y = 450;
 				z = VEHICLEZ;
 				
+				// static parameters
 				game.addPlayer( new Player(i, x, y, i > 0 ? false : true, Player.DIRECTION_UP ) );
 				
 				color = Math.round( Math.random() * 0xFFFF )*256 + Math.round( Math.random()*0x10 );
@@ -304,6 +307,7 @@
 					
 					drawWall( player, game.getWall(k), k );
 					
+					//TODO Test static cam
 					if ( k == 0 ) { camera.updateCam( vehicleCube[0], player ) };
 				}
 				else if ( vehicleCube[k] != null ) // if new dead player
@@ -350,7 +354,7 @@
 			
 			if ( count > 0 )
 			{
-				if ( count == wall.getSegmentCount() ) // si pas de nouveau segment : MAJ du dernier
+				if ( count == wall.getSegmentCount() || player.isNew() ) // si pas de nouveau segment : MAJ du dernier
 				{	
 						universe.removeChild( player.lastPlane() );
 					universe.addChild( player.changeLast( segToPlane( lastSeg, id ) ) );
