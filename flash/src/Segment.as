@@ -92,6 +92,16 @@
 			}
 			return y1;
 		}
+		
+		public function length() : int
+		{
+			if ( x0 == x1 )
+			{
+				return Math.abs(y1 - y0);
+			}
+			
+			return Math.abs(x1 - x0);
+		}
 
 	}
 

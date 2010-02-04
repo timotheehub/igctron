@@ -13,10 +13,11 @@
 	{
 		
 		private static const ZHEIGHT : int =  20;
-		private static const BACK : int = + 60; 
+		private static const BACK : int = + 70; 
 		private static const V_ORBIT : int = 65;
-		private static const PSI : int = +3; // required to see wall (thickness = 0) when cam. just behind
+		private static const PSI : int = 3; // required to see wall (thickness = 0) when cam. just behind
 		private static const ROT_SPEED : int = 10;
+		private static const ZOOM : int = 70;
 		private var width:Number;
 		private var height:Number;
 		private var h_orbit:Number;
@@ -50,6 +51,8 @@
 			_far = far;
 			_focusFix = Matrix3D.IDENTITY;
 			z = ZHEIGHT;
+			
+			zoom = ZOOM;
 		}
 		
 		public function updateCam( cube : Cube, player : Player ) : void
@@ -91,7 +94,7 @@
 			y = ZHEIGHT;
 			z = newZ;
 			orbit( V_ORBIT, h_orbit + PSI, true, cube);
-			zoom = 50;
+			
 			
 		}
 		

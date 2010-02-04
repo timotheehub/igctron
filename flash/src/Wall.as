@@ -67,6 +67,10 @@
 			WallArray = new Vector.<Segment>(0); // better solution ?
 		}
 		
+		public function getLastLength() : int
+		{
+			return WallArray[ WallArray.length -1].length();
+		}
 	}
 
 }

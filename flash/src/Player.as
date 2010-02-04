@@ -7,6 +7,8 @@
 	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import org.papervision3d.core.geom.TriangleMesh3D;
+	import org.papervision3d.objects.primitives.Cube;
 	import org.papervision3d.objects.primitives.Plane;
 	
 	public class Player
@@ -15,6 +17,8 @@
 		public static const KEY_RIGHT : uint = 39;
 		
 		public static const DELAY_WALL : uint = 10;
+		
+		private static const MAX_SEG_LENGTH : uint = 10;
 		
 		public static const DIRECTION_LEFT : uint = 0;
 		public static const DIRECTION_DOWN : uint = 1;
@@ -39,7 +43,7 @@
 		
 		private var bm : Bitmap;
 		
-		private var playerWall : Vector.<Plane> = new Vector.<Plane>(); //Pour la 3D
+		private var playerWall : Vector.<TriangleMesh3D> = new Vector.<TriangleMesh3D>(); //Pour la 3D
 		
 		public function Player(_id:Number, _x:Number, _y:Number, _isHuman:Boolean = true, _direction:int = 0) 
 		{
@@ -66,12 +70,16 @@
 			if ( ! isDead )
 			{
 				if( e.keyCode == KEY_LEFT )
+				{
 					direction++;
+					direction = convertDirection(direction);
+				}
 				else if( e.keyCode == KEY_RIGHT )
+				{
 					direction--;
-				
-				direction = convertDirection(direction);
-				
+					direction = convertDirection(direction);
+				}
+					
 				wall.insertSegment( x, y, x, y );
 			}
 		}
@@ -80,6 +88,13 @@
 		{
 			if ( ! isDead )
 			{
+				
+				if ( wall.getLastLength() > MAX_SEG_LENGTH )
+				{
+					wall.insertSegment( x, y, x, y );
+				}
+				
+				
 				var newX : Number = x;
 				var newY : Number = y;
 				var x0 : Number = 0;
@@ -150,6 +165,7 @@
 				}
 			}
 			
+			
 			nw = false;
 		}
 		
@@ -184,23 +200,23 @@
 			return isDead;
 		}
 		
-		public function addPlane( _plane : Plane ) : Plane
+		public function addPlane( _plane : TriangleMesh3D ) : TriangleMesh3D
 		{
 			playerWall.push( _plane );
 			return _plane;
 		}
 		
-		public function getPlane( i : int ) : Plane
+		public function getPlane( i : int ) : TriangleMesh3D
 		{
 			return playerWall[i];
 		}
 		
-		public function lastPlane() : Plane
+		public function lastPlane() : TriangleMesh3D
 		{	
 			return playerWall[ playerWall.length - 1 ];
 		}
 		
-		public function changeLast( plane : Plane ) : Plane
+		public function changeLast( plane : TriangleMesh3D ) : TriangleMesh3D
 		{
 			playerWall[ playerWall.length - 1 ] = plane;
 			return plane;
@@ -213,7 +229,7 @@
 		
 		public function cleanPlanes() : void
 		{
-			playerWall = new Vector.<Plane>(0);
+			playerWall = new Vector.< TriangleMesh3D >(0);
 		}
 		
 		public function getDir() : int
@@ -243,6 +259,11 @@
 		public function isNew() : Boolean
 		{
 			return nw;
+		}
+		
+		public function getWallLength() : int
+		{
+			return wall.getLastLength();
 		}
 	}
 }
