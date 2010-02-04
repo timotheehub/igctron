@@ -19,6 +19,8 @@ protected:
 	void artificialIntelligence ( );
 	void getInformationBySenses ( );
 	int getAgainstBySensoryMemory ( int dl );
+	void getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & maxZ,
+								int & dl, Vehicle * vehicle );
 
 	static const int SIZE_X = 40;
 	static const int SIZE_Z = 60;

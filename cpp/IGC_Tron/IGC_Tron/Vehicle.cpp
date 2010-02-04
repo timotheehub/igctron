@@ -18,8 +18,8 @@ const float Vehicle::LENGTH = 1.0;
 const float Vehicle::WIDTH = 0.5;
 const float Vehicle::HEIGHT = 1.0;
 
-/******************************************************************************
- *                              Mise � jour                                    *
+/*******************************************************************************
+ *                              Mise a jour                                    *
  ******************************************************************************/
 void Vehicle::Init(const Utils::CartesianVector& initPosition)
 {

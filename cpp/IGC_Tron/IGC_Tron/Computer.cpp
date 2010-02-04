@@ -38,8 +38,8 @@ void Computer::artificialIntelligence ( )
 	getInformationBySenses ( );
 
 	// On pèse le contre de chaque possibilité 
-	int consLeft = getAgainstBySensoryMemory ( -1 );
-	int consRight = getAgainstBySensoryMemory ( 1 );
+	int consLeft = getAgainstBySensoryMemory ( -1 ) + 512;
+	int consRight = getAgainstBySensoryMemory ( 1 ) + 512;
 	int consForward = getAgainstBySensoryMemory ( 0 );
 
 	// On effectue le choix en fonction des poids des contre.
@@ -51,11 +51,6 @@ void Computer::artificialIntelligence ( )
 	{
 		MoveLeft ( );
 	}
-
-	
-
-
-
 }
 
 // Initialisation la variable contentPlane
@@ -80,14 +75,23 @@ void Computer::getInformationBySenses ( )
 	Player** tabPlayers = aGame->GetPlayers ( );
 	for ( int i = 0; i < aGame->GetNbrPlayers ( ); i++ )
 	{
-		if ( tabPlayers[i]->IsAlive ( ) )
+		if ( ( tabPlayers[i]->IsAlive ( ) ) )
 		{
 			// Ajout des joueurs à contentPlane
 			x = floor( tabPlayers[i]->GetPosition().x * 2 ); // Arrondi inférieur : float -> int
 			z = floor( tabPlayers[i]->GetPosition().z * 2 );
-			if ( ( x >= 0 ) && ( x < SIZE_X ) && ( z >= 0 ) && ( z <= SIZE_Z ) )
-			{
-				contentPlane[ x ][ z ] |= V_PLAYER; // On indique qu'il y a un joueur
+				
+			if ( tabPlayers[i] != this ) {
+				int minX, maxX, minZ, maxZ;
+				x = 0;
+				getBoundsOfVehicle ( minX, maxX, minZ, maxZ, x, tabPlayers[i]->GetVehicle() );
+				for ( x = minX; x <= maxX; x++ )
+				{
+					for ( z = minZ; z <= maxZ; z++ )
+					{
+						contentPlane[ x ][ z ] |= V_PLAYER; // On indique qu'il y a un joueur
+					}
+				}
 			}
 			
 			// Ajout des murs à contentPlane
@@ -100,25 +104,29 @@ void Computer::getInformationBySenses ( )
 			{
 				tabPlayers[i]->GetWall ( )->GetVertexe ( cPoint, j );
 				// Pour toutes les cases qui contiennent un mur, on l'ajoute.
+				// Mur selon x
 				if ( abs ( oldPoint.x - cPoint.x ) > abs ( oldPoint.z - cPoint.z ) )
 				{
 					z = floor ( oldPoint.z + cPoint.z );
 					for ( x = min ( floor ( oldPoint.x * 2 ), floor ( cPoint.x * 2 ) );
 							x <= max ( floor ( oldPoint.x * 2 ), floor ( cPoint.x * 2 ) ); x++ )
 					{
-						if ( ( x >= 0 ) && ( x < SIZE_X ) && ( z >= 0 ) && ( z <= SIZE_Z ) )
+						if ( ( ( x >= 0 ) && ( x < SIZE_X ) && ( z >= 0 ) && ( z <= SIZE_Z ) )
+						&& ( ( tabPlayers[i] != this ) || ( j < ( tabPlayers[i]->GetWall ( )->GetVertexesCount ( ) - 1 ) ) ) )
 						{
 							contentPlane[ x ][ z ] |= V_WALL;
 						}
 					}
 				}
+				// Mur selon z
 				else
 				{
 					x = floor ( oldPoint.x + cPoint.x );
 					for ( z = min ( floor ( oldPoint.z * 2 ), floor ( cPoint.z * 2 ) );
 							z <= max ( floor ( oldPoint.z * 2 ), floor ( cPoint.z * 2 ) ); z++ )
 					{
-						if ( ( x >= 0 ) && ( x < SIZE_X ) && ( z >= 0 ) && ( z <= SIZE_Z ) )
+						if ( ( ( x >= 0 ) && ( x < SIZE_X ) && ( z >= 0 ) && ( z <= SIZE_Z ) )
+						&& ( ( tabPlayers[i] != this ) || ( j < ( tabPlayers[i]->GetWall ( )->GetVertexesCount ( ) - 1 ) ) ) )
 						{
 							contentPlane[ x ][ z ] |= V_WALL;
 						}
@@ -134,88 +142,226 @@ int Computer::getAgainstBySensoryMemory ( int dl )
 {
 	/*** Initialisation ***/
 	int weightOfCons = 0; // Poids du contre
-	// Direction
-	int dx, dz;           
-	if ( abs( myVehicle.GetSpeed ( ).x ) > abs( myVehicle.GetSpeed ( ).z ) )
-	{
-		 dx = myVehicle.GetSpeed ( ).x / abs ( myVehicle.GetSpeed ( ).x );
-		 dz = 0;
-	}
-	else
-	{
-		dx = 0;
-		dz = myVehicle.GetSpeed ( ).z / abs ( myVehicle.GetSpeed ( ).z );
-	}
-	// Position actuelle
-	int currX = floor ( myVehicle.GetPosition ( ).x * 2 );
-	int currZ = floor ( myVehicle.GetPosition ( ).z * 2 );
-	// Positions suivantes
-	int newX, newZ;
-	if ( dl != 0 )
-	{
-		newX = currX + dl * dz;
-		newZ = currZ - dl * dx;
-	}
-	else
-	{
-		newX = currX + dx;
-		newZ = currZ + dz;
-	}
-	int forward2X = 2 * newX - currX;
-	int forward2Z = 2 * newZ - currZ;
-	int forward3X = 3 * newX - 2 * currX;
-	int forward3Z = 3 * newZ - 2 * currZ;
-	int forward4X = 4 * newX - 3 * currX;
-	int forward4Z = 4 * newZ - 3 * currZ;
-	int leftX = newX - newZ + currZ;
-	int leftZ = newZ + newX - currX;
-	int rightX = newX + newZ - currZ;
-	int rightZ = newZ - newX + currX;
-
+	// Bornes suivantes
+	int minX, maxX, minZ, maxZ;
+	getBoundsOfVehicle ( minX, maxX, minZ, maxZ, dl, &myVehicle );
+	
 	/*** Pesée du contre ***/
 	// Il y a grand danger si on sort de la carte
-	if ( ( newX < 0 ) || ( newX >= SIZE_X ) || ( newZ < 0 ) || ( newZ >= SIZE_Z )
-		|| ( forward2X < 0 ) || ( forward2X >= SIZE_X ) || ( forward2Z < 0 ) || ( forward2Z >= SIZE_Z )
-		|| ( forward3X < 0 ) || ( forward3X >= SIZE_X ) || ( forward3Z < 0 ) || ( forward3Z >= SIZE_Z )
-		|| ( leftX < 0 ) || ( leftX >= SIZE_X ) || ( leftZ < 0 ) || ( leftZ >= SIZE_Z )
-		|| ( rightX < 0 ) || ( rightX >= SIZE_X ) || ( rightZ < 0 ) || ( rightZ >= SIZE_Z ) )
+	if ( ( minX < 0 ) || ( maxX >= SIZE_X ) || ( minZ < 0 ) || ( maxZ >= SIZE_Z ) )
 	{
 		weightOfCons += 8192;
-	}
-	else if ( ( forward4X < 0 ) || ( forward4X >= SIZE_X ) || ( forward4Z < 0 ) || ( forward4Z >= SIZE_Z ))
-	{
-		weightOfCons += 4096;
 	}
 	else
 	{
 		// Il y a grand danger si on rencontre un joueur.
-		if ( ( ( contentPlane [ newX ][ newZ ] & V_PLAYER ) > 0 )
-			|| ( ( contentPlane [ forward2X ][ forward2Z ] & V_PLAYER ) > 0 )
-			|| ( ( contentPlane [ forward3X ][ forward3Z ] & V_PLAYER ) > 0 )
-			|| ( ( contentPlane [ leftX ][ leftZ ] & V_PLAYER ) > 0 )
-			|| ( ( contentPlane [ rightX ][ rightZ ] & V_PLAYER ) > 0 ) )
+		bool isFound = false;
+		for ( int i = minX; i <= maxX; i++ )
+		{
+			for ( int j = minZ; j <= maxZ; j++ )
+			{
+				if ( ( contentPlane [ i ][ j ] & V_PLAYER ) > 0 )
+				{
+					isFound = true;
+				}
+			}
+		}
+		if ( isFound )
 		{
 			weightOfCons += 8192;
 		}
-		else if ( ( contentPlane [ forward4X ][ forward4Z ] & V_PLAYER ) > 0 )
-		{
-			weightOfCons += 4096;
-		}
+
 		// Il y a grand danger si on rencontre un mur.
-		if ( ( ( contentPlane [ newX ][ newZ ] & V_WALL ) > 0 )
-			|| ( ( contentPlane [ forward2X ][ forward2Z ] & V_WALL ) > 0 )
-			|| ( ( contentPlane [ forward3X ][ forward3Z ] & V_WALL ) > 0 )
-			|| ( ( contentPlane [ leftX ][ leftZ ] & V_WALL ) > 0 )
-			|| ( ( contentPlane [ rightX ][ rightZ ] & V_WALL ) > 0 ) )
+		isFound = false;
+		for ( int i = minX; i <= maxX; i++ )
+		{
+			for ( int j = minZ; j <= maxZ; j++ )
+			{
+				if ( ( contentPlane [ i ][ j ] & V_WALL ) > 0 )
+				{
+					isFound = true;
+				}
+			}
+		}
+		if ( isFound )
 		{
 			weightOfCons += 8192;
 		}
-		else if ( ( contentPlane [ forward4X ][ forward4Z ] & V_WALL ) > 0 )
+
+		bool isOnObstacle = false;
+		// Influence des objets
+		for ( int i = 0; i < SIZE_X; i++ )
 		{
-			weightOfCons += 4096;
+			for ( int j = 0; j < SIZE_Z; j++ )
+			{
+				// Même case
+				if ( ( i >= minX ) && ( i <= maxX ) && ( j >= minZ ) && ( j <= maxZ ) )
+				{
+					if ( ( ( contentPlane [ i ][ j ] & V_PLAYER ) > 0 ) 
+					|| ( ( contentPlane [ i ][ j ] & V_WALL ) > 0 ) )
+					{
+						isOnObstacle = true;
+					}
+				}
+
+				// Même ligne
+				if ( ( ( contentPlane [ i ][ j ] & V_PLAYER ) > 0 ) 
+				|| ( ( contentPlane [ i ][ j ] & V_WALL ) > 0 ) )
+				{
+					switch ( dl )
+					{
+						case 10:
+							if ( ( j >= minZ ) && ( j <= maxZ ) && ( i > maxX ) )
+							{
+								weightOfCons += 2048 / ( i - maxX );
+							}
+							break;
+						case 11:
+							if ( ( i >= minX ) && ( i <= maxX ) && ( j > maxZ ) )
+							{
+								weightOfCons += 2048 / ( j - maxZ );
+							}
+							break;
+						case 12:
+							if ( ( j >= minZ ) && ( j <= maxZ ) && ( i < maxX ) )
+							{
+								weightOfCons += 2048 / ( maxX - i );
+							}
+							break;
+						case 13:
+							if ( ( i >= minX ) && ( i <= maxX ) && ( j < maxZ ) )
+							{
+								weightOfCons += 2048 / ( maxZ - j );
+							}
+							break;
+					}
+				}
+			}
+		}
+
+		if ( isOnObstacle )
+		{
+			weightOfCons = 8192;
 		}
 	}
 
 
 	return weightOfCons;
+}
+
+
+// Calcule les bornes du vehicule
+// dl renvoie la direction
+void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & maxZ, int & dl, Vehicle * vehicle )
+{
+	// Calcul de la direction actuelle
+	int dx, dz;  
+	if ( abs( vehicle->GetSpeed ( ).x ) > abs( vehicle->GetSpeed ( ).z ) )
+	{
+		 if ( vehicle->GetSpeed ( ).x > 0 )
+		 {
+			 dx = 1;
+		 }
+		 else
+		 {
+			 dx = -1;
+		 }
+		 dz = 0;
+	}
+	else
+	{
+		 dx = 0;
+		 if ( vehicle->GetSpeed ( ).z > 0 )
+		 {
+			 dz = 1;
+		 }
+		 else
+		 {
+			 dz = -1;
+		 }
+	}
+
+	// Position actuelle
+	int currX = floor ( vehicle->GetPosition ( ).x * 2 );
+	int currZ = floor ( vehicle->GetPosition ( ).z * 2 );
+
+	// Calcul des bornes
+	// S'il y a virage
+	if ( dl != 0 )
+	{
+		// Si deplacement actuel sur dz
+		if ( dz != 0 )
+		{
+			if ( dl * dz > 0 ) // Si virage.dx > 0
+			{
+				minX = currX;
+				maxX = currX + 3 * dl * dz;
+				dl = 10;
+			}
+			else
+			{
+				minX = currX + 3 * dl * dz;
+				maxX = currX;
+				dl = 12;
+			}
+			minZ = floor ( vehicle->GetPosition ( ).z * 2 - 0.5 );
+			maxZ = floor ( vehicle->GetPosition ( ).z * 2 + 0.5 );
+		}
+		// Si deplacement actuel sur dx
+		else
+		{
+			if ( dl * dx < 0 )
+			{
+				minZ = currZ;
+				maxZ = currZ - 3 * dl * dx;
+				dl = 13;
+			}
+			else
+			{
+				minZ = currZ - 3 * dl * dx;
+				maxZ = currZ;
+				dl = 11;
+			}
+			minX = floor ( vehicle->GetPosition ( ).x * 2 - 0.5 );
+			maxX = floor ( vehicle->GetPosition ( ).x * 2 + 0.5 );
+		}
+	}
+	// S'il n'y a pas de virage
+	else
+	{
+		if ( dx != 0 )
+		{
+			if ( dx < 0 )
+			{
+				minX = currX + 3 * dx;
+				maxX = currX;
+				dl = 12;
+			}
+			else
+			{
+				minX = currX;
+				maxX = currX + 3 * dx;
+				dl = 10;
+			}
+			minZ = floor ( vehicle->GetPosition ( ).z * 2 - 0.5 );
+			maxZ = floor ( vehicle->GetPosition ( ).z * 2 + 0.5 );
+		}
+		else
+		{
+			if ( dz < 0 )
+			{
+				minZ = currZ + 3 * dz;
+				maxZ = currZ;
+				dl = 13;
+			}
+			else
+			{
+				minZ = currZ;
+				maxZ = currZ + 3 * dz;
+				dl = 11;
+			}
+			minX = floor ( vehicle->GetPosition ( ).x * 2 - 0.5 );
+			maxX = floor ( vehicle->GetPosition ( ).x * 2 + 0.5 );
+		}
+	}
 }
