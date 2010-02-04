@@ -24,6 +24,7 @@
 		public static const X : uint = 0;
 		public static const Y : uint = 1;
 			
+		private var nw : Boolean;
 		private var x : Number;
 		private var y : Number;
 		private var vehicle : Motorbike;
@@ -48,6 +49,7 @@
 			direction = _direction;
 			isDead = false;
 			id = _id;
+			nw = true;
 			
 			vehicle = new Motorbike();
 			
@@ -147,6 +149,8 @@
 					y = newY;
 				}
 			}
+			
+			nw = false;
 		}
 		
 		private function destroyWall( e : Event = null ) : void
@@ -234,6 +238,11 @@
 			newDir = (newDir > Player.DIRECTION_UP) ? Player.DIRECTION_LEFT : newDir;
 			
 			return newDir;
+		}
+		
+		public function isNew() : Boolean
+		{
+			return nw;
 		}
 	}
 }
