@@ -26,7 +26,8 @@ public:
 	void Draw() const;
 
 	inline bool IsAlive ( );
-	inline Wall * Player::GetWall ( );
+	inline Wall * GetWall ( );
+	inline Vehicle * GetVehicle ( );
 
 	Utils::CartesianVector GetPosition() const;
 	std::string GetName() const;
@@ -57,5 +58,11 @@ inline Wall * Player::GetWall ( )
 {
 	return &myWall;
 }
+
+inline Vehicle * Player::GetVehicle ( )
+{
+	return &myVehicle;
+}
+
 
 #endif /* PLAYER_H_ */
