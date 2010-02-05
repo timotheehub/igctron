@@ -43,7 +43,8 @@
 	import i12.data.TextLoader;
 	
 	public class Main extends Sprite 
-	{
+	{	
+		
 		[Embed(source="../bin/font/Horsal.ttf", fontFamily="Horseshoes", mimeType="application/x-font-truetype")]
 		public static var Horseshoes : Class;
 		

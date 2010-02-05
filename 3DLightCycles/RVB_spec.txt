@@ -1,0 +1,12 @@
+Modèle pour Google SketchUp (testé en version Pro)
+
+Valeurs RVB en base 10 des couleurs :
+
+Dark - 0,0,0
+Blue - 0,0,255
+Green - 0,255,0
+Red - 255,0,0
+Cyan - 0,255,255
+Pink - 255,0,255
+Yellow - 255,255,0
+White - 255,255,255

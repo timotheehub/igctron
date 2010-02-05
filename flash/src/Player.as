@@ -73,14 +73,14 @@
 				{
 					direction++;
 					direction = convertDirection(direction);
+					wall.insertSegment( x, y, x, y );
 				}
 				else if( e.keyCode == KEY_RIGHT )
 				{
 					direction--;
 					direction = convertDirection(direction);
+					wall.insertSegment( x, y, x, y );
 				}
-					
-				wall.insertSegment( x, y, x, y );
 			}
 		}
 		

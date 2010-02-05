@@ -15,7 +15,7 @@
 		private static const ZHEIGHT : int =  20;
 		private static const BACK : int = + 70; 
 		private static const V_ORBIT : int = 65;
-		private static const PSI : int = 3; // required to see wall (thickness = 0) when cam. just behind
+		private static const PSI : int = 3;
 		private static const ROT_SPEED : int = 10;
 		private static const ZOOM : int = 70;
 		private var width:Number;
@@ -95,16 +95,19 @@
 			z = newZ;
 			orbit( V_ORBIT, h_orbit + PSI, true, cube);
 			
-			
+			if (player.getID() == 0)
+				trace( last_angle );
 		}
 		
 		
 		private function next_angle( fixed_angle : int ) : Number
-		{				
+		{	// @fixed_angle	= angle visé
+			// return angle temporaire
+			
 			var modulo : Number = (h_orbit - fixed_angle) % 360;
 			var temp : Number = (modulo < 180) ? (h_orbit - modulo) : (h_orbit + modulo )
 			
-			if ( last_angle%360 != fixed_angle)
+			if ( last_angle%360 != fixed_angle )
 			{
 				switch (fixed_angle)
 				{
