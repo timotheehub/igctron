@@ -25,7 +25,7 @@ class Game : public Singleton<Game>
 
 public:
 	static const int MAX_PLAYERS = 4;
-	static const int MAX_CAMERAS = 2;
+	static const int MAX_CAMERAS = 3;
 	static void OnKeyDown( int keyboardContext, int keyCode );
 	static void OnKeyUp( int keyboardContext, int keyCode );
 
@@ -36,7 +36,7 @@ public:
 
 	void Draw ( );
 
-	inline Player** Game::GetPlayers ( );
+	inline Player** GetPlayers ( );
 	inline int GetNbrPlayers ( );
 
 	inline void MutexAcquireLock ( );

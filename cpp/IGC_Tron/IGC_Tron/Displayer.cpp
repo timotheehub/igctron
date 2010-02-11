@@ -1,5 +1,5 @@
 // Displayer.cpp
-// D�finition de la classe Displayer
+// Definition de la classe Displayer
 
 #include "Displayer.h"
 #include "Menu.h"
@@ -85,14 +85,17 @@ void Displayer::LoadRessources ( )
 void Displayer::LoadScene()
 {
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
-	model->import( "ship.3ds" );
-	model->shrink( 200.0f, 200.0f, 200.0f );
-	Model* model2 = factory->acquire( (IGC::Model*)NULL, "model_ship2" );
-	model2->Clone ( model );
-	model2 = factory->acquire( (IGC::Model*)NULL, "model_ship3" );
-	model2->Clone ( model );
-	model2 = factory->acquire( (IGC::Model*)NULL, "model_ship4" );
-	model2->Clone ( model );
+	model->import( "rMBike.3ds" );
+	model->shrink( 4.0f, 4.0f, 4.0f );
+	model = factory->acquire( (IGC::Model*)NULL, "model_ship2" );
+	model->import( "bMBike.3ds" );
+	model->shrink( 4.0f, 4.0f, 4.0f );
+	model = factory->acquire( (IGC::Model*)NULL, "model_ship3" );
+	model->import( "gMBike.3ds" );
+	model->shrink( 4.0f, 4.0f, 4.0f );
+	model = factory->acquire( (IGC::Model*)NULL, "model_ship4" );
+	model->import( "yMBike.3ds" );
+	model->shrink( 4.0f, 4.0f, 4.0f );
 
 	model = factory->acquire( (IGC::Model*)NULL, "model_cube" );
 	Mesh* mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_cube" );
@@ -289,7 +292,7 @@ void Displayer::freeWindow ( )
 	factory->release( window );
 }
 
-// Lib�re engine
+// Libere engine
 void Displayer::freeEngine ( )
 {
 	factory = NULL;
