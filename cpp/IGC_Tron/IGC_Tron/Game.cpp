@@ -72,26 +72,25 @@ void Game::OnKeyUp( int keyboardContext, int keyCode )
 *                              Mise a jour                                    *
 ******************************************************************************/
 // Met a jour le menu
-void Game::Update ( )
+void Game::Update( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	double dt = aDisplayer->GetDelta ( );
-	// On sauvegarde les vivants.
-	for ( int i = 0; i < nbPlayers; i++ )
+
+	// On met à jour les positions
+	for ( int i = 0; i < nbPlayers; ++i )
 	{
-		tabPlayersAlive[i] = tabPlayersIndex[i]->IsAlive();
+		tabPlayersIndex[i]->Update ( dt );
 	}
 
 	// On regarde qui est mort.
-	for ( int i = 0; i < nbPlayers; i++ )
+	for ( int i = 0 ; i < nbPlayers ; ++i )
 	{
-		tabPlayersIndex[i]->Update ( dt );
-		// On verifie qu'il n'a fonce dans aucun mur.
-		for ( int j = 0; j < nbPlayers; j++ )
+		for ( int j = 0 ; j < nbPlayers ; ++j )
 		{
-			if ( tabPlayersAlive[j] )
+			if (tabPlayersIndex[i]->IsGettingKilled ( *tabPlayersIndex[j] ))
 			{
-				tabPlayersIndex[i]->IsGettingKilled ( *tabPlayersIndex[j] );
+				printf("Player %s died.", tabPlayersIndex[i]->GetName().c_str());
 			}
 		}
 	}
@@ -101,7 +100,7 @@ void Game::Update ( )
 *                   Initialisation et destruction                             *
 ******************************************************************************/
 // Initialisation le menu
-void Game::Init ( )
+void Game::Init( )
 {
 	/********** Initialisation temporaire ******/
 	const double SPEED = 5;
