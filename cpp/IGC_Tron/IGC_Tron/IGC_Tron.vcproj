@@ -193,6 +193,10 @@
 						RelativePath=".\CameraOverall.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\CameraPlayer.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -377,6 +381,10 @@
 					</File>
 					<File
 						RelativePath=".\CameraOverall.h"
+						>
+					</File>
+					<File
+						RelativePath=".\CameraPlayer.h"
 						>
 					</File>
 				</Filter>

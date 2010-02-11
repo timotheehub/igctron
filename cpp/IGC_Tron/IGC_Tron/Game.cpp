@@ -8,6 +8,7 @@
 #include "Computer.h"
 #include "CameraFree.h"
 #include "CameraOverall.h"
+#include "CameraPlayer.h"
 
 using namespace KeyCodes;
 
@@ -244,6 +245,7 @@ Game::Game ( )
 	nCurrentCamera = 0;
 	tabCameras[0] = new CameraOverall;
 	tabCameras[1] = new CameraFree;
+	tabCameras[2] = new CameraPlayer ( 0 );
 }
 
 // Destructeur

@@ -16,7 +16,7 @@ const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
 const float Vehicle::LENGTH = 1.0;
 const float Vehicle::WIDTH = 0.5;
-const float Vehicle::HEIGHT = 1.0;
+const float Vehicle::HEIGHT = 0.0;
 
 /*******************************************************************************
  *                              Mise a jour                                    *
@@ -109,19 +109,17 @@ void Vehicle::Draw() const
 		break;
 	}
 
-	//model->setSize(1,4,1);
-
 	if (abs(speed.x) > abs(speed.z))
 	{
 		if (speed.x < 0)
 		{
-			model->setAngle(PI / 2, PI / 2, 0);
+			model->setAngle(- PI / 2, PI / 2, 0);
 			model->setCenter(position.x - (LENGTH / 2 + RECTANGLE_GAP),
 					position.y + HEIGHT, position.z);
 		}
 		else
 		{
-			model->setAngle(PI / 2, 3 * PI / 2, 0);
+			model->setAngle(- PI / 2, 3 * PI / 2, 0);
 			model->setCenter(position.x + (LENGTH / 2 + RECTANGLE_GAP),
 					position.y + HEIGHT, position.z);
 		}
@@ -130,20 +128,20 @@ void Vehicle::Draw() const
 	{
 		if (speed.z < 0)
 		{
-			model->setAngle(PI / 2, 0, 0);
+			model->setAngle(- PI / 2, 0, 0);
 			model->setCenter(position.x, position.y + HEIGHT, position.z
 					- (LENGTH / 2 + RECTANGLE_GAP));
 		}
 		else
 		{
-			model->setAngle(PI / 2, PI, 0);
+			model->setAngle(- PI / 2, PI, 0);
 			model->setCenter(position.x, position.y + HEIGHT, position.z
 					+ (LENGTH / 2 + RECTANGLE_GAP));
 		}
 	}
 	IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL,
 			"back_screen_menu");
-	texture->bind();
+	texture->unbind ( );
 	renderer->setTransparency(false);
 	model->render();
 }

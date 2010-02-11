@@ -73,7 +73,7 @@ void CameraFree::OnMouseMove ( int keyboardContext, int mouseContext,
 }
 
 /******************************************************************************
-*                       Initialise et d�truit                                 *
+*                       Initialise et detruit                                 *
 ******************************************************************************/
 void CameraFree::Init ( )
 {
