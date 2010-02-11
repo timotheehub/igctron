@@ -13,6 +13,8 @@
 #include "Vehicle.h"
 #include "Wall.h"
 
+
+
 class Player
 {
 public:
@@ -25,7 +27,7 @@ public:
 
 	void Draw() const;
 
-	inline bool IsAlive ( );
+	inline bool IsAlive ( ) const;
 	inline Wall * GetWall ( );
 	inline Vehicle * GetVehicle ( );
 
@@ -45,13 +47,20 @@ protected:
 	Vehicle myVehicle;
 	Wall myWall;
 	Utils::CartesianVector initPosition;
-	bool isAlive;
 	int playerNumber;
+
+	enum PlayerStatus
+	{
+		LIVING,
+		DYING,
+		DEAD
+	};
+	PlayerStatus status;
 };
 
-inline bool Player::IsAlive ( )
+inline bool Player::IsAlive ( ) const
 {
-	return isAlive;
+	return status == LIVING;
 }
 
 inline Wall * Player::GetWall ( )

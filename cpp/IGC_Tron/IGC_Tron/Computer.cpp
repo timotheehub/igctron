@@ -12,7 +12,7 @@ const int V_WALL = 2;
 ******************************************************************************/
 void Computer::Update ( double dt )
 {
-	artificialIntelligence ( );
+//artificialIntelligence ( );
 	Player::Update ( dt );
 }
 

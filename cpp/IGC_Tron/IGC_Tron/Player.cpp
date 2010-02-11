@@ -26,20 +26,28 @@ void Player::Init()
 
 void Player::Update(double dt)
 {
-	if (isAlive)
+
+	if (IsAlive())
 	{
 		myVehicle.MoveForward(dt);
 		myWall.SetLastVertex(myVehicle.GetPosition());
 	}
-	else if (!OPTION_WALL_AFTER_DEATH)
+	else
 	{
-		myWall.Collapse(dt);
+		if (status == DYING)
+		{
+			status = DEAD;
+		}
+		if (!OPTION_WALL_AFTER_DEATH)
+		{
+			myWall.Collapse(dt);
+		}
 	}
 }
 
 void Player::MoveLeft()
 {
-	if (isAlive)
+	if (IsAlive())
 	{
 		myVehicle.MoveLeft();
 		myWall.AddVertex();
@@ -48,7 +56,7 @@ void Player::MoveLeft()
 
 void Player::MoveRight()
 {
-	if (isAlive)
+	if (IsAlive())
 	{
 		myVehicle.MoveRight();
 		myWall.AddVertex();
@@ -57,7 +65,7 @@ void Player::MoveRight()
 
 void Player::Boost()
 {
-	if (isAlive)
+	if (IsAlive())
 	{
 		myVehicle.Boost();
 	}
@@ -75,18 +83,22 @@ string Player::GetName() const
 
 bool Player::IsGettingKilled(const Player& killer)
 {
-	if (!isAlive)
+	if (!IsAlive())
 	{
 		return false;
 	}
 	else
 	{
 		Utils::Rectangle r = myVehicle.GetRectangle();
-		isAlive = !(r.IsOutOf(Game::GetInstance()->GetPlane()) || (&killer
+		if (r.IsOutOf(Game::GetInstance()->GetPlane()) || (&killer
 				!= this && r.IsInCollision(killer.myVehicle.GetRectangle()))
-				|| killer.myWall.IsInCollision(r));
+				|| killer.myWall.IsInCollision(r))
+		{
+			// Le joueur va mourir
+			status = DYING;
+		}
 
-		return !isAlive;
+		return !IsAlive();
 	}
 }
 
@@ -95,7 +107,7 @@ bool Player::IsGettingKilled(const Player& killer)
  ******************************************************************************/
 void Player::Draw() const
 {
-	if (isAlive)
+	if (IsAlive())
 	{
 		myVehicle.Draw();
 	}
@@ -109,8 +121,8 @@ void Player::Draw() const
 Player::Player(string aName, CartesianVector initPos,
 		CartesianVector initSpeed, int aNumber) :
 	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos,
-			initSpeed, WALL_BASE_HEIGHT), initPosition(initPos), isAlive(true), playerNumber(
-			aNumber)
+			initSpeed, WALL_BASE_HEIGHT), initPosition(initPos), status(LIVING),
+			playerNumber(aNumber)
 {
 
 }
