@@ -98,7 +98,7 @@ void CameraPlayer::Update ( )
 		}
 
 		float3 dAngle = aCamera->getAngle ( ) - oldAngle;
-		// On effectue une rotation de la camera.
+		/* On effectue une rotation de la camera.
 		// Pour x
 		if ( abs ( dAngle.x ) < D_ANGLE_MIN )
 			aCamera->setAngle ( oldAngle.x + dAngle.x, oldAngle.y, oldAngle.z );
@@ -113,7 +113,7 @@ void CameraPlayer::Update ( )
 		if ( abs ( dAngle.z ) < D_ANGLE_MIN )
 			aCamera->setAngle ( oldAngle.x, oldAngle.y, oldAngle.z + dAngle.z );
 		else
-			aCamera->setAngle ( oldAngle.x, oldAngle.y, oldAngle.z + abs ( dAngle.z ) * D_ANGLE_MIN / dAngle.z );
+			aCamera->setAngle ( oldAngle.x, oldAngle.y, oldAngle.z + abs ( dAngle.z ) * D_ANGLE_MIN / dAngle.z );*/
 	}
 	AbstractCamera::Update ( );
 }
