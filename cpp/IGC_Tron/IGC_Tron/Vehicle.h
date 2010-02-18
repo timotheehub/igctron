@@ -14,8 +14,6 @@
 class Vehicle
 {
 public:
-    static const float LENGTH;
-	static const float WIDTH;
 	static const float HEIGHT;
 
 	void Init(const Utils::CartesianVector& initPosition);
@@ -40,18 +38,17 @@ protected:
 	static const double BOOST_COEF;
 	static const double BOOST_LENGTH;
 
-	IGC::Model* getModel () const;
-	void updateSize ();
-
 	Utils::CartesianVector initSpeed;
 	Utils::CartesianVector position;
 	Utils::CartesianVector speed;
 	bool boost;
 	double boostElapsed;
-	int playerNumber;
+
+	IGC::Model* model;
+
 	float length;
 	float width;
-	//float height; // TODO
+	//float height; // TODO : utile ?
 };
 
 #endif /* VEHICLE_H_ */
