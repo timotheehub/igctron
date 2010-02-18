@@ -14,9 +14,7 @@ using namespace Utils;
 const double Vehicle::RECTANGLE_GAP = 10e-5;
 const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
-const float Vehicle::LENGTH = 1.0f;
-const float Vehicle::WIDTH = 0.5f;
-const float Vehicle::HEIGHT = 0.0f;
+const float Vehicle::HEIGHT = 0.0f; // TODO : utile ?
 
 /*******************************************************************************
  *                              Mise a jour                                    *
@@ -80,41 +78,6 @@ Utils::Rectangle Vehicle::GetRectangle() const
 			width / 2);
 }
 
-IGC::Model* Vehicle::getModel () const
-{
-	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
-	IGC::Model* model;
-	// TODO : stocker le Model*
-	switch (playerNumber)
-	{
-	case 0:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship1");
-		break;
-	case 1:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship2");
-		break;
-	case 2:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship3");
-		break;
-	case 3:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship4");
-		break;
-	default:
-		model = factory->acquire((IGC::Model*) NULL, "model_ship1");
-		break;
-	}
-
-	return model;
-}
-
-void Vehicle::updateSize ()
-{
-	//float3 f = getModel()->getMesh()->getBoundingBox().max;
-
-	//printf("x : %f, y : %f, z : %f",f.x,f.y,f.z);
-	length = LENGTH;
-	width = WIDTH;
-}
 
 /******************************************************************************
  *                                Affichage                                    *
@@ -124,8 +87,6 @@ void Vehicle::Draw() const
 	Displayer* aDisplayer = Displayer::GetInstance();
 	Renderer* renderer = aDisplayer->GetRenderer();
 	IGC::Factory *factory = aDisplayer->GetFactory();
-
-	IGC::Model* model = getModel();
 
 	if (abs(speed.x) > abs(speed.z))
 	{
@@ -175,7 +136,31 @@ void Vehicle::Explode() const
 Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed,
 		int aNumber) :
 	initSpeed(anInitSpeed), position(anInitPosition), speed(anInitSpeed),
-			boost(false), boostElapsed(0.0), playerNumber(aNumber)
+			boost(false), boostElapsed(0.0)
 {
-	updateSize ();
+	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
+
+	switch (aNumber)
+	{
+		case 0:
+			model = factory->acquire((IGC::Model*) NULL, "model_ship1");
+			break;
+		case 1:
+			model = factory->acquire((IGC::Model*) NULL, "model_ship2");
+			break;
+		case 2:
+			model = factory->acquire((IGC::Model*) NULL, "model_ship3");
+			break;
+		case 3:
+			model = factory->acquire((IGC::Model*) NULL, "model_ship4");
+			break;
+		default:
+			model = factory->acquire((IGC::Model*) NULL, "model_ship1");
+			break;
+	}
+
+	BoundingBox bb = model->getBoundingBox();
+
+	length = bb.max.z - bb.min.z;
+	width = bb.max.x - bb.min.x;
 }

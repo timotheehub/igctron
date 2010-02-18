@@ -115,7 +115,7 @@ namespace IGC
 		/*
 		 * Renvoie la BoundingBox de ce modele (celle du mesh ou des enfants)
 		*/
-		BoundingBox getBoundingBox () const;
+		BoundingBox getBoundingBox ();
 
 		/*
 			Sp?cifie un maillage pour ce mod?le 3d.
