@@ -21,7 +21,9 @@
 		private var width:Number;
 		private var height:Number;
 		private var h_orbit:Number;
-		private var last_angle:Number;
+		private var last_dir:int;
+		private var last_angle:Number; // direction during last frame
+		
 		
 		/**
 		 * Constructor.
@@ -41,6 +43,8 @@
 			h_orbit = _h_orbit; // default : direction UP
 			last_angle = h_orbit;
 			this.fov = fov; 
+			last_dir = -1;
+			last_dir = 0;
 			
 			_prevFocus = 0;
 			_prevZoom = 0;
@@ -60,68 +64,71 @@
 			var direction : int = player.getDir();
 			var newX : Number;
 			var newZ : Number;
-			var k : int = (h_orbit - h_orbit%360) / 360;
-			
+			var k : int = (h_orbit - h_orbit % 360) / 360;
 			
 			if( direction == Player.DIRECTION_LEFT )
 			{
-				last_angle = next_angle(0);
+				if (direction != last_dir )
+					last_angle = next_angle(0);
 				newX = cube.x + BACK;
 				newZ = cube.y;
 			}
 			else if ( direction == Player.DIRECTION_RIGHT )
 			{
-				last_angle = next_angle(180);
+				if (direction != last_dir )
+					last_angle = next_angle(180);
 				newX = cube.x - BACK;
 				newZ = cube.y;
 			}
 			else if ( direction == Player.DIRECTION_DOWN  )
 			{
-				last_angle = next_angle(90);
+				if (direction != last_dir )
+					last_angle = next_angle(90);
 				newX = cube.x;
 				newZ = cube.y - BACK;
 			}
 			else if ( direction == Player.DIRECTION_UP )
 			{
-				last_angle = next_angle(270);
+				if (direction != last_dir )
+					last_angle = next_angle(270);
 				newX = cube.x;
 				newZ = cube.y + BACK;
 			}
 			
-			h_orbit = ( last_angle + h_orbit * ROT_SPEED) / (ROT_SPEED +1);
+			
+			last_dir = direction;
+			
+			// (nouvel angle cam.) = [ (ancien angle cam.)*k ]/K
+			h_orbit = ( last_angle + h_orbit * ROT_SPEED ) / ( ROT_SPEED + 1 );
+			
 			
 			x = newX;
 			y = ZHEIGHT;
 			z = newZ;
 			orbit( V_ORBIT, h_orbit + PSI, true, cube);
 			
-			if (player.getID() == 0)
-				trace( last_angle );
 		}
 		
 		
 		private function next_angle( fixed_angle : int ) : Number
 		{	// @fixed_angle	= angle visé
-			// return angle temporaire
-			
-			var modulo : Number = (h_orbit - fixed_angle) % 360;
-			var temp : Number = (modulo < 180) ? (h_orbit - modulo) : (h_orbit + modulo )
+			// return (fixed_angle + 2*k*Pi)
 			
 			if ( last_angle%360 != fixed_angle )
 			{
 				switch (fixed_angle)
 				{
 					case 0 : 
-					{ return ( last_angle%360 == 90 )? ( last_angle - 90) : ( last_angle + 90 ); }
+					{ return ( (last_angle%360==90) || (last_angle%360==-270) )? ( last_angle - 90) : ( last_angle + 90 ); }
 					
 					case 90 : 
-					{ return ( last_angle%360 == 180 )? ( last_angle - 90) : ( last_angle + 90 ); }
+					{ return ( (last_angle%360==180) || (last_angle%360==-180))? ( last_angle - 90) : ( last_angle + 90 ); }
 					
 					case 180 :
-					{ return ( last_angle%360 == 270 )? ( last_angle - 90) : ( last_angle + 90 ); }
+					{ return ( (last_angle%360==270) || (last_angle%360==-90) )? ( last_angle - 90) : ( last_angle + 90 ); }
 					
 					case 270 :
-					{ return ( last_angle%360 == 0 )? ( last_angle - 90) : ( last_angle + 90 ); }
+					{	return ( last_angle%360 == 0   )? ( last_angle - 90) : ( last_angle + 90 ); }
 					
 					default : 
 					return 0;
