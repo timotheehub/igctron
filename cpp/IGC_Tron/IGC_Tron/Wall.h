@@ -11,6 +11,8 @@
 #include <vector>
 #include "Globals.h"
 #include "IModel.h"
+#include "D3DMaterial.h"
+#include "OGLMaterial.h"
 
 class Wall
 {
@@ -47,6 +49,8 @@ protected:
 	bool xDirection;
 	float baseHeight;
 	float height;
+
+	IGC::Material* material;
 };
 
 inline unsigned int Wall::GetVertexesCount ( )

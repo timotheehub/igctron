@@ -305,8 +305,8 @@ void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & ma
 				maxX = currX;
 				dl = 12;
 			}
-			minZ = floor ( vehicle->GetPosition ( ).z * 2 - 0.5 );
-			maxZ = floor ( vehicle->GetPosition ( ).z * 2 + 0.5 );
+			minZ = floor ( vehicle->GetPosition ( ).z * 2.f - 0.5f );
+			maxZ = floor ( vehicle->GetPosition ( ).z * 2.f + 0.5f );
 		}
 		// Si deplacement actuel sur dx
 		else

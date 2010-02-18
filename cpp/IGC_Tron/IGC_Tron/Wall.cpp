@@ -92,6 +92,8 @@ void Wall::Draw() const
 		texture->unbind();
 		renderer->setTransparency(false);
 
+		material->bind(); // NB : comme pour les textures on bind avant de faire le rendu
+
 		// Mise à jour du dernier IGC::Model
 		vector<CartesianVector>::const_reverse_iterator
 				it1 = vertexes.rbegin(), it2 = it1++;
@@ -126,6 +128,8 @@ void Wall::Draw() const
 				(*itm)->render();
 			}
 		}
+
+		material->unbind(); // NB : et comme pour les textures on unbind après
 	}
 }
 
@@ -153,6 +157,28 @@ Wall::Wall(const CartesianVector& origin, const CartesianVector& direction,
 	vertexes(1, origin), models(), xDirection(fabs(direction.x) > fabs(
 			direction.z)), baseHeight(userBaseHeight), height(userBaseHeight)
 {
+	// ça marche comme pour les textures, il suffit de faire appel à la factory
+	material = Displayer::GetInstance()->GetFactory()->acquire( (IGC::Material*)NULL, "wall_material" );
+
+	// NB : à terme je remplacerai l'évaluation de la lumière actuellement par fonction fixe en utilisant des shaders
+
+	// la couleur diffuse est la couleur diffusée par l'objet lorsqu'une lumière est présente dans la scène
+	// sans intérêt dans le cas présent
+	material->setDiffuseColor( 1.0f, 1.0f, 1.0f, 1.0f );
+
+	// la couleur ambiante est une couleur indépendante des lumières dans la scène, elle est multipliée par la couleur de l'objet,
+	// donnée par sa texture par exemple, donc s'il n'y a pas de texture comme dans le cas du mur, il n'y a pas d'intérêt
+	material->setAmbientColor( 0.0f, 1.0f, 0.0f, 1.0f );
+
+	// la couleur spéculaire est la couleur réflechie par l'objet lorsqu'une lumière est présente dans la scène,
+	// c'est ce qui donne l'effet de brillance métallique sur un objet, sans intérêt dans le cas présent
+	material->setSpecularColor( 1.0f, 1.0f, 1.0f, 1.0f );
+
+	// enfin la couleur emissive est une couleur indépendante des lumières dans la scène, mais contrairement à la couleur
+	// ambiante qui est multipliée, celle-ci est additionnée en plus, c'est donc celle-ci qui t'intéresse dans le cas du mur,
+	// les valeurs sont dans l'ordre R, G, B, A, sachant qu'il est préférable que A reste à 1
+	material->setEmissiveColor( 1.0f, 0.0f, 0.0f, 1.0f );
+	
 	AddVertex();
 }
 

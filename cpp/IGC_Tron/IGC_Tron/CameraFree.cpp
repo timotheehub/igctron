@@ -98,7 +98,7 @@ void CameraFree::Free ( )
 void CameraFree::Update ( )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ();
-	float dt = aDisplayer->GetDelta();
+	float dt = (float)aDisplayer->GetDelta();
 
 	if ( moveForward )
 		aCamera->moveForward( MOVE_SPEED * dt );

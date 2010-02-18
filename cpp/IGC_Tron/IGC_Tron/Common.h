@@ -74,6 +74,7 @@ namespace IGC
 	typedef class D3DModel Model;
 	typedef class D3DFont Font;
 	typedef class D3DTexture Texture;
+	typedef class D3DMaterial Material;
 #endif
 #ifdef USE_OPENGL
 	typedef class OGLRenderer Renderer;
@@ -82,6 +83,7 @@ namespace IGC
 	typedef class OGLModel Model;
 	typedef class OGLFont Font;
 	typedef class OGLTexture Texture;
+	typedef class OGLMaterial Material;
 #endif
 }
 
@@ -181,6 +183,39 @@ inline static void _assert( bool predicate, const char* file, int line, const ch
 	if ( !predicate )
 	{
 		printf( "Error in %s, line %d : %s\n\n", file, line, message );
+
+#ifdef _WIN32
+		system( "pause" );
+#else
+		system( "read" ); // TODO : This is workaround.
+#endif
+
+		exit( -1 );
+	}
+}
+
+inline static void _assert_ex( bool predicate, const char* file, int line, const char* message, ... )
+{
+	if ( !predicate )
+	{
+		va_list list;
+		va_start( list, message );
+
+		static char buffer[200] = {0};
+
+#ifdef _WIN32
+#ifdef __STDC_WANT_SECURE_LIB__
+		vsprintf_s( buffer, 200, message, list );
+#else //__STDC_WANT_SECURE_LIB__
+		StringCbVPrintf( buffer, 200, message, list );
+#endif //__STDC_WANT_SECURE_LIB__
+#else
+		vsprintf( buffer, message, list );
+#endif // _WIN32
+
+		va_end( list );
+
+		printf( "Error in %s, line %d : %s\n\n", file, line, buffer );
 
 #ifdef _WIN32
 		system( "pause" );

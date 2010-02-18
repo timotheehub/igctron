@@ -13,7 +13,7 @@ const float CameraPlayer::MOVE_SPEED = 50.0f;
 const float CameraPlayer::MOUSE_SENSITIVITY = 5.0f;
 int CameraPlayer::mouseLastX = 0;
 int CameraPlayer::mouseLastY = 0;
-const float D_ANGLE_MIN = 0.01;
+const float D_ANGLE_MIN = 0.01f;
 
 /******************************************************************************
 *                    Gestion des evenements                                   *
