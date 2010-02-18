@@ -121,8 +121,8 @@ void Player::Draw() const
 Player::Player(string aName, CartesianVector initPos,
 		CartesianVector initSpeed, int aNumber) :
 	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos,
-			initSpeed, WALL_BASE_HEIGHT), initPosition(initPos), status(LIVING),
-			playerNumber(aNumber)
+			initSpeed, WALL_BASE_HEIGHT), initPosition(initPos), 
+			playerNumber(aNumber),status(LIVING)
 {
 
 }

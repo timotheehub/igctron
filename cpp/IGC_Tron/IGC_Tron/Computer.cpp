@@ -57,8 +57,9 @@ void Computer::artificialIntelligence ( )
 void Computer::getInformationBySenses ( )
 {
 	Game* aGame = Game::GetInstance ( );
-	int xPlane = aGame->GetPlane ( )->GetX ( );
+	/*int xPlane = aGame->GetPlane ( )->GetX ( );
 	int zPlane = aGame->GetPlane ( )->GetZ ( );
+TODO : revoir ce code : inutilisé...*/
 	int x, z;
 	Utils::CartesianVector cPoint, oldPoint;
 

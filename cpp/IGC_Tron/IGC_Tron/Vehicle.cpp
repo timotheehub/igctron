@@ -14,9 +14,9 @@ using namespace Utils;
 const double Vehicle::RECTANGLE_GAP = 10e-5;
 const double Vehicle::BOOST_COEF = 2.0;
 const double Vehicle::BOOST_LENGTH = 5.0;
-const float Vehicle::LENGTH = 1.0;
-const float Vehicle::WIDTH = 0.5;
-const float Vehicle::HEIGHT = 0.0;
+const float Vehicle::LENGTH = 1.0f;
+const float Vehicle::WIDTH = 0.5f;
+const float Vehicle::HEIGHT = 0.0f;
 
 /*******************************************************************************
  *                              Mise a jour                                    *
@@ -76,20 +76,15 @@ CartesianVector Vehicle::GetSpeed() const
 
 Utils::Rectangle Vehicle::GetRectangle() const
 {
-	return Utils::Rectangle(position, speed, LENGTH, RECTANGLE_GAP, WIDTH / 2,
-			WIDTH / 2);
+	return Utils::Rectangle(position, speed, length, RECTANGLE_GAP, width / 2,
+			width / 2);
 }
 
-/******************************************************************************
- *                                Affichage                                    *
- ******************************************************************************/
-void Vehicle::Draw() const
+IGC::Model* Vehicle::getModel () const
 {
-	Displayer *aDisplayer = Displayer::GetInstance();
-	IGC::Renderer *renderer = aDisplayer->GetRenderer();
-	IGC::Factory *factory = aDisplayer->GetFactory();
-
+	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
 	IGC::Model* model;
+	// TODO : stocker le Model*
 	switch (playerNumber)
 	{
 	case 0:
@@ -109,34 +104,57 @@ void Vehicle::Draw() const
 		break;
 	}
 
+	return model;
+}
+
+void Vehicle::updateSize ()
+{
+	//float3 f = getModel()->getMesh()->getBoundingBox().max;
+
+	//printf("x : %f, y : %f, z : %f",f.x,f.y,f.z);
+	length = LENGTH;
+	width = WIDTH;
+}
+
+/******************************************************************************
+ *                                Affichage                                    *
+ ******************************************************************************/
+void Vehicle::Draw() const
+{
+	Displayer* aDisplayer = Displayer::GetInstance();
+	Renderer* renderer = aDisplayer->GetRenderer();
+	IGC::Factory *factory = aDisplayer->GetFactory();
+
+	IGC::Model* model = getModel();
+
 	if (abs(speed.x) > abs(speed.z))
 	{
-		if (speed.x < 0)
+		if (speed.x < 0.0)
 		{
-			model->setAngle(- PI / 2, PI / 2, 0);
-			model->setCenter(position.x - (LENGTH / 2 + RECTANGLE_GAP),
+			model->setAngle(- PI / 2.0f, PI / 2.0f, 0.0f);
+			model->setCenter(position.x - (length / 2 + RECTANGLE_GAP),
 					position.y + HEIGHT, position.z);
 		}
 		else
 		{
-			model->setAngle(- PI / 2, 3 * PI / 2, 0);
-			model->setCenter(position.x + (LENGTH / 2 + RECTANGLE_GAP),
+			model->setAngle(- PI / 2.0f, 3.0f * PI / 2.0f, 0.0f);
+			model->setCenter(position.x + (length / 2.0 + RECTANGLE_GAP),
 					position.y + HEIGHT, position.z);
 		}
 	}
 	else
 	{
-		if (speed.z < 0)
+		if (speed.z < 0.0f)
 		{
-			model->setAngle(- PI / 2, 0, 0);
+			model->setAngle(- PI / 2.0f, 0.0f, 0.0f);
 			model->setCenter(position.x, position.y + HEIGHT, position.z
-					- (LENGTH / 2 + RECTANGLE_GAP));
+					- (length / 2.0f + RECTANGLE_GAP));
 		}
 		else
 		{
-			model->setAngle(- PI / 2, PI, 0);
+			model->setAngle(- PI / 2.0f, PI, 0.0f);
 			model->setCenter(position.x, position.y + HEIGHT, position.z
-					+ (LENGTH / 2 + RECTANGLE_GAP));
+					+ (length / 2.0f + RECTANGLE_GAP));
 		}
 	}
 	IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL,
@@ -159,5 +177,5 @@ Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed,
 	initSpeed(anInitSpeed), position(anInitPosition), speed(anInitSpeed),
 			boost(false), boostElapsed(0.0), playerNumber(aNumber)
 {
-
+	updateSize ();
 }

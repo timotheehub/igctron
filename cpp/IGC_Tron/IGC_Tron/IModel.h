@@ -113,6 +113,11 @@ namespace IGC
 		IMesh* getMesh();
 
 		/*
+		 * Renvoie la BoundingBox de ce modele (celle du mesh ou des enfants)
+		*/
+		BoundingBox getBoundingBox () const;
+
+		/*
 			Sp?cifie un maillage pour ce mod?le 3d.
 		*/
 		void setMesh( IMesh* _mesh );

@@ -118,6 +118,27 @@ namespace IGC
 		return mesh;
 	}
 
+	BoundingBox IModel::getBoundingBox() const
+	{
+		BoundingBox bmax;
+		if (mesh != 0)
+		{
+			bmax = mesh->getBoundingBox(); // TODO
+		}
+		else
+		{
+			bmax.reset();
+		}
+		
+		for (vector<IModel*>::const_iterator it = children.begin() ;
+				it != children.end() ;
+				++it )
+		{
+			bmax.merge((*it)->getBoundingBox());
+		}
+		return bmax;
+	}
+
 	void IModel::setMesh( IMesh* _mesh )
 	{
 		if ( mesh )
