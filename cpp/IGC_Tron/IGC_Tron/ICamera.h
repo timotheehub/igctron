@@ -109,39 +109,46 @@ namespace IGC
 			par le paramètre _speed.
 		*/
 		void moveForward( float _speed );
+		void moveForward( double _speed ) { moveForward( (float)_speed ); };
 
 		/*
 			Déplace cette caméra vers l'arrière (défini par le vecteur opposé à direction) à une vitesse
 			définie par le paramètre _speed.
 		*/
 		void moveBackward( float _speed );
+		void moveBackward( double _speed ) { moveBackward( (float)_speed ); };
 
 		/*
 			Déplace cette caméra vers la gauche (défini par le vecteur perpendiculaire à la projection de
 			direction sur le plan XZ) à une vitesse définie par le paramètre _speed.
 		*/
 		void moveLeft( float _speed );
+		void moveLeft( double _speed ) { moveLeft( (float)_speed ); };
 
 		/*
 			Déplace cette caméra vers la droite (défini par le vecteur perpendiculaire à la projection de
 			direction sur le plan XZ) à une vitesse définie par le paramètre _speed.
 		*/
 		void moveRight( float _speed );
+		void moveRight( double _speed ) { moveRight( (float)_speed ); };
 
 		/*
 			Déplace cette caméra d'un certain nombre d'unités sur les axes X, Y, et Z.
 		*/
 		void translate( float _x, float _y, float _z );
+		void translate( double _x, double _y, double _z ) { translate( (float)_x, (float)_y, (float)_z ); };
 
 		/*
 			Fait pivoter cette caméra d'un certain nombre de radians par rapport aux axes X, Y, et Z.
 		*/
 		void rotate( float _x, float _y, float _z );
+		void rotate( double _x, double _y, double _z ) { rotate( (float)_x, (float)_y, (float)_z ); };
 
 		/*
 			Téléporte cette caméra au point { _x, _y, _z } dans le repère global.
 		*/
 		void setCenter( float _x, float _y, float _z );
+		void setCenter( double _x, double _y, double _z ) { setCenter( (float)_x, (float)_y, (float)_z ); };
 
 		/*
 			Téléporte cette caméra au point { _center.x, _center.y, _center.z } dans le repère global.
@@ -158,6 +165,7 @@ namespace IGC
 			point { _x, _y, _z } dans le repère global.
 		*/
 		void lookAt( float _x, float _y, float _z );
+		void lookAt( double _x, double _y, double _z ) { lookAt( (float)_x, (float)_y, (float)_z ); };
 
 		/*
 			Calcule et définit l'angle permettant à cette caméra d'observer l'objet situé au
@@ -175,6 +183,7 @@ namespace IGC
 			Y (lacet), et Z (roulis).
 		*/
 		void setAngle( float _x, float _y, float _z );
+		void setAngle( double _x, double _y, double _z ) { setAngle( (float)_x, (float)_y, (float)_z ); };
 
 		/*
 			Définit les angles (en radians) de cette caméra par rapport aux axes X (tangage),
@@ -192,6 +201,7 @@ namespace IGC
 			Définit l'angle d'ouverture (champ de vision) de cette caméra.
 		*/
 		void setFOV( float _fov );
+		void setFOV( double _fov ) { setFOV( (float)_fov ); };
 
 		/*
 			Revoie l'angle d'ouverture (champ de vision) de cette caméra.
@@ -202,6 +212,7 @@ namespace IGC
 			Définit le rapport largeur/hauteur de l'écran destiné à cette caméra.
 		*/
 		void setRatio( float _ratio );
+		void setRatio( double _ratio ) { setRatio( (float)_ratio ); };
 
 		/*
 			Définit le rapport largeur/hauteur de l'écran destiné à cette caméra.
@@ -218,6 +229,7 @@ namespace IGC
 			plus on augmente les détails situés au premier plan).
 		*/
 		void setZNearPlane( float _zNearPlane );
+		void setZNearPlane( double _zNearPlane ) { setZNearPlane( (float)_zNearPlane ); };
 
 		/*
 			Renvoie la distance autorisée par rapport au plan rapproché.
@@ -229,6 +241,7 @@ namespace IGC
 			plus on augmente les détails situés à l'arrière plan).
 		*/
 		void setZFarPlane( float _zFarPlane );
+		void setZFarPlane( double _zFarPlane ) { setZFarPlane( (float)_zFarPlane ); };
 
 		/*
 			Renvoie la distance autorisée par rapport au plan éloigné.

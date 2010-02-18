@@ -38,12 +38,14 @@
 #include "D3DModel.h"
 #include "D3DFont.h"
 #include "D3DTexture.h"
+#include "D3DMaterial.h"
 #include "OGLRenderer.h"
 #include "OGLCamera.h"
 #include "OGLMesh.h"
 #include "OGLModel.h"
 #include "OGLFont.h"
 #include "OGLTexture.h"
+#include "OGLMaterial.h"
 
 /***********************************************************************************/
 /** DEBUG                                                                         **/
@@ -244,5 +246,6 @@ DEFINE_FACTORY_FUNCTIONS( Font );
 DEFINE_FACTORY_FUNCTIONS( Mesh );
 DEFINE_FACTORY_FUNCTIONS( Model );
 DEFINE_FACTORY_FUNCTIONS( Texture );
+DEFINE_FACTORY_FUNCTIONS( Material );
 
 }

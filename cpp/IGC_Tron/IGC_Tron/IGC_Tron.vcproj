@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="IGC_Tron"
 	ProjectGUID="{0BA00FCF-7191-443E-9C7F-6BE56C0B5AFF}"
 	RootNamespace="IGC_Tron"
@@ -227,6 +227,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\D3DMaterial.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\D3DMesh.cpp"
 					>
 				</File>
@@ -263,6 +267,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\IMaterial.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\IMesh.cpp"
 					>
 				</File>
@@ -288,6 +296,10 @@
 				</File>
 				<File
 					RelativePath=".\OGLFont.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\OGLMaterial.cpp"
 					>
 				</File>
 				<File
@@ -437,6 +449,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\D3DMaterial.h"
+					>
+				</File>
+				<File
 					RelativePath=".\D3DMesh.h"
 					>
 				</File>
@@ -473,6 +489,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\IMaterial.h"
+					>
+				</File>
+				<File
 					RelativePath=".\IMesh.h"
 					>
 				</File>
@@ -498,6 +518,10 @@
 				</File>
 				<File
 					RelativePath=".\OGLFont.h"
+					>
+				</File>
+				<File
+					RelativePath=".\OGLMaterial.h"
 					>
 				</File>
 				<File

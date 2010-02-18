@@ -232,9 +232,6 @@ namespace IGC
 		png_structp png_ptr;
 		png_infop info_ptr;
 
-		// TODO : à quoi sert ce truc ?
-		// unsigned int sig_read = 0;
-
 		FILE* fp = fopen( _path, "rb" );
 
 		_assert( fp != NULL, __FILE__, __LINE__, "ITexture::import() : Unable to access file." );

@@ -178,6 +178,7 @@ namespace IGC
 		Mesh* acquire( Mesh* addr, const char* name );
 		Model* acquire( Model* addr, const char* name );
 		Texture* acquire( Texture* addr, const char* name );
+		Material* acquire( Material* addr, const char* name );
 
 		/*
 			Recherche un objet en fonction du pointeur pass� en param�tre et renvoie ce m�me pointeur. Dans ce
@@ -191,6 +192,7 @@ namespace IGC
 		Mesh* acquire( Mesh* addr );
 		Model* acquire( Model* addr );
 		Texture* acquire( Texture* addr );
+		Material* acquire( Material* addr );
 
 		/*
 			Marque l'objet dont le nom est pass� en param�tre comme ayant une r�f�rence en moins. Si l'objet en
@@ -203,6 +205,7 @@ namespace IGC
 		void release( Mesh* addr );
 		void release( Model* addr );
 		void release( Texture* addr );
+		void release( Material* addr );
 
 	};
 }

@@ -464,7 +464,7 @@ namespace IGC
 
 		file = lib3ds_file_open( _path );
 
-		_assert( file != NULL, __FILE__, __LINE__, "IModel::import() : Unable to access file." );
+		_assert_ex( file != NULL, __FILE__, __LINE__, "IModel::import() : Unable to access file %s.", _path );
 
 		// TODO : spawner des instances de Material
 		{
