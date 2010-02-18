@@ -14,6 +14,7 @@
 	import org.papervision3d.materials.special.CompositeMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.materials.WireframeMaterial;
+	import org.papervision3d.objects.parsers.Max3DS;
 	import org.papervision3d.objects.primitives.Cube;
 	import org.papervision3d.objects.primitives.Sphere;
 	import org.papervision3d.render.QuadrantRenderEngine;
@@ -53,15 +54,15 @@
 
 		public static const PLANE_WIDTH:int = 600;
 		public static const PLANE_HEIGHT:int = 500;
+		public static const NB_GROUND_POLY:Number = 14; //improve if ground disapear
 		
 		public static const WALL_SMALL_SEG:int = 1;
 		public static const WALL_LARGE_SEG:int = 1;//0;
-				
 		public static const WALL_THICK:Number = 0.3;
+		public static const CUBE_EXCLUDE_FACES:int = Cube.BOTTOM + Cube.RIGHT + Cube.LEFT;
 		
 		public static const VEHICLEZ:Number = -8;
 		public static const Z_OFFSET:Number = 10;
-		public static const NB_GROUND_POLY:Number = 15;
 		
 		private var background : Bitmap;
 		
@@ -81,7 +82,7 @@
 		private var viewport:Viewport3D;
 		private var camera:DynamicCam;//Camera3D;
 		private var light:PointLight3D;
-		//TODO switch to QuadrantRenderEngine for better quality
+		//TODO switch to QuadrantRenderEngine for better quality (lower perf)
 		private var renderer:BasicRenderEngine;
 		private var universe:DisplayObject3D;
 		
@@ -90,6 +91,7 @@
 		private var colorMat : ColorMaterial;
 		private var vehicleCube : Array = null;
 		private var vehicleMat : Array = null;
+		private var test_vehicle : Max3DS = null;
 		
 		private var fpsLabel : TextField;
 		private var frameCount : Number = 0; // nombre d'images affichées depuis le début de la dernière seconde
@@ -213,7 +215,7 @@
 			//cellMat.smooth = false;
 			//colorMat = new ColorMaterial( 0x000066);
 			var testMat:WireframeMaterial = new WireframeMaterial(0x000066, 1, 1);
-			plane  = new Plane(testMat, PLANE_WIDTH, PLANE_HEIGHT, NB_GROUND_POLY, NB_GROUND_POLY );
+			plane  = new Plane(testMat, PLANE_WIDTH, PLANE_HEIGHT, NB_GROUND_POLY, Math.floor( NB_GROUND_POLY * PLANE_HEIGHT / PLANE_WIDTH));// NB_GROUND_POLY );
 			plane.z = Z_OFFSET;
 			
 			universe = new DisplayObject3D();
@@ -228,6 +230,20 @@
 			vehicleCube = new Array(0);
 			vehicleMat = new Array(0);
 			coord = new Array(0);
+			
+			//TODO TEST IMPORT 3D
+			/*
+			test_vehicle = new Max3DS();
+			test_vehicle.load("3Dmodels/rMBike.3ds");
+			test_vehicle.rotationX -= 90;
+			test_vehicle.scale = 4;
+			coord[X] = 100; coord[Y] = 300; coord[Z] = 0;
+			coord = convert3D(coord);
+			test_vehicle.x = coord[X];
+			test_vehicle.y = coord[Y];
+			test_vehicle.z = coord[Z];
+			universe.addChild(test_vehicle);
+			*/
 			
 			var x:Number;
 			var y:Number;
@@ -357,7 +373,12 @@
 			var lastSeg : Segment = wall.getSegment( wall.getSegmentCount() - 1 );
 			
 			if ( count > 0 )
-			{
+			{ /////////////////////////////TODO
+			
+			
+			
+			
+			
 				if ( count == wall.getSegmentCount() || player.isNew() ) 
 				// si pas de nouveau segment : MAJ du dernier
 				{	
@@ -391,7 +412,7 @@
 				wall.rotationZ = 90;
 				*/
 				
-				wall = new Cube(  new MaterialsList( { all : vehicleMat[id] }), Math.abs(seg.y1 - seg.y0), WALL_THICK , -2 * VEHICLEZ, WALL_LARGE_SEG, WALL_SMALL_SEG, WALL_SMALL_SEG );
+				wall = new Cube(  new MaterialsList( { all : vehicleMat[id] }), Math.abs(seg.y1 - seg.y0), WALL_THICK , -2 * VEHICLEZ, WALL_LARGE_SEG, WALL_SMALL_SEG, WALL_SMALL_SEG, 0, CUBE_EXCLUDE_FACES );
 				wall.x = seg.x0 - PLANE_WIDTH / 2;
 				wall.y = -(seg.y1 + seg.y0 - PLANE_HEIGHT) / 2 ;
 				wall.z = VEHICLEZ;
@@ -410,7 +431,7 @@
 				wall.z = VEHICLEZ;
 				*/
 				
-				wall = new Cube(  new MaterialsList( { all : vehicleMat[id] } ), Math.abs(seg.x1 - seg.x0), WALL_THICK , -2 * VEHICLEZ, WALL_LARGE_SEG, WALL_SMALL_SEG, WALL_SMALL_SEG );
+				wall = new Cube(  new MaterialsList( { all : vehicleMat[id] } ), Math.abs(seg.x1 - seg.x0), WALL_THICK , -2 * VEHICLEZ, WALL_LARGE_SEG, WALL_SMALL_SEG, WALL_SMALL_SEG, 0, CUBE_EXCLUDE_FACES  );
 				wall.rotationX = -90;
 				wall.x = (seg.x1 + seg.x0 - PLANE_WIDTH) / 2 ;
 				wall.y = -seg.y0 + PLANE_HEIGHT / 2;
