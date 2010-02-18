@@ -23,8 +23,8 @@ void CameraPlayer::OnMouseMove ( int keyboardContext, int mouseContext,
 {
 	if ( mouseContext & IWindow::MC_LEFT )
 	{
-		float dx = MOUSE_SENSITIVITY * (float)(mouseX - mouseLastX);
-		float dy = MOUSE_SENSITIVITY * (float)(mouseY - mouseLastY);
+		//float dx = MOUSE_SENSITIVITY * (float)(mouseX - mouseLastX);
+		//float dy = MOUSE_SENSITIVITY * (float)(mouseY - mouseLastY);
 
 		//aCamera->rotate( dx, dy, 0.0f );
 	}

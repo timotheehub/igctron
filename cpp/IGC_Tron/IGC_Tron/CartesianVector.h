@@ -15,7 +15,7 @@ namespace Utils
 
 struct CartesianVector
 {
-	typedef double CoordType;
+	typedef float CoordType;
 
 	CoordType x, y, z;
 

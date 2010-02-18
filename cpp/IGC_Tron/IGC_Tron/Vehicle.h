@@ -9,6 +9,7 @@
 #define VEHICLE_H_
 
 #include "Globals.h"
+#include "Common.h"
 
 class Vehicle
 {
@@ -39,12 +40,18 @@ protected:
 	static const double BOOST_COEF;
 	static const double BOOST_LENGTH;
 
+	IGC::Model* getModel () const;
+	void updateSize ();
+
 	Utils::CartesianVector initSpeed;
 	Utils::CartesianVector position;
 	Utils::CartesianVector speed;
 	bool boost;
 	double boostElapsed;
 	int playerNumber;
+	float length;
+	float width;
+	//float height; // TODO
 };
 
 #endif /* VEHICLE_H_ */
