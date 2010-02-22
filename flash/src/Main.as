@@ -45,6 +45,12 @@
 	
 	public class Main extends Sprite 
 	{	
+		public static var OPTION_KEY_LEFT 		: uint = 37;
+		public static var OPTION_KEY_RIGHT 		: uint = 39;
+		public static var OPTION_GRAPHIC_LEVEL	: uint = 5;
+		public static var OPTION_MUSIC_LEVEL	: uint = 50;
+		public static var OPTION_SOUND_LEVEL 	: uint = 50;
+		
 		
 		[Embed(source="../bin/font/Horsal.ttf", fontFamily="Horseshoes", mimeType="application/x-font-truetype")]
 		public static var Horseshoes : Class;
@@ -100,6 +106,7 @@
 		private var frameMark : Number = 0;
 		private var currentFramerate : Number = 0; // nombre d'images calculées durant l'avant dernière seconde
 		
+		private var cookie_param : Cookie;
 		
 		public function Main() : void 
 		{
@@ -133,6 +140,9 @@
 			new ImageLoader( pool, "Menu_Image_0_0", "img/menu_0_0.png", true );
 			new ImageLoader( pool, "Menu_Image_0_1", "img/menu_0_1.png", true );
 			new ImageLoader( pool, "Menu_Image_0_2", "img/menu_0_2.png", true );
+			new ImageLoader( pool, "Menu_Image_1_0", "img/menu_1_0.png", true );
+			new ImageLoader( pool, "Menu_Image_1_1", "img/menu_1_1.png", true );
+			new ImageLoader( pool, "Menu_Image_1_2", "img/menu_1_2.png", true );
 
 			// chargez vos textes, xml, fichiers de config ici :
 			// new TextLoader( pool, "ConfigXML", "config.xml", true );
@@ -153,10 +163,66 @@
 			pool.removeEventListener( Event.COMPLETE, onLoadComplete );
 			
 			// c'est ici le véritable point d'entrée de votre programme
-
+			loadCookie();
+			
 			initMenu();
 		}
 
+		private function loadCookie() : void
+		{
+			cookie_param = new Cookie("igc_tron_param");
+
+			if (cookie_param.read("keybord_left") == "")
+				saveKeyLeft();
+			else
+				Main.OPTION_KEY_LEFT = (uint)(cookie_param.read("keybord_left"));
+				
+			if (cookie_param.read("keybord_right") == "")
+				saveKeyRight();
+			else
+				Main.OPTION_KEY_RIGHT = (uint)(cookie_param.read("keybord_right"));
+			
+			if (cookie_param.read("music_level") == "")
+				saveMusicLevel();
+			else
+				Main.OPTION_MUSIC_LEVEL = (uint)(cookie_param.read("music_level"));
+			
+			if (cookie_param.read("sound_level") == "")
+				saveSoundLevel();
+			else
+				Main.OPTION_SOUND_LEVEL = (uint)(cookie_param.read("sound_level"));
+			
+			if (cookie_param.read("graphic_level") == "")
+				saveGraphicLevel();
+			else
+				Main.OPTION_GRAPHIC_LEVEL = (uint)(cookie_param.read("graphic_level"));
+		}
+		
+		public function saveKeyLeft(left : uint = 37) : void
+		{
+			cookie_param.write( "keybord_left", left );
+		}
+		
+		public function saveKeyRight(right : uint = 39) : void
+		{
+			cookie_param.write( "keybord_right", right );
+		}
+		
+		public function saveSoundLevel(sound_level : uint = 50) : void
+		{
+			cookie_param.write( "sound_level", sound_level );
+		}
+		
+		public function saveMusicLevel(music_level : uint = 50) : void
+		{
+			cookie_param.write( "music_level", music_level );
+		}
+		
+		public function saveGraphicLevel(level : uint = 5) : void
+		{
+			cookie_param.write( "graphic_level", level );
+		}
+		
 		public function getResource( _name : String ) : Object
 		{			
 			// pour accéder à une ressource chargée de type image :
@@ -173,10 +239,11 @@
 		
 		public function initMenu() : void
 		{
-			music = new Music( this );
+			music = new Music(this);
 			music.menuMusic();
 			
-			menu = new Menu( this, stage );
+			menu = new Menu(this, stage);
+			addChild(menu);
 		}
 		
 		public function initGame() : void 
