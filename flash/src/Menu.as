@@ -1,271 +1,285 @@
 ﻿package  
 {
+	import org.papervision3d.core.animation.clip.AnimationClip3D;
+	import org.papervision3d.core.proto.SceneObject3D;
+	import org.papervision3d.materials.BitmapMaterial;
+	import org.papervision3d.materials.utils.MaterialsList;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.primitives.Plane;
+	import org.papervision3d.view.*;
+	import org.papervision3d.cameras.Camera3D;
+	import org.papervision3d.render.BasicRenderEngine;
+	import org.papervision3d.scenes.Scene3D;
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.display.Stage;
+	
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
-	import flash.events.MouseEvent;
-	import flash.net.URLRequest;
+	import flash.events.TimerEvent;
+	
 	import flash.text.Font;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	
+	import flash.utils.Timer;
+
 	import gs.TweenLite;
 	import gs.easing.*;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
 	
-	public class Menu
+	public class Menu extends Sprite
 	{
-		private const DUREE_TRANSITION : Number = 1;
-		private const KEYBOARD_LEFT : uint = 37;
-		private const KEYBOARD_RIGHT : uint = 39;
-		private const KEYBOARD_ENTER : uint = 13;
-		private const KEYBOARD_SPACE : uint = 32;
-		private const MENU_LABEL_Y : int = 300;
+		private const SCREEN_WIDTH		: int = 800;
+		private const SCREEN_HEIGHT		: int = 600;
 		
-		private var main : Main;
-		private var stage : Stage;
-		private var background : Menu_Background;
-		private var state : uint;
-		private var list : Array;
-		private var spots : Array;
-		private var rondDesItems : Sprite;
-		private var spotItem0 : int;
+		private const DUREE_TRANSITION 	: Number = 1;
 		
-		private const nbItemMenu : Array = new Array( 3, 2 );
+		private const KEYBOARD_LEFT 	: uint = 37;
+		private const KEYBOARD_RIGHT 	: uint = 39;
+		private const KEYBOARD_ENTER 	: uint = 13;
+		private const KEYBOARD_SPACE 	: uint = 32;
 		
-		private var oldMenuLabel : TextField;
-		private var newMenuLabel : TextField;
+		private const POSITION_ITEMS_Y	: int = 250;
+		private const MENU_LABEL_X 		: int = 1000;
+		private const MENU_LABEL_Y 		: int = 0;
+		private const MENU_LABEL_Z 		: int = -350;
+	
+		private var camera 				: Camera3D;
+		private var viewport 			: Viewport3D;
+		private var scene 				: SceneObject3D;
+		private var renderer 			: BasicRenderEngine;
 		
-		private var cookie_param : Cookie;
+		private var main 			: Main;
+		private var mainStage 		: Stage;
+		private var background 		: Menu_Background;
+		private var state 			: uint = 0;
+		private var items_list		: Array = new Array(new Array("Solo", "Multi", "Options"), new Array("Keys", "Display", "Sound"));
+		private var images_list 	: Array = new Array(); // liste des objets Plane contenant les images des menus
+		private var spots_list		: Array = new Array(); // liste des positions des items
+		private var texts_list		: Array = new Array(); // liste des objets Plane contenant les labels des menus
+		private var spotItem0 		: int = 0; // position del'item d'index 0
 		
-		public function Menu( _main : Main, _stage : Stage ) 
+		private var cookie_param 	: Cookie;
+		
+		public function Menu(_main : Main, _stage : Stage) 
 		{
+			// Initialisation des paramètres
 			main = _main;
-			stage = _stage;
-			state = 0;
-			list = new Array();
-			spots = new Array();
-			spotItem0 = 0;
+			mainStage = _stage;
 			
-			cookie_param = new Cookie( "igc_tron_param" );
-			cookie_param.write( "keybord_left", 37 );
-			cookie_param.write( "keybord_right", 39 );
-			cookie_param.write( "music_level", 50 );
-			cookie_param.write( "sound_level", 50 );
-			cookie_param.write( "graphic_level", 5 );
+			//loadCookie();
 			
-			background = new Menu_Background( stage.stageWidth, stage.stageHeight );
-			stage.addChild(background);
+			initPapervision();
 			
-			rondDesItems = new Sprite();
-			rondDesItems.x = stage.stageWidth / 2;
-			rondDesItems.y = stage.stageHeight / 5;
-			stage.addChild(rondDesItems);
+			initMenuItem();
 			
-			oldMenuLabel = new TextField();
-			oldMenuLabel.autoSize = "left";
-			oldMenuLabel.textColor = 0x51FFAE;
-			oldMenuLabel.selectable = false;
-			oldMenuLabel.embedFonts = true;
-			stage.addChild(oldMenuLabel);
+			background = new Menu_Background(mainStage.stageWidth, mainStage.stageHeight);
+			addChildAt(background, 0);
 			
-			newMenuLabel = new TextField();
-			newMenuLabel.autoSize = "left";
-			newMenuLabel.textColor = 0x51FFAE;
-			newMenuLabel.selectable = false;
-			newMenuLabel.embedFonts = true;
+			addEventListener(Event.ENTER_FRAME, render);
+			mainStage.addEventListener(KeyboardEvent.KEY_DOWN, keyboardEvent);
+		}
+		
+		public function initPapervision() : void
+		{
+			viewport = new Viewport3D(0, 0, true);
+			addChild(viewport);
 
+			scene = new SceneObject3D();
+
+			camera = new Camera3D();
+			scene.addChild(camera);
+			camera.z = -700;
+
+			renderer = new BasicRenderEngine();
+		}
+		
+		private function initMenuItem() : void
+		{
+			var angleInclinaison : Number = (25 * Math.PI)/180;
+			var rayon : Number = 400;
+			
+			// Chargement et ajout des élements du menu (images et textes)
+			for (var i : int = 0 ; i < items_list[state].length ; i++)
+			{
+				// Création d'un objet plane qui va contenir l'image
+				var material : BitmapMaterial = new BitmapMaterial((BitmapData)(main.getResource( "Menu_Image_"+state+"_" + i )));
+				var plane : Plane = new Plane(material);
+				
+				// Calcul et sauvegarde de la position de l'objet
+				var angle : Number = (i * (360 / items_list[state].length) * Math.PI)/180;
+				var spot : Object = new Object();
+				spot.x =   rayon * Math.sin(angle);
+				spot.y = - rayon * Math.cos(angle) * Math.sin(angleInclinaison) + POSITION_ITEMS_Y;
+				spot.z = - rayon * Math.cos(angle) * Math.cos(angleInclinaison);
+				spots_list[i] = spot;
+				
+				// Positionnement et ajout du plan
+				plane.x = spot.x;
+				plane.y = spot.y;
+				plane.z = spot.z;
+				images_list[i] = plane;
+				
+				scene.addChild(plane);
+			}
+			
+			initText();
+		}
+		
+		private function initText() : void
+		{
 			var font : Font = new Main.Horseshoes();
 			var format : TextFormat = new TextFormat();
 			format.font = font.fontName;
 			format.bold  = false;
 			format.size = 60;
-
-			newMenuLabel.defaultTextFormat = format;
-			oldMenuLabel.defaultTextFormat = format;
 			
-			//newMenuLabel.visible = false;
-			stage.addChild(newMenuLabel);
-			
-			var angleInclinaison : Number = (20 * Math.PI / 180);
-			var rayon : Number = 30 * nbItemMenu[state] + 200;
-			for (var i : int = 0 ; i < nbItemMenu[state] ; i++)
+			for (var i:int = 0; i < items_list[state].length ; i++)
 			{
-				// Initialisation des spots
-				var spot : Object = new Object();
-				var angle : Number = (2 * Math.PI / nbItemMenu[state]) * i;
-				spot.x = Math.sin(angle) * rayon;
-				spot.scale = ( 3 + Math.cos(angle) ) / 4;
-				spot.y = Math.sin(angleInclinaison) * rayon * Math.cos(angle) * spot.scale;
-				spots[i] = spot;
+				var tf : TextField = new TextField();
+				tf.autoSize = "left";
+				tf.textColor = 0x51FFAE;
+				tf.selectable = false;
+				tf.embedFonts = true;
+				tf.defaultTextFormat = format;
+				tf.text = items_list[state][i];
 				
-				// Chargement des images				
-				var bmpdata : BitmapData = (BitmapData)(main.getResource( "Menu_Image_0_"+i ));
-				var bmp : Bitmap = new Bitmap(bmpdata);
-				bmp.x = - bmp.width / 2;
-				bmp.y = - bmp.height / 2;
+				var bmpData : BitmapData = new BitmapData(tf.width, tf.height, true, 0x000000);
+				bmpData.draw(tf);
 				
-				var container : Sprite = new Sprite();
-				container.name = "Menu_0_" + i;
-				container.x = spot.x;
-				container.y = spot.y;
-				container.scaleX = spot.scale;
-				container.scaleY = spot.scale;
-				list[i] = container;
-				//container.addEventListener( MouseEvent.CLICK, updateMenu );
-				container.addChild(bmp);
+				var material : BitmapMaterial = new BitmapMaterial(bmpData);
+				material.smooth = true;
+				material.doubleSided = true;
 				
-				rondDesItems.addChild(container);
+				var plane : Plane = new Plane(material, tf.width, tf.height);
+				plane.name = "plane_text_" + i;
+				plane.x = MENU_LABEL_X;
+				plane.y = MENU_LABEL_Y;
+				plane.z = MENU_LABEL_Z;
+				texts_list[i] = plane;
+				scene.addChild(plane);
 			}
-			triBulle();
 			
-			newMenuLabel.text = 'Solo';
-			newMenuLabel.x = ( stage.stageWidth - newMenuLabel.width ) / 2;
-			newMenuLabel.y = MENU_LABEL_Y;
-			oldMenuLabel.y = MENU_LABEL_Y;
-			
-			stage.addEventListener( KeyboardEvent.KEY_DOWN, keyboardEvent );
+			// Affichage du premier label
+			scene.getChildByName("plane_text_0").x = 0;
 		}
 		
-		private function launchMenu( _index : int ) : void
+		private function render(e : Event = null) : void
 		{
-			stage.removeEventListener( KeyboardEvent.KEY_DOWN, keyboardEvent );
-			if ( _index == 0 )
+			renderer.renderScene(scene, camera, viewport);
+		}
+		
+		private function keyboardEvent(e : KeyboardEvent = null) : void
+		{
+			if(e.keyCode == KEYBOARD_LEFT || e.keyCode == KEYBOARD_RIGHT)
 			{
-				// Lancement du solo
+				mainStage.removeEventListener(KeyboardEvent.KEY_DOWN, keyboardEvent);
+				
+				// Récupération du plan correspondant au label actuel
+				var old_behind : int = (items_list[state].length - spotItem0) % items_list[state].length;
+				var old_menu_label : Plane = (Plane)(scene.getChildByName("plane_text_"+old_behind));
+				
+				// Détermination de la nouvelle organisation
+				if(e.keyCode == KEYBOARD_LEFT)
+					spotItem0 = (++spotItem0 >= items_list[state].length) ? spotItem0 = 0 : spotItem0 = spotItem0;
+				else
+					spotItem0 = (--spotItem0 < 0) ? spotItem0 = items_list[state].length - 1 : spotItem0 = spotItem0;
+				
+				// Récupération du plan correspondant au nouveau label
+				var new_behind : int = (items_list[state].length - spotItem0) % items_list[state].length;
+				var new_menu_label : Plane = (Plane)(scene.getChildByName("plane_text_"+new_behind));
+				
+				// Déplacement des labels
+				if (e.keyCode == KEYBOARD_LEFT)
+				{
+					new_menu_label.x = -MENU_LABEL_X;
+					TweenLite.to(old_menu_label, DUREE_TRANSITION, {x:MENU_LABEL_X, ease:Quad.easeIn} );
+					TweenLite.to(new_menu_label, DUREE_TRANSITION, {x:0, ease:Quad.easeOut} );
+				}
+				else
+				{
+					new_menu_label.x = MENU_LABEL_X;
+					TweenLite.to(old_menu_label, DUREE_TRANSITION, {x:-MENU_LABEL_X, ease:Quad.easeIn} );
+					TweenLite.to(new_menu_label, DUREE_TRANSITION, {x:0, ease:Quad.easeOut} );
+				}
+				
+				// Modification des positions des images
+				for(var i : int = 0 ; i < items_list[state].length ; i++)
+				{
+					var plane : Plane = images_list[i];
+					var spot : Object = spots_list[(i + spotItem0) % items_list[state].length];
+					
+					TweenLite.to(plane, DUREE_TRANSITION, {x:spot.x, y:spot.y, z:spot.z, ease:Quad.easeInOut} );
+					var timer : Timer = new Timer(DUREE_TRANSITION * 1000, 1);					
+					timer.addEventListener(TimerEvent.TIMER_COMPLETE, reenableKeybord);
+					timer.start();
+				}
+			}
+			else if(e.keyCode == KEYBOARD_ENTER || e.keyCode == KEYBOARD_SPACE)
+			{
+				// Sélection d'un objet du menu
+				launchItem((items_list[state].length - spotItem0) % items_list[state].length);
+			}
+		}
+		
+		private function reenableKeybord(e : Event = null) : void
+		{
+			mainStage.addEventListener(KeyboardEvent.KEY_DOWN, keyboardEvent);
+		}
+		
+		private function launchItem(_index : int) : void
+		{
+			mainStage.removeEventListener(KeyboardEvent.KEY_DOWN, keyboardEvent);
+			
+			if (state == 0 && _index == 0)
+			{
+				// Solo
 				trace('solo');
-				stage.removeChild(oldMenuLabel);
-				stage.removeChild(newMenuLabel);
-				stage.removeChild(background);
-				stage.removeChild(rondDesItems);
-				background.stopScintillement = true;
+				
+				scene = null;
+				removeEventListener(Event.ENTER_FRAME, render);
+				background.stop();
+				
 				main.initGame();
 			}
-			else if ( _index == 1 )
+			else if (state == 0 && _index == 1)
 			{
-				// Lancement du multi
+				// Pulti
 				trace('multi');
-				background.stopScintillement = true;
+				
+				scene = null;
+				removeEventListener(Event.ENTER_FRAME, render);
+				background.stop();
 			}
-			else if ( _index == 2 )
+			else if (state == 0 && _index == 2)
 			{
-				// Affichage des options
+				// Options
 				trace('options');
-				background.stopScintillement = true;
+				changeState(1);
+			}
+			else if (state == 1 && _index == 0)
+			{
+				trace('sous-menu keys');
+			}
+			else if (state == 1 && _index == 1)
+			{
+				trace('sous-menu display');
+			}
+			else if (state == 1 && _index == 2)
+			{
+				trace('sous-menu sound');
 			}
 		}
 		
-		private function updateMenu( e : Event = null ) : void
+		private function changeState(new_state : int) : void
 		{
-			var menuSelected : int = (String)(e.currentTarget.name).substr(7);
-			var frontMenu : int = (nbItemMenu[state] - spotItem0) % nbItemMenu[state];
-			if ( menuSelected == frontMenu )
-			{
-				launchMenu(menuSelected);
-			}
-			else
-			{
-				stage.removeEventListener( KeyboardEvent.KEY_DOWN, keyboardEvent );
-				spotItem0 = (nbItemMenu[state] - menuSelected) % nbItemMenu[state];
-				
-				// Passage du 0 au premier plan
-				for (var i : int = 0 ; i < nbItemMenu[state] ; i++)
-				{
-					var container : Sprite = list[i];
-					var spot : Object = spots[(i + spotItem0) % nbItemMenu[state]];
-					
-					TweenLite.to(container, DUREE_TRANSITION, { x:spot.x, y:spot.y, scaleX:spot.scale, scaleY:spot.scale, ease:Quad.easeInOut } );
-					var timer : Timer = new Timer(DUREE_TRANSITION * 1000, 1);					
-					timer.addEventListener(TimerEvent.TIMER_COMPLETE, reenableKeybord);
-					timer.start();
-				}
-			}
-			/*stage.removeChild(rondDesItems);
-			main.initGame();*/
-		}
-		
-		private function keyboardEvent( e : KeyboardEvent = null ) : void
-		{
-			if ( e.keyCode == KEYBOARD_LEFT || e.keyCode == KEYBOARD_RIGHT )
-			{
-				oldMenuLabel.text = newMenuLabel.text;
-				oldMenuLabel.x = newMenuLabel.x;
-				
-				stage.removeEventListener( KeyboardEvent.KEY_DOWN, keyboardEvent );
-				if( e.keyCode == KEYBOARD_LEFT )
-				{
-					spotItem0++;
-					newMenuLabel.x = - newMenuLabel.width;
-				}
-				else
-				{
-					spotItem0--;
-					newMenuLabel.x = stage.stageWidth + newMenuLabel.width;
-				}
-				if ( spotItem0 < 0 ) 
-					spotItem0 = nbItemMenu[state] - 1;
-				spotItem0 = spotItem0 % nbItemMenu[state];
-				
-				switch ((nbItemMenu[state] - spotItem0) % nbItemMenu[state])
-				{
-					case 0 : newMenuLabel.text = "Solo"; break;
-					case 1 : newMenuLabel.text = "Multi"; break;
-					case 2 : newMenuLabel.text = "Options"; break;
-					default : newMenuLabel.text = "Erreur"; break;
-				}
-				if ( newMenuLabel.x > 0 )
-				{
-					TweenLite.to(oldMenuLabel, DUREE_TRANSITION, { x: -oldMenuLabel.width, ease:Quad.easeIn } );
-					TweenLite.to(newMenuLabel, DUREE_TRANSITION, { x:((stage.stageWidth-newMenuLabel.width)/2), ease:Quad.easeOut } );
-				}
-				else
-				{
-					TweenLite.to(oldMenuLabel, DUREE_TRANSITION, { x: (stage.stageWidth+oldMenuLabel.width), ease:Quad.easeIn } );
-					TweenLite.to(newMenuLabel, DUREE_TRANSITION, { x:(stage.stageWidth-newMenuLabel.width)/2, ease:Quad.easeOut } );
-				}			
-				
-				for (var i : int = 0 ; i < nbItemMenu[state] ; i++)
-				{
-					var container : Sprite = list[i];
-					var spot : Object = spots[(i + spotItem0) % nbItemMenu[state]];
-					
-					TweenLite.to(container, DUREE_TRANSITION, { x:spot.x, y:spot.y, scaleX:spot.scale, scaleY:spot.scale, ease:Quad.easeInOut } );
-					var timer : Timer = new Timer(DUREE_TRANSITION * 1000, 1);					
-					timer.addEventListener(TimerEvent.TIMER_COMPLETE, reenableKeybord);
-					timer.start();
-				}
-			}
-			else if ( e.keyCode == KEYBOARD_ENTER || e.keyCode == KEYBOARD_SPACE )
-			{
-				launchMenu((nbItemMenu[state] - spotItem0) % nbItemMenu[state]);
-			}
-		}
-		
-		private function reenableKeybord( e : Event = null ) : void
-		{
-			triBulle();
-			stage.addEventListener( KeyboardEvent.KEY_DOWN, keyboardEvent );
-		}
-		
-		private function triBulle() : void
-		{
-			var en_desordre : Boolean = true;
-			for ( var i : int = 0 ; (i < nbItemMenu[state]-1) && en_desordre ; ++i )
-			{
-				en_desordre = false;
-				for ( var j : int = 0 ; j < nbItemMenu[state] - 1 - i ; ++j )
-				{
-					if ( rondDesItems.getChildAt(j).y < rondDesItems.getChildAt(j+1).y )
-					{
-						rondDesItems.setChildIndex(rondDesItems.getChildAt(j+1), j);
-						en_desordre = true;
-					}
-				}
-			}
+			state = new_state;
+			spotItem0 = 0;
+			scene = new SceneObject3D();
+			initMenuItem();
+			mainStage.addEventListener(KeyboardEvent.KEY_DOWN, keyboardEvent);
 		}
 	}
 }

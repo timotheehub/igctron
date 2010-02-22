@@ -73,7 +73,7 @@
 				}
 			}
 			shape.graphics.endFill();
-			addChild(shape);
+			//addChild(shape);
 		}
 		
 		private function scintillement( e : Event = null ) : void
@@ -97,6 +97,11 @@
 				timer.addEventListener(TimerEvent.TIMER_COMPLETE, scintillement);
 				timer.start();			
 			}
+		}
+		
+		public function stop():void
+		{
+			stopScintillement = true;
 		}
 	}
 }

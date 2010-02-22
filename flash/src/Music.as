@@ -10,7 +10,6 @@
 	{
 		private var main : Main;
 		private var music : Sound;
-		private var soundVolume : Number = 1;
 		private var soundTransform : SoundTransform;
 		private var soundChannel : SoundChannel;
 		private var currentMusic : int = 0;
@@ -26,7 +25,7 @@
 			listMusic[1][1] = "Game_Music_1";
 			
 			soundChannel = (Sound)(main.getResource(listMusic[typeMusic][currentMusic])).play( );
-			soundChannel.soundTransform = new SoundTransform( soundVolume );
+			soundChannel.soundTransform = new SoundTransform( (Main.OPTION_MUSIC_LEVEL/100) );
 			soundChannel.addEventListener( Event.SOUND_COMPLETE, changeMusic );
 		}
 		
@@ -63,7 +62,7 @@
 		{
 			soundChannel.stop();
 			soundChannel = (Sound)(main.getResource(listMusic[typeMusic][currentMusic])).play( );
-			soundChannel.soundTransform = new SoundTransform( soundVolume );
+			soundChannel.soundTransform = new SoundTransform( (Main.OPTION_MUSIC_LEVEL/100) );
 			soundChannel.addEventListener( Event.SOUND_COMPLETE, changeMusic );
 		}
 	}
