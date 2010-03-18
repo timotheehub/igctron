@@ -63,6 +63,11 @@ namespace IGC
 	public:
 
 		/*
+			Copie
+		*/
+		void Clone( IMaterial * material );
+
+		/*
 			Instancie la classe.
 		*/
 		IMaterial( Engine* _engine );

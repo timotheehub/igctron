@@ -8,6 +8,8 @@
 #ifndef VEHICLE_H_
 #define VEHICLE_H_
 
+#include <string>
+
 #include "Globals.h"
 #include "Common.h"
 
@@ -16,7 +18,9 @@ class Vehicle
 public:
 	static const float HEIGHT;
 
-	void Init(const Utils::CartesianVector& initPosition);
+	void Init(const Utils::CartesianVector& initPosition,
+			const Utils::CartesianVector& initSpeed,
+			const std::string& modelName, float4 color);
 
 	void MoveForward(double dt);
 	void Boost();
@@ -26,8 +30,8 @@ public:
 	void Draw() const;
 	void Explode() const;
 
-	Vehicle(Utils::CartesianVector anInitPosition,
-			Utils::CartesianVector anInitSpeed, int aNumber);
+	Vehicle ( );
+	virtual ~Vehicle ( );
 
 	Utils::CartesianVector GetPosition() const;
 	Utils::CartesianVector GetSpeed() const;
@@ -38,7 +42,6 @@ protected:
 	static const double BOOST_COEF;
 	static const double BOOST_LENGTH;
 
-	Utils::CartesianVector initSpeed;
 	Utils::CartesianVector position;
 	Utils::CartesianVector speed;
 	bool boost;

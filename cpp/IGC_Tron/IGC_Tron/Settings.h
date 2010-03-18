@@ -4,6 +4,8 @@
 #ifndef __SETTINGS_H__
 #define __SETTINGS_H__
 
+#include <string>
+
 #include "Singleton.h"
 #include "Game.h"
 
@@ -11,6 +13,11 @@ struct PlayerSettings
 {
 	int TurnLeft;
 	int TurnRight;
+	int Boost;
+	float4 vehicleColor;
+	float4 wallColor;
+	std::string modelName;
+	std::string playerName;
 };
 
 struct CameraSettings

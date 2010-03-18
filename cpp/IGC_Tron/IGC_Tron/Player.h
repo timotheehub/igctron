@@ -36,8 +36,8 @@ public:
 	bool IsGettingKilled(const Player& killer);
 	// Provoque l'explosion en cas de mort
 
-	Player (std::string aName, Utils::CartesianVector initPos,
-			Utils::CartesianVector initSpeed, int aNumber);
+	Player (Utils::CartesianVector initPos, Utils::CartesianVector anInitSpeed,
+			int anID);
 
 	virtual ~Player ( );
 
@@ -49,7 +49,9 @@ protected:
 	Vehicle myVehicle;
 	Wall myWall;
 	Utils::CartesianVector initPosition;
-	int playerNumber;
+	Utils::CartesianVector initSpeed;
+
+	const int playerID;
 
 	enum PlayerStatus
 	{

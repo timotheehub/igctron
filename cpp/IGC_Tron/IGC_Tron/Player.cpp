@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Vehicle.h"
 #include "Game.h"
+#include "Settings.h"
 using namespace std;
 using namespace Utils;
 
@@ -20,8 +21,13 @@ const float Player::WALL_BASE_HEIGHT = 1.0;
  ******************************************************************************/
 void Player::Init ( )
 {
-	myVehicle.Init(initPosition);
-	myWall.Init(initPosition);
+	const PlayerSettings* settings =
+		Settings::GetInstance()->GetPlayerSettings(playerID);
+
+	name = settings->playerName;
+	myVehicle.Init (initPosition, initSpeed, settings->modelName,
+			settings->vehicleColor);
+	myWall.Init (initPosition, initSpeed, settings->wallColor);
 }
 
 void Player::Update (double dt)
@@ -123,13 +129,13 @@ void Player::Draw ( ) const
  *                 Constructeurs et destructeurs                               *
  ******************************************************************************/
 
-Player::Player (string aName, CartesianVector initPos,
-		CartesianVector initSpeed, int aNumber) :
-	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos,
-			initSpeed, WALL_BASE_HEIGHT), initPosition(initPos), 
-			playerNumber(aNumber),status(LIVING)
+Player::Player (CartesianVector initPos, CartesianVector anInitSpeed,
+		int anID) :
+	myVehicle(), myWall(WALL_BASE_HEIGHT),
+	initPosition(initPos), initSpeed (anInitSpeed), 
+	playerID(anID), status(LIVING)
 {
-
+	Init();
 }
 
 Player::~Player ( )

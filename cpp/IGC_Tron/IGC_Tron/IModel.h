@@ -275,8 +275,9 @@ namespace IGC
 
 	public:
 
-		
-		// Copy
+		/*
+			Copie
+		*/
 		void Clone( IModel * model );
 
 		/*

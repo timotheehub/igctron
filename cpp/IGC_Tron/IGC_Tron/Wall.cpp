@@ -14,12 +14,17 @@ using namespace Utils;
 
 const float Wall::COLLAPSE_RELATIVE_STEP = 1;
 
-void Wall::Init(const CartesianVector& origin)
+void Wall::Init (const CartesianVector& origin,
+		const CartesianVector& direction, float4 color)
 {
+	xDirection = fabs(direction.x) > fabs(direction.z);
+
 	clear();
 	vertexes.assign(1, origin);
 	AddVertex();
+
 	height = baseHeight;
+	material->setEmissiveColor( color );
 }
 
 void Wall::clear()
@@ -152,13 +157,17 @@ bool Wall::IsInCollision(const Utils::Rectangle& object) const
 	}
 }
 
-Wall::Wall(const CartesianVector& origin, const CartesianVector& direction,
-		float userBaseHeight) :
-	vertexes(1, origin), models(), xDirection(fabs(direction.x) > fabs(
-			direction.z)), baseHeight(userBaseHeight), height(userBaseHeight)
+Wall::Wall (float userBaseHeight) :
+	vertexes(1), models(), xDirection(true), baseHeight(userBaseHeight),
+	height(userBaseHeight)
 {
+	Factory* factory = Displayer::GetInstance()->GetFactory();
+
 	// ça marche comme pour les textures, il suffit de faire appel à la factory
-	material = Displayer::GetInstance()->GetFactory()->acquire( (IGC::Material*)NULL, "wall_material" );
+	material = factory->acquire( (IGC::Material*)NULL );
+	material->Clone(factory->acquire(
+				(IGC::Material*)NULL, "wall_material")
+			);
 
 	// NB : à terme je remplacerai l'évaluation de la lumière actuellement par fonction fixe en utilisant des shaders
 
@@ -177,8 +186,7 @@ Wall::Wall(const CartesianVector& origin, const CartesianVector& direction,
 	// enfin la couleur emissive est une couleur indépendante des lumières dans la scène, mais contrairement à la couleur
 	// ambiante qui est multipliée, celle-ci est additionnée en plus, c'est donc celle-ci qui t'intéresse dans le cas du mur,
 	// les valeurs sont dans l'ordre R, G, B, A, sachant qu'il est préférable que A reste à 1
-	material->setEmissiveColor( 1.0f, 0.0f, 0.0f, 1.0f );
-	
+	material->setEmissiveColor( COLOR_WHITE );
+
 	AddVertex();
 }
-

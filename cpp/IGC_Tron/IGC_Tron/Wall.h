@@ -17,7 +17,8 @@
 class Wall
 {
 public:
-	void Init(const Utils::CartesianVector& origin);
+	void Init(const Utils::CartesianVector& origin,
+			const Utils::CartesianVector& direction, float4 color);
 
 	void Collapse(double dt); // Fait s'écrouler le mur un petit peu plus
 
@@ -34,8 +35,7 @@ public:
 	inline unsigned int GetVertexesCount ( );
 	inline bool GetVertexe ( Utils::CartesianVector & cVector, const unsigned int i );
 
-	Wall(const Utils::CartesianVector& origin,
-			const Utils::CartesianVector& direction, float userBaseHeight);
+	Wall (float userBaseHeight);
 
 protected:
 	static const float BASE_HEIGHT;
