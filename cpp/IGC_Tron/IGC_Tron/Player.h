@@ -36,8 +36,10 @@ public:
 	bool IsGettingKilled(const Player& killer);
 	// Provoque l'explosion en cas de mort
 
-	Player(std::string aName, Utils::CartesianVector initPos,
+	Player (std::string aName, Utils::CartesianVector initPos,
 			Utils::CartesianVector initSpeed, int aNumber);
+
+	virtual ~Player ( );
 
 protected:
 	static const bool OPTION_WALL_AFTER_DEATH;
