@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="IGC_Tron"
 	ProjectGUID="{0BA00FCF-7191-443E-9C7F-6BE56C0B5AFF}"
 	RootNamespace="IGC_Tron"

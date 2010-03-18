@@ -57,9 +57,6 @@ void Computer::artificialIntelligence ( )
 void Computer::getInformationBySenses ( )
 {
 	Game* aGame = Game::GetInstance ( );
-	/*int xPlane = aGame->GetPlane ( )->GetX ( );
-	int zPlane = aGame->GetPlane ( )->GetZ ( );
-TODO : revoir ce code : inutilisé...*/
 	int x, z;
 	Utils::CartesianVector cPoint, oldPoint;
 
@@ -253,6 +250,8 @@ int Computer::getAgainstBySensoryMemory ( int dl )
 
 // Calcule les bornes du vehicule
 // dl renvoie la direction
+// TODO : Définir des constantes à la place de 10,11,12 et 13.
+// TODO : Bug au niveau de GetLength.
 void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & maxZ, int & dl, Vehicle * vehicle )
 {
 	// Calcul de la direction actuelle
@@ -296,12 +295,12 @@ void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & ma
 			if ( dl * dz > 0 ) // Si virage.dx > 0
 			{
 				minX = currX;
-				maxX = currX + 3 * dl * dz;
+				maxX = currX + ceil ( vehicle->GetLength() * 2 + 2 ) * dl * dz;
 				dl = 10;
 			}
 			else
 			{
-				minX = currX + 3 * dl * dz;
+				minX = currX + ceil ( vehicle->GetLength() * 2 + 2 ) * dl * dz;
 				maxX = currX;
 				dl = 12;
 			}
@@ -314,12 +313,12 @@ void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & ma
 			if ( dl * dx < 0 )
 			{
 				minZ = currZ;
-				maxZ = currZ - 3 * dl * dx;
+				maxZ = currZ - ceil ( vehicle->GetLength() * 2 + 2 ) * dl * dx;
 				dl = 13;
 			}
 			else
 			{
-				minZ = currZ - 3 * dl * dx;
+				minZ = currZ - ceil ( vehicle->GetLength() * 2 + 2 ) * dl * dx;
 				maxZ = currZ;
 				dl = 11;
 			}
@@ -334,31 +333,31 @@ void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & ma
 		{
 			if ( dx < 0 )
 			{
-				minX = currX + 3 * dx;
+				minX = currX + ceil ( vehicle->GetLength() * 2 + 2 ) * dx;
 				maxX = currX;
 				dl = 12;
 			}
 			else
 			{
 				minX = currX;
-				maxX = currX + 3 * dx;
+				maxX = currX + ceil ( vehicle->GetLength() * 2 + 2 ) * dx;
 				dl = 10;
 			}
 			minZ = floor ( vehicle->GetPosition ( ).z * 2 - 0.5 );
 			maxZ = floor ( vehicle->GetPosition ( ).z * 2 + 0.5 );
 		}
 		else
-		{
+		{ 
 			if ( dz < 0 )
 			{
-				minZ = currZ + 3 * dz;
+				minZ = currZ + ceil ( vehicle->GetLength() * 2 + 2 ) * dz;
 				maxZ = currZ;
 				dl = 13;
 			}
 			else
 			{
 				minZ = currZ;
-				maxZ = currZ + 3 * dz;
+				maxZ = currZ + ceil ( vehicle->GetLength() * 2 + 2 ) * dz;
 				dl = 11;
 			}
 			minX = floor ( vehicle->GetPosition ( ).x * 2 - 0.5 );

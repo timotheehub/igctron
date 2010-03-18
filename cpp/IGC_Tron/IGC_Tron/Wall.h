@@ -36,6 +36,7 @@ public:
 	inline bool GetVertexe ( Utils::CartesianVector & cVector, const unsigned int i );
 
 	Wall (float userBaseHeight);
+	Wall::~Wall();
 
 protected:
 	static const float BASE_HEIGHT;
@@ -57,6 +58,7 @@ inline unsigned int Wall::GetVertexesCount ( )
 {
 	return vertexes.size ( );
 }
+
 inline bool Wall::GetVertexe ( Utils::CartesianVector & cVector, const unsigned int i )
 {
 	if ( i <= vertexes.size ( ) )

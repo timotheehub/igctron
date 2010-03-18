@@ -309,7 +309,7 @@ namespace IGC
 		size.y = model->size.y;
 		size.z = model->size.z;
 
-		mesh = model->mesh;
+		setMesh ( model->mesh );
 
 		for ( vector<IModel*>::iterator it = model->children.begin() ; it != model->children.end() ; ++it )
 		{

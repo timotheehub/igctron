@@ -92,6 +92,15 @@ Utils::Rectangle Vehicle::GetRectangle() const
 			width / 2);
 }
 
+float Vehicle::GetLength() const
+{
+	return length;
+}
+
+float Vehicle::GetWidth() const
+{
+	return width;
+}
 
 /******************************************************************************
  *                                Affichage                                    *
