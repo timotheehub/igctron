@@ -18,13 +18,13 @@ const float Player::WALL_BASE_HEIGHT = 1.0;
 /******************************************************************************
  *                             Mise a jour                                     *
  ******************************************************************************/
-void Player::Init()
+void Player::Init ( )
 {
 	myVehicle.Init(initPosition);
 	myWall.Init(initPosition);
 }
 
-void Player::Update(double dt)
+void Player::Update (double dt)
 {
 
 	if (IsAlive())
@@ -45,7 +45,7 @@ void Player::Update(double dt)
 	}
 }
 
-void Player::MoveLeft()
+void Player::MoveLeft ( )
 {
 	if (IsAlive())
 	{
@@ -54,7 +54,7 @@ void Player::MoveLeft()
 	}
 }
 
-void Player::MoveRight()
+void Player::MoveRight ( )
 {
 	if (IsAlive())
 	{
@@ -63,7 +63,7 @@ void Player::MoveRight()
 	}
 }
 
-void Player::Boost()
+void Player::Boost ( )
 {
 	if (IsAlive())
 	{
@@ -71,17 +71,17 @@ void Player::Boost()
 	}
 }
 
-CartesianVector Player::GetPosition() const
+CartesianVector Player::GetPosition ( ) const
 {
 	return myVehicle.GetPosition();
 }
 
-string Player::GetName() const
+string Player::GetName ( ) const
 {
 	return name;
 }
 
-bool Player::IsGettingKilled(const Player& killer)
+bool Player::IsGettingKilled (const Player& killer)
 {
 	if (!IsAlive())
 	{
@@ -110,7 +110,7 @@ bool Player::IsGettingKilled(const Player& killer)
 /******************************************************************************
  *                                Affichage                                    *
  ******************************************************************************/
-void Player::Draw() const
+void Player::Draw ( ) const
 {
 	if (IsAlive())
 	{
@@ -123,11 +123,16 @@ void Player::Draw() const
  *                 Constructeurs et destructeurs                               *
  ******************************************************************************/
 
-Player::Player(string aName, CartesianVector initPos,
+Player::Player (string aName, CartesianVector initPos,
 		CartesianVector initSpeed, int aNumber) :
 	name(aName), myVehicle(initPos, initSpeed, aNumber), myWall(initPos,
 			initSpeed, WALL_BASE_HEIGHT), initPosition(initPos), 
 			playerNumber(aNumber),status(LIVING)
+{
+
+}
+
+Player::~Player ( )
 {
 
 }
