@@ -29,13 +29,12 @@ void Wall::Init (const CartesianVector& origin,
 
 void Wall::clear()
 {
-	/*IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
-	 vector<IGC::Model*>::const_iterator itm;
-	 for (itm = models.begin(); itm != models.end(); ++itm)
-	 {
-	 factory->release(*itm);
-	 }*/
-	// TODO : faire fonctionner les release... Actuellement, problèmes d'accès mémoire... ?
+	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
+	vector<IGC::Model*>::const_iterator itm;
+	for (itm = models.begin(); itm != models.end(); ++itm)
+	{
+		factory->release(*itm);
+	}
 	models.clear();
 	vertexes.clear();
 }
@@ -190,3 +189,13 @@ Wall::Wall (float userBaseHeight) :
 
 	AddVertex();
 }
+
+
+Wall::~Wall ( )
+{
+	clear ( );
+	
+	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
+	factory->release ( material );
+}
+

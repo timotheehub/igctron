@@ -88,29 +88,24 @@ void Displayer::LoadScene()
 	model->import( "greyMBike.3ds" );
 	model->shrink( 4.0f, 4.0f, 4.0f );
 
-	model = factory->acquire( (IGC::Model*)NULL, "model_cube" );
-	Mesh* mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_cube" );
-	mesh->createCube( 1, 1, 1 );
-	mesh->update ( );
-	model->setMesh( mesh );
-	model->grow( 10.0f, 1.0f, 1.0f );
-
+	/* Textures */
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	texture->import( "warp.png" );
 	
 	texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
 	texture->import( "plane.png" );
 
-	texture = factory->acquire( (IGC::Texture*)NULL, "logo_orange" );
-	texture->import( "logo_orange.png" );
-
+	/* Modèle du plan de jeu */
 	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
 	model->setCenter( 10.0f, 0.0f, 15.0f );
-	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );
+	IGC::Mesh * mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_plane" );
 	mesh->createPlane( 1, 1, 20.0f, 30.0f );
 	mesh->update ( );
 	model->setMesh( mesh );
 	model->grow( 20.0f, 1.0f, 30.0f );
+	factory->release ( mesh );
+
+	/* Modèle des murs */
 	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_wall" );
 	mesh->createPlane( 1, 1, 1.0f, 1.0f );
 	mesh->update ( );
@@ -120,14 +115,26 @@ void Displayer::LoadScene()
 	model = factory->acquire( (IGC::Model*)NULL, "model_wallZ" );
 	model->setMesh( mesh );
 	model->rotate ( PI / 2, PI / 2, 0 );
+	factory->release ( mesh );
 }
 
 void Displayer::UnloadScene()
 {
+	/* Modeles */
+	Model* model = factory->acquire( (IGC::Model*)NULL, "model_motorbike" );
+	factory->release( model );
+	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
+	factory->release( model );
+	model = factory->acquire( (IGC::Model*)NULL, "model_wallX" );
+	factory->release( model );
+	model = factory->acquire( (IGC::Model*)NULL, "model_wallZ" );
+	factory->release( model );
+	
+	/* Textures */
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	factory->release( texture );
-	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship" );
-	factory->release( model );
+	texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
+	factory->release( texture );	
 }
 
 

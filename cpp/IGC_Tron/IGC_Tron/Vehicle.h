@@ -37,6 +37,9 @@ public:
 	Utils::CartesianVector GetSpeed() const;
 	Utils::Rectangle GetRectangle() const;
 
+	float GetLength() const;
+	float GetWidth() const;
+
 protected:
 	static const double RECTANGLE_GAP;
 	static const double BOOST_COEF;
