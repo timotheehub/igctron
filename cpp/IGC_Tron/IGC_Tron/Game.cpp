@@ -202,7 +202,7 @@ void Game::Free ( )
 		delete tabPlayers [ i ];
 	}
 	delete [] tabPlayersIndex;
-	delete tabPlayersAlive;
+	delete [] tabPlayersAlive;
 
 	// Plane
 	delete aPlane;
