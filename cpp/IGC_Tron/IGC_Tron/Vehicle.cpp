@@ -19,11 +19,25 @@ const float Vehicle::HEIGHT = 0.0f; // TODO : utile ?
 /*******************************************************************************
  *                              Mise a jour                                    *
  ******************************************************************************/
-void Vehicle::Init(const Utils::CartesianVector& initPosition)
+void Vehicle::Init(const Utils::CartesianVector& initPosition,
+		const Utils::CartesianVector& initSpeed,
+		const std::string& modelName, float4 color)
 {
+	IGC::Factory* factory = Displayer::GetInstance()->GetFactory();
+	BoundingBox bb;
+
 	position = initPosition;
 	speed = initSpeed;
 	boost = false;
+
+	// TODO : release ?
+	model->Clone(factory->acquire((IGC::Model*) NULL, modelName.c_str()));
+	// TODO : coloriser
+
+	bb = model->getBoundingBox();
+
+	length = bb.max.z - bb.min.z;
+	width = bb.max.x - bb.min.x;
 }
 
 void Vehicle::MoveForward(double dt)
@@ -133,34 +147,15 @@ void Vehicle::Explode() const
 /******************************************************************************
  *                 Constructeurs et destructeurs                               *
  ******************************************************************************/
-Vehicle::Vehicle(CartesianVector anInitPosition, CartesianVector anInitSpeed,
-		int aNumber) :
-	initSpeed(anInitSpeed), position(anInitPosition), speed(anInitSpeed),
-			boost(false), boostElapsed(0.0)
+Vehicle::Vehicle ( ) :
+	boost(false), boostElapsed(0.0)
 {
 	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
 
-	switch (aNumber)
-	{
-		case 0:
-			model = factory->acquire((IGC::Model*) NULL, "model_ship1");
-			break;
-		case 1:
-			model = factory->acquire((IGC::Model*) NULL, "model_ship2");
-			break;
-		case 2:
-			model = factory->acquire((IGC::Model*) NULL, "model_ship3");
-			break;
-		case 3:
-			model = factory->acquire((IGC::Model*) NULL, "model_ship4");
-			break;
-		default:
-			model = factory->acquire((IGC::Model*) NULL, "model_ship1");
-			break;
-	}
+	model = factory->acquire((IGC::Model*) NULL);
+}
 
-	BoundingBox bb = model->getBoundingBox();
-
-	length = bb.max.z - bb.min.z;
-	width = bb.max.x - bb.min.x;
+Vehicle::~Vehicle ()
+{
+	// TODO release model ?
 }

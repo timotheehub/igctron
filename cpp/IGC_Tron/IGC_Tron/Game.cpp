@@ -110,13 +110,9 @@ void Game::Init( )
 	Utils::CartesianVector tabDir [ MAX_PLAYERS ];
 
 	tabPlayersInfos[0].ATypePlayer = PlayerInfos::KEYBOARD;
-	tabPlayersInfos[0].Name = "Toto";
 	tabPlayersInfos[1].ATypePlayer = PlayerInfos::COMPUTER;
-	tabPlayersInfos[1].Name = "Tata";
 	tabPlayersInfos[2].ATypePlayer = PlayerInfos::COMPUTER;
-	tabPlayersInfos[2].Name = "Titi";
 	tabPlayersInfos[3].ATypePlayer = PlayerInfos::COMPUTER;
-	tabPlayersInfos[3].Name = "Tutu";
 
 	tabPos[0].x = 15;
 	tabPos[0].y = 0;
@@ -157,11 +153,11 @@ void Game::Init( )
 		{
 			if ( tabPlayersInfos[ i ].ATypePlayer == PlayerInfos::KEYBOARD )
 			{
-				tabPlayers [ i ] = new Player ( tabPlayersInfos[ i ].Name, tabPos[ i ], tabDir [ i ], i );
+				tabPlayers [ i ] = new Player ( tabPos[ i ], tabDir [ i ], i );
 			}
 			else
 			{
-				tabPlayers [ i ] = new Computer ( tabPlayersInfos[ i ].Name, tabPos[ i ], tabDir [ i ], i );
+				tabPlayers [ i ] = new Computer ( tabPos[ i ], tabDir [ i ], i );
 			}
 			nbPlayers++;
 		}

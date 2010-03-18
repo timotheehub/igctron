@@ -19,9 +19,9 @@ void Computer::Update ( double dt )
 /******************************************************************************
 *                      Constructeur et destructeur                            *
 ******************************************************************************/
-Computer::Computer ( std::string aName, Utils::CartesianVector initPos,
+Computer::Computer ( Utils::CartesianVector initPos,
 			Utils::CartesianVector initSpeed, int aNumber )
-: Player ( aName, initPos, initSpeed, aNumber )
+: Player ( initPos, initSpeed, aNumber )
 {
 }
 

@@ -11,7 +11,7 @@ class Computer : public Player
 public:
 	void Update ( double dt );
 
-	Computer ( std::string aName, Utils::CartesianVector initPos,
+	Computer ( Utils::CartesianVector initPos,
 			Utils::CartesianVector initSpeed, int aNumber );
 	~Computer ( );
 

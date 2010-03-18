@@ -85,4 +85,18 @@ namespace IGC
 /** METHODES PUBLIQUES                                                            **/
 /***********************************************************************************/
 
+	void IMaterial::Clone(IMaterial* material)
+	{
+		engine = material->engine;
+
+		renderer = material->renderer;
+
+		diffuse = material->diffuse;
+		ambient = material->ambient;
+		specular = material->specular;
+		emissive = material->emissive;
+		power = material->power;
+
+		dirty = true;
+	}
 }

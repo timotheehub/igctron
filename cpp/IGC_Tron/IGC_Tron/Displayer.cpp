@@ -84,17 +84,8 @@ void Displayer::LoadRessources ( )
 
 void Displayer::LoadScene()
 {
-	Model* model = factory->acquire( (IGC::Model*)NULL, "model_ship1" );
-	model->import( "rMBike.3ds" );
-	model->shrink( 4.0f, 4.0f, 4.0f );
-	model = factory->acquire( (IGC::Model*)NULL, "model_ship2" );
-	model->import( "bMBike.3ds" );
-	model->shrink( 4.0f, 4.0f, 4.0f );
-	model = factory->acquire( (IGC::Model*)NULL, "model_ship3" );
-	model->import( "gMBike.3ds" );
-	model->shrink( 4.0f, 4.0f, 4.0f );
-	model = factory->acquire( (IGC::Model*)NULL, "model_ship4" );
-	model->import( "yMBike.3ds" );
+	Model* model = factory->acquire( (IGC::Model*)NULL, "model_motorbike" );
+	model->import( "greyMBike.3ds" );
 	model->shrink( 4.0f, 4.0f, 4.0f );
 
 	model = factory->acquire( (IGC::Model*)NULL, "model_cube" );
