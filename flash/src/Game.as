@@ -116,6 +116,22 @@
 			}
 		}
 		
+		// TODO DEBUG
+		/*
+		public function getSurvivor() : Boolean
+		{
+			for ( var i:int = 0; i < players.length; i++ )
+			{
+				if ( players[i].getLife() == Player.IS_DEAD )
+				{
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		*/
+		
 	}
 
 }

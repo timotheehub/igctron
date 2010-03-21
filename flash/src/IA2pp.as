@@ -11,6 +11,7 @@
 		// + IA features
 		protected static const CHECK_PITCH:int = 3;		
 		protected static const RAISE_VISI_CHECK:int = 15;
+		protected static const BOOST_PERCENT:uint = 1;
 		
 		protected var last_visi_check:int = VISIBILITY; // last visibility used to check faster
 		
@@ -27,6 +28,11 @@
 			var y:Number = player.getCoord()[Player.Y];
 			//var choixDir : Array = new Array (0,0,0,0);
 			//var newDir : int = direction;
+			
+			if ( Math.round(Math.random()*100) <= BOOST_PERCENT )
+			{
+				player.useBooster();
+			}
 			
 			if (  ( timer == 0 )&&( checkCollision(x, y, direction) || ( Math.round(Math.random()*100) <= TURN_PERCENT ))  )
 			{
