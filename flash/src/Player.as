@@ -15,15 +15,22 @@
 	{
 		public static const KEY_LEFT : uint = 37;
 		public static const KEY_RIGHT : uint = 39;
+		public static const KEY_SPACE : uint = 32;
 		
 		public static const DELAY_WALL : uint = 10;
 		
-		private static const MAX_SEG_LENGTH : uint = 10;
+		private static const BOOSTER_TIME : uint = 100;
+		private static const NO_BOOSTER_TIME : int = -2*BOOSTER_TIME ;
+		private static const BOOSTER_POWER : uint = 2;
+		private static const MAX_SEG_LENGTH : uint = 12;
 		
 		public static const DIRECTION_LEFT : uint = 0;
 		public static const DIRECTION_DOWN : uint = 1;
 		public static const DIRECTION_RIGHT : uint = 2;
 		public static const DIRECTION_UP : uint = 3;
+		
+		public static const IS_DEAD : Boolean = true;
+		public static const IS_ALIVE : Boolean = false;
 		
 		public static const X : uint = 0;
 		public static const Y : uint = 1;
@@ -40,6 +47,7 @@
 		private var isHuman : Boolean;
 		private var isDead : Boolean;
 		private var direction : int;
+		private var booster : int;
 		
 		private var bm : Bitmap;
 		
@@ -51,9 +59,12 @@
 			y = _y;
 			isHuman = _isHuman;
 			direction = _direction;
-			isDead = false;
+			isDead = IS_ALIVE;
 			id = _id;
 			nw = true;
+			
+			booster = NO_BOOSTER_TIME;
+			trace(booster );
 			
 			vehicle = new Motorbike();
 			
@@ -81,6 +92,10 @@
 					direction = convertDirection(direction);
 					wall.insertSegment( x, y, x, y );
 				}
+				else if( e.keyCode == KEY_SPACE )
+				{
+					useBooster();
+				}
 			}
 		}
 		
@@ -101,6 +116,24 @@
 				var y0 : Number = 0;
 				var x1 : Number = 0;
 				var y1 : Number = 0;
+				var speed : Number = vehicle.getSpeed();
+				
+				// Booster manager
+				if ( booster > 0 )
+				{
+					speed *= BOOSTER_POWER;					
+				}
+				
+				if ( booster == NO_BOOSTER_TIME)
+				{
+					//TODO clean when in UI
+					trace("Player " + this.id + " booster available.");
+					booster--;
+				}
+				else if ( booster > NO_BOOSTER_TIME)
+				{
+					booster--;
+				}
 				
 				if ( !isHuman )
 				{					
@@ -110,7 +143,7 @@
 				
 				if( direction == DIRECTION_LEFT )
 				{
-					newX -= vehicle.getSpeed();
+					newX -= speed;
 					x0 = newX - vehicle.getWidth() / 2;
 					x1 = x;
 					y0 = y - vehicle.getHeight() / 2;
@@ -118,7 +151,7 @@
 				}
 				else if( direction == DIRECTION_RIGHT )
 				{
-					newX += vehicle.getSpeed();
+					newX += speed;
 					x0 = x;
 					x1 = newX + vehicle.getWidth() / 2;
 					y0 = y - vehicle.getHeight() / 2;
@@ -126,7 +159,7 @@
 				}
 				else if( direction == DIRECTION_DOWN )
 				{
-					newY += vehicle.getSpeed();
+					newY += speed;
 					x0 = x - vehicle.getHeight() / 2;
 					x1 = x + vehicle.getHeight() / 2;
 					y0 = y;
@@ -134,7 +167,7 @@
 				}
 				else if( direction == DIRECTION_UP )
 				{
-					newY -= vehicle.getSpeed();
+					newY -= speed;
 					x0 = x - vehicle.getHeight() / 2;
 					x1 = x + vehicle.getHeight() / 2;
 					y0 = newY - vehicle.getWidth() / 2;
@@ -264,6 +297,17 @@
 		public function getWallLength() : int
 		{
 			return wall.getLastLength();
+		}
+		
+		public function useBooster() : void
+		{
+			if( booster <= NO_BOOSTER_TIME)
+			{
+				booster = BOOSTER_TIME;
+				
+				//TODO clean when in UI
+				trace("Player " + this.id +" booster activate.");
+			}
 		}
 	}
 }

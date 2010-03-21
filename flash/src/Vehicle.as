@@ -3,7 +3,7 @@
 	
 	public class Vehicle
 	{
-		protected var speed:Number = 1;
+		protected var speed:Number = 3;
 		protected var width:Number = 10;
 		protected var height:Number = 10;
 		
