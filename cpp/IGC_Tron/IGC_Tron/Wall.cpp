@@ -57,13 +57,15 @@ void Wall::addModel()
 	models.push_back(factory->acquire((IGC::Model*) NULL));
 	if (xDirection)
 	{
-		models.back()->Clone(
-				factory->acquire((IGC::Model*) NULL, "model_wallX"));
+		Model * modelWall = factory->acquire((IGC::Model*) NULL, "model_wallX");
+		models.back()->Clone(modelWall);
+		factory->release(modelWall);
 	}
 	else
 	{
-		models.back()->Clone(
-				factory->acquire((IGC::Model*) NULL, "model_wallZ"));
+		Model * modelWall = factory->acquire((IGC::Model*) NULL, "model_wallZ");
+		models.back()->Clone(modelWall);
+		factory->release(modelWall);
 	}
 	xDirection = !xDirection;
 }
@@ -94,6 +96,8 @@ void Wall::Draw() const
 
 		IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL, "plane_tile" ); 
 		texture->unbind();
+		factory->release ( texture );
+
 		renderer->setTransparency(false);
 
 		material->bind(); // NB : comme pour les textures on bind avant de faire le rendu
@@ -164,9 +168,9 @@ Wall::Wall (float userBaseHeight) :
 
 	// ça marche comme pour les textures, il suffit de faire appel à la factory
 	material = factory->acquire( (IGC::Material*)NULL );
-	material->Clone(factory->acquire(
-				(IGC::Material*)NULL, "wall_material")
-			);
+	IGC::Material * materialWall = factory->acquire((IGC::Material*)NULL, "wall_material");
+	material->Clone(materialWall);
+	factory->release(materialWall);
 
 	// NB : à terme je remplacerai l'évaluation de la lumière actuellement par fonction fixe en utilisant des shaders
 

@@ -103,10 +103,11 @@ void Menu::Draw ( )
 
 	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
 	camera->bind();
+	factory->release ( camera );
 
 	Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
-
 	texture->bind();
+	factory->release ( texture );
 			
 	renderer->setTransparency( true );
 
@@ -119,6 +120,8 @@ void Menu::Draw ( )
 
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->bind();
+	factory->release( font );
+
 	int x = renderer->toPointX( 0.5f );
 	int y = renderer->toPointY( 0.3f );
 	switch ( nButtonPointer )

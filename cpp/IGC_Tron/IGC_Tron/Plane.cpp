@@ -16,6 +16,9 @@ void Plane::Draw ( )
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
 	texture->bind();
 	model->render();
+
+	factory->release( texture );
+	factory->release( model );
 }
 
 /******************************************************************************

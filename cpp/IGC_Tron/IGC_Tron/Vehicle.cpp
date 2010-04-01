@@ -146,6 +146,8 @@ void Vehicle::Draw() const
 	texture->unbind ( );
 	renderer->setTransparency(false);
 	model->render();
+
+	factory->release( texture );
 }
 
 void Vehicle::Explode() const
@@ -166,5 +168,7 @@ Vehicle::Vehicle ( ) :
 
 Vehicle::~Vehicle ()
 {
-	// TODO release model ?
+	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
+
+	factory->release ( model );
 }
