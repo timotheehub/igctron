@@ -118,33 +118,33 @@ void Menu::Draw ( )
 
 	renderer->drawImage( x0, y0, x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f );
 
-	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
+	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_menu" );
 	font->bind();
 	factory->release( font );
 
-	int x = renderer->toPointX( 0.5f );
-	int y = renderer->toPointY( 0.3f );
+	int x = renderer->toPointX( 0.8f );
+	int y = renderer->toPointY( 0.1f );
 	switch ( nButtonPointer )
 	{
 		case SOLO:
 			renderer->drawText( "solo", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
-			y = renderer->toPointY( 0.5f );
+			y = renderer->toPointY( 0.2f );
 			renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			y = renderer->toPointY( 0.7f );
+			y = renderer->toPointY( 0.3f );
 			renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
 			break;
 		case SETTINGS:
 			renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			y = renderer->toPointY( 0.5f );
+			y = renderer->toPointY( 0.2f );
 			renderer->drawText( "settings", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
-			y = renderer->toPointY( 0.7f );
+			y = renderer->toPointY( 0.3f );
 			renderer->drawText( "quit", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
 			break;
 		case QUIT:
 			renderer->drawText( "solo", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			y = renderer->toPointY( 0.5f );
+			y = renderer->toPointY( 0.2f );
 			renderer->drawText( "settings", x, y, 1.0f, 1.0f, 1.0f, 1.0f );
-			y = renderer->toPointY( 0.7f );
+			y = renderer->toPointY( 0.3f );
 			renderer->drawText( "quit", x, y, 1.0f, 0.0f, 0.0f, 1.0f );
 			break;
 	}
@@ -162,4 +162,6 @@ Menu::Menu ( )
 // Destructeur
 Menu::~Menu ( )
 {
+	Game *aGame = Game::GetInstance ( );
+	aGame->kill ( );
 }

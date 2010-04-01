@@ -101,7 +101,7 @@ void Displayer::LoadScene()
 	/* Textures */
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL,
 			"back_screen_menu" );
-	texture->import( "warp.png" );
+	texture->import( "bus-magique.png" );
 	
 	texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
 	texture->import( "plane.png" );
@@ -128,6 +128,9 @@ void Displayer::LoadScene()
 	model->setMesh( mesh );
 	model->rotate ( PI / 2.0f, PI / 2.0f, 0.0f );
 	factory->release ( mesh );
+
+	/* Camera */
+	factory->acquire ( (IGC::Camera*)NULL, "camera_default" );
 
 	material = factory->acquire((IGC::Material*)NULL, "wall_material");
 	// NB : à terme je remplacerai l'évaluation de la lumière actuellement par fonction fixe en utilisant des shaders
@@ -173,6 +176,11 @@ void Displayer::UnloadScene()
 	texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
 	factory->release( texture );	
 	factory->release( texture );
+
+	/* Camera */
+	IGC::Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
+	factory->release( camera );	
+	factory->release( camera );
 }
 
 
@@ -226,6 +234,13 @@ void Displayer::initRenderer ( )
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->setName( "Verdana" );
 	font->setSize( 12 );
+	font->setBold( true );
+	font->setItalic( false );
+	font->update();
+
+	font = factory->acquire( (IGC::Font*)NULL, "font_menu" );
+	font->setName( "Verdana" );
+	font->setSize( 18 );
 	font->setBold( true );
 	font->setItalic( false );
 	font->update();
@@ -307,6 +322,7 @@ void Displayer::FreeMemory ( )
 	Menu *aMenu = Menu::GetInstance ( );
 	aMenu->Free ( );
 	aMenu->kill ( );
+
 	freeRenderer ( );
 	freeWindow ( );
 	freeEngine ( );
@@ -316,6 +332,10 @@ void Displayer::FreeMemory ( )
 void Displayer::freeRenderer ( )
 {
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
+	factory->release( font );
+	factory->release( font ); 
+
+	font = factory->acquire( (IGC::Font*)NULL, "font_menu" );
 	factory->release( font );
 	factory->release( font ); 
 
