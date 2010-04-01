@@ -32,7 +32,8 @@ void Vehicle::Init(const Utils::CartesianVector& initPosition,
 	Model* original = factory->acquire((IGC::Model*) NULL, modelName.c_str());
 	model->Clone(original);
 	factory->release(original);
-	// TODO : coloriser
+
+	material->setEmissiveColor ( color );
 
 	bb = model->getBoundingBox();
 
@@ -110,7 +111,7 @@ void Vehicle::Draw() const
 {
 	Displayer* aDisplayer = Displayer::GetInstance();
 	Renderer* renderer = aDisplayer->GetRenderer();
-	IGC::Factory *factory = aDisplayer->GetFactory();
+	//IGC::Factory *factory = aDisplayer->GetFactory();
 
 	if (abs(speed.x) > abs(speed.z))
 	{
@@ -142,13 +143,16 @@ void Vehicle::Draw() const
 					+ (length / 2.0f + RECTANGLE_GAP));
 		}
 	}
-	IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL,
+	/*IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL,
 			"back_screen_menu");
-	texture->unbind ( );
+	texture->unbind ( );*/
 	renderer->setTransparency(false);
-	model->render();
 
-	factory->release( texture );
+	material->bind ( );
+	model->render();
+	material->unbind ( );
+
+	//factory->release( texture );
 }
 
 void Vehicle::Explode() const
@@ -165,6 +169,11 @@ Vehicle::Vehicle ( ) :
 	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
 
 	model = factory->acquire((IGC::Model*) NULL);
+
+	material = factory->acquire( (IGC::Material*)NULL );
+	IGC::Material * vehicleMaterial = factory->acquire((IGC::Material*)NULL, "vehicle_material");
+	material->Clone(vehicleMaterial);
+	factory->release(vehicleMaterial);
 }
 
 Vehicle::~Vehicle ()
@@ -172,4 +181,5 @@ Vehicle::~Vehicle ()
 	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
 
 	factory->release ( model );
+	factory->release ( material );
 }

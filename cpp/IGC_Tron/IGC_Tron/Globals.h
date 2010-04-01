@@ -39,6 +39,4 @@ const int F2 = 68;
 #endif
 }
 
-const float4 COLOR_WHITE = make_float4(1.0f, 1.0f, 1.0f, 1.0f);
-
 #endif // __GLOBALS_H__

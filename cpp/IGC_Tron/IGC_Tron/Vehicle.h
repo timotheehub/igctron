@@ -12,6 +12,8 @@
 
 #include "Globals.h"
 #include "Common.h"
+#include "D3DMaterial.h"
+#include "OGLMaterial.h"
 
 class Vehicle
 {
@@ -51,6 +53,7 @@ protected:
 	double boostElapsed;
 
 	IGC::Model* model;
+	IGC::Material* material;
 
 	float length;
 	float width;
