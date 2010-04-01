@@ -111,7 +111,7 @@ void Vehicle::Draw() const
 {
 	Displayer* aDisplayer = Displayer::GetInstance();
 	Renderer* renderer = aDisplayer->GetRenderer();
-	//IGC::Factory *factory = aDisplayer->GetFactory();
+	IGC::Factory *factory = aDisplayer->GetFactory();
 
 	if (abs(speed.x) > abs(speed.z))
 	{
@@ -143,16 +143,16 @@ void Vehicle::Draw() const
 					+ (length / 2.0f + RECTANGLE_GAP));
 		}
 	}
-	/*IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL,
+	IGC::Texture* texture = factory->acquire((IGC::Texture*) NULL,
 			"back_screen_menu");
-	texture->unbind ( );*/
+	texture->unbind ( );
 	renderer->setTransparency(false);
 
 	material->bind ( );
 	model->render();
 	material->unbind ( );
 
-	//factory->release( texture );
+	factory->release( texture );
 }
 
 void Vehicle::Explode() const
@@ -180,6 +180,6 @@ Vehicle::~Vehicle ()
 {
 	IGC::Factory *factory = Displayer::GetInstance()->GetFactory();
 
-	factory->release ( model );
 	factory->release ( material );
+//	factory->release ( model ); TODO : Comprendre pourquoi ça plante. Clone ?
 }

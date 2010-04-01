@@ -13,7 +13,7 @@ public:
 
 	Computer ( Utils::CartesianVector initPos,
 			Utils::CartesianVector initSpeed, int aNumber );
-	~Computer ( );
+	virtual ~Computer ( );
 
 protected:
 	void artificialIntelligence ( );

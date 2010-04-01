@@ -244,19 +244,16 @@ void Game::Draw ( )
 *                 Constructeurs et destructeurs                               *
 ******************************************************************************/
 // Constructeur
-Game::Game ( )
+Game::Game ( ) : cameraPlayer ( 0 )
 {
 	nCurrentCamera = 0;
-	tabCameras[0] = new CameraPlayer ( 0 );
-	tabCameras[1] = new CameraOverall;
-	tabCameras[2] = new CameraFree;
+	tabCameras[0] = &cameraOverall;
+	tabCameras[1] = &cameraFree;
+	tabCameras[2] = &cameraPlayer;
 }
 
 // Destructeur
 Game::~Game ( )
 {
-	for ( int i = 0; i < Game::MAX_CAMERAS; i++ )
-	{
-		delete tabCameras[i];
-	}
+	Settings::kill ( );
 }

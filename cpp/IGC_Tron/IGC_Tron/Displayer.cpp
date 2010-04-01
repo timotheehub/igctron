@@ -87,12 +87,12 @@ void Displayer::LoadScene()
 {
 	/* Vehicles */
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_motorbike" );
-	Material* material = factory->acquire((IGC::Material*)NULL,
-			"vehicle_material");
-
 	model->import( "greyMBike.3ds" ); // TODO : Supprimer les 2 dumpings objects de 0 bytes
 	model->shrink( 4.0f, 4.0f, 4.0f );
 
+	/* Matériau */
+	Material* material = factory->acquire((IGC::Material*)NULL,
+			"vehicle_material");
 	material->setDiffuseColor( 1.0f, 1.0f, 1.0f, 1.0f );
 	material->setAmbientColor( 0.0f, 1.0f, 0.0f, 1.0f );
 	material->setSpecularColor( 1.0f, 1.0f, 1.0f, 1.0f );
@@ -129,9 +129,7 @@ void Displayer::LoadScene()
 	model->rotate ( PI / 2.0f, PI / 2.0f, 0.0f );
 	factory->release ( mesh );
 
-	/* Camera */
-	factory->acquire ( (IGC::Camera*)NULL, "camera_default" );
-
+	/* Materiau */
 	material = factory->acquire((IGC::Material*)NULL, "wall_material");
 	// NB : à terme je remplacerai l'évaluation de la lumière actuellement par fonction fixe en utilisant des shaders
 
@@ -177,10 +175,13 @@ void Displayer::UnloadScene()
 	factory->release( texture );	
 	factory->release( texture );
 
-	/* Camera */
-	IGC::Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
-	factory->release( camera );	
-	factory->release( camera );
+	/* Materiau */
+	Material* material = factory->acquire((IGC::Material*)NULL,	"vehicle_material");
+	factory->release( material );
+	factory->release( material );
+	material = factory->acquire((IGC::Material*)NULL, "wall_material");
+	factory->release( material );
+	factory->release( material );
 }
 
 
@@ -284,6 +285,7 @@ void Displayer::DrawFps ( )
 
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	font->bind();
+	factory->release ( font );
 
 	int x = renderer->toPointX( 0.01f );
 	int y = renderer->toPointY( 0.01f );
@@ -321,7 +323,7 @@ void Displayer::FreeMemory ( )
 {
 	Menu *aMenu = Menu::GetInstance ( );
 	aMenu->Free ( );
-	aMenu->kill ( );
+	Menu::kill ( );
 
 	freeRenderer ( );
 	freeWindow ( );
