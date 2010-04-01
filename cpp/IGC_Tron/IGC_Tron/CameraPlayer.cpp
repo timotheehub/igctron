@@ -126,7 +126,7 @@ CameraPlayer::CameraPlayer ( int i )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	Factory* aFactory = aDisplayer->GetFactory();
-	aCamera = aFactory->acquire( (IGC::Camera*)NULL, "camera_free" );
+	aCamera = aFactory->acquire( (IGC::Camera*)NULL );
 	IGC::Window* window = aDisplayer->GetWindow ( );
 
 	aCamera->setRatio( window->getInnerWidth(), window->getInnerHeight() );
@@ -137,4 +137,7 @@ CameraPlayer::CameraPlayer ( int i )
 
 CameraPlayer::~CameraPlayer ( )
 {
+	Displayer *aDisplayer = Displayer::GetInstance ();
+	Factory* aFactory = aDisplayer->GetFactory();
+	aFactory->release ( aCamera );
 }

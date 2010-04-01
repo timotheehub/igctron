@@ -36,7 +36,7 @@ public:
 	inline bool GetVertexe ( Utils::CartesianVector & cVector, const unsigned int i );
 
 	Wall (float userBaseHeight);
-	Wall::~Wall();
+	~Wall();
 
 protected:
 	static const float BASE_HEIGHT;

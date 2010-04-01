@@ -123,18 +123,24 @@ void Displayer::UnloadScene()
 	/* Modeles */
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_motorbike" );
 	factory->release( model );
+	factory->release( model );
 	model = factory->acquire( (IGC::Model*)NULL, "model_plane" );
+	factory->release( model );
 	factory->release( model );
 	model = factory->acquire( (IGC::Model*)NULL, "model_wallX" );
 	factory->release( model );
+	factory->release( model );
 	model = factory->acquire( (IGC::Model*)NULL, "model_wallZ" );
+	factory->release( model );
 	factory->release( model );
 	
 	/* Textures */
 	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	factory->release( texture );
+	factory->release( texture );
 	texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
 	factory->release( texture );	
+	factory->release( texture );
 }
 
 
@@ -266,6 +272,9 @@ void Displayer::DrawFps ( )
 // Libere la memoire 
 void Displayer::FreeMemory ( )
 {
+	Menu *aMenu = Menu::GetInstance ( );
+	aMenu->Free ( );
+	aMenu->kill ( );
 	freeRenderer ( );
 	freeWindow ( );
 	freeEngine ( );
@@ -276,6 +285,7 @@ void Displayer::freeRenderer ( )
 {
 	IGC::Font* font = factory->acquire( (IGC::Font*)NULL, "font_fps" );
 	factory->release( font );
+	factory->release( font ); 
 
 	renderer->finalize();
 	factory->release( renderer );
