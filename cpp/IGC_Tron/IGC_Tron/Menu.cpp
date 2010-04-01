@@ -153,11 +153,10 @@ void Menu::Draw ( )
 // Constructeur
 Menu::Menu ( )
 {
-	currentCamera = new CameraOverall;
+	currentCamera = &cameraOverall;
 }
 
 // Destructeur
 Menu::~Menu ( )
 {
-	delete currentCamera;
 }

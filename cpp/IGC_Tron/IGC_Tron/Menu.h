@@ -6,6 +6,7 @@
 
 #include "Singleton.h"
 #include "AbstractCamera.h"
+#include "CameraOverall.h"
 
 class Menu : public Singleton<Menu>
 {
@@ -30,6 +31,7 @@ public:
 protected:
 	ButtonEnum nButtonPointer;
 	AbstractCamera *currentCamera;
+	CameraOverall cameraOverall;
 
 private:
 	// Constructeur
