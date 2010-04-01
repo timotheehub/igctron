@@ -24,6 +24,7 @@ void Wall::Init (const CartesianVector& origin,
 	AddVertex();
 
 	height = baseHeight;
+
 	material->setEmissiveColor( color );
 }
 
@@ -166,30 +167,11 @@ Wall::Wall (float userBaseHeight) :
 {
 	Factory* factory = Displayer::GetInstance()->GetFactory();
 
-	// ça marche comme pour les textures, il suffit de faire appel à la factory
 	material = factory->acquire( (IGC::Material*)NULL );
-	IGC::Material * materialWall = factory->acquire((IGC::Material*)NULL, "wall_material");
-	material->Clone(materialWall);
-	factory->release(materialWall);
-
-	// NB : à terme je remplacerai l'évaluation de la lumière actuellement par fonction fixe en utilisant des shaders
-
-	// la couleur diffuse est la couleur diffusée par l'objet lorsqu'une lumière est présente dans la scène
-	// sans intérêt dans le cas présent
-	material->setDiffuseColor( 1.0f, 1.0f, 1.0f, 1.0f );
-
-	// la couleur ambiante est une couleur indépendante des lumières dans la scène, elle est multipliée par la couleur de l'objet,
-	// donnée par sa texture par exemple, donc s'il n'y a pas de texture comme dans le cas du mur, il n'y a pas d'intérêt
-	material->setAmbientColor( 0.0f, 1.0f, 0.0f, 1.0f );
-
-	// la couleur spéculaire est la couleur réflechie par l'objet lorsqu'une lumière est présente dans la scène,
-	// c'est ce qui donne l'effet de brillance métallique sur un objet, sans intérêt dans le cas présent
-	material->setSpecularColor( 1.0f, 1.0f, 1.0f, 1.0f );
-
-	// enfin la couleur emissive est une couleur indépendante des lumières dans la scène, mais contrairement à la couleur
-	// ambiante qui est multipliée, celle-ci est additionnée en plus, c'est donc celle-ci qui t'intéresse dans le cas du mur,
-	// les valeurs sont dans l'ordre R, G, B, A, sachant qu'il est préférable que A reste à 1
-	material->setEmissiveColor( COLOR_WHITE );
+	IGC::Material * wallMaterial = factory->acquire((IGC::Material*)NULL,
+			"wall_material");
+	material->Clone(wallMaterial);
+	factory->release(wallMaterial);
 
 	AddVertex();
 }

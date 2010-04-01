@@ -7,6 +7,7 @@
 using namespace IGC;
 
 bool Displayer::running = true;
+const float WALL_WIDTH = 0.15;
 
 /******************************************************************************
 *                      Gestion des evenements                                 *
@@ -84,12 +85,22 @@ void Displayer::LoadRessources ( )
 
 void Displayer::LoadScene()
 {
+	/* Vehicles */
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_motorbike" );
+	Material* material = factory->acquire((IGC::Material*)NULL,
+			"vehicle_material");
+
 	model->import( "greyMBike.3ds" ); // TODO : Supprimer les 2 dumpings objects de 0 bytes
 	model->shrink( 4.0f, 4.0f, 4.0f );
 
+	material->setDiffuseColor( 1.0f, 1.0f, 1.0f, 1.0f );
+	material->setAmbientColor( 0.0f, 1.0f, 0.0f, 1.0f );
+	material->setSpecularColor( 1.0f, 1.0f, 1.0f, 1.0f );
+	material->setEmissiveColor( 1.0f, 1.0f, 1.0f, 1.0f );
+
 	/* Textures */
-	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
+	IGC::Texture* texture = factory->acquire( (IGC::Texture*)NULL,
+			"back_screen_menu" );
 	texture->import( "warp.png" );
 	
 	texture = factory->acquire( (IGC::Texture*)NULL, "plane_tile" );
@@ -107,15 +118,36 @@ void Displayer::LoadScene()
 
 	/* Modèle des murs */
 	mesh = factory->acquire( (IGC::Mesh*)NULL, "mesh_wall" );
-	mesh->createPlane( 1, 1, 1.0f, 1.0f );
+	//mesh->createPlane( 1.0f, 1.0f, 1.0f, 1.0f );
+	mesh->createCube( 1.0f, WALL_WIDTH, 1.0f );
 	mesh->update ( );
 	model = factory->acquire( (IGC::Model*)NULL, "model_wallX" );
 	model->setMesh( mesh );
-	model->rotate ( PI / 2, 0, 0 );
+	model->rotate ( PI / 2.0f, 0.0f, 0.0f );
 	model = factory->acquire( (IGC::Model*)NULL, "model_wallZ" );
 	model->setMesh( mesh );
-	model->rotate ( PI / 2, PI / 2, 0 );
+	model->rotate ( PI / 2.0f, PI / 2.0f, 0.0f );
 	factory->release ( mesh );
+
+	material = factory->acquire((IGC::Material*)NULL, "wall_material");
+	// NB : à terme je remplacerai l'évaluation de la lumière actuellement par fonction fixe en utilisant des shaders
+
+	// la couleur diffuse est la couleur diffusée par l'objet lorsqu'une lumière est présente dans la scène
+	// sans intérêt dans le cas présent
+	material->setDiffuseColor( 1.0f, 1.0f, 1.0f, 1.0f );
+
+	// la couleur ambiante est une couleur indépendante des lumières dans la scène, elle est multipliée par la couleur de l'objet,
+	// donnée par sa texture par exemple, donc s'il n'y a pas de texture comme dans le cas du mur, il n'y a pas d'intérêt
+	material->setAmbientColor( 0.0f, 1.0f, 0.0f, 1.0f );
+
+	// la couleur spéculaire est la couleur réflechie par l'objet lorsqu'une lumière est présente dans la scène,
+	// c'est ce qui donne l'effet de brillance métallique sur un objet, sans intérêt dans le cas présent
+	material->setSpecularColor( 1.0f, 1.0f, 1.0f, 1.0f );
+
+	// enfin la couleur emissive est une couleur indépendante des lumières dans la scène, mais contrairement à la couleur
+	// ambiante qui est multipliée, celle-ci est additionnée en plus, c'est donc celle-ci qui t'intéresse dans le cas du mur,
+	// les valeurs sont dans l'ordre R, G, B, A, sachant qu'il est préférable que A reste à 1
+	material->setEmissiveColor( 1.0f, 1.0f, 1.0f, 1.0f );
 }
 
 void Displayer::UnloadScene()
