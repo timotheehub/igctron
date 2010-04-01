@@ -9,13 +9,16 @@
 // Constructeur
 Settings::Settings ( )
 {
-	aCameraSettings.PreviousCamera = KeyCodes::F1;
-	aCameraSettings.NextCamera = KeyCodes::F2;
+	aGlobalSettings.PreviousCameraKeyCode = KeyCodes::F1;
+	aGlobalSettings.NextCameraKeyCode = KeyCodes::F2;
+	aGlobalSettings.BoostCoef = 3.0;
+	aGlobalSettings.BoostLength = 3.0;
 
 	for ( int i = 0 ; i < Game::MAX_PLAYERS ; ++i)
 	{
 		tabPlayersSettings [ i ].TurnLeft = KeyCodes::LEFT;
 		tabPlayersSettings [ i ].TurnRight = KeyCodes::RIGHT;
+		tabPlayersSettings [ i ].Boost = KeyCodes::ENTER;
 		tabPlayersSettings [ i ].modelName = "model_motorbike";
 	}
 

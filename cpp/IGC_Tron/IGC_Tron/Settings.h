@@ -20,10 +20,12 @@ struct PlayerSettings
 	std::string playerName;
 };
 
-struct CameraSettings
+struct GlobalSettings
 {
-	int NextCamera;
-	int PreviousCamera;
+	int NextCameraKeyCode;
+	int PreviousCameraKeyCode;
+	double BoostCoef;
+	double BoostLength;
 };
 
 class Settings : public Singleton<Settings>
@@ -32,12 +34,12 @@ class Settings : public Singleton<Settings>
 
 public:
 	inline const PlayerSettings* GetPlayerSettings ( int number );
-	inline const CameraSettings* GetCameraSettings ( );
+	inline const GlobalSettings* GetGlobalSettings ( );
 	Settings ( );
 
 protected:
 	PlayerSettings tabPlayersSettings [ Game::MAX_PLAYERS ];
-	CameraSettings aCameraSettings;
+	GlobalSettings aGlobalSettings;
 
 private:
 };
@@ -56,9 +58,9 @@ inline const PlayerSettings* Settings::GetPlayerSettings ( int number )
 }
 
 // Renvoie les touches d'un joueur
-inline const CameraSettings* Settings::GetCameraSettings ( )
+inline const GlobalSettings* Settings::GetGlobalSettings ( )
 {
-	return &aCameraSettings;
+	return &aGlobalSettings;
 }
 
 #endif // __SETTINGS_H__ */

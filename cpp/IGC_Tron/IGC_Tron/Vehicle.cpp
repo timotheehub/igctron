@@ -5,6 +5,7 @@
  *      Author: fenrhil
  */
 
+#include "Settings.h"
 #include "Vehicle.h"
 #include "Globals.h"
 #include "Displayer.h"
@@ -12,8 +13,6 @@
 using namespace Utils;
 
 const double Vehicle::RECTANGLE_GAP = 10e-5;
-const double Vehicle::BOOST_COEF = 2.0;
-const double Vehicle::BOOST_LENGTH = 5.0;
 const float Vehicle::HEIGHT = 0.0f; // TODO : utile ?
 
 /*******************************************************************************
@@ -30,8 +29,9 @@ void Vehicle::Init(const Utils::CartesianVector& initPosition,
 	speed = initSpeed;
 	boost = false;
 
-	// TODO : release ?
-	model->Clone(factory->acquire((IGC::Model*) NULL, modelName.c_str()));
+	Model* original = factory->acquire((IGC::Model*) NULL, modelName.c_str());
+	model->Clone(original);
+	factory->release(original);
 	// TODO : coloriser
 
 	bb = model->getBoundingBox();
@@ -44,12 +44,13 @@ void Vehicle::MoveForward(double dt)
 {
 	if (boost)
 	{
+		const GlobalSettings* settings = Settings::GetInstance()->GetGlobalSettings();
 		boostElapsed += dt;
-		if (boostElapsed >= BOOST_LENGTH)
+		if (boostElapsed >= settings->BoostLength)
 		{
 			boost = false;
 		}
-		position += BOOST_COEF * dt * speed;
+		position += settings->BoostCoef * dt * speed;
 	}
 	else
 	{

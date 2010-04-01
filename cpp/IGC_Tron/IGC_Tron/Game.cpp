@@ -23,7 +23,7 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	Settings *aSettings = Settings::GetInstance ( );
 	const PlayerSettings *aPlayerSettings = aSettings->GetPlayerSettings ( 0 );
-	const CameraSettings *aCameraSettings = aSettings->GetCameraSettings ( );
+	const GlobalSettings *aGlobalSettings = aSettings->GetGlobalSettings ( );
 
 	// Traitement de la touche
 	switch ( keyCode )
@@ -34,7 +34,7 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 			aMenu->Init ( );
 			break;
 		default:
-			// Touches de caméras
+			// Touches de mouvement
 			if ( keyCode == aPlayerSettings->TurnLeft )
 			{
 				if ( aGame->tabPlayers[0] != 0 )
@@ -49,12 +49,19 @@ void Game::OnKeyDown( int keyboardContext, int keyCode )
 					aGame->tabPlayers[0]->MoveRight( );
 				}
 			}
+			else if ( keyCode == aPlayerSettings->Boost )
+			{
+				if ( aGame->tabPlayers[0] != 0 )
+				{
+					aGame->tabPlayers[0]->Boost( );
+				}
+			}
 			// Touches de changement de caméras
-			else if ( keyCode == aCameraSettings->PreviousCamera )
+			else if ( keyCode == aGlobalSettings->PreviousCameraKeyCode )
 			{
 				aGame->SetPreviousCamera();
 			}
-			else if ( keyCode == aCameraSettings->NextCamera )
+			else if ( keyCode == aGlobalSettings->NextCameraKeyCode )
 			{
 				aGame->SetNextCamera();
 			}
