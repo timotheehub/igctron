@@ -77,45 +77,26 @@ void CameraPlayer::Free ( )
 /******************************************************************************
 *                             Mise a jour                                     *
 ******************************************************************************/
-void CameraPlayer::Update ( )
+void CameraPlayer::Update ( double dt )
 {
+	const float NEW_COEF = 0.1f;
+	const float OLD_COEF = 1.0f - NEW_COEF;
 	if ( monVehicle != 0 )
 	{
-		float3 oldAngle = aCamera->getAngle ( );
-		aCamera->lookAt ( monVehicle->GetPosition().x,
-				 monVehicle->GetPosition().y, monVehicle->GetPosition().z );
+		float3 oldCenter = aCamera->getCenter ( );
+		float3 vehiclePos = monVehicle->GetPosition();
+		float3 goalCenter;
 
-		Utils::CartesianVector cVector = monVehicle->GetSpeed ( );
-		if ( abs ( cVector.x ) > abs ( cVector.z ) )
-		{
-			aCamera->setCenter ( monVehicle->GetPosition().x - cVector.x,
-				monVehicle->GetPosition().y + 5, monVehicle->GetPosition().z );
-		}
-		else
-		{
-			aCamera->setCenter ( monVehicle->GetPosition().x,
-				monVehicle->GetPosition().y + 5, monVehicle->GetPosition().z - cVector.z );
-		}
+		aCamera->lookAt ( vehiclePos );
 
-		float3 dAngle = aCamera->getAngle ( ) - oldAngle;
-		/* On effectue une rotation de la camera.
-		// Pour x
-		if ( abs ( dAngle.x ) < D_ANGLE_MIN )
-			aCamera->setAngle ( oldAngle.x + dAngle.x, oldAngle.y, oldAngle.z );
-		else
-			aCamera->setAngle ( oldAngle.x + abs ( dAngle.x ) * D_ANGLE_MIN / dAngle.x, oldAngle.y, oldAngle.z );
-		// Pour y
-		if ( abs ( dAngle.y ) < D_ANGLE_MIN )
-			aCamera->setAngle ( oldAngle.x, oldAngle.y + dAngle.y, oldAngle.z );
-		else
-			aCamera->setAngle ( oldAngle.x, oldAngle.y + abs ( dAngle.y ) * D_ANGLE_MIN / dAngle.y, oldAngle.z );
-		// Pour z
-		if ( abs ( dAngle.z ) < D_ANGLE_MIN )
-			aCamera->setAngle ( oldAngle.x, oldAngle.y, oldAngle.z + dAngle.z );
-		else
-			aCamera->setAngle ( oldAngle.x, oldAngle.y, oldAngle.z + abs ( dAngle.z ) * D_ANGLE_MIN / dAngle.z );*/
+		// TODO : pourquoi ça marche pas ???
+		//goalCenter = vehiclePos - dt * monVehicle->GetSpeed ( );
+		goalCenter = vehiclePos - monVehicle->GetSpeed ( );
+		goalCenter.y += 5;
+
+		// TODO : use dt
+		aCamera->setCenter ( NEW_COEF*goalCenter + OLD_COEF*oldCenter );
 	}
-	AbstractCamera::Update ( );
 }
 
 /******************************************************************************

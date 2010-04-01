@@ -95,10 +95,9 @@ void CameraFree::Free ( )
 /******************************************************************************
 *                             Mise a jour                                     *
 ******************************************************************************/
-void CameraFree::Update ( )
+void CameraFree::Update ( double dt )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ();
-	float dt = (float)aDisplayer->GetDelta();
 
 	if ( moveForward )
 		aCamera->moveForward( MOVE_SPEED * dt );
@@ -108,8 +107,6 @@ void CameraFree::Update ( )
 		aCamera->moveLeft( MOVE_SPEED * dt );
 	if ( strafeRight )
 		aCamera->moveRight( MOVE_SPEED * dt );
-
-	AbstractCamera::Update ( );
 }
 
 /******************************************************************************

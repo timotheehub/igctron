@@ -16,7 +16,7 @@ Settings::Settings ( )
 
 	tabPlayersSettings [ 0 ].vehicleColor = make_float4(1.0f, 0.0f, 0.0f, 1.0f);
 	tabPlayersSettings [ 1 ].vehicleColor = make_float4(1.0f, 1.0f, 0.0f, 1.0f);
-	tabPlayersSettings [ 2 ].vehicleColor = make_float4(1.0f, 0.0f, 1.0f, 1.0f);
+	tabPlayersSettings [ 2 ].vehicleColor = make_float4(0.0f, 1.0f, 1.0f, 1.0f);
 	tabPlayersSettings [ 3 ].vehicleColor = make_float4(0.0f, 0.0f, 1.0f, 1.0f);
 
 	for ( int i = 0 ; i < Game::MAX_PLAYERS ; ++i )

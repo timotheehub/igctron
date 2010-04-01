@@ -93,7 +93,7 @@ void Menu::Free ( )
 ******************************************************************************/
 void Menu::Draw ( )
 {
-	currentCamera->Update();
+	currentCamera->UpdateGraphics();
 
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );

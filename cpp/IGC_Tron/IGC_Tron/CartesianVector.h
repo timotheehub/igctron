@@ -10,6 +10,8 @@
 
 #include <cmath>
 
+#include "Common.h"
+
 namespace Utils
 {
 
@@ -54,6 +56,11 @@ struct CartesianVector
 		y /= c;
 		z /= c;
 		return *this;
+	}
+
+	operator float3 ( ) const
+	{
+		return make_float3 ( x, y, z );
 	}
 
 	CartesianVector(CoordType xi, CoordType yi, CoordType zi) :

@@ -9,8 +9,6 @@
 class CameraOverall : public AbstractCamera 
 {
 public:
-	void Update ( );
-
 	CameraOverall ( );
 	~CameraOverall ( );
 };
