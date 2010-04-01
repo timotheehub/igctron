@@ -78,6 +78,7 @@ void mainLoop()
 int main( int argc, char **argv )
 {
 	Displayer *aDisplayer = Displayer::GetInstance ( );
+	
 	aDisplayer->InitScreen ( );
 
 	aDisplayer->LoadScene();
@@ -88,7 +89,7 @@ int main( int argc, char **argv )
 
 	aDisplayer->FreeMemory ( );
 
-	aDisplayer->kill ( );
+	Displayer::kill ( );
 
 	debugMemoryLeaks();
 

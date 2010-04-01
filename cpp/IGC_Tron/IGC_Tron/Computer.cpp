@@ -7,12 +7,17 @@
 const int V_PLAYER = 1;
 const int V_WALL = 2;
 
+const int X_PLUS = 10;
+const int Z_PLUS = 11;
+const int X_MINUS = 12;
+const int Z_MINUS = 13;
+
 /******************************************************************************
 *                              Mise a jour                                    *
 ******************************************************************************/
 void Computer::Update ( double dt )
 {
-//artificialIntelligence ( );
+	artificialIntelligence ( );
 	Player::Update ( dt );
 }
 
@@ -208,25 +213,25 @@ int Computer::getAgainstBySensoryMemory ( int dl )
 				{
 					switch ( dl )
 					{
-						case 10:
+						case X_PLUS:
 							if ( ( j >= minZ ) && ( j <= maxZ ) && ( i > maxX ) )
 							{
 								weightOfCons += 2048 / ( i - maxX );
 							}
 							break;
-						case 11:
+						case Z_PLUS:
 							if ( ( i >= minX ) && ( i <= maxX ) && ( j > maxZ ) )
 							{
 								weightOfCons += 2048 / ( j - maxZ );
 							}
 							break;
-						case 12:
+						case X_MINUS:
 							if ( ( j >= minZ ) && ( j <= maxZ ) && ( i < maxX ) )
 							{
 								weightOfCons += 2048 / ( maxX - i );
 							}
 							break;
-						case 13:
+						case Z_MINUS:
 							if ( ( i >= minX ) && ( i <= maxX ) && ( j < maxZ ) )
 							{
 								weightOfCons += 2048 / ( maxZ - j );
@@ -250,7 +255,6 @@ int Computer::getAgainstBySensoryMemory ( int dl )
 
 // Calcule les bornes du vehicule
 // dl renvoie la direction
-// TODO : Définir des constantes à la place de 10,11,12 et 13.
 // TODO : Bug au niveau de GetLength.
 void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & maxZ, int & dl, Vehicle * vehicle )
 {
@@ -296,13 +300,13 @@ void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & ma
 			{
 				minX = currX;
 				maxX = currX + ceil ( vehicle->GetLength() * 2 + 2 ) * dl * dz;
-				dl = 10;
+				dl = X_PLUS;
 			}
 			else
 			{
 				minX = currX + ceil ( vehicle->GetLength() * 2 + 2 ) * dl * dz;
 				maxX = currX;
-				dl = 12;
+				dl = X_MINUS;
 			}
 			minZ = floor ( vehicle->GetPosition ( ).z * 2.f - 0.5f );
 			maxZ = floor ( vehicle->GetPosition ( ).z * 2.f + 0.5f );
@@ -314,13 +318,13 @@ void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & ma
 			{
 				minZ = currZ;
 				maxZ = currZ - ceil ( vehicle->GetLength() * 2 + 2 ) * dl * dx;
-				dl = 13;
+				dl = Z_PLUS;
 			}
 			else
 			{
 				minZ = currZ - ceil ( vehicle->GetLength() * 2 + 2 ) * dl * dx;
 				maxZ = currZ;
-				dl = 11;
+				dl = Z_MINUS;
 			}
 			minX = floor ( vehicle->GetPosition ( ).x * 2 - 0.5 );
 			maxX = floor ( vehicle->GetPosition ( ).x * 2 + 0.5 );
@@ -335,13 +339,13 @@ void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & ma
 			{
 				minX = currX + ceil ( vehicle->GetLength() * 2 + 2 ) * dx;
 				maxX = currX;
-				dl = 12;
+				dl = X_MINUS;
 			}
 			else
 			{
 				minX = currX;
 				maxX = currX + ceil ( vehicle->GetLength() * 2 + 2 ) * dx;
-				dl = 10;
+				dl = X_PLUS;
 			}
 			minZ = floor ( vehicle->GetPosition ( ).z * 2 - 0.5 );
 			maxZ = floor ( vehicle->GetPosition ( ).z * 2 + 0.5 );
@@ -352,13 +356,13 @@ void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & ma
 			{
 				minZ = currZ + ceil ( vehicle->GetLength() * 2 + 2 ) * dz;
 				maxZ = currZ;
-				dl = 13;
+				dl = Z_MINUS;
 			}
 			else
 			{
 				minZ = currZ;
 				maxZ = currZ + ceil ( vehicle->GetLength() * 2 + 2 ) * dz;
-				dl = 11;
+				dl = Z_PLUS;
 			}
 			minX = floor ( vehicle->GetPosition ( ).x * 2 - 0.5 );
 			maxX = floor ( vehicle->GetPosition ( ).x * 2 + 0.5 );

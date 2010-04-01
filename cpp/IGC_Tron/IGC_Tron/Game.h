@@ -9,6 +9,10 @@
 #include "Plane.h"
 #include "SimpleMutex.h"
 #include "AbstractCamera.h"
+#include "CameraFree.h"
+#include "CameraOverall.h"
+#include "CameraPlayer.h"
+
 #include <string>
 
 
@@ -56,6 +60,9 @@ protected:
 	// Cameras
 	AbstractCamera *tabCameras [ MAX_CAMERAS ];
 	int nCurrentCamera;
+	CameraOverall cameraOverall;
+	CameraFree cameraFree;
+	CameraPlayer cameraPlayer;
 
 	// Mutex
 	SimpleMutex aMutex;

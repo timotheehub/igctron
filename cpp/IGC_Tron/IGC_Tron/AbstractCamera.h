@@ -16,7 +16,7 @@ public:
 	virtual void Free ( );
 
 	AbstractCamera ( );
-	~AbstractCamera ( );
+	virtual ~AbstractCamera ( );
 
 protected :
 	IGC::Camera* aCamera;

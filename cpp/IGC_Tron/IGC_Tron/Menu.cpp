@@ -14,7 +14,6 @@ using namespace KeyCodes;
 void Menu::OnKeyDown( int keyboardContext, int keyCode )
 {
 	Menu *aMenu = Menu::GetInstance ( );
-	Game *aGame = Game::GetInstance ( );
 	Displayer *aDisplayer = Displayer::GetInstance ( );
 	switch ( keyCode )
 	{
@@ -32,7 +31,7 @@ void Menu::OnKeyDown( int keyboardContext, int keyCode )
 			break;
 		case ENTER :
 			aMenu->Free ( );
-			aGame->Init ( );
+			Game::GetInstance()->Init ( );
 			aDisplayer->SetState ( Displayer::GAME );
 			break;
 		default:
@@ -101,10 +100,6 @@ void Menu::Draw ( )
 
 	renderer->clear( 1.0f, 0.0f, 0.0f, 1.0f );
 
-	Camera* camera = factory->acquire( (IGC::Camera*)NULL, "camera_default" );
-	camera->bind();
-	factory->release ( camera );
-
 	Texture* texture = factory->acquire( (IGC::Texture*)NULL, "back_screen_menu" );
 	texture->bind();
 	factory->release ( texture );
@@ -162,6 +157,5 @@ Menu::Menu ( )
 // Destructeur
 Menu::~Menu ( )
 {
-	Game *aGame = Game::GetInstance ( );
-	aGame->kill ( );
+	Game::kill ( );
 }
