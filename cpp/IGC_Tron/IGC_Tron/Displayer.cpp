@@ -85,7 +85,7 @@ void Displayer::LoadRessources ( )
 void Displayer::LoadScene()
 {
 	Model* model = factory->acquire( (IGC::Model*)NULL, "model_motorbike" );
-	model->import( "greyMBike.3ds" );
+	model->import( "greyMBike.3ds" ); // TODO : Supprimer les 2 dumpings objects de 0 bytes
 	model->shrink( 4.0f, 4.0f, 4.0f );
 
 	/* Textures */
