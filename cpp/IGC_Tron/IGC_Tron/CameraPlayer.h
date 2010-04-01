@@ -15,7 +15,7 @@ public:
 									int mouseX, int mouseY );
 
 	// Met à jour
-	void Update ( );
+	void Update ( double dt );
 
 	// Pour pouvoir réutiliser la caméra sans la détruire
 	void Init ( );

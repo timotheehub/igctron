@@ -10,7 +10,8 @@
 class AbstractCamera 
 {
 public:
-	virtual void Update ( );
+	void UpdateGraphics ( );
+	virtual void Update ( double dt );
 	virtual void Init ( );
 	virtual void Free ( );
 

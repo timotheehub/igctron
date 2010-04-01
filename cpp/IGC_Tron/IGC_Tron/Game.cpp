@@ -90,6 +90,8 @@ void Game::Update( )
 		tabPlayersIndex[i]->Update ( dt );
 	}
 
+	tabCameras[nCurrentCamera]->Update ( dt );
+
 	// On regarde qui est mort.
 	for ( int i = 0 ; i < nbPlayers ; ++i )
 	{
@@ -221,7 +223,7 @@ void Game::Draw ( )
 {
 	aMutex.AcquireLock ( );
 
-	tabCameras[nCurrentCamera]->Update();
+	tabCameras[nCurrentCamera]->UpdateGraphics();
 
 	Displayer *aDisplayer = Displayer::GetInstance ();
 	IGC::Renderer *renderer = aDisplayer->GetRenderer ( );
@@ -245,9 +247,9 @@ void Game::Draw ( )
 Game::Game ( )
 {
 	nCurrentCamera = 0;
-	tabCameras[0] = new CameraOverall;
-	tabCameras[1] = new CameraFree;
-	tabCameras[2] = new CameraPlayer ( 0 );
+	tabCameras[0] = new CameraPlayer ( 0 );
+	tabCameras[1] = new CameraOverall;
+	tabCameras[2] = new CameraFree;
 }
 
 // Destructeur

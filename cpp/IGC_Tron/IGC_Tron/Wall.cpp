@@ -151,13 +151,13 @@ bool Wall::IsInCollision(const Utils::Rectangle& object) const
 	}
 	else
 	{
-		vector<CartesianVector>::const_iterator it2;
-		for (it2 = it1 + 1; it2 != vertexes.end() && !object.IsInCollision(
-				*it1, *it2); it1 = it2, ++it2)
+		vector<CartesianVector>::const_iterator it2 = it1++;
+		for ( ; it1 != vertexes.end() && !object.IsInCollision(*it1, *it2) ;
+				it2 = it1++ )
 		{
-			// Bloc vide
+			 // Bloc vide
 		}
-		return it2 != vertexes.end();
+		return it1 != vertexes.end();
 	}
 }
 
