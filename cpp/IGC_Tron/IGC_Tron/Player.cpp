@@ -32,7 +32,6 @@ void Player::Init ( )
 
 void Player::Update (double dt)
 {
-
 	if (IsAlive())
 	{
 		myVehicle.MoveForward(dt);
@@ -133,12 +132,11 @@ Player::Player (CartesianVector initPos, CartesianVector anInitSpeed,
 		int anID) :
 	myVehicle(), myWall(WALL_BASE_HEIGHT),
 	initPosition(initPos), initSpeed (anInitSpeed), 
-	playerID(anID), status(LIVING)
+	playerID(anID), status(LIVING), name("")
 {
 	Init();
 }
 
 Player::~Player ( )
 {
-
 }

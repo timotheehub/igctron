@@ -9,7 +9,7 @@
 class Computer : public Player
 {
 public:
-	void Update ( double dt );
+	virtual void Update ( double dt );
 
 	Computer ( Utils::CartesianVector initPos,
 			Utils::CartesianVector initSpeed, int aNumber );
@@ -20,7 +20,7 @@ protected:
 	void getInformationBySenses ( );
 	int getAgainstBySensoryMemory ( int dl );
 	void getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & maxZ,
-								int & dl, Vehicle * vehicle );
+								int & dl, const Vehicle * vehicle );
 
 	static const int SIZE_X = 40;
 	static const int SIZE_Z = 60;
