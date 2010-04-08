@@ -79,8 +79,7 @@ void CameraPlayer::Free ( )
 ******************************************************************************/
 void CameraPlayer::Update ( double dt )
 {
-	const float NEW_COEF = 0.1f;
-	const float OLD_COEF = 1.0f - NEW_COEF;
+	static const double COEF = 0.04;
 	if ( monVehicle != 0 )
 	{
 		float3 oldCenter = aCamera->getCenter ( );
@@ -96,7 +95,7 @@ void CameraPlayer::Update ( double dt )
 
 		// TODO : use dt
 		//aCamera->setCenter ( NEW_COEF*goalCenter + OLD_COEF*oldCenter );
-		double coef = std::pow(NEW_COEF,dt);
+		double coef = std::pow(COEF,dt);
 		aCamera->setCenter ( coef*oldCenter + (1-coef)*goalCenter );
 	}
 }
