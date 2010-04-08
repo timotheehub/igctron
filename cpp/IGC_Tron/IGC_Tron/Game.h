@@ -1,5 +1,5 @@
 // Game.h
-// D�claration de la classe Game
+// Declaration de la classe Game
 
 #ifndef __GAME_H__
 #define __GAME_H__
@@ -40,7 +40,7 @@ public:
 
 	void Draw ( );
 
-	inline Player** GetPlayers ( );
+	inline Player ** GetPlayers ( );
 	inline int GetNbrPlayers ( );
 
 	inline void MutexAcquireLock ( );

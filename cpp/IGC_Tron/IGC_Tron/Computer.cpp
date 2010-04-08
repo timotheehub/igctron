@@ -256,7 +256,7 @@ int Computer::getAgainstBySensoryMemory ( int dl )
 // Calcule les bornes du vehicule
 // dl renvoie la direction
 // TODO : Bug au niveau de GetLength.
-void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & maxZ, int & dl, Vehicle * vehicle )
+void Computer::getBoundsOfVehicle ( int & minX, int & maxX, int & minZ, int & maxZ, int & dl, const Vehicle * vehicle )
 {
 	// Calcul de la direction actuelle
 	int dx, dz;  

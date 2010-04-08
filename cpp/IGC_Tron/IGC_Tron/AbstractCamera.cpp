@@ -37,9 +37,4 @@ AbstractCamera::AbstractCamera ( )
 
 AbstractCamera::~AbstractCamera ( )
 {
-	Displayer *aDisplayer = Displayer::GetInstance ();
-	Factory* aFactory = aDisplayer->GetFactory();
-	aCamera = aFactory->acquire( (IGC::Camera*)NULL, "camera_overall" );
-	aFactory->release( aCamera );
-	aFactory->release( aCamera );
 }
