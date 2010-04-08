@@ -95,7 +95,9 @@ void CameraPlayer::Update ( double dt )
 		goalCenter.y += 5;
 
 		// TODO : use dt
-		aCamera->setCenter ( NEW_COEF*goalCenter + OLD_COEF*oldCenter );
+		//aCamera->setCenter ( NEW_COEF*goalCenter + OLD_COEF*oldCenter );
+		double coef = std::pow(NEW_COEF,dt);
+		aCamera->setCenter ( coef*oldCenter + (1-coef)*goalCenter );
 	}
 }
 
